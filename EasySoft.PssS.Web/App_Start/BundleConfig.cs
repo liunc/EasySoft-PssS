@@ -8,6 +8,7 @@ namespace EasySoft.PssS.Web
         // 有关绑定的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            /*
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -26,6 +27,15 @@ namespace EasySoft.PssS.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+            */
+            bundles.Add(new ScriptBundle("~/bundles/amazeui").Include(
+                        "~/Scripts/amazeui/jquery.min.js",
+                        "~/Scripts/amazeui/amazeui.min.js"
+                        ));
+
+              bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/amazeui/css/amazeui.min.css",
+                      "~/Content/style.css"));
         }
     }
 }

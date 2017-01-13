@@ -13,6 +13,7 @@
 namespace EasySoft.PssS.Domain.ValueObject
 {
     using System;
+    using Util;
 
     /// <summary>
     /// 操作者领域值对象类
@@ -44,10 +45,12 @@ namespace EasySoft.PssS.Domain.ValueObject
         /// 构造函数
         /// </summary>
         /// <param name="userId">用户Id</param>
-        public Operator(string userId) {
+        public Operator(string userId)
+        {
             this.UserId = userId;
-            this.Time = DateTime.UtcNow.AddHours(8);
+            this.Time = DateTimeUtil.ConvertUTCToBeijing();
         }
+
         #endregion
     }
 }

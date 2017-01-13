@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5E07DBAE-0B02-44B9-AAEF-191F08E07C12}</ProjectGuid>
+    <ProjectGuid>{D2D7D55D-B61F-46D2-947F-DBB480E77629}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EasySoft.PssS.Domain.ValueObject</RootNamespace>
-    <AssemblyName>EasySoft.PssS.Domain.ValueObject</AssemblyName>
+    <RootNamespace>EasySoft.PssS.Util</RootNamespace>
+    <AssemblyName>EasySoft.PssS.Util</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,14 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Operator.cs" />
+    <Compile Include="DateTimeUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EasySoft.PssS.Util\EasySoft.PssS.Util.csproj">
-      <Project>{D2D7D55D-B61F-46D2-947F-DBB480E77629}</Project>
-      <Name>EasySoft.PssS.Util</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

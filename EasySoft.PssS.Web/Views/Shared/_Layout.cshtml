@@ -1,43 +1,80 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title - 爱原汁味的生活</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("主页", "Index", "Home")</li>
-                    <li>@Html.ActionLink("关于", "About", "Home")</li>
-                    <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
-        </footer>
-    </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+<body>
+    <div class="container">
+        <header data-am-widget="header" class="am-header am-header-default my-header">
+            <div class="am-header-left am-header-nav">
+                <a href="#left-link" class="">
+                    <i class="am-header-icon am-icon-chevron-left"></i>
+                </a>
+            </div>
+            <h1 class="am-header-title">
+                <a href="#title-link" class="">@ViewBag.Title</a>
+            </h1>
+            <div class="am-header-right am-header-nav">
+                <a href="#right-link" class="">
+                    <i class="am-header-icon  am-icon-home"></i>
+                </a>
+            </div>
+        </header>
+
+        @RenderBody()
+
+        <footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{  }">
+            <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
+            <div class="am-footer-miscs ">
+                <p>CopyRight©2014 AllMobilize Inc.</p>
+                <p>京ICP备13033158</p>
+            </div>
+        </footer>
+        <!--底部-->
+        <div data-am-widget="navbar" class="am-navbar am-cf my-nav-footer " id="">
+            <ul class="am-navbar-nav am-cf am-avg-sm-4 my-footer-ul">
+                <li>
+                    <a href="/wap/" class="">
+                        <span class="am-icon-home"></span>
+                        <span class="am-navbar-label">首页</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="###" class="">
+                        <span class=" am-icon-phone"></span>
+                        <span class="am-navbar-label">电话</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="###" class="">
+                        <span class=" am-icon-comments"></span>
+                        <span class="am-navbar-label">聊天</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="">
+                        <span class=" am-icon-map-marker"></span>
+                        <span class="am-navbar-label">地图</span>
+                    </a>
+                </li>
+                <li style="position:relative">
+                    <a href="javascript:;" class="">
+                        <span class="am-icon-user"></span>
+                        <span class="am-navbar-label">会员</span>
+                    </a>
+                    
+                </li>
+            </ul>
+    </div>
+        </div>
+    @Scripts.Render("~/bundles/amazeui")
 </body>
 </html>
