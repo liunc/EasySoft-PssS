@@ -32,7 +32,7 @@ namespace EasySoft.PssS.Web
                         "~/Scripts/amazeui/amazeui.min.js"
                         ));
 
-            bundles.Add(new StyleBundle("~/Content/amazeui/css").Include(
+            bundles.Add(new StyleBundle("~/css/amazeui/css").Include(
                       "~/Content/amazeui/css/amazeui.min.css",
                       "~/Content/style.css"));
         }

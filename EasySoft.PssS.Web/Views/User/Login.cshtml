@@ -1,18 +1,17 @@
 ﻿@using EasySoft.PssS.Web.Resources;
 
 @{
-    ViewBag.Title =  WebResource.UserLogin_Title;
+    ViewBag.Title = WebResource.UserLogin_Title;
 }
-
 <div class="cart-panel">
     <form id="loginForm" class="am-form">
         <div class="am-form-group am-form-icon">
             <i class="am-icon-user" style="color:#329cd9"></i>
-            <input id="txtMoblie" type="text" class="am-form-field  my-radius" placeholder="@WebResource.UserLogin_Moblie" required="true">
+            <input id="txtMoblie" type="text" class="am-form-field  my-radius" placeholder="@WebResource.UserLogin_Moblie">
         </div>
         <div class="am-form-group am-form-icon">
             <i class="am-icon-lock" style="color:#329cd9"></i>
-            <input id="txtPassword" type="password" class="am-form-field  my-radius" placeholder="@WebResource.UserLogin_Password" required="true">
+            <input id="txtPassword" type="password" class="am-form-field  my-radius" placeholder="@WebResource.UserLogin_Password">
         </div>
         @*<div class="am-checkbox">
                 <label>
@@ -20,15 +19,14 @@
                 </label>
             </div>*@
         <p class="am-text-center"><button id="btnLogin" type="submit" class="am-btn am-btn-danger am-radius am-btn-block">@WebResource.UserLogin_LoginButton</button></p>
-        <div style="height:45px;">
+        <div style="height:45px; color:#ff0000">
             <div id="errorMessage">
-
             </div>
         </div>
     </form>
 </div>
 @section JsScripts {
-    <script>
+    <script type="text/javascript">
         $(function () {
             $("#btnLogin").click(function () {
                 var moblie = $.trim($("#txtMoblie").val());
