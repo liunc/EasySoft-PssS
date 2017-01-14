@@ -61,6 +61,15 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 个人中心 的本地化字符串。
+        /// </summary>
+        public static string HomeIndex_Title {
+            get {
+                return ResourceManager.GetString("HomeIndex_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 爱原汁味的生活 的本地化字符串。
         /// </summary>
         public static string SystemName {

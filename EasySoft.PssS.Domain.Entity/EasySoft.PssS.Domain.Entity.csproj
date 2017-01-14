@@ -43,6 +43,7 @@
     <Compile Include="EntityBase.cs" />
     <Compile Include="EntityWithOperatorBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseItem.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

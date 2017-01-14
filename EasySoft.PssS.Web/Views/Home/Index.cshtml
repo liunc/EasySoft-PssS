@@ -1,32 +1,48 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using EasySoft.PssS.Web.Resources;
+@model EasySoft.PssS.Web.Models.Home.IndexModel
+
+@{
+    ViewBag.Title = WebResource.HomeIndex_Title;
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    <div class="uchome-info">
+        <div class="uchome-info-uimg">
+            <img src="~/Content/images/img1.jpg" />
+        </div>
+        <div class="uchome-info-uinfo">
+            <p>@Model.Name，欢迎光临！[<a href="/User/Logout" class="white">退出登录</a>]</p>
+            <p>手机号：@Model.Moblie，余额：<span class="red">￥20000.00</span></p>
+            <p>积分：<span class="red">2531</span>，消息：<a href="#" class="red">12</a></p>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <!--头部导航
+    <div class="am-cf uchome-nav">
+        <ul class="am-avg-sm-5">
+            <li><a href="#">今日签到</a></li>
+            <li><a href="#">我的资料</a></li>
+            <li><a href="#">我的二维码</a></li>
+            <li><a href="#">升级为商家</a></li>
+            <li><a href="#">我的伙伴</a></li>
+        </ul>
+    </div>-->
+
+    <div class="am-cf uchome-apps">
+        <ul class="am-avg-sm-3 uchome-apps-ul">
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp1.png" class="am-img-responsive" /></p><p class="namep">我的订单</p><p class="lastp">0笔</p></a></li>
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp2.png" class="am-img-responsive" /></p><p class="namep">积分订单</p><p class="lastp">0笔</p></a></li>
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp3.png" class="am-img-responsive" /></p><p class="namep">团购订单</p><p class="lastp">0笔</p></a></li>
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp4.png" class="am-img-responsive" /></p><p class="namep">购物车</p><p class="lastp">0件</p></a></li>
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp5.png" class="am-img-responsive" /></p><p class="namep">积分充值</p><p class="lastp">0个</p></a></li>
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp6.png" class="am-img-responsive" /></p><p class="namep">金币记录</p><p class="lastp">0条</p></a></li>
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp7.png" class="am-img-responsive" /></p><p class="namep">收藏商品</p><p class="lastp">0件</p></a></li>
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp8.png" class="am-img-responsive" /></p><p class="namep">申请提现</p><p class="lastp">￥0</p></a></li>
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp9.png" class="am-img-responsive" /></p><p class="namep">我的推广</p><p class="lastp">160</p></a></li>
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp10.png" class="am-img-responsive" /></p><p class="namep">我的粉丝</p><p class="lastp">0位</p></a></li>
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp11.png" class="am-img-responsive" /></p><p class="namep">我的伙伴</p><p class="lastp">0位</p></a></li>
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp12.png" class="am-img-responsive" /></p><p class="namep">我的消息</p><p class="lastp">0条</p></a></li>
+            <li><a href="#"><p class="imgp"><img src="default/uhomeapp13.png" class="am-img-responsive" /></p><p class="namep">金币充值</p><p class="lastp">￥0</p></a></li>
+        </ul>
+
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
-    
+

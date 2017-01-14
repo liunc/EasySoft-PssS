@@ -145,9 +145,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filters\MyAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Home\IndexModel.cs" />
     <Compile Include="Models\JsonResultModel.cs" />
     <Compile Include="Models\User\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -164,9 +166,11 @@
     <Content Include="Content\amazeui\css\amazeui.flat.min.css" />
     <Content Include="Content\amazeui\css\amazeui.min.css" />
     <Content Include="Content\amazeui\css\app.css" />
+    <Content Include="Content\images\img1.jpg" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="InitialData\XML\PurchaseItem.xml" />
     <Content Include="InitialData\XML\User.xml" />
     <Content Include="Scripts\amazeui\amazeui.ie8polyfill.js" />
     <Content Include="Scripts\amazeui\amazeui.ie8polyfill.min.js" />

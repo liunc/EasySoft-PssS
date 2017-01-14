@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EasySoft.PssS.Web.Filters;
+using EasySoft.PssS.Web.Models.Home;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +10,13 @@ namespace EasySoft.PssS.Web.Controllers
 {
     public class HomeController : Controller
     {
+        [MyAuthorize(Roles ="Admin")]
         public ActionResult Index()
         {
-            return View();
+            IndexModel model = new IndexModel();
+            model.Name = this.Session["Name"].ToString();
+            model.Moblie = this.Session["Moblie"].ToString();
+            return View(model);
         }
 
         public ActionResult About()

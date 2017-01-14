@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <PurchaseCategory ID="" Name="Product">
+    <Item ID="" Valid="1" Code="BINGTANGCHENG">冰糖橙</Item>
+    <Item ID="" Valid="1" Code="QICHENG">脐橙</Item>
+    <Item ID="" Valid="1" Code="DONGSUN">冬笋</Item>
+  </PurchaseCategory>
+  <PurchaseCategory ID="" Name="Pack">
+    <Item ID="" Valid="1" Code="ZHIXIANG">纸箱</Item>
+  </PurchaseCategory>
+</root>

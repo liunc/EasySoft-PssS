@@ -18,6 +18,7 @@ namespace EasySoft.PssS.Web.Controllers
     using EasySoft.PssS.Web.Models.User;
     using EasySoft.PssS.Web.Resources;
     using System.Web.Mvc;
+    using System.Web.Security;
 
     /// <summary>
     /// 用户控制器类
@@ -57,10 +58,18 @@ namespace EasySoft.PssS.Web.Controllers
                 this.Session["Moblie"] = model.Moblie;
                 this.Session["Role"] = user.Role;
                 this.Session["Name"] = user.Name;
+                FormsAuthentication.SetAuthCookie(model.Moblie, false);
                 result.Result = true;
                 result.Data = string.IsNullOrWhiteSpace(model.ReturnUrl) ? "/": model.ReturnUrl;
             }
             return Json(result);
+        }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            this.Session.Clear();
+            return Redirect(Request.UrlReferrer.ToString());
         }
     }
 }
