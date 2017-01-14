@@ -49,7 +49,20 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Configuration, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.1.0.0\lib\netstandard1.1\Microsoft.Extensions.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
@@ -138,6 +151,11 @@
     <Compile Include="Models\JsonResultModel.cs" />
     <Compile Include="Models\User\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\WebResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebResource.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\amazeui\css\admin.css" />
@@ -146,12 +164,9 @@
     <Content Include="Content\amazeui\css\amazeui.flat.min.css" />
     <Content Include="Content\amazeui\css\amazeui.min.css" />
     <Content Include="Content\amazeui\css\app.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="InitialData\XML\User.xml" />
     <Content Include="Scripts\amazeui\amazeui.ie8polyfill.js" />
     <Content Include="Scripts\amazeui\amazeui.ie8polyfill.min.js" />
@@ -162,25 +177,11 @@
     <Content Include="Scripts\amazeui\app.js" />
     <Content Include="Scripts\amazeui\handlebars.min.js" />
     <Content Include="Scripts\amazeui\jquery.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\amazeui\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\amazeui\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\amazeui\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\amazeui\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\amazeui\fonts\FontAwesome.otf" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -203,7 +204,38 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EasySoft.PssS.Domain.Entity\EasySoft.PssS.Domain.Entity.csproj">
+      <Project>{7e7215bd-421b-4126-98c2-4e469114efe5}</Project>
+      <Name>EasySoft.PssS.Domain.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.PssS.Domain.Service\EasySoft.PssS.Domain.Service.csproj">
+      <Project>{645c985b-60ae-4b85-95b0-552ff0cdc1ca}</Project>
+      <Name>EasySoft.PssS.Domain.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.PssS.Domain.ValueObject\EasySoft.PssS.Domain.ValueObject.csproj">
+      <Project>{5e07dbae-0b02-44b9-aaef-191f08e07c12}</Project>
+      <Name>EasySoft.PssS.Domain.ValueObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.PssS.Repository\EasySoft.PssS.Repository.csproj">
+      <Project>{c280cd59-a92f-462e-b31c-71d45249fe5d}</Project>
+      <Name>EasySoft.PssS.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.PssS.Util\EasySoft.PssS.Util.csproj">
+      <Project>{d2d7d55d-b61f-46d2-947f-dbb480e77629}</Project>
+      <Name>EasySoft.PssS.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.PssS.XmlRepository\EasySoft.PssS.XmlRepository.csproj">
+      <Project>{b34b32fb-4c36-4763-b013-5b6fd9358194}</Project>
+      <Name>EasySoft.PssS.XmlRepository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\WebResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>WebResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

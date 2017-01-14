@@ -1,8 +1,8 @@
 ﻿// ----------------------------------------------------------
 // 系统名称：EasySoft PssS
-// 项目名称：Web
+// 项目名称：领域实体类库
 // 创 建 人：刘年超
-// 创建时间：2017-01-13
+// 创建时间：2017-01-14
 // ----------------------------------------------------------
 // 修改记录：
 // 
@@ -10,34 +10,31 @@
 // ----------------------------------------------------------
 // 版权所有：易则科技工作室 
 // ----------------------------------------------------------
-namespace EasySoft.PssS.Web.Models
+namespace EasySoft.PssS.Domain.Entity
 {
     /// <summary>
-    /// JsonResult视图模型类
+    /// 用户领域实体类
     /// </summary>
-    public class JsonResultModel
+    public class User: EntityBase
     {
         /// <summary>
-        /// 获取或设置结果
+        /// 获取或设置手机号
         /// </summary>
-        public bool Result { get; set; }
+        public string Moblie { get; set; }
 
         /// <summary>
-        /// 获取或设置消息
+        /// 获取或设置密码
         /// </summary>
-        public string Message { get; set; }
+        public string Password { get; set; }
 
         /// <summary>
-        /// 获取或设置返回的数据
+        /// 获取或设置角色
         /// </summary>
-        public string Data { get; set; }
+        public string Role { get; set; }
 
         /// <summary>
-        /// 构造函数
+        /// 获取或设置姓名
         /// </summary>
-        public JsonResultModel()
-        {
-            this.Result = false;
-        }
+        public string Name { get; set; }
     }
 }

@@ -1,14 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@using EasySoft.PssS.Web.Resources;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>@ViewBag.Title - 爱原汁味的生活</title>
+    <title>@ViewBag.Title - @WebResource.SystemName</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/amazeui/css")
 </head>
 
 <body>
@@ -34,15 +36,15 @@
         <footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{  }">
             <hr data-am-widget="divider" style="" class="am-divider am-divider-default" />
             <div class="am-footer-miscs ">
-                <p>CopyRight©2014 AllMobilize Inc.</p>
-                <p>京ICP备13033158</p>
+                <p>CopyRight©2017 EasySoft Inc.</p>
+                <p></p>
             </div>
         </footer>
         <!--底部-->
         <div data-am-widget="navbar" class="am-navbar am-cf my-nav-footer " id="">
             <ul class="am-navbar-nav am-cf am-avg-sm-4 my-footer-ul">
                 <li>
-                    <a href="/wap/" class="">
+                    <a href="/" class="">
                         <span class="am-icon-home"></span>
                         <span class="am-navbar-label">首页</span>
                     </a>
@@ -70,11 +72,12 @@
                         <span class="am-icon-user"></span>
                         <span class="am-navbar-label">会员</span>
                     </a>
-                    
+
                 </li>
             </ul>
-    </div>
         </div>
+    </div>
     @Scripts.Render("~/bundles/amazeui")
+    @RenderSection("JsScripts", false)
 </body>
 </html>
