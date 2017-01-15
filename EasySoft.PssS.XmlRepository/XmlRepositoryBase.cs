@@ -33,7 +33,18 @@ namespace EasySoft.PssS.XmlRepository
         /// <summary>
         /// 获取Xml文件路径
         /// </summary>
-        protected abstract string XmlFilePath { get; }
+        private string XmlFilePath
+        {
+            get
+            {
+                return this.GetXmlFilePath(this.XmlFileName);
+            }
+        }
+
+        /// <summary>
+        /// 获取Xml文件名称
+        /// </summary>
+        protected string XmlFileName { get; set; }
 
         /// <summary>
         /// 获取Xml数据源
@@ -69,6 +80,10 @@ namespace EasySoft.PssS.XmlRepository
         /// <returns>返回Xml文件路径字符串</returns>
         protected string GetXmlFilePath(string fileName)
         {
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                throw new ArgumentNullException("Xml file name");
+            }
             return string.Format("{0}InitialData\\XML\\{1}.xml", System.AppDomain.CurrentDomain.BaseDirectory, fileName);
         }
 
@@ -82,8 +97,8 @@ namespace EasySoft.PssS.XmlRepository
             xmlBuilder.AppendLine("<root>");
             xmlBuilder.AppendLine("</root>");
 
-            XmlDocument doc = new XmlDocument(); 
-            doc.LoadXml(xmlBuilder.ToString());   
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xmlBuilder.ToString());
             doc.Save(this.XmlFilePath);
             return doc;
         }

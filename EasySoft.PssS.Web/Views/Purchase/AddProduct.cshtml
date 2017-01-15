@@ -1,0 +1,124 @@
+﻿@model EasySoft.PssS.Web.Models.Purchase.PurchaseAddModel
+
+@{
+    ViewBag.Title = "采购入库";
+}
+
+<div class="cart-panel">
+    <div class="am-form-group am-form-icon">
+        <i class="am-icon-calendar" style="color:#329cd9"></i>
+        <input id="txtDate" type="text" class="am-form-field  my-radius" placeholder="请选择日期" data-am-datepicker="{theme: 'danger'}" readonly>
+    </div>
+    <div class="am-form-group am-form-icon">
+        <i class="am-icon-product-hunt" style="color:#329cd9"></i>
+        <select id="ddlItem" class="am-form-field  my-radius">
+            <option value="">请选择产品</option>
+            @foreach (var item in Model.PurchaseItems)
+            {
+                <option value="@item.Key">@item.Value</option>
+            }
+        </select>
+    </div>
+    <div class="am-form-group am-form-icon">
+        <i class="am-icon-clone" style="color:#f09513"></i>
+        <input id="txtQuantity" type="text" class="am-form-field  my-radius" placeholder="请输入数量，单位：公斤">
+    </div>
+    <div class="am-form-group am-form-icon">
+        <i class="am-icon-qq" style="color:#e88888"></i>
+        <input type="text" class="am-form-field  my-radius" placeholder="请输入QQ号">
+    </div>
+    <div class="am-form-group am-form-icon">
+        <i class="am-icon-envelope" style="color:#e9c740"></i>
+        <input type="text" class="am-form-field  my-radius" placeholder="请输入邮箱号码">
+    </div>
+    <div class="am-form-group">
+        <textarea class="am-form-field  my-radius" rows="5" id="doc-ta-1" placeholder="请输入邮箱号码"></textarea>
+    </div>
+    <p class="my-search-titp-p">商区城市：广州市</p>
+    <hr data-am-widget="divider" style="" class="am-divider-default am-margin-bottom-sm" />
+    <table class="am-table am-table-bordered am-margin-bottom-xs">
+        <tr>
+            <td width="25%">全城区域</td>
+            <td width="25%">越秀区</td>
+            <td width="25%">天河区</td>
+            <td width="25%">南沙区</td>
+        </tr>
+        <tr>
+            <td>番禺区</td>
+            <td>珠海区</td>
+            <td>荔湾区</td>
+            <td>黄埔区</td>
+        </tr>
+        <tr>
+            <td>增城区</td>
+            <td>花都区</td>
+            <td>从化区</td>
+            <td>白云区</td>
+        </tr>
+    </table>
+
+
+    <p class="am-text-center"><button type="submit" class="am-btn am-btn-danger am-radius">立即升级</button></p>
+</div>
+
+<h2>AddProduct</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>PurchaseAddModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Item, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Item, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Item, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Unit, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Supplier, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Supplier, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Supplier, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

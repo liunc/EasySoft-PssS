@@ -53,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ParameterService.cs" />
+    <Compile Include="PurchaseService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -60,6 +62,10 @@
     <ProjectReference Include="..\EasySoft.PssS.Domain.Entity\EasySoft.PssS.Domain.Entity.csproj">
       <Project>{7e7215bd-421b-4126-98c2-4e469114efe5}</Project>
       <Name>EasySoft.PssS.Domain.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.PssS.Domain.ValueObject\EasySoft.PssS.Domain.ValueObject.csproj">
+      <Project>{5E07DBAE-0B02-44B9-AAEF-191F08E07C12}</Project>
+      <Name>EasySoft.PssS.Domain.ValueObject</Name>
     </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.Repository\EasySoft.PssS.Repository.csproj">
       <Project>{c280cd59-a92f-462e-b31c-71d45249fe5d}</Project>

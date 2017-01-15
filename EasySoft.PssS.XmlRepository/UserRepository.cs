@@ -21,19 +21,16 @@ namespace EasySoft.PssS.XmlRepository
     /// </summary>
     public class UserRepository : XmlRepositoryBase, IUserRepository
     {
-        #region 属性
+        #region 构造函数
 
         /// <summary>
-        /// 获取Xml文件路径
+        /// 构造函数
         /// </summary>
-        protected override string XmlFilePath
+        public UserRepository()
         {
-            get
-            {
-                return this.GetXmlFilePath("User");
-            }
+            this.XmlFileName = "User";
         }
-
+        
         #endregion
 
         #region 方法
