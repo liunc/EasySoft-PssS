@@ -30,7 +30,7 @@ namespace EasySoft.PssS.Domain.Entity
         /// <summary>
         /// 获取或设置角色
         /// </summary>
-        public string Role { get; set; }
+        public string Roles { get; set; }
 
         /// <summary>
         /// 获取或设置姓名

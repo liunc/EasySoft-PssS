@@ -11,16 +11,10 @@ using System.Web.Mvc;
 
 namespace EasySoft.PssS.Web.Filters
 {
-    /*
-    System.Web.Mvc.IAuthorizationFilter、
-    System.Web.Mvc.IActionFilter、
-    System.Web.Mvc.IResultFilter、
-    System.Web.Mvc.IExceptionFilter、
-    System.Web.Mvc.Filters.IAuthenticationFilter。*/
-
-
     public class MyAuthorizeAttribute : AuthorizeAttribute
     {
+        public string[] AuthRoles = null;
+
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             if(httpContext == null)
@@ -31,16 +25,36 @@ namespace EasySoft.PssS.Web.Filters
             {
                 return false;
             }
-            if (!string.IsNullOrWhiteSpace(this.Roles))
+            if (this.AuthRoles != null && this.AuthRoles.Length > 0)
             {
-                string[] roles = this.Roles.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                string role = httpContext.Session["Role"].ToString();
-                if (!roles.Contains(role))
+                string[] roles = httpContext.Session["Roles"].ToString().Split(new char[] {',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (!this.ExistsSameElement(this.AuthRoles, roles))
                 {
                     return false;
                 }
             }
             return base.AuthorizeCore(httpContext);
+        }
+
+        /// <summary>
+        /// 判断两个数组中是否存在相同的元素
+        /// </summary>
+        /// <param name="arrayA">数组A</param>
+        /// <param name="arrayB">数组B</param>
+        /// <returns>存在相同元素返回true，否则false</returns>
+        private bool ExistsSameElement(string[] arrayA, string[] arrayB)
+        {
+            for(int i = 0; i < arrayA.Length; i++)
+            {
+                for(int j = 0; j < arrayB.Length; j++)
+                {
+                    if(arrayA[i] == arrayB[j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

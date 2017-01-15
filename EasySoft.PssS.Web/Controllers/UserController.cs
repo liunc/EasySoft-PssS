@@ -25,30 +25,67 @@ namespace EasySoft.PssS.Web.Controllers
     /// </summary>
     public class UserController : Controller
     {
+        #region 变量
+
         private UserService userService = null;
 
+        #endregion
+
+        #region 构造函数
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public UserController()
         {
             this.userService = new UserService();
         }
 
-        // GET: User
-        public ActionResult Index()
-        {
-            return View();
-        }
+        #endregion
 
+        #region 方法
+
+        /// <summary>
+        /// 获取Login视图
+        /// </summary>
+        /// <param name="returnUrl">跳转页面Url</param>
+        /// <returns></returns>
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
+        /// <summary>
+        /// 提交登录
+        /// </summary>
+        /// <param name="model">登录数据</param>
+        /// <returns>返回执行结果</returns>
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
             JsonResultModel result = new JsonResultModel();
-            User user = this.userService.Login(model.Moblie, model.Password);
+            if(model == null)
+            {
+                result.Message = WebResource.ArgumentNull;
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(model.Moblie))
+                {
+                    result.Message = WebResource.UserLogin_MoblieTip;
+                }
+                else if (string.IsNullOrWhiteSpace(model.Password))
+                {
+                    result.Message = WebResource.UserLogin_PasswordTip;
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(result.Message))
+            {
+                return Json(result);
+            }
+
+            User user = this.userService.Login(model.Moblie.Trim(), model.Password.Trim());
             if (user == null)
             {
                 result.Message = WebResource.UserLogin_LoginError;
@@ -56,20 +93,27 @@ namespace EasySoft.PssS.Web.Controllers
             else
             {
                 this.Session["Moblie"] = model.Moblie;
-                this.Session["Role"] = user.Role;
+                this.Session["Roles"] = user.Roles;
                 this.Session["Name"] = user.Name;
                 FormsAuthentication.SetAuthCookie(model.Moblie, false);
+
                 result.Result = true;
                 result.Data = string.IsNullOrWhiteSpace(model.ReturnUrl) ? "/": model.ReturnUrl;
             }
             return Json(result);
         }
 
+        /// <summary>
+        /// 用户退回
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
             this.Session.Clear();
             return Redirect(Request.UrlReferrer.ToString());
         }
+
+        #endregion
     }
 }

@@ -166,7 +166,12 @@
     <Content Include="Content\amazeui\css\amazeui.flat.min.css" />
     <Content Include="Content\amazeui\css\amazeui.min.css" />
     <Content Include="Content\amazeui\css\app.css" />
+    <Content Include="Content\images\goTop.gif" />
     <Content Include="Content\images\img1.jpg" />
+    <Content Include="Content\images\uhomeapp1.png" />
+    <Content Include="Content\images\uhomeapp13.png" />
+    <Content Include="Content\images\uhomeapp5.png" />
+    <Content Include="Content\images\uhomeapp8.png" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

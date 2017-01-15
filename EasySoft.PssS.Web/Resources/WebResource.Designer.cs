@@ -61,6 +61,15 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 未传入参数。 的本地化字符串。
+        /// </summary>
+        public static string ArgumentNull {
+            get {
+                return ResourceManager.GetString("ArgumentNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 个人中心 的本地化字符串。
         /// </summary>
         public static string HomeIndex_Title {

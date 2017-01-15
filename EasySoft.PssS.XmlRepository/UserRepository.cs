@@ -53,7 +53,8 @@ namespace EasySoft.PssS.XmlRepository
             }
             return new User
             {
-                Role = this.GetXmlNodeAttribute(node, "Role"),
+                Moblie = moblie,
+                Roles = this.GetXmlNodeAttribute(node, "Roles"),
                 Name = node.InnerText.Trim()
             };
         }
