@@ -21,7 +21,7 @@ namespace EasySoft.PssS.Domain.Service
     /// </summary>
     public class UserService
     {
-        private IUserRepository userRepository;
+        private IUserRepository userRepository = null;
 
         public UserService()
         {

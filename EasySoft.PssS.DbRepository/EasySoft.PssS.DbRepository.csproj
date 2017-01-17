@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{645C985B-60AE-4B85-95B0-552FF0CDC1CA}</ProjectGuid>
+    <ProjectGuid>{4376B3E1-97A7-49D3-9AE5-04ABCE55FAD7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EasySoft.PssS.Domain.Service</RootNamespace>
-    <AssemblyName>EasySoft.PssS.Domain.Service</AssemblyName>
+    <RootNamespace>EasySoft.PssS.DbRepository</RootNamespace>
+    <AssemblyName>EasySoft.PssS.DbRepository</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,31 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ParameterService.cs" />
-    <Compile Include="PurchaseService.cs" />
-    <Compile Include="UserService.cs" />
+    <Compile Include="DbHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CostRepository.cs" />
+    <Compile Include="PurchaseRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EasySoft.PssS.DbRepository\EasySoft.PssS.DbRepository.csproj">
-      <Project>{4376B3E1-97A7-49D3-9AE5-04ABCE55FAD7}</Project>
-      <Name>EasySoft.PssS.DbRepository</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.Domain.Entity\EasySoft.PssS.Domain.Entity.csproj">
       <Project>{7e7215bd-421b-4126-98c2-4e469114efe5}</Project>
       <Name>EasySoft.PssS.Domain.Entity</Name>
     </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.Domain.ValueObject\EasySoft.PssS.Domain.ValueObject.csproj">
-      <Project>{5E07DBAE-0B02-44B9-AAEF-191F08E07C12}</Project>
+      <Project>{5e07dbae-0b02-44b9-aaef-191f08e07c12}</Project>
       <Name>EasySoft.PssS.Domain.ValueObject</Name>
     </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.Repository\EasySoft.PssS.Repository.csproj">
-      <Project>{c280cd59-a92f-462e-b31c-71d45249fe5d}</Project>
+      <Project>{C280CD59-A92F-462E-B31C-71D45249FE5D}</Project>
       <Name>EasySoft.PssS.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasySoft.PssS.XmlRepository\EasySoft.PssS.XmlRepository.csproj">
-      <Project>{b34b32fb-4c36-4763-b013-5b6fd9358194}</Project>
-      <Name>EasySoft.PssS.XmlRepository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

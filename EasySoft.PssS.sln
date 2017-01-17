@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasySoft.PssS.Domain.Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasySoft.PssS.XmlRepository", "EasySoft.PssS.XmlRepository\EasySoft.PssS.XmlRepository.csproj", "{B34B32FB-4C36-4763-B013-5B6FD9358194}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasySoft.PssS.DbRepository", "EasySoft.PssS.DbRepository\EasySoft.PssS.DbRepository.csproj", "{4376B3E1-97A7-49D3-9AE5-04ABCE55FAD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{B34B32FB-4C36-4763-B013-5B6FD9358194}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B34B32FB-4C36-4763-B013-5B6FD9358194}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B34B32FB-4C36-4763-B013-5B6FD9358194}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4376B3E1-97A7-49D3-9AE5-04ABCE55FAD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4376B3E1-97A7-49D3-9AE5-04ABCE55FAD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4376B3E1-97A7-49D3-9AE5-04ABCE55FAD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4376B3E1-97A7-49D3-9AE5-04ABCE55FAD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

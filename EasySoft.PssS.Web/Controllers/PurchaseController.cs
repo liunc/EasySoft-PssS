@@ -75,6 +75,7 @@ namespace EasySoft.PssS.Web.Controllers
             {
                 costDetails.Add(new CostDetailModel { ItemCode=item.Code, ItemName = item.Name, Money = 0 });
             }
+            model.CostDetails = costDetails;
             return model;
         }
 

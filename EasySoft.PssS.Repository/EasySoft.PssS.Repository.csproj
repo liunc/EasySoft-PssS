@@ -41,9 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICostItemRepository.cs" />
+    <Compile Include="ICostRepository.cs" />
+    <Compile Include="IPurchaseRepository.cs" />
     <Compile Include="IPurchaseItemRepository.cs" />
     <Compile Include="IUserRepository.cs" />
-    <Compile Include="RepositoryBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

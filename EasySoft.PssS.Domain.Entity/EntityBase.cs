@@ -33,7 +33,7 @@ namespace EasySoft.PssS.Domain.Entity
         /// <summary>
         /// 生成新Id
         /// </summary>
-        protected void NewId()
+        public void NewId()
         {
             this.Id = Guid.NewGuid().ToString("N");
         }

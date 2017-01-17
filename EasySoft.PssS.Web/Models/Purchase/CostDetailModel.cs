@@ -20,9 +20,9 @@ namespace EasySoft.PssS.Web.Models.Purchase
     public class CostDetailModel
     {
         /// <summary>
-        /// 获取或设置ID
+        /// 获取或设置Id
         /// </summary>
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 获取或设置成本项代码
