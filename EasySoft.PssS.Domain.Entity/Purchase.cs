@@ -96,11 +96,12 @@ namespace EasySoft.PssS.Domain.Entity
         /// <param name="remark">备注</param>
         /// <param name="costs">成本</param>
         /// <param name="creator">创建人</param>
-        public void Add(DateTime date, string category, string item, decimal quantity, string unit, string supplier, string remark, Dictionary<string, decimal> costs, string creator)
+        public void Add(DateTime date, PurchaseCategory category, string item, decimal quantity, string unit, string supplier, string remark, Dictionary<string, decimal> costs, string creator)
         {
             this.NewId();
             this.Date = date;
-            this.Category = (PurchaseCategory)Enum.Parse(typeof(PurchaseCategory), category);
+            //this.Category = (PurchaseCategory)Enum.Parse(typeof(PurchaseCategory), category);
+            this.Category = category;
             this.Item = item;
             this.Quantity = quantity;
             this.Unit = unit;

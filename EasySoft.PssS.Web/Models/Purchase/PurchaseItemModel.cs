@@ -1,8 +1,7 @@
-﻿// ----------------------------------------------------------
-// 系统名称：EasySoft PssS
+﻿// 系统名称：EasySoft PssS
 // 项目名称：Web
 // 创 建 人：刘年超
-// 创建时间：2017-01-15
+// 创建时间：2017-01-19
 // ----------------------------------------------------------
 // 修改记录：
 // 
@@ -12,36 +11,38 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Models.Purchase
 {
-    using System.Collections.Generic;
-
     /// <summary>
-    /// 成本项视图模型类
+    /// 采购项视图模型类
     /// </summary>
-    public class CostDetailModel
+    public class PurchaseItemModel
     {
-        /// <summary>
-        /// 获取或设置Id
-        /// </summary>
-        public string Id { get; set; }
+        #region 属性
 
         /// <summary>
-        /// 获取或设置成本项代码
+        /// 获取或设置编码
         /// </summary>
-        public string ItemCode { get; set; }
+        public string Code { get; set; }
 
         /// <summary>
-        /// 获取或设置成本项名称
+        /// 获取或设置名称
         /// </summary>
-        public string ItemName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// 获取或设置金额
+        /// 获取或设置入库单位
         /// </summary>
-        public decimal Money { get; set; }
+        public string InputUnit { get; set; }
 
         /// <summary>
-        /// 获取或设置备注
+        /// 获取或设置出库单位
         /// </summary>
-        public string Remark { get; set; }
+        public string OutputUnit { get; set; }
+
+        /// <summary>
+        /// 获取或设置入库单位
+        /// </summary>
+        public string InOutRate { get; set; }
+
+        #endregion
     }
 }

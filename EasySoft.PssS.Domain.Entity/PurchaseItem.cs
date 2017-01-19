@@ -38,6 +38,21 @@ namespace EasySoft.PssS.Domain.Entity
         public string Valid { get; set; }
 
         /// <summary>
+        /// 获取或设置入库单位
+        /// </summary>
+        public string InputUnit { get; set; }
+
+        /// <summary>
+        /// 获取或设置出库单位
+        /// </summary>
+        public string OutputUnit { get; set; }
+
+        /// <summary>
+        /// 获取或设置入库单位
+        /// </summary>
+        public string InOutRate { get; set; }
+
+        /// <summary>
         /// 获取或设置采购分类
         /// </summary>
         public PurchaseCategory Category { get; set; }

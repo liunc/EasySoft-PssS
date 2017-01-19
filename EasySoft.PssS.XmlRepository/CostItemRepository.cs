@@ -12,8 +12,8 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.XmlRepository
 {
-    using Domain.ValueObject;
     using EasySoft.PssS.Domain.Entity;
+    using EasySoft.PssS.Domain.ValueObject;
     using EasySoft.PssS.Repository;
     using System;
     using System.Collections.Generic;
@@ -42,16 +42,16 @@ namespace EasySoft.PssS.XmlRepository
         /// 获取成本项信息
         /// </summary>
         /// <param name="category">分类</param>
-        /// <param name="valid">是否有效</param>
+        /// <param name="onlyValid">是否仅包含有效</param>
         /// <returns>返回成本项信息</returns>
-        public List<CostItem> GetCostItem(string category, bool valid)
+        public List<CostItem> GetCostItem(string category, bool onlyValid)
         {
             if (string.IsNullOrWhiteSpace(category))
             {
                 throw new ArgumentNullException("Cost category");
             }
             string xpath = string.Empty;
-            XmlNodeList nodeList = this.DataSource.SelectNodes(string.Format("//CostCategory[@Code='{0}']/Item{1}", category, valid ? "[@Valid='1']" : string.Empty));
+            XmlNodeList nodeList = this.DataSource.SelectNodes(string.Format("//CostCategory[@Code='{0}']/Item{1}", category, onlyValid ? "[@Valid='1']" : string.Empty));
             if (nodeList == null)
             {
                 return null;
@@ -71,7 +71,5 @@ namespace EasySoft.PssS.XmlRepository
         }
 
         #endregion
-
-
     }
 }

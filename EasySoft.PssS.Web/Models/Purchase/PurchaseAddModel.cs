@@ -12,6 +12,7 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Models.Purchase
 {
+    using Domain.Entity;
     using System.Collections.Generic;
 
     /// <summary>
@@ -45,13 +46,18 @@ namespace EasySoft.PssS.Web.Models.Purchase
         public string Supplier { get; set; }
 
         /// <summary>
+        /// 获取或设置备注
+        /// </summary>
+        public string Remark { get; set; }
+
+        /// <summary>
         /// 获取或设置成本明细
         /// </summary>
-        public List<CostDetailModel> CostDetails { get; set; }
+        public List<CostModel> Costs { get; set; }
 
         /// <summary>
         /// 获取或设置采购项
         /// </summary>
-        public List<KeyValueModel> PurchaseItems { get; set; }
+        public List<PurchaseItemModel> PurchaseItems { get; set; }
     }
 }

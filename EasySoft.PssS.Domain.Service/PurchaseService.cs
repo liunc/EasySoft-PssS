@@ -59,7 +59,7 @@ namespace EasySoft.PssS.Domain.Service
         /// <param name="remark">备注</param>
         /// <param name="costs">成本</param>
         /// <param name="creator">创建人</param>
-        public void Add(DateTime date, string category, string item, decimal quantity, string unit, string supplier, string remark, Dictionary<string, decimal> costs, string creator)
+        public void Add(DateTime date, PurchaseCategory category, string item, decimal quantity, string unit, string supplier, string remark, Dictionary<string, decimal> costs, string creator)
         {
             using (DbConnection conn = DbHelper.CreateConnection())
             {

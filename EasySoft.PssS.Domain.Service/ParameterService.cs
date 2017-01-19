@@ -48,22 +48,22 @@ namespace EasySoft.PssS.Domain.Service
         /// 获取采购项信息
         /// </summary>
         /// <param name="category">分类</param>
-        /// <param name="valid">是否有效</param>
+        /// <param name="onlyValid">是否仅包含有效</param>
         /// <returns>返回采购项信息</returns>
-        public List<PurchaseItem> GetPurchaseItem(string category, bool valid)
+        public List<PurchaseItem> GetPurchaseItem(string category, bool onlyValid)
         {
-            return this.purchaseItemRepository.GetPurchaseItem(category, valid);
+            return this.purchaseItemRepository.GetPurchaseItem(category, onlyValid);
         }
 
         /// <summary>
         /// 获取成本项信息
         /// </summary>
         /// <param name="category">分类</param>
-        /// <param name="valid">是否有效</param>
+        /// <param name="valid">是否仅包含有效</param>
         /// <returns>返回成本项信息</returns>
-        public List<CostItem> GetCostItem(string category, bool valid)
+        public List<CostItem> GetCostItem(string category, bool onlyValid)
         {
-            return this.costItemRepository.GetCostItem(category, valid);
+            return this.costItemRepository.GetCostItem(category, onlyValid);
         }
 
         #endregion

@@ -24,8 +24,8 @@ namespace EasySoft.PssS.Repository
         /// 获取采购项信息
         /// </summary>
         /// <param name="category">分类</param>
-        /// <param name="valid">是否有效</param>
+        /// <param name="onlyValid">是否仅包含有效</param>
         /// <returns>返回采购项信息</returns>
-        List<PurchaseItem> GetPurchaseItem(string category, bool valid);
+        List<PurchaseItem> GetPurchaseItem(string category, bool onlyValid);
     }
 }

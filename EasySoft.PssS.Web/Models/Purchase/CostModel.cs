@@ -1,8 +1,8 @@
 ﻿// ----------------------------------------------------------
 // 系统名称：EasySoft PssS
-// 项目名称：领域值对象类库
+// 项目名称：Web
 // 创 建 人：刘年超
-// 创建时间：2017-01-14
+// 创建时间：2017-01-15
 // ----------------------------------------------------------
 // 修改记录：
 // 
@@ -10,25 +10,33 @@
 // ----------------------------------------------------------
 // 版权所有：易则科技工作室 
 // ----------------------------------------------------------
-namespace EasySoft.PssS.Domain.ValueObject
+namespace EasySoft.PssS.Web.Models.Purchase
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// 采购分类枚举
+    /// 成本项视图模型类
     /// </summary>
-    public enum PurchaseCategory
+    public class CostModel
     {
         /// <summary>
-        /// 未指定
+        /// 获取或设置Id
         /// </summary>
-        None,
-        /// <summary>
-        /// 产品
-        /// </summary>
-        Product,
-        /// <summary>
-        /// 包装
-        /// </summary>
-        Pack
+        public string Id { get; set; }
 
+        /// <summary>
+        /// 获取或设置成本项代码
+        /// </summary>
+        public string ItemCode { get; set; }
+
+        /// <summary>
+        /// 获取或设置成本项名称
+        /// </summary>
+        public string ItemName { get; set; }
+
+        /// <summary>
+        /// 获取或设置金额
+        /// </summary>
+        public decimal Money { get; set; }
     }
 }

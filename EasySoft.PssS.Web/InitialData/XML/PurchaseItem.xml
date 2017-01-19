@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
   <PurchaseCategory ID="" Code="Product" Name="产品">
-    <Item ID="" Valid="1" Code="BINGTANGCHENG">冰糖橙</Item>
-    <Item ID="" Valid="1" Code="QICHENG">脐橙</Item>
-    <Item ID="" Valid="1" Code="DONGSUN">冬笋</Item>
+    <Item ID="" Valid="1" Code="BINGTANGCHENG" InputUnit="斤" OutputUnit="箱" InOutRate ="10:1">冰糖橙</Item>
+    <Item ID="" Valid="1" Code="QICHENG" InputUnit="斤" OutputUnit="箱" Rate ="10:1">脐橙</Item>
+    <Item ID="" Valid="1" Code="DONGSUN" InputUnit="斤" OutputUnit="斤" Rate ="1:1">冬笋</Item>
   </PurchaseCategory>
   <PurchaseCategory ID="" Code="Pack" Name="包装">
-    <Item ID="" Valid="1" Code="ZHIXIANG">纸箱</Item>
+    <Item ID="" Valid="1" Code="ZHIXIANG" InputUnit="个">纸箱</Item>
   </PurchaseCategory>
 </root>

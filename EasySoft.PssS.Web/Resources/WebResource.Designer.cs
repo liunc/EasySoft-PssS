@@ -79,6 +79,42 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 请选择日期。 的本地化字符串。
+        /// </summary>
+        public static string PurchaseAdd_DateTip {
+            get {
+                return ResourceManager.GetString("PurchaseAdd_DateTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请选择产品。 的本地化字符串。
+        /// </summary>
+        public static string PurchaseAdd_ItemTip {
+            get {
+                return ResourceManager.GetString("PurchaseAdd_ItemTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数量是大于0的整数或小数。 的本地化字符串。
+        /// </summary>
+        public static string PurchaseAdd_QuantityTip {
+            get {
+                return ResourceManager.GetString("PurchaseAdd_QuantityTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 供应方是长度小于等于50的字符串。 的本地化字符串。
+        /// </summary>
+        public static string PurchaseAdd_SupplierTip {
+            get {
+                return ResourceManager.GetString("PurchaseAdd_SupplierTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 爱原汁味的生活 的本地化字符串。
         /// </summary>
         public static string SystemName {

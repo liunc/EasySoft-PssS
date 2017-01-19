@@ -18,6 +18,10 @@ namespace EasySoft.PssS.Domain.ValueObject
     public enum CostCategory
     {
         /// <summary>
+        /// 未指定
+        /// </summary>
+        None,
+        /// <summary>
         /// 采购入库
         /// </summary>
         PurchaseInput,

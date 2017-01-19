@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 a{ color:#333333}
 .white{ color:#fff}
@@ -6,7 +6,7 @@ a{ color:#333333}
 .red2{color:#ec2c2f}
 .bold{ font-weight:bold}
 .container{ width:100%;max-width:640px; margin:0 auto; }
-.my-header{ background-color:#cd1317}
+.my-header{ }
 .my-radius{ border-radius:10px}
 .am-slider-a1 .am-control-nav li a.am-active{ background-color:#cd1317}
 .my-nav-footer{background-color:#494949}
