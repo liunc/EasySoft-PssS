@@ -67,17 +67,17 @@ namespace EasySoft.PssS.Web.Controllers
             JsonResultModel result = new JsonResultModel();
             if(model == null)
             {
-                result.Message = WebResource.ArgumentNull;
+                result.Message = WebResource.Message_ArgumentIsNull;
             }
             else
             {
                 if (string.IsNullOrWhiteSpace(model.Moblie))
                 {
-                    result.Message = WebResource.UserLogin_MoblieTip;
+                    result.Message = WebResource.UserLogin_MoblieTip + WebResource.Flag_FullStop;
                 }
                 else if (string.IsNullOrWhiteSpace(model.Password))
                 {
-                    result.Message = WebResource.UserLogin_PasswordTip;
+                    result.Message = WebResource.UserLogin_PasswordTip + WebResource.Flag_FullStop;
                 }
             }
             if (!string.IsNullOrWhiteSpace(result.Message))

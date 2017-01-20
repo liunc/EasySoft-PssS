@@ -10,6 +10,9 @@
 // ----------------------------------------------------------
 // 版权所有：易则科技工作室 
 // ----------------------------------------------------------
+using EasySoft.PssS.Web.Resources;
+using System.Collections.Generic;
+
 namespace EasySoft.PssS.Web.Models
 {
     /// <summary>
@@ -38,6 +41,24 @@ namespace EasySoft.PssS.Web.Models
         public JsonResultModel()
         {
             this.Result = false;
+        }
+
+        /// <summary>
+        /// 生成错误信息
+        /// </summary>
+        /// <param name="errorMessage">错误信息</param>
+        public void BuilderErrorMessage(string errorMessage)
+        {
+            this.Message = string.Format("{0}<br />{1}", WebResource.Message_SubmitFailed, errorMessage);
+        }
+
+        /// <summary>
+        /// 生成错误信息
+        /// </summary>
+        /// <param name="errorMessage">错误信息集合</param>
+        public void BuilderErrorMessage(List<string> errorMessages)
+        {
+            this.Message = string.Format("{0}<br />{1}", WebResource.Message_SubmitFailed, string.Join("<br />", errorMessages));
         }
     }
 }

@@ -102,18 +102,18 @@ namespace EasySoft.PssS.Domain.Entity
             this.Date = date;
             //this.Category = (PurchaseCategory)Enum.Parse(typeof(PurchaseCategory), category);
             this.Category = category;
-            this.Item = item;
+            this.Item = string.IsNullOrWhiteSpace(item) ? string.Empty : item.Trim();
             this.Quantity = quantity;
-            this.Unit = unit;
-            this.Supplier = supplier;
+            this.Unit = string.IsNullOrWhiteSpace(unit) ? string.Empty : unit.Trim();
+            this.Supplier = string.IsNullOrWhiteSpace(supplier) ? string.Empty : supplier.Trim();
             this.Allowance = quantity;
-            this.Remark = remark;
+            this.Remark = string.IsNullOrWhiteSpace(remark) ? string.Empty : remark.Trim();
             this.Creator = new Operator(creator);
             this.Mender = this.Creator;
-            foreach(KeyValuePair<string, decimal> cost in costs)
+            foreach (KeyValuePair<string, decimal> cost in costs)
             {
                 Cost cost1 = new Cost();
-                cost1.Add(this.Id, CostCategory.PurchaseInput, cost.Key, cost.Value);
+                cost1.Add(this.Id, CostCategory.IntoDepot, cost.Key, cost.Value);
                 this.Costs.Add(cost1);
             }
         }

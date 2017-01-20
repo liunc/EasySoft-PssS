@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
-  <CostCategory ID="" Code="PurchaseInput" Name="采购入库成本项">
+  <CostCategory ID="" Code="IntoDepot" Name="采购入库成本项">
     <Item ID="" Valid="1" Code="HUOKUAN">货款</Item>
     <Item ID="" Valid="1" Code="YUNSHU">运输中转</Item>
     <Item ID="" Valid="1" Code="QITA">其它费用</Item>
   </CostCategory>
-    <CostCategory ID="" Code="PurchaseOut" Name="采购出库成本项">
+    <CostCategory ID="" Code="OutDepot" Name="采购出库成本项">
     <Item ID="" Valid="1" Code="KUAIDI">快递费</Item>
     <Item ID="" Valid="1" Code="YUNSHU">运输中转</Item>
     <Item ID="" Valid="1" Code="QITA">其它费用</Item>

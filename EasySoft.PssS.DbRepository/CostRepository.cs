@@ -39,10 +39,10 @@ namespace EasySoft.PssS.DbRepository
                                    ,[Item]
                                    ,[Money])
                              VALUES
-                                   (@Id, 
-                                   ,@RecordId, 
-                                   ,@Category, 
-                                   ,@Item, 
+                                   (@Id
+                                   ,@RecordId 
+                                   ,@Category 
+                                   ,@Item 
                                    ,@Money)";
 
             DbParameter[] paras = new DbParameter[] {

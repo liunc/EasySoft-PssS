@@ -222,6 +222,8 @@
     <None Include="Project_Readme.html" />
     <Content Include="Views\Purchase\AddProduct.cshtml" />
     <Content Include="Views\Shared\_LayoutNoNav.cshtml" />
+    <Content Include="Views\Purchase\Index.cshtml" />
+    <Content Include="Views\Purchase\AddPack.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasySoft.PssS.Domain.Entity\EasySoft.PssS.Domain.Entity.csproj">

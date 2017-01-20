@@ -47,18 +47,18 @@ namespace EasySoft.PssS.DbRepository
                                    ,[Mender]
                                    ,[ModifyTime])
                              VALUES
-                                   (@Id, 
-                                   ,@Date, 
-                                   ,@Category, 
-                                   ,@Item, 
-                                   ,@Quantity, 
-                                   ,@Unit, 
-                                   ,@Supplier, 
-                                   ,@Allowance, 
-                                   ,@Remark,
-                                   ,@Creator, 
-                                   ,@CreateTime, 
-                                   ,@Mender, 
+                                   (@Id
+                                   ,@Date 
+                                   ,@Category 
+                                   ,@Item 
+                                   ,@Quantity 
+                                   ,@Unit 
+                                   ,@Supplier 
+                                   ,@Allowance 
+                                   ,@Remark
+                                   ,@Creator 
+                                   ,@CreateTime 
+                                   ,@Mender 
                                    ,@ModifyTime)";
 
             DbParameter[] paras = new DbParameter[] {
@@ -68,9 +68,9 @@ namespace EasySoft.PssS.DbRepository
                     DbHelper.SetParameter(new SqlParameter("@Item", SqlDbType.VarChar, 20), entity.Item),
                     DbHelper.SetParameter(new SqlParameter("@Quantity", SqlDbType.Decimal, 18), entity.Quantity),
                     DbHelper.SetParameter(new SqlParameter("@Unit", SqlDbType.NVarChar, 5), entity.Unit),
-                    DbHelper.SetParameter(new SqlParameter("@Supplier", SqlDbType.NVarChar, 50), entity.Supplier, string.Empty),
+                    DbHelper.SetParameter(new SqlParameter("@Supplier", SqlDbType.NVarChar, 50), entity.Supplier),
                     DbHelper.SetParameter(new SqlParameter("@Allowance", SqlDbType.Decimal, 18), entity.Allowance),
-                    DbHelper.SetParameter(new SqlParameter("@Remark", SqlDbType.NVarChar, 120), entity.Remark, string.Empty),
+                    DbHelper.SetParameter(new SqlParameter("@Remark", SqlDbType.NVarChar, 120), entity.Remark),
                     DbHelper.SetParameter(new SqlParameter("@Creator", SqlDbType.NVarChar, 20), entity.Creator.UserId),
                     DbHelper.SetParameter(new SqlParameter("@CreateTime", SqlDbType.DateTime), entity.Creator.Time),
                     DbHelper.SetParameter(new SqlParameter("@Mender", SqlDbType.NVarChar, 20), entity.Mender.UserId),

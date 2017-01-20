@@ -4,7 +4,7 @@
 @model EasySoft.PssS.Web.Models.Purchase.PurchaseAddModel
 
 @{
-    ViewBag.Title = WebResource.Purchase_AddProduct_Title;
+    ViewBag.Title = WebResource.Purchase_AddPack_Title;
 }
 
 <div class="cart-panel">
@@ -16,10 +16,10 @@
             </div>
         </div>
         <div class="am-form-group am-form-group-sm">
-            <label for="ddlItem" class="am-u-sm-3 am-form-label">@WebResource.Purchase_AddProduct_Item</label>
+            <label for="ddlItem" class="am-u-sm-3 am-form-label">@WebResource.Purchase_AddPack_Pack</label>
             <div class="am-u-sm-9">
                 <select id="ddlItem" class="am-form-field" required>
-                    <option value="">@WebResource.Purchase_AddProduct_ItemTip</option>
+                    <option value="">@WebResource.Purchase_AddProduct_ItemTip1</option>
                     @foreach (var item in Model.PurchaseItems)
                     {
                         <option value="@item.Code">@item.Name</option>
@@ -135,7 +135,7 @@
                         });
                         $.ajax({
                             type: "post",
-                            url: "/Purchase/AddProduct",
+                            url: "/Purchase/AddPack",
                             data: { model: model },
                             success: function (result) {
                                 if (result.Result) {
@@ -155,3 +155,4 @@
         });
     </script>
 }
+

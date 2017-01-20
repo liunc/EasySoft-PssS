@@ -117,23 +117,86 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ArgumentNull" xml:space="preserve">
-    <value>未传入参数。</value>
+  <data name="Button_Ok" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Button_Submit" xml:space="preserve">
+    <value>提交</value>
+  </data>
+  <data name="Flag_FullStop" xml:space="preserve">
+    <value>。</value>
   </data>
   <data name="HomeIndex_Title" xml:space="preserve">
     <value>个人中心</value>
   </data>
-  <data name="PurchaseAdd_DateTip" xml:space="preserve">
-    <value>请选择日期。</value>
+  <data name="Message_ArgumentIsNull" xml:space="preserve">
+    <value>未传入参数。</value>
   </data>
-  <data name="PurchaseAdd_ItemTip" xml:space="preserve">
-    <value>请选择产品。</value>
+  <data name="Message_Loading" xml:space="preserve">
+    <value>正在载入...</value>
   </data>
-  <data name="PurchaseAdd_QuantityTip" xml:space="preserve">
-    <value>数量是大于0的整数或小数。</value>
+  <data name="Message_SubmitFailed" xml:space="preserve">
+    <value>提交失败，错误信息</value>
   </data>
-  <data name="PurchaseAdd_SupplierTip" xml:space="preserve">
-    <value>供应方是长度小于等于50的字符串。</value>
+  <data name="Purchase_AddProduct_CostDataIsNull" xml:space="preserve">
+    <value>成本数据为空。</value>
+  </data>
+  <data name="Purchase_AddProduct_CostItemIsNull" xml:space="preserve">
+    <value>存在空的成本项。</value>
+  </data>
+  <data name="Purchase_AddProduct_CostMoneyTip" xml:space="preserve">
+    <value>成本项金额必须大于等于0。</value>
+  </data>
+  <data name="Purchase_AddProduct_Date" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="Purchase_AddProduct_DateTip" xml:space="preserve">
+    <value>请选择日期</value>
+  </data>
+  <data name="Purchase_AddProduct_Item" xml:space="preserve">
+    <value>产品</value>
+  </data>
+  <data name="Purchase_AddProduct_ItemTip" xml:space="preserve">
+    <value>请选择产品</value>
+  </data>
+  <data name="Purchase_AddProduct_ItemTip1" xml:space="preserve">
+    <value>请选择包装</value>
+  </data>
+  <data name="Purchase_AddProduct_MoneyTip" xml:space="preserve">
+    <value>请输入金额，单位：元</value>
+  </data>
+  <data name="Purchase_AddPack_Pack" xml:space="preserve">
+    <value>包装</value>
+  </data>
+  <data name="Purchase_AddPack_Title" xml:space="preserve">
+    <value>包装入库</value>
+  </data>
+  <data name="Purchase_AddProduct_Quantity" xml:space="preserve">
+    <value>数量</value>
+  </data>
+  <data name="Purchase_AddProduct_QuantityTip" xml:space="preserve">
+    <value>请输入数量，值为大于0的整数或小数。</value>
+  </data>
+  <data name="Purchase_AddProduct_QuantityTip1" xml:space="preserve">
+    <value>请输入数量</value>
+  </data>
+  <data name="Purchase_AddProduct_QuantityTip2" xml:space="preserve">
+    <value>请输入数量，单位：</value>
+  </data>
+  <data name="Purchase_AddProduct_Remark" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="Purchase_AddProduct_RemarkTip" xml:space="preserve">
+    <value>请输入备注信息，最长不超过120个字</value>
+  </data>
+  <data name="Purchase_AddProduct_Supplier" xml:space="preserve">
+    <value>供应方</value>
+  </data>
+  <data name="Purchase_AddProduct_SupplierTip" xml:space="preserve">
+    <value>请输入供应方名称，最长不超过50个字</value>
+  </data>
+  <data name="Purchase_AddProduct_Title" xml:space="preserve">
+    <value>产品入库</value>
   </data>
   <data name="SystemName" xml:space="preserve">
     <value>爱原汁味的生活</value>
@@ -144,17 +207,11 @@
   <data name="UserLogin_LoginError" xml:space="preserve">
     <value>手机号或密码错误，请重新输入。</value>
   </data>
-  <data name="UserLogin_Moblie" xml:space="preserve">
+  <data name="UserLogin_MoblieTip" xml:space="preserve">
     <value>请输入您的手机号</value>
   </data>
-  <data name="UserLogin_MoblieTip" xml:space="preserve">
-    <value>请输入您的手机号。</value>
-  </data>
-  <data name="UserLogin_Password" xml:space="preserve">
-    <value>请输入您的密码</value>
-  </data>
   <data name="UserLogin_PasswordTip" xml:space="preserve">
-    <value>请输入您的密码。</value>
+    <value>请输入您的密码</value>
   </data>
   <data name="UserLogin_Title" xml:space="preserve">
     <value>用户登录</value>

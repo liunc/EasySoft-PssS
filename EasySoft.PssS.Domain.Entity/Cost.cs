@@ -54,8 +54,11 @@ namespace EasySoft.PssS.Domain.Entity
         /// <param name="money">金额</param>
         public void Add(string recordId, CostCategory category, string item, decimal money)
         {
-            Cost cost = new Cost { Category = CostCategory.PurchaseInput, Item = item, Money = money, RecordId = this.Id };
-            cost.NewId();
+            this.NewId();
+            this.RecordId = recordId;
+            this.Category = category;
+            this.Item = item;
+            this.Money = money;
         }
 
         #endregion

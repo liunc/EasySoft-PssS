@@ -61,11 +61,29 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 未传入参数。 的本地化字符串。
+        ///   查找类似 确定 的本地化字符串。
         /// </summary>
-        public static string ArgumentNull {
+        public static string Button_Ok {
             get {
-                return ResourceManager.GetString("ArgumentNull", resourceCulture);
+                return ResourceManager.GetString("Button_Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 提交 的本地化字符串。
+        /// </summary>
+        public static string Button_Submit {
+            get {
+                return ResourceManager.GetString("Button_Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 。 的本地化字符串。
+        /// </summary>
+        public static string Flag_FullStop {
+            get {
+                return ResourceManager.GetString("Flag_FullStop", resourceCulture);
             }
         }
         
@@ -79,38 +97,209 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 请选择日期。 的本地化字符串。
+        ///   查找类似 未传入参数。 的本地化字符串。
         /// </summary>
-        public static string PurchaseAdd_DateTip {
+        public static string Message_ArgumentIsNull {
             get {
-                return ResourceManager.GetString("PurchaseAdd_DateTip", resourceCulture);
+                return ResourceManager.GetString("Message_ArgumentIsNull", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 请选择产品。 的本地化字符串。
+        ///   查找类似 正在载入... 的本地化字符串。
         /// </summary>
-        public static string PurchaseAdd_ItemTip {
+        public static string Message_Loading {
             get {
-                return ResourceManager.GetString("PurchaseAdd_ItemTip", resourceCulture);
+                return ResourceManager.GetString("Message_Loading", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 数量是大于0的整数或小数。 的本地化字符串。
+        ///   查找类似 提交失败，错误信息 的本地化字符串。
         /// </summary>
-        public static string PurchaseAdd_QuantityTip {
+        public static string Message_SubmitFailed {
             get {
-                return ResourceManager.GetString("PurchaseAdd_QuantityTip", resourceCulture);
+                return ResourceManager.GetString("Message_SubmitFailed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 供应方是长度小于等于50的字符串。 的本地化字符串。
+        ///   查找类似 包装 的本地化字符串。
         /// </summary>
-        public static string PurchaseAdd_SupplierTip {
+        public static string Purchase_AddPack_Pack {
             get {
-                return ResourceManager.GetString("PurchaseAdd_SupplierTip", resourceCulture);
+                return ResourceManager.GetString("Purchase_AddPack_Pack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 包装入库 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddPack_Title {
+            get {
+                return ResourceManager.GetString("Purchase_AddPack_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成本数据为空。 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_CostDataIsNull {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_CostDataIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 存在空的成本项。 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_CostItemIsNull {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_CostItemIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成本项金额必须大于等于0。 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_CostMoneyTip {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_CostMoneyTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 日期 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_Date {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请选择日期 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_DateTip {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_DateTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 产品 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_Item {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_Item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请选择产品 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_ItemTip {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_ItemTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请选择包装 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_ItemTip1 {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_ItemTip1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入金额，单位：元 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_MoneyTip {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_MoneyTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数量 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_Quantity {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_Quantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入数量，值为大于0的整数或小数。 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_QuantityTip {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_QuantityTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入数量 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_QuantityTip1 {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_QuantityTip1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入数量，单位： 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_QuantityTip2 {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_QuantityTip2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 备注 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_Remark {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_Remark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入备注信息，最长不超过120个字 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_RemarkTip {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_RemarkTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 供应方 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_Supplier {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_Supplier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入供应方名称，最长不超过50个字 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_SupplierTip {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_SupplierTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 产品入库 的本地化字符串。
+        /// </summary>
+        public static string Purchase_AddProduct_Title {
+            get {
+                return ResourceManager.GetString("Purchase_AddProduct_Title", resourceCulture);
             }
         }
         
@@ -144,15 +333,6 @@ namespace EasySoft.PssS.Web.Resources {
         /// <summary>
         ///   查找类似 请输入您的手机号 的本地化字符串。
         /// </summary>
-        public static string UserLogin_Moblie {
-            get {
-                return ResourceManager.GetString("UserLogin_Moblie", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请输入您的手机号。 的本地化字符串。
-        /// </summary>
         public static string UserLogin_MoblieTip {
             get {
                 return ResourceManager.GetString("UserLogin_MoblieTip", resourceCulture);
@@ -161,15 +341,6 @@ namespace EasySoft.PssS.Web.Resources {
         
         /// <summary>
         ///   查找类似 请输入您的密码 的本地化字符串。
-        /// </summary>
-        public static string UserLogin_Password {
-            get {
-                return ResourceManager.GetString("UserLogin_Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请输入您的密码。 的本地化字符串。
         /// </summary>
         public static string UserLogin_PasswordTip {
             get {
