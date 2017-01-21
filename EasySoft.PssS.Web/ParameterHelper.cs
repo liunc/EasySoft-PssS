@@ -19,6 +19,7 @@ namespace EasySoft.PssS.Web
     using Models.Purchase;
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Web;
     using System.Web.Caching;
 
@@ -43,12 +44,15 @@ namespace EasySoft.PssS.Web
         /// <returns>返回采购项信息</returns>
         public static List<PurchaseItemModel> GetPurchaseItem(PurchaseCategory category, bool onlyValid)
         {
-            List<PurchaseItemModel> models = new List<PurchaseItemModel>();
-            foreach (PurchaseItem item in GetParameter<PurchaseItem>("PurchaseItem", category.ToString(), onlyValid, new ParameterService().GetPurchaseItem))
-            {
-                models.Add(new PurchaseItemModel { Code = item.Code, Name = item.Name, InputUnit = item.InputUnit, OutputUnit = item.OutputUnit, InOutRate = item.InOutRate });
-            }
-            return models;
+            return GetParameter<PurchaseItemModel, PurchaseItem>(
+                    "PurchaseItem",
+                    category.ToString(),
+                    onlyValid,
+                    new ParameterService().GetPurchaseItem,
+                    new Action<List<PurchaseItemModel>, PurchaseItem>((models, item) =>
+                    {
+                        models.Add(new PurchaseItemModel { Code = item.Code, Name = item.Name, InputUnit = item.InputUnit, OutputUnit = item.OutputUnit, InOutRate = item.InOutRate });
+                    }));
         }
 
         /// <summary>
@@ -59,34 +63,53 @@ namespace EasySoft.PssS.Web
         /// <returns>返回成本项信息</returns>
         public static List<CostModel> GetCostItem(CostCategory category, bool onlyValid)
         {
-            List<CostModel> models = new List<CostModel>();
-            foreach (CostItem item in GetParameter<CostItem>("CostItem", category.ToString(), onlyValid, new ParameterService().GetCostItem))
-            {
-                models.Add(new CostModel { ItemCode = item.Code, ItemName = item.Name, Money = 0 });
-            }
-            return models;
+            return GetParameter<CostModel, CostItem>(
+                    "CostItem",
+                    category.ToString(),
+                    onlyValid,
+                    new ParameterService().GetCostItem,
+                    new Action<List<CostModel>, CostItem>((models, item) =>
+                    {
+                        models.Add(new CostModel { ItemCode = item.Code, ItemName = item.Name, Money = 0 });
+                    }));
+        }
+
+        /// <summary>
+        /// 获取分页大小
+        /// </summary>
+        /// <returns>返回分页大小</returns>
+        public static int GetPageSize()
+        {
+            return int.Parse(ConfigurationManager.AppSettings["PageSize"].ToString());
         }
 
         /// <summary>
         /// 获取参数项
         /// </summary>
+        /// <param name="name">参数名称</param>
         /// <param name="category">参数分类</param>
         /// <param name="onlyValid">是否仅包含有效</param>
+        /// <param name="getItems">获取参数项的方法</param>
+        /// <param name="convertItems">转换参数项的模型</param>
         /// <returns>返回参数项信息</returns>
-        private static List<T> GetParameter<T>(string name, string category, bool onlyValid, Func<string, bool, List<T>> getItems)
+        private static List<T> GetParameter<T, K>(string name, string category, bool onlyValid, Func<string, bool, List<K>> getItems, Action<List<T>, K> convertItems)
         {
-            List<T> items = new List<T>();
+            List<T> models = new List<T>();
             string cacheName = string.Format("{0}_{1}{2}", name, category, onlyValid ? string.Empty : "_All");
-            items = (List<T>)HttpRuntime.Cache[cacheName];
-            if (items == null)
+            models = (List<T>)HttpRuntime.Cache[cacheName];
+            if (models == null)
             {
                 lock (syncLock)
                 {
-                    items = getItems(category, onlyValid);
-                    HttpRuntime.Cache.Insert(cacheName, items, null, DateTime.Now.AddMinutes(60), Cache.NoSlidingExpiration);
+                    models = new List<T>();
+                    foreach (K item in getItems(category, onlyValid))
+                    {
+                        convertItems(models, item);
+                    }
+                    HttpRuntime.Cache.Insert(cacheName, models, null, DateTime.Now.AddMinutes(60), Cache.NoSlidingExpiration);
                 }
             }
-            return items;
+            return models;
         }
 
         #endregion

@@ -25,14 +25,6 @@
 
     </form>
 </div>
-<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="loading">
-    <div class="am-modal-dialog">
-        <div class="am-modal-hd">@WebResource.Message_Loading</div>
-        <div class="am-modal-bd">
-            <span class="am-icon-spinner am-icon-spin"></span>
-        </div>
-    </div>
-</div>
 <div class="am-modal am-modal-alert" tabindex="-1" id="alertError">
     <div class="am-modal-dialog">
         <div class="am-modal-bd" id="errorMessage">
@@ -45,12 +37,9 @@
 @section JsScripts {
     <script type="text/javascript">
         $(function () {
-            $("#loading").bind("ajaxSend", function () {
-                $(this).modal();
-            }).ajaxComplete(function () {
-                $(this).modal("close");
-            });
+
             $("#btnLogin").click(function () {
+                $("#btnLogin").attr({ "disabled": "disabled" });
                 var moblie = $.trim($("#txtMoblie").val());
                 var password = $.trim($("#txtPassword").val());
                 if (moblie.length == 0) {
@@ -86,6 +75,7 @@
             $("#errorMessage").html(errorMessage);
             $("#alertError").modal();
             // setTimeout(function () { $("#alertError").modal("close"); }, 1000);
+            $("#btnLogin").removeAttr("disabled");
         }
     </script>
 }

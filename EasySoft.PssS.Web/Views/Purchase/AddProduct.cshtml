@@ -18,7 +18,7 @@
         <div class="am-form-group am-form-group-sm">
             <label for="ddlItem" class="am-u-sm-3 am-form-label">@WebResource.Purchase_AddProduct_Item</label>
             <div class="am-u-sm-9">
-                <select id="ddlItem" class="am-form-field" required>
+                <select id="ddlItem" class="am-form-field" data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" required>
                     <option value="">@WebResource.Purchase_AddProduct_ItemTip</option>
                     @foreach (var item in Model.PurchaseItems)
                     {

@@ -25,7 +25,7 @@ namespace EasySoft.PssS.Util
         /// 将UTC时间转换为北京时间。
         /// </summary>
         /// <returns>返回北京时间</returns>
-        public static DateTime ConvertUTCToBeijing()
+        public static DateTime ConvertNowUTCToBeijing()
         {
             return ConvertUTCToBeijing(DateTime.UtcNow);
         }

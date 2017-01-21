@@ -45,10 +45,19 @@ namespace EasySoft.PssS.Domain.ValueObject
         /// 构造函数
         /// </summary>
         /// <param name="userId">用户Id</param>
-        public Operator(string userId)
+        public Operator(string userId) : this(userId, DateTime.UtcNow)
+        {
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="userId">用户Id</param>
+        /// <param name="time">时间</param>
+        public Operator(string userId, DateTime time)
         {
             this.UserId = userId;
-            this.Time = DateTimeUtil.ConvertUTCToBeijing();
+            this.Time = DateTimeUtil.ConvertUTCToBeijing(time);
         }
 
         #endregion

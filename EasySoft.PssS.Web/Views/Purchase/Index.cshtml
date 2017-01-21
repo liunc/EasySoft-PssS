@@ -1,7 +1,122 @@
-﻿
+﻿@model EasySoft.PssS.Web.Models.Purchase.PurchaseIndexModel
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Model.Title;
 }
+<div class="cart-panel">
+    <div class="am-form-group">
 
-<h2>Index</h2>
+        <select data-am-selected="{btnWidth: '75%', btnSize: 'sm'}">
+            <option value="1">所有类别</option>
+            @foreach (var item in Model.PurchaseItems)
+            {
+                <option value="@item.Code">@item.Name</option>
+            }
+        </select>
+        <button id="btnAdd" class="am-btn am-btn-default am-btn-sm">
+            <i class="am-icon-plus"></i>
+            新增
+        </button>
+    </div>
 
+
+
+
+
+    <div class="am-list-news-bd">
+        <ul class="am-list">
+
+            <li class="am-g">
+                <div style="padding:4px 0 0 6px; font-weight:bold">冰糖橙 2016-12-19</div>
+                <ul class="am-avg-sm-2">
+                    <li>
+                        <div class="am-u-sm-4">数量</div>
+                        <div class="am-u-sm-8">
+                            2016斤
+                        </div>
+                    </li>
+                    <li>
+                        <div class="am-u-sm-4">库存</div>
+                        <div class="am-u-sm-8">
+                            2016斤
+                        </div>
+                    </li>
+                </ul>
+                <ul class="am-avg-sm-2">
+                    <li>
+                        <div class="am-u-sm-4">日期</div>
+                        <div class="am-u-sm-8">
+                            2016-12-19
+                        </div>
+                    </li>
+                    <li>
+                        <div class="am-u-sm-4">名称</div>
+                        <div class="am-u-sm-8">
+                            冰糖橙
+                        </div>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="am-g">
+                <a href="http://www.douban.com/online/11614662/" class="am-list-item-hd ">我很囧，你保重....晒晒旅行中的那些囧！</a>
+
+
+
+            </li>
+            <li class="am-g">
+                <a href="http://www.douban.com/online/11624755/" class="am-list-item-hd ">我最喜欢的一张画</a>
+
+
+
+            </li>
+            <li class="am-g">
+                <a href="http://www.douban.com/online/11645411/" class="am-list-item-hd ">“你的旅行，是什么颜色？” 晒照片，换北欧梦幻极光之旅！</a>
+
+
+
+            </li>
+        </ul>
+    </div>
+
+    <!--更多在底部-->
+    <div class="am-list-news-ft">
+        <a class="am-list-news-more am-btn am-btn-default " href="###">查看更多 &raquo;</a>
+    </div>
+    @section JsScripts {
+        <script type="text/javascript">
+            $(function () {
+
+                $("#btnAdd").click(function () {
+                    var url = "/Purchase/AddProduct";
+                    var category = "@Model.Category";
+                    if (category == "Pack") {
+                        url = "/Purchase/AddPack";
+                    }
+                    window.location.href = url;
+                });
+            });
+        </script>
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>

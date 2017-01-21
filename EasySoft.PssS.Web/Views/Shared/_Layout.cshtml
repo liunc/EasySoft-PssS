@@ -14,28 +14,75 @@
 </head>
 <body>
     <div class="container">
-        <header data-am-widget="header" class="am-header am-header-default my-header">
+        <header data-am-widget="header" class="am-header am-header-default am-header-fixed my-header">
             <div class="am-header-left am-header-nav">
                 <a href="/" class="">
                     <i class="am-header-icon  am-icon-home"></i>
                 </a>
             </div>
-            @*<div class="am-header-left am-header-nav">
-                <a href="#left-link" class="">
-                    <i class="am-header-icon am-icon-chevron-left"></i>
-                </a>
-            </div>*@
             <h1 class="am-header-title">
                 <a href="#title-link" class="">@ViewBag.Title</a>
             </h1>
-            @*<div class="am-header-right am-header-nav">
-                <a href="/" class="">
-                    <i class="am-header-icon  am-icon-home"></i>
-                </a>
-            </div>*@
+            <nav data-am-widget="menu" class="am-menu am-menu-offcanvas1 am-no-layout" data-am-menu-offcanvas="">
+                <a href="javascript: void(0)" class="am-menu-toggle"><i class="am-menu-toggle-icon am-icon-bars"></i></a>
+                <div class="am-offcanvas">
+                    <div class="am-offcanvas-bar">
+                        <ul class="am-menu-nav am-avg-sm-1">
+                            <li class="am-parent">
+                                <a href="##" class="">采购仓</a>
+                                <ul class="am-menu-sub am-collapse am-avg-sm-2">
+                                    <li class=""><a href="/Purchase/Index" class="">@WebResource.Purchase_Index_ProductTitle</a></li>
+                                    <li class=""><a href="/Purchase/Index/Pack" class="">@WebResource.Purchase_Index_PackTitle</a></li>
+                                    <li class=""><a href="##" class="">趋势</a></li>
+                                    <li class=""><a href="##" class="">投融资</a></li>
+                                    <li class=""><a href="##" class="">创业公司</a></li>
+                                    <li class=""><a href="##" class="">创业人物</a></li>
+                                    <li class="am-menu-nav-channel"><a href="##" class="" title="公司">进入栏目 »</a></li>
+                                </ul>
+                            </li>
+                            <li class="am-parent">
+                                <a href="##" class="">人物</a>
+                                <ul class="am-menu-sub am-collapse am-avg-sm-3">
+                                    <li class=""><a href="##" class="">公司</a></li>
+                                    <li class=""><a href="##" class="">人物</a></li>
+                                    <li class=""><a href="##" class="">趋势</a></li>
+                                    <li class=""><a href="##" class="">投融资</a></li>
+                                    <li class=""><a href="##" class="">创业公司</a></li>
+                                    <li class=""><a href="##" class="">创业人物</a></li>
+                                </ul>
+                            </li>
+                            <li class="am-parent">
+                                <a href="#c3" class="">趋势</a>
+                                <ul class="am-menu-sub am-collapse am-avg-sm-4">
+                                    <li class=""><a href="##" class="">公司</a></li>
+                                    <li class=""><a href="##" class="">人物</a></li>
+                                    <li class=""><a href="##" class="">趋势</a></li>
+                                    <li class=""><a href="##" class="">投融资</a></li>
+                                    <li class=""><a href="##" class="">创业公司</a></li>
+                                    <li class=""><a href="##" class="">创业人物</a></li>
+                                    <li class="am-menu-nav-channel"><a href="#c3" class="" title="趋势">泥煤 »</a></li>
+                                </ul>
+                            </li>
+                            <li class="am-parent">
+                                <a href="##" class="">投融资</a>
+                                <ul class="am-menu-sub am-collapse am-avg-sm-3">
+                                    <li class=""><a href="##" class="">公司</a></li>
+                                    <li class=""><a href="##" class="">人物</a></li>
+                                    <li class=""><a href="##" class="">趋势</a></li>
+                                    <li class=""><a href="##" class="">投融资</a></li>
+                                    <li class=""><a href="##" class="">创业公司</a></li>
+                                    <li class=""><a href="##" class="">创业人物</a></li>
+                                </ul>
+                            </li>
+                            <li class=""><a href="##" class="">创业公司</a></li>
+                            <li class=""><a href="##" class="">创业人物</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </header>
-        <nav data-am-widget="menu" class="am-menu am-menu-offcanvas1 am-no-layout" data-am-menu-offcanvas=""><a href="javascript: void(0)" class="am-menu-toggle"><i class="am-menu-toggle-icon am-icon-bars"></i></a><div class="am-offcanvas"><div class="am-offcanvas-bar"><ul class="am-menu-nav am-avg-sm-1"><li class="am-parent"><a href="##" class="">公司</a><ul class="am-menu-sub am-collapse am-avg-sm-2"><li class=""><a href="##" class="">公司</a></li><li class=""><a href="##" class="">人物</a></li><li class=""><a href="##" class="">趋势</a></li><li class=""><a href="##" class="">投融资</a></li><li class=""><a href="##" class="">创业公司</a></li><li class=""><a href="##" class="">创业人物</a></li><li class="am-menu-nav-channel"><a href="##" class="" title="公司">进入栏目 »</a></li></ul></li><li class="am-parent"><a href="##" class="">人物</a><ul class="am-menu-sub am-collapse am-avg-sm-3"><li class=""><a href="##" class="">公司</a></li><li class=""><a href="##" class="">人物</a></li><li class=""><a href="##" class="">趋势</a></li><li class=""><a href="##" class="">投融资</a></li><li class=""><a href="##" class="">创业公司</a></li><li class=""><a href="##" class="">创业人物</a></li></ul></li><li class="am-parent"><a href="#c3" class="">趋势</a><ul class="am-menu-sub am-collapse am-avg-sm-4"><li class=""><a href="##" class="">公司</a></li><li class=""><a href="##" class="">人物</a></li><li class=""><a href="##" class="">趋势</a></li><li class=""><a href="##" class="">投融资</a></li><li class=""><a href="##" class="">创业公司</a></li><li class=""><a href="##" class="">创业人物</a></li><li class="am-menu-nav-channel"><a href="#c3" class="" title="趋势">泥煤 »</a></li></ul></li><li class="am-parent"><a href="##" class="">投融资</a><ul class="am-menu-sub am-collapse am-avg-sm-3"><li class=""><a href="##" class="">公司</a></li><li class=""><a href="##" class="">人物</a></li><li class=""><a href="##" class="">趋势</a></li><li class=""><a href="##" class="">投融资</a></li><li class=""><a href="##" class="">创业公司</a></li><li class=""><a href="##" class="">创业人物</a></li></ul></li><li class=""><a href="##" class="">创业公司</a></li><li class=""><a href="##" class="">创业人物</a></li></ul></div></div></nav>
-        
+
+
 
         @RenderBody()
         <footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{  }">

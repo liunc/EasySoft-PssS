@@ -32,7 +32,7 @@ namespace EasySoft.PssS.DbRepository
         /// <param name="entity">数据实体对象</param>
         public void Insert(DbTransaction trans, Cost entity)
         {
-            string cmdText = @"INSERT INTO [EasysoftPssS_Dev].[dbo].[Cost]
+            string cmdText = @"INSERT INTO [dbo].[Cost]
                                    ([Id]
                                    ,[RecordId]
                                    ,[Category]

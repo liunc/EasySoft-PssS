@@ -49,18 +49,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Extensions.Configuration, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Configuration.1.0.0\lib\netstandard1.1\Microsoft.Extensions.Configuration.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Primitives.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -153,8 +141,10 @@
     <Compile Include="Models\Home\IndexModel.cs" />
     <Compile Include="Models\JsonResultModel.cs" />
     <Compile Include="Models\KeyValueModel.cs" />
+    <Compile Include="Models\PagingModel.cs" />
     <Compile Include="Models\Purchase\CostModel.cs" />
     <Compile Include="Models\Purchase\PurchaseAddModel.cs" />
+    <Compile Include="Models\Purchase\PurchaseIndexModel.cs" />
     <Compile Include="Models\Purchase\PurchaseItemModel.cs" />
     <Compile Include="Models\User\LoginModel.cs" />
     <Compile Include="ParameterHelper.cs" />

@@ -21,6 +21,7 @@ namespace EasySoft.PssS.Web.Controllers
     using System.Web.Mvc;
     using Resources;
     using System;
+    using System.Configuration;
 
     /// <summary>
     /// 采购控制器类
@@ -53,9 +54,31 @@ namespace EasySoft.PssS.Web.Controllers
         /// 获取Index视图
         /// </summary>
         /// <returns>返回视图</returns>
-        public ActionResult Index()
+        [Route("Purchase/Index/{category=Product}")]
+        public ActionResult Index(string category)
         {
-            return View();
+            string title = WebResource.Purchase_Index_ProductTitle;
+            PurchaseCategory enumCategory = PurchaseCategory.Product;
+            if (!string.IsNullOrWhiteSpace(category) && category.ToLower() == "pack")
+            {
+                enumCategory = PurchaseCategory.Pack;
+                title = WebResource.Purchase_Index_PackTitle;
+            }
+            PurchaseIndexModel model = new PurchaseIndexModel();
+            model.Category = enumCategory.ToString();
+            model.Title = title;
+            model.PurchaseItems = ParameterHelper.GetPurchaseItem(enumCategory, false);
+            return View(model);
+        }
+
+        public ActionResult GetDataByPaing(string category, int pageIndex, int pageSize)
+        {
+            int totalCount = 0;
+            List<Purchase> entitys = this.purchaseService.Search(category, pageIndex, ParameterHelper.GetPageSize(), ref totalCount);
+            PagingModel<Purchase> model = new PagingModel<Purchase>();
+            model.TotalCount = totalCount;
+            model.Data = entitys;
+            return Json(model);
         }
 
         /// <summary>
@@ -98,6 +121,10 @@ namespace EasySoft.PssS.Web.Controllers
             return PostPurchaseAdd(model, PurchaseCategory.Pack);
         }
 
+        public ActionResult Edit(string id)
+        {
+            return View();
+        }
         #endregion
 
         #region 私有方法

@@ -307,23 +307,43 @@ namespace EasySoft.PssS.DbRepository
         /// <summary>
         /// 执行SQL语句，返回DataReader
         /// </summary>
+        /// <param name="trans">数据库事务</param>
         /// <param name="cmdType">DbCommand 命令类型</param>
         /// <param name="cmdText">要执行的存储过程名或T-SQL语句</param>
         /// <param name="paras">DbParameter 参数集合</param>
         /// <returns>返回DataReader</returns>
-        public static DbDataReader ExecuteReader(CommandType cmdType, string cmdText, params DbParameter[] paras)
+        public static DbDataReader ExecuteReader(DbTransaction trans, CommandType cmdType, string cmdText, params DbParameter[] paras)
         {
-            using (DbConnection conn = CreateConnection())
+            using (DbCommand cmd = DbProvider.CreateCommand())
             {
-                conn.Open();
-                using (DbCommand cmd = DbProvider.CreateCommand())
-                {
-                    PrepareCommand(cmd, conn, null, cmdType, cmdText, paras);
-                    DbDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-                    cmd.Parameters.Clear();
-                    return dr;
-                }
+                PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, paras);
+                DbDataReader dr = cmd.ExecuteReader();
+                cmd.Parameters.Clear();
+                return dr;
             }
+        }
+
+        /// <summary>
+        /// 执行SQL语句，返回DataReader
+        /// </summary>
+        /// <param name="trans">数据库事务</param>
+        /// <param name="cmdText">要执行的存储过程名或T-SQL语句</param>
+        /// <param name="paras">DbParameter 参数集合</param>
+        /// <returns>返回DataReader</returns>
+        public static DbDataReader ExecuteReader(DbTransaction trans, string cmdText, params DbParameter[] paras)
+        {
+            return ExecuteReader(trans, CommandType.Text, cmdText, paras);
+        }
+
+        /// <summary>
+        /// 执行SQL语句，返回DataReader
+        /// </summary>
+        /// <param name="trans">数据库事务</param>
+        /// <param name="cmdText">要执行的存储过程名或T-SQL语句</param>
+        /// <returns>返回DataReader</returns>
+        public static DbDataReader ExecuteReader(DbTransaction trans, string cmdText)
+        {
+            return ExecuteReader(trans, cmdText, null);
         }
 
         /// <summary>
@@ -331,10 +351,18 @@ namespace EasySoft.PssS.DbRepository
         /// </summary>
         /// <param name="cmdType">DbCommand 命令类型</param>
         /// <param name="cmdText">要执行的存储过程名或T-SQL语句</param>
+        /// <param name="paras">DbParameter 参数集合</param>
         /// <returns>返回DataReader</returns>
-        public static DbDataReader ExecuteReader(CommandType cmdType, string cmdText)
+        public static DbDataReader ExecuteReader(CommandType cmdType, string cmdText, params DbParameter[] paras)
         {
-            return ExecuteReader(cmdType, cmdText, null);
+            DbConnection conn = CreateConnection();
+            conn.Open();
+            DbCommand cmd = DbProvider.CreateCommand();
+
+            PrepareCommand(cmd, conn, null, cmdType, cmdText, paras);
+            DbDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            cmd.Parameters.Clear();
+            return dr;
         }
 
         /// <summary>
@@ -584,6 +612,46 @@ namespace EasySoft.PssS.DbRepository
 
         #endregion
 
+        #region 分页
+
+        /// <summary>
+        /// MSSQL Server2005以上版本获取分页的数据集(不能用distinct)
+        /// </summary>
+        /// <param name="cmdText">要执行的存储过程名或T-SQL语句，不包含order by</param>
+        /// <param name="pageSize">数据源中每页要显示的行的数目</param>
+        /// <param name="totalCount">数据源总记录数</param>
+        /// <param name="pageIndex">要获取记录的页码</param>
+        /// <param name="orderByStr">排序字符串，如"SERIALNO ASC,NAME DESC"</param>
+        /// <param name="paras">DbParameter 参数集合</param>
+        /// <returns>返回数据表</returns>
+        public static DbDataReader Paging(string cmdText, int pageSize, int totalCount, int pageIndex, string orderByStr, params DbParameter[] paras)
+        {
+            int index = cmdText.ToUpper().IndexOf("FROM");
+            string cmdText1 = cmdText.Substring(0, index);
+            string cmdText2 = cmdText.Substring(index);
+
+            int pageCount = totalCount == 0 ? 1 : (totalCount / pageSize) + (totalCount % pageSize == 0 ? 0 : 1);
+            if (pageIndex > pageCount)
+            {
+                pageIndex = pageCount;
+            }
+
+            int start = (pageIndex - 1) * pageSize + 1;
+            int end = 0;
+            if (pageIndex == pageCount)
+            {
+                end = totalCount;
+            }
+            else
+            {
+                end = pageSize * pageIndex;
+            }
+            cmdText = string.Format("SELECT * FROM ({0} , ROW_NUMBER() OVER (ORDER BY {1}) AS RN {2}) RLT WHERE RLT.RN BETWEEN {3} AND {4}", cmdText1, orderByStr, cmdText2, start, end);
+            return ExecuteReader(cmdText, paras);
+        }
+
+        #endregion
+
         #region 私有方法
 
         /// <summary>
@@ -642,7 +710,7 @@ namespace EasySoft.PssS.DbRepository
         {
             if (string.IsNullOrEmpty(parameter.ParameterName))
             {
-                throw new ArgumentNullException(("DbParameter.ParameterName"));
+                throw new ArgumentNullException("DbParameter.ParameterName");
             }
             parameter.Value = parameterValue;
             return parameter;
@@ -665,45 +733,6 @@ namespace EasySoft.PssS.DbRepository
         }
 
         #endregion
-
-        #region 分页
-
-        /// <summary>
-        /// MSSQL Server2005以上版本获取分页的数据集(不能用distinct)
-        /// </summary>
-        /// <param name="cmdText">要执行的存储过程名或T-SQL语句，不包含order by</param>
-        /// <param name="pageSize">数据源中每页要显示的行的数目</param>
-        /// <param name="totalCount">数据源总记录数</param>
-        /// <param name="pageIndex">要获取记录的页码</param>
-        /// <param name="orderByStr">排序字符串，如"SERIALNO ASC,NAME DESC"</param>
-        /// <param name="paras">DbParameter 参数集合</param>
-        /// <returns>返回数据表</returns>
-        public static DataTable Paging(string cmdText, int pageSize, int totalCount, int pageIndex, string orderByStr, params DbParameter[] paras)
-        {
-            int index = cmdText.ToUpper().IndexOf("FROM");
-            string cmdText1 = cmdText.Substring(0, index);
-            string cmdText2 = cmdText.Substring(index);
-
-            int pageCount = totalCount == 0 ? 1 : (totalCount / pageSize) + (totalCount % pageSize == 0 ? 0 : 1);
-            if (pageIndex > pageCount)
-            {
-                pageIndex = pageCount;
-            }
-
-            int start = (pageIndex - 1) * pageSize + 1;
-            int end = 0;
-            if (pageIndex == pageCount)
-            {
-                end = totalCount;
-            }
-            else
-            {
-                end = pageSize * pageIndex;
-            }
-            cmdText = string.Format("SELECT *FROM ({0} , ROW_NUMBER() OVER (ORDER BY {1}) AS RN {2}) RLT WHERE RLT.RN BETWEEN {3} AND {4}", cmdText1, orderByStr, cmdText2, start, end);
-            return ExecuteDataSet(cmdText, paras).Tables[0];
-        }
-
-        #endregion
     }
 }
+

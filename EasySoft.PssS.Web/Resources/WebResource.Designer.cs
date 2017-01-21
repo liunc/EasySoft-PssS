@@ -268,7 +268,7 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 请输入备注信息，最长不超过120个字 的本地化字符串。
+        ///   查找类似 请输入备注信息，最多120个字 的本地化字符串。
         /// </summary>
         public static string Purchase_AddProduct_RemarkTip {
             get {
@@ -286,7 +286,7 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 请输入供应方名称，最长不超过50个字 的本地化字符串。
+        ///   查找类似 请输入供应方名称，最多50个字 的本地化字符串。
         /// </summary>
         public static string Purchase_AddProduct_SupplierTip {
             get {
@@ -300,6 +300,33 @@ namespace EasySoft.PssS.Web.Resources {
         public static string Purchase_AddProduct_Title {
             get {
                 return ResourceManager.GetString("Purchase_AddProduct_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 所有类型 的本地化字符串。
+        /// </summary>
+        public static string Purchase_Index_AllType {
+            get {
+                return ResourceManager.GetString("Purchase_Index_AllType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 包装库存 的本地化字符串。
+        /// </summary>
+        public static string Purchase_Index_PackTitle {
+            get {
+                return ResourceManager.GetString("Purchase_Index_PackTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 产品库存 的本地化字符串。
+        /// </summary>
+        public static string Purchase_Index_ProductTitle {
+            get {
+                return ResourceManager.GetString("Purchase_Index_ProductTitle", resourceCulture);
             }
         }
         
