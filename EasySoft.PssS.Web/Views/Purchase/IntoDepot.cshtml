@@ -4,22 +4,22 @@
 @model EasySoft.PssS.Web.Models.Purchase.PurchaseAddModel
 
 @{
-    ViewBag.Title = WebResource.Purchase_AddPack_Title;
+    ViewBag.Title = Model.Title;
 }
 
 <div class="cart-panel">
-    <form id="addProductForm" class="am-form am-form-horizontal">
+    <form id="formAddPurchase" class="am-form am-form-horizontal">
         <div class="am-form-group am-form-group-sm">
-            <label for="txtDate" class="am-u-sm-3 am-form-label">@WebResource.Purchase_AddProduct_Date</label>
+            <label for="txtDate" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Date</label>
             <div class="am-u-sm-9">
-                <input id="txtDate" type="text" class="am-form-field" placeholder="@WebResource.Purchase_AddProduct_DateTip" data-am-datepicker="{theme: 'primary'}" readonly required>
+                <input id="txtDate" type="text" class="am-form-field" placeholder="@WebResource.Purchase_Add_DateTip" data-am-datepicker="{theme: 'primary'}" readonly required>
             </div>
         </div>
         <div class="am-form-group am-form-group-sm">
-            <label for="ddlItem" class="am-u-sm-3 am-form-label">@WebResource.Purchase_AddPack_Pack</label>
+            <label for="ddlItem" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Item</label>
             <div class="am-u-sm-9">
                 <select id="ddlItem" class="am-form-field" data-am-selected="{btnWidth: '100%', btnSize: 'sm'}" required>
-                    <option value="">@WebResource.Purchase_AddProduct_ItemTip1</option>
+                    <option value="">@WebResource.Purchase_Add_ItemTip</option>
                     @foreach (var item in Model.PurchaseItems)
                     {
                         <option value="@item.Code">@item.Name</option>
@@ -28,15 +28,15 @@
             </div>
         </div>
         <div class="am-form-group am-form-group-sm">
-            <label for="txtQuantity" class="am-u-sm-3 am-form-label">@WebResource.Purchase_AddProduct_Quantity</label>
+            <label for="txtQuantity" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Quantity</label>
             <div class="am-u-sm-9">
-                <input id="txtQuantity" type="number" min="0.01" max="99999999.99" class="am-form-field" placeholder="@WebResource.Purchase_AddProduct_QuantityTip1">
+                <input id="txtQuantity" type="number" min="0.01" max="99999999.99" class="am-form-field" placeholder="@WebResource.Purchase_Add_QuantityTip1">
             </div>
         </div>
         <div class="am-form-group am-form-group-sm">
-            <label for="txtSupplier" class="am-u-sm-3 am-form-label">@WebResource.Purchase_AddProduct_Supplier</label>
+            <label for="txtSupplier" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Supplier</label>
             <div class="am-u-sm-9">
-                <input id="txtSupplier" type="text" class="am-form-field" placeholder="@WebResource.Purchase_AddProduct_SupplierTip">
+                <input id="txtSupplier" type="text" class="am-form-field" placeholder="@WebResource.Purchase_Add_SupplierTip">
             </div>
         </div>
         @foreach (var cost in Model.Costs)
@@ -44,19 +44,19 @@
             <div class="am-form-group am-form-group-sm">
                 <label for="@cost.ItemCode" class="am-u-sm-3 am-form-label">@cost.ItemName</label>
                 <div class="am-u-sm-9">
-                    <input type="number" min="0" max="99999999.99" id="@cost.ItemCode" name="costMoney" class="am-form-field" placeholder="@WebResource.Purchase_AddProduct_MoneyTip">
+                    <input type="number" min="0" max="99999999.99" id="@cost.ItemCode" name="costMoney" class="am-form-field" placeholder="@WebResource.Purchase_Add_MoneyTip">
                 </div>
             </div>
         }
         <div class="am-form-group am-form-group-sm">
-            <label for="txtRemark" class="am-u-sm-3 am-form-label">@WebResource.Purchase_AddProduct_Remark</label>
+            <label for="txtRemark" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Remark</label>
             <div class="am-u-sm-9">
-                <textarea class="am-form-field" rows="4" id="txtRemark" maxlength="120" placeholder="@WebResource.Purchase_AddProduct_RemarkTip"></textarea>
+                <textarea class="am-form-field" rows="4" id="txtRemark" maxlength="120" placeholder="@WebResource.Purchase_Add_RemarkTip"></textarea>
             </div>
         </div>
         <div class="am-form-group">
             <div class="am-u-sm-9 am-u-sm-offset-3">
-                <button type="submit" class="am-btn am-btn-success">@WebResource.Button_Submit</button>
+                <button id="btnSubmit" type="submit" class="am-btn am-btn-success">@WebResource.Button_Submit</button>
             </div>
         </div>
     </form>
@@ -79,43 +79,44 @@
     <script type="text/javascript">
 
         $(function () {
-            $("#ddlItem").change(function () {
-                var item = $("#ddlItem").val();
-                var placeholder = "@WebResource.Purchase_AddProduct_QuantityTip1";
+            $('#ddlItem').change(function () {
+                var item = $('#ddlItem').val();
+                var placeholder = '@WebResource.Purchase_Add_QuantityTip1';
                 if (item.length > 0) {
-                    var unit = $("#" + item).val();
-                    placeholder = "@WebResource.Purchase_AddProduct_QuantityTip2" + unit;
+                    var unit = $('#' + item).val();
+                    placeholder = '@WebResource.Purchase_Add_QuantityTip2' + unit;
                 }
-                $("#txtQuantity").attr("placeholder", placeholder);
+                $('#txtQuantity').attr('placeholder', placeholder);
             });
-            $("#addProductForm").validator({
+            $('#formAddPurchase').validator({
                 onValid: function (validity) {
-                    $(validity.field).closest(".am-u-sm-9").find(".am-alert").hide();
+                    $(validity.field).closest('.am-u-sm-9').find('.am-alert').hide();
                 },
                 onInValid: function (validity) {
                     var $field = $(validity.field);
-                    var $group = $field.closest(".am-u-sm-9");
-                    var $alert = $group.find(".am-alert");
+                    var $group = $field.closest('.am-u-sm-9');
+                    var $alert = $group.find('.am-alert');
                     // 使用自定义的提示信息 或 插件内置的提示信息
-                    var msg = $field.data("validationMessage") || this.getValidationMessage(validity);
+                    var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
                     if (!$alert.length) {
-                        $alert = $("<div class='am-alert am-alert-danger'></div>").hide().
+                        $alert = $('<div class="am-alert am-alert-danger"></div>').hide().
                           appendTo($group);
                     }
                     $alert.html(msg).show();
                 },
                 submit: function () {
                     if (this.isFormValid()) {
-                        $("#btnLogin").attr({ "disabled": "disabled" });
+                        $('#btnSubmit').attr({ 'disabled': 'disabled' });
                         var model = {};
-                        model.Date = $.trim($("#txtDate").val());
-                        model.Item = $.trim($("#ddlItem").val());
-                        model.Quantity = parseFloat($("#txtQuantity").val());
-                        model.Unit = $.trim($("#" + model.Item).val());
-                        model.Supplier = $.trim($("#txtSupplier").val());
-                        model.Remark = $.trim($("#txtRemark").val());
+                        model.Date = $.trim($('#txtDate').val());
+                        model.Category = '@Model.Category';
+                        model.Item = $.trim($('#ddlItem').val());
+                        model.Quantity = parseFloat($('#txtQuantity').val());
+                        model.Unit = $.trim($('#' + model.Item).val());
+                        model.Supplier = $.trim($('#txtSupplier').val());
+                        model.Remark = $.trim($('#txtRemark').val());
                         model.Costs = [];
-                        $("input[name='costMoney']").each(function () {
+                        $('input[name="costMoney"]').each(function () {
                             var cost = {};
                             cost.ItemCode = $(this).attr("id");
                             cost.Money = parseFloat($(this).val());
@@ -123,18 +124,22 @@
                         });
                         $.ajax({
                             type: "post",
-                            url: "/Purchase/AddPack",
+                            url: "/Purchase/IntoDepot",
                             data: { model: model },
                             success: function (result) {
                                 if (result.Result) {
                                     window.location.href = result.Data;
                                 }
                                 else {
-                                    $("#errorMessage").html(result.Message);
-                                    $("#alertError").modal();
-                                    $("#btnLogin").removeAttr("disabled");
+                                    showError(result.Message);
                                 }
                                 return false;
+                            },
+                            error: function () {
+                                showError('System Error');
+                            },
+                            complete: function () {
+                                $('#btnSubmit').removeAttr('disabled');
                             }
                         });
                     }
@@ -142,6 +147,10 @@
                 }
             });
         });
+        function showError(errorMessage) {
+            $('#errorMessage').html(errorMessage);
+            $('#alertError').modal();
+        }
     </script>
 }
 

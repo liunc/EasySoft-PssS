@@ -12,8 +12,8 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.DbRepository
 {
-    using Domain.ValueObject;
     using EasySoft.PssS.Domain.Entity;
+    using EasySoft.PssS.Domain.ValueObject;
     using EasySoft.PssS.Repository;
     using System;
     using System.Collections.Generic;
@@ -26,6 +26,26 @@ namespace EasySoft.PssS.DbRepository
     /// </summary>
     public class PurchaseRepository : IPurchaseRepository
     {
+        #region 常量
+
+        private static readonly string SELECT_SQLSTRING = @"SELECT [Id]
+                                  ,[Date]
+                                  ,[Category]
+                                  ,[Item]
+                                  ,[Quantity]
+                                  ,[Unit]
+                                  ,[Supplier]
+                                  ,[Allowance]
+                                  ,[Cost]
+                                  ,[ProfitLoss]
+                                  ,[Remark]
+                                  ,[Creator]
+                                  ,[CreateTime]
+                                  ,[Mender]
+                                  ,[ModifyTime]
+                              FROM [dbo].[Purchase] {0}";
+        #endregion
+
         #region 方法
 
         /// <summary>
@@ -44,6 +64,8 @@ namespace EasySoft.PssS.DbRepository
                                    ,[Unit]
                                    ,[Supplier]
                                    ,[Allowance]
+                                   ,[Cost]
+                                   ,[ProfitLoss]
                                    ,[Remark]
                                    ,[Creator]
                                    ,[CreateTime]
@@ -58,6 +80,8 @@ namespace EasySoft.PssS.DbRepository
                                    ,@Unit 
                                    ,@Supplier 
                                    ,@Allowance 
+                                   ,@Cost
+                                   ,@ProfitLoss
                                    ,@Remark
                                    ,@Creator 
                                    ,@CreateTime 
@@ -73,6 +97,8 @@ namespace EasySoft.PssS.DbRepository
                     DbHelper.SetParameter(new SqlParameter("@Unit", SqlDbType.NVarChar, 5), entity.Unit),
                     DbHelper.SetParameter(new SqlParameter("@Supplier", SqlDbType.NVarChar, 50), entity.Supplier),
                     DbHelper.SetParameter(new SqlParameter("@Allowance", SqlDbType.Decimal, 18), entity.Allowance),
+                    DbHelper.SetParameter(new SqlParameter("@Cost", SqlDbType.Decimal, 18), entity.Cost),
+                    DbHelper.SetParameter(new SqlParameter("@ProfitLoss", SqlDbType.Decimal, 18), entity.ProfitLoss),
                     DbHelper.SetParameter(new SqlParameter("@Remark", SqlDbType.NVarChar, 120), entity.Remark),
                     DbHelper.SetParameter(new SqlParameter("@Creator", SqlDbType.NVarChar, 20), entity.Creator.UserId),
                     DbHelper.SetParameter(new SqlParameter("@CreateTime", SqlDbType.DateTime), entity.Creator.Time),
@@ -95,20 +121,7 @@ namespace EasySoft.PssS.DbRepository
         /// <returns>返回采购实体对象</returns>
         public Purchase Select(DbTransaction trans, string id)
         {
-            string cmdText = @"SELECT [Id]
-                                  ,[Date]
-                                  ,[Category]
-                                  ,[Item]
-                                  ,[Quantity]
-                                  ,[Unit]
-                                  ,[Supplier]
-                                  ,[Allowance]
-                                  ,[Remark]
-                                  ,[Creator]
-                                  ,[CreateTime]
-                                  ,[Mender]
-                                  ,[ModifyTime]
-                              FROM [dbo].[Purchase]";
+            string cmdText = string.Format(SELECT_SQLSTRING, "WHERE [Id] = @Id");
 
             DbParameter paras = DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), id);
 
@@ -124,20 +137,7 @@ namespace EasySoft.PssS.DbRepository
             Purchase entity = null;
             while (reader.Read())
             {
-                entity = new Purchase
-                {
-                    Id = reader["Id"].ToString(),
-                    Date = Convert.ToDateTime(reader["Date"]),
-                    Category = (PurchaseCategory)Enum.Parse(typeof(PurchaseCategory), reader["Category"].ToString()),
-                    Item = reader["Item"].ToString(),
-                    Quantity = Convert.ToDecimal(reader["Quantity"]),
-                    Unit = reader["Unit"].ToString(),
-                    Supplier = reader["Supplier"].ToString(),
-                    Allowance = Convert.ToDecimal(reader["Allowance"]),
-                    Remark = reader["Remark"].ToString(),
-                    Creator = new Operator(reader["Creator"].ToString(), Convert.ToDateTime(reader["CreateTime"])),
-                    Mender = new Operator(reader["Mender"].ToString(), Convert.ToDateTime(reader["ModifyTime"]))
-                };
+                entity = this.SetEntity(reader);
             }
             if (!reader.IsClosed)
             {
@@ -150,26 +150,13 @@ namespace EasySoft.PssS.DbRepository
         /// 查询采购表信息，用于列表分页显示
         /// </summary>
         /// <param name="category">产品分类</param>
+        /// <param name="item">产品项</param>
         /// <param name="pageIndex">当前页码</param>
         /// <param name="pageSize">数据源中每页要显示的行的数目</param>
         /// <param name="totalCount">数据源总记录数</param>
         /// <returns>返回数据表</returns>
-        public List<Purchase> Search(string category, int pageIndex, int pageSize, ref int totalCount)
+        public List<Purchase> Search(string category, string item, int pageIndex, int pageSize, ref int totalCount)
         {
-            string cmdText = @"SELECT [Id]
-                                  ,[Date]
-                                  ,[Category]
-                                  ,[Item]
-                                  ,[Quantity]
-                                  ,[Unit]
-                                  ,[Supplier]
-                                  ,[Allowance]
-                                  ,[Remark]
-                                  ,[Creator]
-                                  ,[CreateTime]
-                                  ,[Mender]
-                                  ,[ModifyTime]
-                              FROM [dbo].[Purchase]";
             List<string> conditions = new List<string>();
             List<DbParameter> paras = new List<DbParameter>();
             if (!string.IsNullOrEmpty(category))
@@ -177,43 +164,63 @@ namespace EasySoft.PssS.DbRepository
                 conditions.Add("[Category] = @Category");
                 paras.Add(DbHelper.SetParameter(new SqlParameter("@Category", SqlDbType.VarChar, 10), category));
             }
-
+            if (!string.IsNullOrEmpty(item))
+            {
+                conditions.Add("[Item] = @Item");
+                paras.Add(DbHelper.SetParameter(new SqlParameter("@Item", SqlDbType.VarChar, 20), item));
+            }
             string whereCmdText = string.Empty;
             if (conditions.Count > 0)
             {
                 whereCmdText = string.Format("WHERE {0}", string.Join(" AND ", conditions.ToArray()));
             }
-            cmdText = string.Format("{0} {1}", cmdText, whereCmdText);
+            string cmdText = string.Format(SELECT_SQLSTRING, whereCmdText);
             string totalCmdText = string.Format("SELECT COUNT(1) FROM [dbo].[Purchase] {0}", whereCmdText);
             totalCount = Convert.ToInt32(DbHelper.ExecuteScalar(totalCmdText, paras.ToArray()));
             DbDataReader reader = DbHelper.Paging(cmdText, pageSize, totalCount, pageIndex, "[CreateTime] DESC", paras.ToArray());
 
-            List<Purchase> entitys = new List<Purchase>();
+            List<Purchase> entities = new List<Purchase>();
             while (reader.Read())
             {
-                entitys.Add(new Purchase
-                {
-                    Id = reader["Id"].ToString(),
-                    Date = Convert.ToDateTime(reader["Date"]),
-                    Category = (PurchaseCategory)Enum.Parse(typeof(PurchaseCategory), reader["Category"].ToString()),
-                    Item = reader["Item"].ToString(),
-                    Quantity = Convert.ToDecimal(reader["Quantity"]),
-                    Unit = reader["Unit"].ToString(),
-                    Supplier = reader["Supplier"].ToString(),
-                    Allowance = Convert.ToDecimal(reader["Allowance"]),
-                    Remark = reader["Remark"].ToString(),
-                    Creator = new Operator(reader["Creator"].ToString(), Convert.ToDateTime(reader["CreateTime"])),
-                    Mender = new Operator(reader["Mender"].ToString(), Convert.ToDateTime(reader["ModifyTime"]))
-                });
+                entities.Add(this.SetEntity(reader));
             }
             if (!reader.IsClosed)
             {
                 reader.Close();
             }
-            return entitys;
+            return entities;
         }
+
         #endregion
 
+        #region 私有方法
+
+        /// <summary>
+        /// 设置实体对象值
+        /// </summary>
+        /// <param name="reader">DbDataReader对象</param>
+        /// <returns>返回实体对象</returns>
+        private Purchase SetEntity(DbDataReader reader)
+        {
+            return new Purchase
+            {
+                Id = reader["Id"].ToString(),
+                Date = Convert.ToDateTime(reader["Date"]),
+                Category = (PurchaseCategory)Enum.Parse(typeof(PurchaseCategory), reader["Category"].ToString()),
+                Item = reader["Item"].ToString(),
+                Quantity = Convert.ToDecimal(reader["Quantity"]),
+                Unit = reader["Unit"].ToString(),
+                Supplier = reader["Supplier"].ToString(),
+                Allowance = Convert.ToDecimal(reader["Allowance"]),
+                Cost = Convert.ToDecimal(reader["Cost"]),
+                ProfitLoss = Convert.ToDecimal(reader["ProfitLoss"]),
+                Remark = reader["Remark"].ToString(),
+                Creator = new Operator(reader["Creator"].ToString(), Convert.ToDateTime(reader["CreateTime"])),
+                Mender = new Operator(reader["Mender"].ToString(), Convert.ToDateTime(reader["ModifyTime"]))
+            };
+        }
+
+        #endregion
 
     }
 }

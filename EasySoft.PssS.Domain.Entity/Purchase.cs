@@ -59,14 +59,29 @@ namespace EasySoft.PssS.Domain.Entity
         public decimal Allowance { get; set; }
 
         /// <summary>
+        /// 获取或设置成本汇总
+        /// </summary>
+        public decimal Cost { get; set; }
+
+        /// <summary>
+        /// 获取或设置益损
+        /// </summary>
+        public decimal ProfitLoss { get; set; }
+
+        /// <summary>
         /// 获取或设置备注
         /// </summary>
         public string Remark { get; set; }
 
         /// <summary>
-        /// 获取或设置成本
+        /// 获取或设置成本集合
         /// </summary>
         public List<Cost> Costs { get; set; }
+
+        /// <summary>
+        /// 获取或设置益损集合
+        /// </summary>
+        public List<ProfitLoss> ProfitLosss { get; set; }
 
         #endregion
 
@@ -85,7 +100,7 @@ namespace EasySoft.PssS.Domain.Entity
         #region 方法
 
         /// <summary>
-        /// 新增采购记录
+        /// 采购入库
         /// </summary>
         /// <param name="date">日期</param>
         /// <param name="category">分类</param>
@@ -96,11 +111,10 @@ namespace EasySoft.PssS.Domain.Entity
         /// <param name="remark">备注</param>
         /// <param name="costs">成本</param>
         /// <param name="creator">创建人</param>
-        public void Add(DateTime date, PurchaseCategory category, string item, decimal quantity, string unit, string supplier, string remark, Dictionary<string, decimal> costs, string creator)
+        public void IntoDepot(DateTime date, PurchaseCategory category, string item, decimal quantity, string unit, string supplier, string remark, Dictionary<string, decimal> costs, string creator)
         {
             this.NewId();
             this.Date = date;
-            //this.Category = (PurchaseCategory)Enum.Parse(typeof(PurchaseCategory), category);
             this.Category = category;
             this.Item = string.IsNullOrWhiteSpace(item) ? string.Empty : item.Trim();
             this.Quantity = quantity;
@@ -114,6 +128,7 @@ namespace EasySoft.PssS.Domain.Entity
             {
                 Cost cost1 = new Cost();
                 cost1.Add(this.Id, CostCategory.IntoDepot, cost.Key, cost.Value);
+                this.Cost += cost.Value;
                 this.Costs.Add(cost1);
             }
         }

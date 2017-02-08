@@ -1,0 +1,71 @@
+﻿@using System.Collections.Generic;
+@using EasySoft.PssS.Web.Resources;
+
+@model EasySoft.PssS.Domain.Entity.Purchase
+
+@{
+    ViewBag.Title = WebResource.Purchase_Detail_Title;
+}
+
+<div class="cart-panel">
+    <form id="formAddPurchase" class="am-form am-form-horizontal">
+        <div class="am-form-group am-form-group-sm">
+            <label for="txtDate" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Date</label>
+            <div class="am-u-sm-9">
+                @Model.Date
+            </div>
+        </div>
+        <div class="am-form-group am-form-group-sm">
+            <label for="ddlItem" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Item</label>
+            <div class="am-u-sm-9">
+                @Model.Category
+            </div>
+        </div>
+        <div class="am-form-group am-form-group-sm">
+            <label for="txtQuantity" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Quantity</label>
+            <div class="am-u-sm-9">
+               @Model.Quantity@Model.Unit
+            </div>
+        </div>
+        <div class="am-form-group am-form-group-sm">
+            <label for="txtSupplier" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Supplier</label>
+            <div class="am-u-sm-9">
+                @Model.Supplier
+            </div>
+        </div>
+        @foreach (var cost in Model.Costs)
+        {
+            <div class="am-form-group am-form-group-sm">
+                <label for="@cost.Item" class="am-u-sm-3 am-form-label">@cost.Item</label>
+                <div class="am-u-sm-9">
+                    @cost.Money
+                </div>
+            </div>
+        }
+        <div class="am-form-group am-form-group-sm">
+            <label for="txtRemark" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Remark</label>
+            <div class="am-u-sm-9">
+                @Model.Remark
+            </div>
+        </div>
+        <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-offset-3">
+                <button type="submit" class="am-btn am-btn-default">@WebResource.Button_Back</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="alertError">
+    <div class="am-modal-dialog">
+        <div class="am-modal-bd" id="errorMessage">
+
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn">@WebResource.Button_Ok</span>
+        </div>
+    </div>
+</div>
+@section JsScripts {
+}
+

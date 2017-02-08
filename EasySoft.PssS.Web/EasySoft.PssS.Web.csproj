@@ -188,7 +188,9 @@
     <Content Include="Content\amazeui\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\amazeui\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\amazeui\fonts\FontAwesome.otf" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -210,10 +212,10 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Views\Purchase\AddProduct.cshtml" />
     <Content Include="Views\Shared\_LayoutNoNav.cshtml" />
     <Content Include="Views\Purchase\Index.cshtml" />
-    <Content Include="Views\Purchase\AddPack.cshtml" />
+    <Content Include="Views\Purchase\IntoDepot.cshtml" />
+    <Content Include="Views\Purchase\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasySoft.PssS.Domain.Entity\EasySoft.PssS.Domain.Entity.csproj">

@@ -22,6 +22,7 @@ namespace EasySoft.PssS.Web.Controllers
     using Resources;
     using System;
     using System.Configuration;
+    using System.Linq;
 
     /// <summary>
     /// 采购控制器类
@@ -53,102 +54,72 @@ namespace EasySoft.PssS.Web.Controllers
         /// <summary>
         /// 获取Index视图
         /// </summary>
+        /// <param name="category">分类</param>
         /// <returns>返回视图</returns>
         [Route("Purchase/Index/{category=Product}")]
         public ActionResult Index(string category)
         {
             string title = WebResource.Purchase_Index_ProductTitle;
-            PurchaseCategory enumCategory = PurchaseCategory.Product;
-            if (!string.IsNullOrWhiteSpace(category) && category.ToLower() == "pack")
+            PurchaseCategory enumCategory = this.GetPurchaseCategory(category);
+            if (enumCategory == PurchaseCategory.Pack)
             {
-                enumCategory = PurchaseCategory.Pack;
                 title = WebResource.Purchase_Index_PackTitle;
             }
             PurchaseIndexModel model = new PurchaseIndexModel();
             model.Category = enumCategory.ToString();
             model.Title = title;
-            model.PurchaseItems = ParameterHelper.GetPurchaseItem(enumCategory, false);
+            model.PurchaseItems = ParameterHelper.GetPurchaseItem(model.Category, false);
             return View(model);
         }
 
-        public ActionResult GetDataByPaing(string category, int pageIndex, int pageSize)
+        /// <summary>
+        /// 获取分页数据
+        /// </summary>
+        /// <param name="category">分类</param>
+        /// <param name="item">项</param>
+        /// <param name="pageIndex">当前索引</param>
+        /// <returns>返回分页数据</returns>
+        [HttpPost]
+        public ActionResult GetDataByPaing(string category, string item, int pageIndex)
         {
             int totalCount = 0;
-            List<Purchase> entitys = this.purchaseService.Search(category, pageIndex, ParameterHelper.GetPageSize(), ref totalCount);
             PagingModel<Purchase> model = new PagingModel<Purchase>();
+            model.Data = this.purchaseService.Search(category, item, pageIndex, model.PageSize, ref totalCount);
             model.TotalCount = totalCount;
-            model.Data = entitys;
             return Json(model);
         }
 
         /// <summary>
-        /// 获取AddProduct的视图 
+        /// 获取Add视图
         /// </summary>
+        /// <param name="category">分类</param>
         /// <returns>返回视图</returns>
-        public ActionResult AddProduct()
+        [Route("Purchase/IntoDepot/{category=Product}")]
+        public ActionResult IntoDepot(string category)
         {
-            return View(this.GetPurchaseAddModel(PurchaseCategory.Product));
-        }
+            string title = WebResource.Purchase_Add_ProductTitle;
+            PurchaseCategory enumCategory = this.GetPurchaseCategory(category);
+            if (enumCategory == PurchaseCategory.Pack)
+            {
+                title = WebResource.Purchase_Add_PackTitle;
+            }
 
-        /// <summary>
-        /// 提交产品采购入库
-        /// </summary>
-        /// <param name="model">采购入库的数据</param>
-        /// <returns>返回执行结果</returns>
-        [HttpPost]
-        public ActionResult AddProduct(PurchaseAddModel model)
-        {
-            return PostPurchaseAdd(model, PurchaseCategory.Product);
-        }
-
-        /// <summary>
-        /// 获取AddPack的视图 
-        /// </summary>
-        /// <returns>返回视图</returns>
-        public ActionResult AddPack()
-        {
-            return View(this.GetPurchaseAddModel(PurchaseCategory.Pack));
-        }
-
-        /// <summary>
-        /// 提交产品采购入库
-        /// </summary>
-        /// <param name="model">采购入库的数据</param>
-        /// <returns>返回执行结果</returns>
-        [HttpPost]
-        public ActionResult AddPack(PurchaseAddModel model)
-        {
-            return PostPurchaseAdd(model, PurchaseCategory.Pack);
-        }
-
-        public ActionResult Edit(string id)
-        {
-            return View();
-        }
-        #endregion
-
-        #region 私有方法
-
-        /// <summary>
-        /// 获取采购入库的视图模型
-        /// </summary>
-        /// <param name="category">采购分类</param>
-        /// <returns>采购入库的视图模型</returns>
-        private PurchaseAddModel GetPurchaseAddModel(PurchaseCategory category)
-        {
             PurchaseAddModel model = new PurchaseAddModel();
+            model.Title = title;
             model.PurchaseItems = ParameterHelper.GetPurchaseItem(category, true);
-            model.Costs = ParameterHelper.GetCostItem(CostCategory.IntoDepot, true);
-            return model;
+            model.Category = enumCategory.ToString();
+            model.Costs = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true);
+            return View(model);
         }
 
         /// <summary>
-        /// 提交采购入库数量
+        /// 提交产品采购入库
         /// </summary>
-        /// <param name="model">采购入库的视图模型</param>
-        /// <param name="category">采购分类</param>
+        /// <param name="model">采购入库的数据</param>
         /// <returns>返回执行结果</returns>
-        private JsonResult PostPurchaseAdd(PurchaseAddModel model, PurchaseCategory category)
+        [HttpPost]
+        [Route("Purchase/IntoDepot/{category=Product}")]
+        public ActionResult IntoDepot(PurchaseAddModel model)
         {
             JsonResultModel result = new JsonResultModel();
             try
@@ -167,23 +138,23 @@ namespace EasySoft.PssS.Web.Controllers
                 {
                     if (!DateTime.TryParse(model.Date, out date))
                     {
-                        errorMessages.Add(WebResource.Purchase_AddProduct_DateTip + WebResource.Flag_FullStop);
+                        errorMessages.Add(WebResource.Purchase_Add_DateTip + WebResource.Flag_FullStop);
                     }
                     if (string.IsNullOrWhiteSpace(model.Item))
                     {
-                        errorMessages.Add(category == PurchaseCategory.Product ? WebResource.Purchase_AddProduct_ItemTip : WebResource.Purchase_AddProduct_ItemTip1 + WebResource.Flag_FullStop);
+                        errorMessages.Add(WebResource.Purchase_Add_ItemTip + WebResource.Flag_FullStop);
                     }
                     if (model.Quantity <= 0)
                     {
-                        errorMessages.Add(WebResource.Purchase_AddProduct_QuantityTip);
+                        errorMessages.Add(WebResource.Purchase_Add_QuantityTip);
                     }
                     if (!string.IsNullOrWhiteSpace(model.Supplier) && model.Supplier.Trim().Length > 50)
                     {
-                        errorMessages.Add(WebResource.Purchase_AddProduct_SupplierTip + WebResource.Flag_FullStop);
+                        errorMessages.Add(WebResource.Purchase_Add_SupplierTip + WebResource.Flag_FullStop);
                     }
                     if (model.Costs == null || model.Costs.Count == 0)
                     {
-                        errorMessages.Add(WebResource.Purchase_AddProduct_CostDataIsNull);
+                        errorMessages.Add(WebResource.Purchase_Add_CostDataIsNull);
                     }
                     else
                     {
@@ -191,12 +162,12 @@ namespace EasySoft.PssS.Web.Controllers
                         {
                             if (string.IsNullOrWhiteSpace(cost.ItemCode))
                             {
-                                errorMessages.Add(WebResource.Purchase_AddProduct_CostItemIsNull);
+                                errorMessages.Add(WebResource.Purchase_Add_CostItemIsNull);
                                 break;
                             }
                             if (cost.Money < 0)
                             {
-                                errorMessages.Add(WebResource.Purchase_AddProduct_CostMoneyTip);
+                                errorMessages.Add(WebResource.Purchase_Add_CostMoneyTip);
                                 break;
                             }
                             costs.Add(cost.ItemCode, cost.Money);
@@ -211,16 +182,59 @@ namespace EasySoft.PssS.Web.Controllers
 
                 #endregion
 
-                this.purchaseService.Add(date, category, model.Item, model.Quantity, model.Unit, model.Supplier, model.Remark, costs, this.Session["Moblie"].ToString());
+                this.purchaseService.IntoDepot(date, this.GetPurchaseCategory(model.Category), model.Item.Trim(), model.Quantity, model.Unit.Trim(), model.Supplier, model.Remark, costs, this.Session["Moblie"].ToString());
                 result.Result = true;
-                result.Data = "/Purchase/Index";
+                result.Data = "/Purchase/Index/" + model.Category;
                 return Json(result);
             }
             catch (Exception ex)
             {
-                result.BuilderErrorMessage(ex.ToString());
+                result.BuilderErrorMessage(ex.Message);
                 return Json(result);
             }
+        }
+
+        /// <summary>
+        /// 获取Detail视图
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <returns>返回视图</returns>
+        public ActionResult Detail(string id)
+        {
+            Purchase entity = this.purchaseService.Find(id);
+            return View(entity);
+        }
+
+        public ActionResult Edit(string id)
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region 私有方法
+
+        /// <summary>
+        /// 将类型字符串转换为枚举值
+        /// </summary>
+        /// <param name="category">类型字符串</param>
+        /// <returns>返回采购枚举值</returns>
+        private PurchaseCategory GetPurchaseCategory(string category)
+        {
+            if (string.IsNullOrWhiteSpace(category))
+            {
+                throw new ArgumentNullException("Category");
+            }
+            category = category.ToLower();
+            if (category == "product")
+            {
+                return PurchaseCategory.Product;
+            }
+            if (category == "pack")
+            {
+                return PurchaseCategory.Pack;
+            }
+            throw new ArgumentException("Category");
         }
 
         #endregion

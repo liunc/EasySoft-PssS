@@ -12,7 +12,6 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Models.Purchase
 {
-    using Domain.Entity;
     using System.Collections.Generic;
 
     /// <summary>
@@ -21,9 +20,19 @@ namespace EasySoft.PssS.Web.Models.Purchase
     public class PurchaseAddModel
     {
         /// <summary>
+        /// 获取或设置页面标题
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
         /// 获取或设置日期
         /// </summary>
         public string Date { get; set; }
+
+        /// <summary>
+        /// 获取或设置采购分类
+        /// </summary>
+        public string Category { get; set; }
 
         /// <summary>
         /// 获取或设置采购项

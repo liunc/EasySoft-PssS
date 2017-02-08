@@ -40,11 +40,12 @@ namespace EasySoft.PssS.Repository
         /// 查询采购表信息，用于列表分页显示
         /// </summary>
         /// <param name="category">产品分类</param>
+        /// <param name="item">产品项</param>
         /// <param name="pageIndex">当前页码</param>
         /// <param name="pageSize">数据源中每页要显示的行的数目</param>
         /// <param name="totalCount">数据源总记录数</param>
         /// <returns>返回数据表</returns>
-        List<Purchase> Search(string category, int pageIndex, int pageSize, ref int totalCount);
+        List<Purchase> Search(string category, string item, int pageIndex, int pageSize, ref int totalCount);
 
 
     }

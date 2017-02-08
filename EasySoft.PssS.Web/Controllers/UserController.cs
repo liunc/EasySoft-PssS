@@ -73,11 +73,11 @@ namespace EasySoft.PssS.Web.Controllers
             {
                 if (string.IsNullOrWhiteSpace(model.Moblie))
                 {
-                    result.Message = WebResource.UserLogin_MoblieTip + WebResource.Flag_FullStop;
+                    result.Message = WebResource.User_Login_MoblieTip + WebResource.Flag_FullStop;
                 }
                 else if (string.IsNullOrWhiteSpace(model.Password))
                 {
-                    result.Message = WebResource.UserLogin_PasswordTip + WebResource.Flag_FullStop;
+                    result.Message = WebResource.User_Login_PasswordTip + WebResource.Flag_FullStop;
                 }
             }
             if (!string.IsNullOrWhiteSpace(result.Message))
@@ -88,7 +88,7 @@ namespace EasySoft.PssS.Web.Controllers
             User user = this.userService.Login(model.Moblie.Trim(), model.Password.Trim());
             if (user == null)
             {
-                result.Message = WebResource.UserLogin_LoginError;
+                result.Message = WebResource.User_Login_Error;
             }
             else
             {

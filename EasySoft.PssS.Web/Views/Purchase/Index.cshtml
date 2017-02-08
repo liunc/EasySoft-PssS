@@ -1,13 +1,13 @@
-﻿@model EasySoft.PssS.Web.Models.Purchase.PurchaseIndexModel
+﻿@using EasySoft.PssS.Web.Resources;
+@model EasySoft.PssS.Web.Models.Purchase.PurchaseIndexModel
 
 @{
     ViewBag.Title = Model.Title;
 }
-<div class="cart-panel">
+<div class="am-cf cart-panel">
     <div class="am-form-group">
-
-        <select data-am-selected="{btnWidth: '75%', btnSize: 'sm'}">
-            <option value="1">所有类别</option>
+        <select id="ddlPurchaseItem" data-am-selected="{btnWidth: '75%', btnSize: 'sm'}">
+            <option value="1">@WebResource.Purchase_Index_AllType</option>
             @foreach (var item in Model.PurchaseItems)
             {
                 <option value="@item.Code">@item.Name</option>
@@ -15,89 +15,153 @@
         </select>
         <button id="btnAdd" class="am-btn am-btn-default am-btn-sm">
             <i class="am-icon-plus"></i>
-            新增
+            @WebResource.Purchase_Index_IntoDepot
         </button>
     </div>
-
-
-
-
-
-    <div class="am-list-news-bd">
-        <ul class="am-list">
-
-            <li class="am-g">
-                <div style="padding:4px 0 0 6px; font-weight:bold">冰糖橙 2016-12-19</div>
-                <ul class="am-avg-sm-2">
-                    <li>
-                        <div class="am-u-sm-4">数量</div>
-                        <div class="am-u-sm-8">
-                            2016斤
-                        </div>
-                    </li>
-                    <li>
-                        <div class="am-u-sm-4">库存</div>
-                        <div class="am-u-sm-8">
-                            2016斤
-                        </div>
-                    </li>
-                </ul>
-                <ul class="am-avg-sm-2">
-                    <li>
-                        <div class="am-u-sm-4">日期</div>
-                        <div class="am-u-sm-8">
-                            2016-12-19
-                        </div>
-                    </li>
-                    <li>
-                        <div class="am-u-sm-4">名称</div>
-                        <div class="am-u-sm-8">
-                            冰糖橙
-                        </div>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="am-g">
-                <a href="http://www.douban.com/online/11614662/" class="am-list-item-hd ">我很囧，你保重....晒晒旅行中的那些囧！</a>
-
-
-
-            </li>
-            <li class="am-g">
-                <a href="http://www.douban.com/online/11624755/" class="am-list-item-hd ">我最喜欢的一张画</a>
-
-
-
-            </li>
-            <li class="am-g">
-                <a href="http://www.douban.com/online/11645411/" class="am-list-item-hd ">“你的旅行，是什么颜色？” 晒照片，换北欧梦幻极光之旅！</a>
-
-
-
-            </li>
+    <input type="hidden" id="hidePageIndex" value="1" />
+    <div data-am-widget="list_news" class="am-list-news">
+        <ul class="am-list" id="datalist">
+            @*<li class="am-g am-list-item-desced">
+                    <a href="http://www.douban.com/online/11614662/" class="am-list-item-hd">我很囧，你保重....晒晒旅行中的那些囧！</a>
+                    <div class="am-list-item-text" style="padding-bottom:5px">
+                        <ul class="am-avg-sm-3">
+                            <li>
+                                库存：
+                                <span class="red2 bold">2016斤</span>
+                            </li>
+                            <li>
+                                益损：
+                                <span class="red2 bold">2016斤</span>
+                            </li>
+                            <li>
+                                成本：
+                                <span class="red2 bold">2016元</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="am-list-item-text">
+                        <button type="button" class="am-btn am-btn-primary am-btn-xs">@WebResource.Button_Edit</button>
+                        <button type="button" class="am-btn am-btn-primary am-btn-xs">@WebResource.Button_Delete</button>
+                        <button type="button" class="am-btn am-btn-primary am-btn-xs">@WebResource.Button_OverOrLoss</button>
+                        <button type="button" class="am-btn am-btn-primary am-btn-xs">@WebResource.Button_Output</button>
+                    </div>
+                </li>*@
         </ul>
-    </div>
 
+
+    </div>
     <!--更多在底部-->
     <div class="am-list-news-ft">
-        <a class="am-list-news-more am-btn am-btn-default " href="###">查看更多 &raquo;</a>
+        <button id="btnMore" type="button" class="am-list-news-more am-btn am-btn-default ">@WebResource.Button_ViewMore</button>
     </div>
-    @section JsScripts {
-        <script type="text/javascript">
-            $(function () {
+</div>
 
-                $("#btnAdd").click(function () {
-                    var url = "/Purchase/AddProduct";
-                    var category = "@Model.Category";
-                    if (category == "Pack") {
-                        url = "/Purchase/AddPack";
-                    }
-                    window.location.href = url;
-                });
+@section JsScripts {
+    <script type="text/javascript">
+        var purchaseItemCodes = [];
+        var purchaseItemNames = [];
+
+        $(function () {
+
+            $('#ddlPurchaseItem option').each(function () {
+                var val = $(this).val();
+                if (val != "1") {
+                    purchaseItemCodes.push($(this).val());
+                    purchaseItemNames.push($(this).text());
+                }
             });
-        </script>
-    }
+
+            $('#btnAdd').click(function () {
+                var url = '/Purchase/IntoDepot/Product';
+                var category = '@Model.Category';
+                if (category == 'Pack') {
+                    url = '/Purchase/IntoDepot/Pack';
+                }
+                window.location.href = url;
+            });
+
+            $('#btnMore').click(function () { getData(); });
+            $('#ddlPurchaseItem').change(function () {
+                $('#hidePageIndex').val('1');
+                $('#datalist').empty();
+                getData();
+            });
+            getData();
+        });
+
+        function setItemName(itemCode) {
+            for (var i = 0; i < purchaseItemCodes.length; i++) {
+                if (purchaseItemCodes[i] == itemCode) {
+                    return purchaseItemNames[i];
+                }
+            }
+            return itemCode;
+        }
+
+        function getData() {
+
+            if (typeof ($('#btnMore').attr('disabled')) != 'undefined') {
+                $('#btnMore').removeAttr('disabled');
+            }
+
+            var pageIndex = parseInt($('#hidePageIndex').val());
+            var btnMore = "@WebResource.Button_ViewMore";
+            var disabled = false;
+            var item = $('#ddlPurchaseItem').val();
+            if (item == '1') {
+                item = '';
+            }
+            $.ajax({
+                type: 'post',
+                url: '/Purchase/GetDataByPaing',
+                data: { category: '@Model.Category', item: item, pageIndex: pageIndex },
+                success: function (result) {
+                    if (result.TotalCount == 0) {
+                        btnMore = "@WebResource.Message_NoData";
+                        disabled = true;
+                    }
+                    else {
+                        var datalist = '';
+                        $(result.Data).each(function () {
+                            var data = '<li class="am-g am-list-item-desced">' +
+                                     '<a href="/Purchase/Detail/' + this.Id + '" class="am-list-item-hd">' + setItemName(this.Item) + ' ' + this.Quantity + this.Unit + ' ' + this.Supplier + '</a>' +
+                                     '<div class="am-list-item-text">' +
+                                         '<ul class="am-avg-sm-3">' +
+                                             '<li>@WebResource.Purchase_Index_Stock@WebResource.Message_Colon' +
+                                                 '<span class="red2 bold">' + this.Allowance + this.Unit + '</span>' +
+                                             '</li>' +
+                                             '<li>@WebResource.Purchase_Index_ProfitLoss@WebResource.Message_Colon' +
+                                                 '<span class="red2 bold">' + this.ProfitLoss + this.Unit + '</span>' +
+                                             '</li>' +
+                                             '<li>@WebResource.Purchase_Index_Cost@WebResource.Message_Colon' +
+                                                 '<span class="red2 bold">' + this.Cost + '元</span>' +
+                                             '</li>' +
+                                         '</ul>' +
+                                     '</div>' +
+                                 '</li>';
+                            datalist += data;
+                        });
+                        $(datalist).appendTo('#datalist');
+                        if (pageIndex * result.PageSize >= result.TotalCount) {
+                            btnMore = "@WebResource.Message_NoMoreData";
+                            disabled = true;
+                        }
+                        else {
+                            pageIndex = pageIndex + 1;
+                            $('#hidePageIndex').val(pageIndex);
+                        }
+                    }
+                    $('#btnMore').text(btnMore);
+                    if (disabled) {
+                        $('#btnMore').attr({ 'disabled': 'disabled' });
+                    }
+                    return false;
+                }
+            });
+            return false;
+        }
+    </script>
+}
 
 
 

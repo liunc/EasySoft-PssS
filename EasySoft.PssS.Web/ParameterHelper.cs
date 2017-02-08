@@ -42,11 +42,11 @@ namespace EasySoft.PssS.Web
         /// <param name="category">采购分类</param>
         /// <param name="onlyValid">是否仅包含有效</param>
         /// <returns>返回采购项信息</returns>
-        public static List<PurchaseItemModel> GetPurchaseItem(PurchaseCategory category, bool onlyValid)
+        public static List<PurchaseItemModel> GetPurchaseItem(string category, bool onlyValid)
         {
             return GetParameter<PurchaseItemModel, PurchaseItem>(
                     "PurchaseItem",
-                    category.ToString(),
+                    category,
                     onlyValid,
                     new ParameterService().GetPurchaseItem,
                     new Action<List<PurchaseItemModel>, PurchaseItem>((models, item) =>
@@ -61,11 +61,11 @@ namespace EasySoft.PssS.Web
         /// <param name="category">成本分类</param>
         /// <param name="onlyValid">是否仅包含有效</param>
         /// <returns>返回成本项信息</returns>
-        public static List<CostModel> GetCostItem(CostCategory category, bool onlyValid)
+        public static List<CostModel> GetCostItem(string category, bool onlyValid)
         {
             return GetParameter<CostModel, CostItem>(
                     "CostItem",
-                    category.ToString(),
+                    category,
                     onlyValid,
                     new ParameterService().GetCostItem,
                     new Action<List<CostModel>, CostItem>((models, item) =>

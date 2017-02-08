@@ -10,5 +10,12 @@ namespace EasySoft.PssS.Web.Models
         public int TotalCount { get; set; }
 
         public List<T> Data { get; set; }
+
+        public int PageSize { get; set; }
+
+        public PagingModel()
+        {
+            this.PageSize = ParameterHelper.GetPageSize();
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@using EasySoft.PssS.Web.Resources;
 
 @{
-    ViewBag.Title = WebResource.UserLogin_Title;
+    ViewBag.Title = WebResource.User_Login_Title;
 }
 @{
     Layout = "~/Views/Shared/_LayoutNoNav.cshtml";
@@ -10,18 +10,18 @@
     <form id="loginForm" class="am-form">
         <div class="am-form-group am-form-icon">
             <i class="am-icon-user" style="color:#329cd9"></i>
-            <input id="txtMoblie" type="text" class="am-form-field" placeholder="@WebResource.UserLogin_MoblieTip">
+            <input id="txtMoblie" type="text" class="am-form-field" placeholder="@WebResource.User_Login_MoblieTip">
         </div>
         <div class="am-form-group am-form-icon">
             <i class="am-icon-lock" style="color:#329cd9"></i>
-            <input id="txtPassword" type="password" class="am-form-field" placeholder="@WebResource.UserLogin_PasswordTip">
+            <input id="txtPassword" type="password" class="am-form-field" placeholder="@WebResource.User_Login_PasswordTip">
         </div>
         @*<div class="am-checkbox">
                 <label>
                     <input  type="checkbox"> 记住密码
                 </label>
             </div>*@
-        <p class="am-text-center"><button id="btnLogin" type="submit" class="am-btn am-btn-primary am-radius am-btn-block">@WebResource.UserLogin_LoginButton</button></p>
+        <p class="am-text-center"><button id="btnLogin" type="submit" class="am-btn am-btn-primary am-radius am-btn-block">@WebResource.User_Login_LoginButton</button></p>
 
     </form>
 </div>
@@ -38,16 +38,16 @@
     <script type="text/javascript">
         $(function () {
 
-            $("#btnLogin").click(function () {
-                $("#btnLogin").attr({ "disabled": "disabled" });
-                var moblie = $.trim($("#txtMoblie").val());
-                var password = $.trim($("#txtPassword").val());
+            $('#btnLogin').click(function () {
+                $('#btnLogin').attr({ 'disabled': 'disabled' });
+                var moblie = $.trim($('#txtMoblie').val());
+                var password = $.trim($('#txtPassword').val());
                 if (moblie.length == 0) {
-                    showError("@WebResource.UserLogin_MoblieTip");
+                    showError("@WebResource.User_Login_MoblieTip");
                     return false;
                 }
                 if (password.length == 0) {
-                    showError("@WebResource.UserLogin_PasswordTip");
+                    showError("@WebResource.User_Login_PasswordTip");
                     return false;
                 }
                 var model = {};
@@ -66,16 +66,20 @@
                             showError(result.Message);
                         }
                         return false;
+                    },
+                    error: function () {
+                        showError('System Error');
+                    },
+                    complete: function () {
+                        $('#btnLogin').removeAttr('disabled');
                     }
                 });
                 return false;
             });
         });
         function showError(errorMessage) {
-            $("#errorMessage").html(errorMessage);
-            $("#alertError").modal();
-            // setTimeout(function () { $("#alertError").modal("close"); }, 1000);
-            $("#btnLogin").removeAttr("disabled");
+            $('#errorMessage').html(errorMessage);
+            $('#alertError').modal();
         }
     </script>
 }
