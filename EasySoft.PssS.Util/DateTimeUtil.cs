@@ -19,6 +19,12 @@ namespace EasySoft.PssS.Util
     /// </summary>
     public class DateTimeUtil
     {
+        #region 常量
+
+        private static readonly string YYYY_MM_DD = "yyyy-MM-dd";
+
+        #endregion
+
         #region 方法
 
         /// <summary>
@@ -38,6 +44,31 @@ namespace EasySoft.PssS.Util
         public static DateTime ConvertUTCToBeijing(DateTime time)
         {
             return time.AddHours(8);
+        }
+
+        /// <summary>
+        /// 将日期转换为日期字符串
+        /// </summary>
+        /// <param name="time">日期</param>
+        /// <param name="format">字符串格式</param>
+        /// <returns>返回日期字符串</returns>
+        public static string ConvertDateToString(DateTime time, string format)
+        {
+            if (time == DateTime.MinValue)
+            {
+                return string.Empty;
+            }
+            return time.ToString(format);
+        }
+
+        /// <summary>
+        /// 将日期转换为日期字符串
+        /// </summary>
+        /// <param name="time">日期</param>
+        /// <returns>返回日期字符串</returns>
+        public static string ConvertDateToString(DateTime time)
+        {
+            return ConvertDateToString(time, YYYY_MM_DD);
         }
 
         #endregion

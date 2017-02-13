@@ -124,6 +124,15 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 查看 的本地化字符串。
+        /// </summary>
+        public static string Button_View {
+            get {
+                return ResourceManager.GetString("Button_View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 查看更多 &gt;&gt; 的本地化字符串。
         /// </summary>
         public static string Button_ViewMore {
@@ -133,11 +142,29 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 明细 的本地化字符串。
+        /// </summary>
+        public static string Common_Detail {
+            get {
+                return ResourceManager.GetString("Common_Detail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 。 的本地化字符串。
         /// </summary>
-        public static string Flag_FullStop {
+        public static string Common_FullStop {
             get {
-                return ResourceManager.GetString("Flag_FullStop", resourceCulture);
+                return ResourceManager.GetString("Common_FullStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无 的本地化字符串。
+        /// </summary>
+        public static string Common_None {
+            get {
+                return ResourceManager.GetString("Common_None", resourceCulture);
             }
         }
         
@@ -169,6 +196,24 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 错误 的本地化字符串。
+        /// </summary>
+        public static string Message_Error {
+            get {
+                return ResourceManager.GetString("Message_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 信息 的本地化字符串。
+        /// </summary>
+        public static string Message_Info {
+            get {
+                return ResourceManager.GetString("Message_Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 正在载入... 的本地化字符串。
         /// </summary>
         public static string Message_Loading {
@@ -187,7 +232,7 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 没有更多数据了 的本地化字符串。
+        ///   查找类似 所有数据都在上面了 的本地化字符串。
         /// </summary>
         public static string Message_NoMoreData {
             get {
@@ -376,11 +421,11 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 所有类型 的本地化字符串。
+        ///   查找类似 所有项目 的本地化字符串。
         /// </summary>
-        public static string Purchase_Index_AllType {
+        public static string Purchase_Index_AllItem {
             get {
-                return ResourceManager.GetString("Purchase_Index_AllType", resourceCulture);
+                return ResourceManager.GetString("Purchase_Index_AllItem", resourceCulture);
             }
         }
         
@@ -439,6 +484,15 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 元 的本地化字符串。
+        /// </summary>
+        public static string Purchase_Index_Yuan {
+            get {
+                return ResourceManager.GetString("Purchase_Index_Yuan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 爱原汁味的生活 的本地化字符串。
         /// </summary>
         public static string SystemName {
@@ -466,11 +520,29 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 手机号 的本地化字符串。
+        /// </summary>
+        public static string User_Login_Moblie {
+            get {
+                return ResourceManager.GetString("User_Login_Moblie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 请输入您的手机号 的本地化字符串。
         /// </summary>
         public static string User_Login_MoblieTip {
             get {
                 return ResourceManager.GetString("User_Login_MoblieTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密码 的本地化字符串。
+        /// </summary>
+        public static string User_Login_Password {
+            get {
+                return ResourceManager.GetString("User_Login_Password", resourceCulture);
             }
         }
         
@@ -484,7 +556,16 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 用户登录 的本地化字符串。
+        ///   查找类似 使用本地帐户登录。 的本地化字符串。
+        /// </summary>
+        public static string User_Login_Tip {
+            get {
+                return ResourceManager.GetString("User_Login_Tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录 的本地化字符串。
         /// </summary>
         public static string User_Login_Title {
             get {

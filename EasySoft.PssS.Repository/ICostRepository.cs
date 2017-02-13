@@ -17,7 +17,7 @@ namespace EasySoft.PssS.Repository
     using System.Data.Common;
 
     /// <summary>
-    /// 采购项仓储接口
+    /// 成本项仓储接口
     /// </summary>
     public interface ICostRepository
     {
@@ -27,5 +27,13 @@ namespace EasySoft.PssS.Repository
         /// <param name="trans">数据库事务</param>
         /// <param name="entity">数据实体对象</param>
         void Insert(DbTransaction trans, Cost entity);
+
+        /// <summary>
+        /// 根据记录Id获取成本信息
+        /// </summary>
+        /// <param name="trans">数据库事务</param>
+        /// <param name="recordId">记录Id</param>
+        /// <returns>返回成本信息</returns>
+        List<Cost> GetCostByRecordId(DbTransaction trans, string recordId);
     }
 }

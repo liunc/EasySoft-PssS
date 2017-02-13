@@ -142,7 +142,10 @@
     <Compile Include="Models\JsonResultModel.cs" />
     <Compile Include="Models\KeyValueModel.cs" />
     <Compile Include="Models\PagingModel.cs" />
+    <Compile Include="Models\Purchase\CostItemModel.cs" />
     <Compile Include="Models\Purchase\CostModel.cs" />
+    <Compile Include="Models\Purchase\PurchaseDetailModel.cs" />
+    <Compile Include="Models\Purchase\PurchaseModel.cs" />
     <Compile Include="Models\Purchase\PurchaseAddModel.cs" />
     <Compile Include="Models\Purchase\PurchaseIndexModel.cs" />
     <Compile Include="Models\Purchase\PurchaseItemModel.cs" />
@@ -156,38 +159,29 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\amazeui\css\admin.css" />
-    <Content Include="Content\amazeui\css\amazeui.css" />
-    <Content Include="Content\amazeui\css\amazeui.flat.css" />
-    <Content Include="Content\amazeui\css\amazeui.flat.min.css" />
-    <Content Include="Content\amazeui\css\amazeui.min.css" />
-    <Content Include="Content\amazeui\css\app.css" />
-    <Content Include="Content\images\goTop.gif" />
-    <Content Include="Content\images\img1.jpg" />
-    <Content Include="Content\images\uhomeapp1.png" />
-    <Content Include="Content\images\uhomeapp13.png" />
-    <Content Include="Content\images\uhomeapp5.png" />
-    <Content Include="Content\images\uhomeapp8.png" />
-    <Content Include="Content\style.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="InitialData\XML\CostItem.xml" />
     <Content Include="InitialData\XML\PurchaseItem.xml" />
     <Content Include="InitialData\XML\User.xml" />
-    <Content Include="Scripts\amazeui\amazeui.ie8polyfill.js" />
-    <Content Include="Scripts\amazeui\amazeui.ie8polyfill.min.js" />
-    <Content Include="Scripts\amazeui\amazeui.js" />
-    <Content Include="Scripts\amazeui\amazeui.min.js" />
-    <Content Include="Scripts\amazeui\amazeui.widgets.helper.js" />
-    <Content Include="Scripts\amazeui\amazeui.widgets.helper.min.js" />
-    <Content Include="Scripts\amazeui\app.js" />
-    <Content Include="Scripts\amazeui\handlebars.min.js" />
-    <Content Include="Scripts\amazeui\jquery.min.js" />
-    <Content Include="Content\amazeui\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\amazeui\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\amazeui\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\amazeui\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\amazeui\fonts\FontAwesome.otf" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <None Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -211,11 +205,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="Project_Readme.html" />
     <Content Include="Views\Shared\_LayoutNoNav.cshtml" />
     <Content Include="Views\Purchase\Index.cshtml" />
     <Content Include="Views\Purchase\IntoDepot.cshtml" />
     <Content Include="Views\Purchase\Detail.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasySoft.PssS.Domain.Entity\EasySoft.PssS.Domain.Entity.csproj">

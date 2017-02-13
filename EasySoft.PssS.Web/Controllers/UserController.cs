@@ -73,11 +73,11 @@ namespace EasySoft.PssS.Web.Controllers
             {
                 if (string.IsNullOrWhiteSpace(model.Moblie))
                 {
-                    result.Message = WebResource.User_Login_MoblieTip + WebResource.Flag_FullStop;
+                    result.Message = WebResource.User_Login_MoblieTip + WebResource.Common_FullStop;
                 }
                 else if (string.IsNullOrWhiteSpace(model.Password))
                 {
-                    result.Message = WebResource.User_Login_PasswordTip + WebResource.Flag_FullStop;
+                    result.Message = WebResource.User_Login_PasswordTip + WebResource.Common_FullStop;
                 }
             }
             if (!string.IsNullOrWhiteSpace(result.Message))

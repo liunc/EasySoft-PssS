@@ -14,9 +14,7 @@ namespace EasySoft.PssS.Web
 {
     using EasySoft.PssS.Domain.Entity;
     using EasySoft.PssS.Domain.Service;
-    using EasySoft.PssS.Domain.ValueObject;
-    using Models;
-    using Models.Purchase;
+    using EasySoft.PssS.Web.Models.Purchase;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
@@ -61,16 +59,16 @@ namespace EasySoft.PssS.Web
         /// <param name="category">成本分类</param>
         /// <param name="onlyValid">是否仅包含有效</param>
         /// <returns>返回成本项信息</returns>
-        public static List<CostModel> GetCostItem(string category, bool onlyValid)
+        public static List<CostItemModel> GetCostItem(string category, bool onlyValid)
         {
-            return GetParameter<CostModel, CostItem>(
+            return GetParameter<CostItemModel, CostItem>(
                     "CostItem",
                     category,
                     onlyValid,
                     new ParameterService().GetCostItem,
-                    new Action<List<CostModel>, CostItem>((models, item) =>
+                    new Action<List<CostItemModel>, CostItem>((models, item) =>
                     {
-                        models.Add(new CostModel { ItemCode = item.Code, ItemName = item.Name, Money = 0 });
+                        models.Add(new CostItemModel { ItemCode = item.Code, ItemName = item.Name });
                     }));
         }
 

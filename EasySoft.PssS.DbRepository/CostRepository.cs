@@ -12,8 +12,11 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.DbRepository
 {
+    using Domain.ValueObject;
     using EasySoft.PssS.Domain.Entity;
     using EasySoft.PssS.Repository;
+    using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
     using System.Data.SqlClient;
@@ -60,8 +63,66 @@ namespace EasySoft.PssS.DbRepository
             DbHelper.ExecuteNonQuery(trans, cmdText, paras);
         }
 
+        /// <summary>
+        /// 根据记录Id获取成本信息
+        /// </summary>
+        /// <param name="trans">数据库事务</param>
+        /// <param name="recordId">记录Id</param>
+        /// <returns>返回成本信息</returns>
+        public List<Cost> GetCostByRecordId(DbTransaction trans, string recordId)
+        {
+            string cmdText = @"SELECT [Id]
+                                   ,[RecordId]
+                                   ,[Category]
+                                   ,[Item]
+                                   ,[Money]
+                            FROM [dbo].[Cost] WHERE [RecordId] = @RecordId";
+
+            DbParameter paras = DbHelper.SetParameter(new SqlParameter("@RecordId", SqlDbType.Char, 32), recordId);
+
+            DbDataReader reader = null;
+            if (trans == null)
+            {
+                reader = DbHelper.ExecuteReader(cmdText, paras);
+            }
+            else
+            {
+                reader = DbHelper.ExecuteReader(trans, cmdText, paras);
+            }
+            List<Cost> entities = new List<Cost>();
+            while (reader.Read())
+            {
+                entities.Add(this.SetEntity(reader));
+            }
+            if (!reader.IsClosed)
+            {
+                reader.Close();
+            }
+            return entities;
+        }
+
         #endregion
 
+        #region 私有方法
+
+        /// <summary>
+        /// 设置实体对象值
+        /// </summary>
+        /// <param name="reader">DbDataReader对象</param>
+        /// <returns>返回实体对象</returns>
+        private Cost SetEntity(DbDataReader reader)
+        {
+            return new Cost
+            {
+                Id = reader["Id"].ToString(),
+                RecordId = reader["RecordId"].ToString(),
+                Category = (CostCategory)Enum.Parse(typeof(CostCategory), reader["Category"].ToString()),
+                Item = reader["Item"].ToString(),
+                Money = Convert.ToDecimal(reader["Money"])
+            };
+        }
+
+        #endregion
 
     }
 }

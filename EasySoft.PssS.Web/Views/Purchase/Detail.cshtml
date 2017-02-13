@@ -1,71 +1,128 @@
 ﻿@using System.Collections.Generic;
 @using EasySoft.PssS.Web.Resources;
 
-@model EasySoft.PssS.Domain.Entity.Purchase
+@model EasySoft.PssS.Web.Models.Purchase.PurchaseDetailModel
 
 @{
     ViewBag.Title = WebResource.Purchase_Detail_Title;
 }
 
-<div class="cart-panel">
-    <form id="formAddPurchase" class="am-form am-form-horizontal">
-        <div class="am-form-group am-form-group-sm">
-            <label for="txtDate" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Date</label>
-            <div class="am-u-sm-9">
-                @Model.Date
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index">Home</a></li>
+        <li><a href="/Purchase/Index/@Model.Category">@Model.ParentPageTile</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+<table class="table table-condensed">
+    <tr>
+        <td class="col-xs-2">@WebResource.Purchase_Add_Date</td>
+        <td class="col-xs-7">@Model.Date</td>
+        <td class="col-xs-3"></td>
+    </tr>
+    <tr>
+        <td>@WebResource.Purchase_Add_Item</td>
+        <td>@Model.Item</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>@WebResource.Purchase_Add_Supplier</td>
+        <td>@Model.Supplier</td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td>
+            @WebResource.Purchase_Add_Quantity
+        </td>
+        <td>@Model.Quantity.ToString("0.##")@Model.Unit </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>@WebResource.Purchase_Index_Stock</td>
+        <td>@Model.Allowance.ToString("0.##")@Model.Unit</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>@WebResource.Purchase_Index_ProfitLoss</td>
+        <td>
+            @Model.ProfitLoss.ToString("0.##")@Model.Unit
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>@WebResource.Purchase_Index_Cost</td>
+        <td>@Model.Cost.ToString("0.##")@WebResource.Purchase_Index_Yuan</td>
+        <td class="text-right"><a id="btnViewCost" href="javascript:;">@WebResource.Button_View</a> </td>
+    </tr>
+    <tr>
+        <td>@WebResource.Purchase_Add_Remark</td>
+        <td colspan="2">@Model.Remark</td>
+    </tr>
+</table>
+
+
+
+<div class="form-group">
+    <input type="button" value="@WebResource.Button_Back" class="btn btn-default  btn-block" />
+
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="alertDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    @WebResource.Common_Detail
+                </h4>
             </div>
-        </div>
-        <div class="am-form-group am-form-group-sm">
-            <label for="ddlItem" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Item</label>
-            <div class="am-u-sm-9">
-                @Model.Category
+            <div class="modal-body" id="detail">
             </div>
-        </div>
-        <div class="am-form-group am-form-group-sm">
-            <label for="txtQuantity" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Quantity</label>
-            <div class="am-u-sm-9">
-               @Model.Quantity@Model.Unit
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">
+                    @WebResource.Button_Ok
+                </button>
             </div>
-        </div>
-        <div class="am-form-group am-form-group-sm">
-            <label for="txtSupplier" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Supplier</label>
-            <div class="am-u-sm-9">
-                @Model.Supplier
-            </div>
-        </div>
-        @foreach (var cost in Model.Costs)
-        {
-            <div class="am-form-group am-form-group-sm">
-                <label for="@cost.Item" class="am-u-sm-3 am-form-label">@cost.Item</label>
-                <div class="am-u-sm-9">
-                    @cost.Money
-                </div>
-            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $('#btnViewCost').click(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/Purchase/GetCostList',
+                    data: { id: '@Model.Id' },
+                    success: function (result) {
+                        var msg = '<table class="table table-condensed">';
+                        if (result != null && result.length > 0) {
+                            $(result).each(function () {
+                                msg += '<tr>' +
+                                            '<td class="col-xs-3">' + this.ItemName + '</td>'
+                                            + '<td class="col-xs-9">' + this.Money + '@WebResource.Purchase_Index_Yuan</td>'
+                                        + '</tr>';
+                            });
+                        }
+                        msg += '</table>';
+                        showDetail(msg);
+                    },
+                    error: function () {
+                        showDetail('System Error');
+                    }
+                });
+                return false;
+            });
+        });
+        function showDetail(errorMessage) {
+            $('#detail').html(errorMessage);
+            $('#alertDetail').modal('show');
         }
-        <div class="am-form-group am-form-group-sm">
-            <label for="txtRemark" class="am-u-sm-3 am-form-label">@WebResource.Purchase_Add_Remark</label>
-            <div class="am-u-sm-9">
-                @Model.Remark
-            </div>
-        </div>
-        <div class="am-form-group">
-            <div class="am-u-sm-9 am-u-sm-offset-3">
-                <button type="submit" class="am-btn am-btn-default">@WebResource.Button_Back</button>
-            </div>
-        </div>
-    </form>
-</div>
-
-<div class="am-modal am-modal-alert" tabindex="-1" id="alertError">
-    <div class="am-modal-dialog">
-        <div class="am-modal-bd" id="errorMessage">
-
-        </div>
-        <div class="am-modal-footer">
-            <span class="am-modal-btn">@WebResource.Button_Ok</span>
-        </div>
-    </div>
-</div>
-@section JsScripts {
+    </script>
 }
 

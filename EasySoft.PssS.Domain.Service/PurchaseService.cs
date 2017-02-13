@@ -77,7 +77,7 @@ namespace EasySoft.PssS.Domain.Service
                     entity.IntoDepot(date, category, item, quantity, unit, supplier, remark, costs, creator);
 
                     this.purchaseRepository.Insert(trans, entity);
-                    foreach(Cost cost in entity.Costs)
+                    foreach (Cost cost in entity.Costs)
                     {
                         this.costRepository.Insert(trans, cost);
                     }
@@ -117,11 +117,22 @@ namespace EasySoft.PssS.Domain.Service
         public Purchase Find(string id)
         {
             Purchase entity = this.purchaseRepository.Select(null, id);
-            if(entity == null)
+            if (entity == null)
             {
                 throw new Exception("No record");
             }
+            entity.Costs = this.costRepository.GetCostByRecordId(null, id);
             return entity;
+        }
+
+        /// <summary>
+        /// 根据Id获取成本项明细
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <returns>返回成本项明细集合</returns>
+        public List<Cost> GetCostList(string id)
+        {
+            return this.costRepository.GetCostByRecordId(null, id);
         }
 
         #endregion

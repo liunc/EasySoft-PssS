@@ -23,6 +23,7 @@ namespace EasySoft.PssS.Web.Controllers
     using System;
     using System.Configuration;
     using System.Linq;
+    using Filters;
 
     /// <summary>
     /// 采购控制器类
@@ -57,6 +58,7 @@ namespace EasySoft.PssS.Web.Controllers
         /// <param name="category">分类</param>
         /// <returns>返回视图</returns>
         [Route("Purchase/Index/{category=Product}")]
+        [MyAuthorize(AuthRoles = new string[] { "Admin" })]
         public ActionResult Index(string category)
         {
             string title = WebResource.Purchase_Index_ProductTitle;
@@ -83,8 +85,20 @@ namespace EasySoft.PssS.Web.Controllers
         public ActionResult GetDataByPaing(string category, string item, int pageIndex)
         {
             int totalCount = 0;
-            PagingModel<Purchase> model = new PagingModel<Purchase>();
-            model.Data = this.purchaseService.Search(category, item, pageIndex, model.PageSize, ref totalCount);
+            PagingModel<PurchaseModel> model = new PagingModel<PurchaseModel>();
+            model.Data = new List<PurchaseModel>();
+            List<Purchase> entities = this.purchaseService.Search(category, item, pageIndex, model.PageSize, ref totalCount);
+            List<PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(category, false);
+
+            foreach (Purchase entity in entities)
+            {
+                var query = items.Where(i => i.Code == entity.Item).FirstOrDefault();
+                if (query != null)
+                {
+                    entity.Item = query.Name;
+                }
+                model.Data.Add(new PurchaseModel(entity));
+            }
             model.TotalCount = totalCount;
             return Json(model);
         }
@@ -108,7 +122,11 @@ namespace EasySoft.PssS.Web.Controllers
             model.Title = title;
             model.PurchaseItems = ParameterHelper.GetPurchaseItem(category, true);
             model.Category = enumCategory.ToString();
-            model.Costs = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true);
+            model.Costs = new List<CostModel>();
+            foreach(CostItemModel cost in ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true))
+            {
+                model.Costs.Add(new CostModel { ItemCode = cost.ItemCode, ItemName = cost.ItemName });
+            }
             return View(model);
         }
 
@@ -138,11 +156,11 @@ namespace EasySoft.PssS.Web.Controllers
                 {
                     if (!DateTime.TryParse(model.Date, out date))
                     {
-                        errorMessages.Add(WebResource.Purchase_Add_DateTip + WebResource.Flag_FullStop);
+                        errorMessages.Add(WebResource.Purchase_Add_DateTip + WebResource.Common_FullStop);
                     }
                     if (string.IsNullOrWhiteSpace(model.Item))
                     {
-                        errorMessages.Add(WebResource.Purchase_Add_ItemTip + WebResource.Flag_FullStop);
+                        errorMessages.Add(WebResource.Purchase_Add_ItemTip + WebResource.Common_FullStop);
                     }
                     if (model.Quantity <= 0)
                     {
@@ -150,7 +168,7 @@ namespace EasySoft.PssS.Web.Controllers
                     }
                     if (!string.IsNullOrWhiteSpace(model.Supplier) && model.Supplier.Trim().Length > 50)
                     {
-                        errorMessages.Add(WebResource.Purchase_Add_SupplierTip + WebResource.Flag_FullStop);
+                        errorMessages.Add(WebResource.Purchase_Add_SupplierTip + WebResource.Common_FullStop);
                     }
                     if (model.Costs == null || model.Costs.Count == 0)
                     {
@@ -201,8 +219,40 @@ namespace EasySoft.PssS.Web.Controllers
         /// <returns>返回视图</returns>
         public ActionResult Detail(string id)
         {
-            Purchase entity = this.purchaseService.Find(id);
-            return View(entity);
+            PurchaseDetailModel model = new PurchaseDetailModel(this.purchaseService.Find(id));
+            List<PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(model.Category, false);
+            var query = items.Where(i => i.Code == model.Item).FirstOrDefault();
+            if (query != null)
+            {
+                model.Item = query.Name;
+            }
+            return View(model);
+        }
+
+        /// <summary>
+        /// 获取分页数据
+        /// </summary>
+        /// <param name="category">分类</param>
+        /// <param name="item">项</param>
+        /// <param name="pageIndex">当前索引</param>
+        /// <returns>返回分页数据</returns>
+        [HttpPost]
+        public ActionResult GetCostList(string id)
+        {
+            List<CostModel> models = new List<CostModel>();
+            List<Cost> entities = this.purchaseService.GetCostList(id);
+            List<CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), false);
+            foreach (Cost entity in entities)
+            {
+                string itemName = entity.Item;
+                var query = costItems.Where(i => i.ItemCode == entity.Item).FirstOrDefault();
+                if (query != null)
+                {
+                    itemName = query.ItemName;
+                }
+                models.Add(new CostModel { Id = entity.Id, ItemCode = entity.Item, ItemName = itemName, Money = entity.Money });
+            }
+            return Json(models);
         }
 
         public ActionResult Edit(string id)

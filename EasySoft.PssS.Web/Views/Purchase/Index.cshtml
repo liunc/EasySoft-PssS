@@ -1,75 +1,39 @@
 ﻿@using EasySoft.PssS.Web.Resources;
 @model EasySoft.PssS.Web.Models.Purchase.PurchaseIndexModel
 
-@{
-    ViewBag.Title = Model.Title;
-}
-<div class="am-cf cart-panel">
-    <div class="am-form-group">
-        <select id="ddlPurchaseItem" data-am-selected="{btnWidth: '75%', btnSize: 'sm'}">
-            <option value="1">@WebResource.Purchase_Index_AllType</option>
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index">Home</a></li>
+        <li class="active">@Model.Title</li>
+    </ol>
+</div>
+<div class="row">
+    <div class="form-group col-xs-9">
+        <select id="ddlPurchaseItem" class="form-control input-sm">
+            <option value="1">@WebResource.Purchase_Index_AllItem</option>
             @foreach (var item in Model.PurchaseItems)
             {
                 <option value="@item.Code">@item.Name</option>
             }
         </select>
-        <button id="btnAdd" class="am-btn am-btn-default am-btn-sm">
-            <i class="am-icon-plus"></i>
+    </div>
+    <div class="form-group col-xs-3">
+        <button id="btnAdd" class="btn btn-primary btn-sm">
+            <span class="glyphicon glyphicon-plus"></span>
             @WebResource.Purchase_Index_IntoDepot
         </button>
     </div>
-    <input type="hidden" id="hidePageIndex" value="1" />
-    <div data-am-widget="list_news" class="am-list-news">
-        <ul class="am-list" id="datalist">
-            @*<li class="am-g am-list-item-desced">
-                    <a href="http://www.douban.com/online/11614662/" class="am-list-item-hd">我很囧，你保重....晒晒旅行中的那些囧！</a>
-                    <div class="am-list-item-text" style="padding-bottom:5px">
-                        <ul class="am-avg-sm-3">
-                            <li>
-                                库存：
-                                <span class="red2 bold">2016斤</span>
-                            </li>
-                            <li>
-                                益损：
-                                <span class="red2 bold">2016斤</span>
-                            </li>
-                            <li>
-                                成本：
-                                <span class="red2 bold">2016元</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="am-list-item-text">
-                        <button type="button" class="am-btn am-btn-primary am-btn-xs">@WebResource.Button_Edit</button>
-                        <button type="button" class="am-btn am-btn-primary am-btn-xs">@WebResource.Button_Delete</button>
-                        <button type="button" class="am-btn am-btn-primary am-btn-xs">@WebResource.Button_OverOrLoss</button>
-                        <button type="button" class="am-btn am-btn-primary am-btn-xs">@WebResource.Button_Output</button>
-                    </div>
-                </li>*@
-        </ul>
-
-
-    </div>
-    <!--更多在底部-->
-    <div class="am-list-news-ft">
-        <button id="btnMore" type="button" class="am-list-news-more am-btn am-btn-default ">@WebResource.Button_ViewMore</button>
-    </div>
 </div>
-
-@section JsScripts {
+<div id="datalist">
+</div>
+<input type="hidden" id="hidePageIndex" value="1" />
+<!--更多在底部-->
+<div class="row text-center">
+    <button id="btnMore" type="button" class="btn btn-default">@WebResource.Button_ViewMore</button>
+</div>
+@section scripts {
     <script type="text/javascript">
-        var purchaseItemCodes = [];
-        var purchaseItemNames = [];
-
         $(function () {
-
-            $('#ddlPurchaseItem option').each(function () {
-                var val = $(this).val();
-                if (val != "1") {
-                    purchaseItemCodes.push($(this).val());
-                    purchaseItemNames.push($(this).text());
-                }
-            });
 
             $('#btnAdd').click(function () {
                 var url = '/Purchase/IntoDepot/Product';
@@ -88,15 +52,6 @@
             });
             getData();
         });
-
-        function setItemName(itemCode) {
-            for (var i = 0; i < purchaseItemCodes.length; i++) {
-                if (purchaseItemCodes[i] == itemCode) {
-                    return purchaseItemNames[i];
-                }
-            }
-            return itemCode;
-        }
 
         function getData() {
 
@@ -123,22 +78,37 @@
                     else {
                         var datalist = '';
                         $(result.Data).each(function () {
-                            var data = '<li class="am-g am-list-item-desced">' +
-                                     '<a href="/Purchase/Detail/' + this.Id + '" class="am-list-item-hd">' + setItemName(this.Item) + ' ' + this.Quantity + this.Unit + ' ' + this.Supplier + '</a>' +
-                                     '<div class="am-list-item-text">' +
-                                         '<ul class="am-avg-sm-3">' +
-                                             '<li>@WebResource.Purchase_Index_Stock@WebResource.Message_Colon' +
-                                                 '<span class="red2 bold">' + this.Allowance + this.Unit + '</span>' +
-                                             '</li>' +
-                                             '<li>@WebResource.Purchase_Index_ProfitLoss@WebResource.Message_Colon' +
-                                                 '<span class="red2 bold">' + this.ProfitLoss + this.Unit + '</span>' +
-                                             '</li>' +
-                                             '<li>@WebResource.Purchase_Index_Cost@WebResource.Message_Colon' +
-                                                 '<span class="red2 bold">' + this.Cost + '元</span>' +
-                                             '</li>' +
-                                         '</ul>' +
-                                     '</div>' +
-                                 '</li>';
+                            var data = '<div class="row">' +
+                                '<div class="col-xs-12" style="border-top:1px solid #dddddd;">' +
+                                    '<div class="row">' +
+                                        '<div class="form-group col-xs-10">' +
+                                            '<p class="form-control-static"><a href="/Purchase/Detail/' + this.Id + '"><strong>' + this.Item + ' ' + this.Date + ' ' + this.Supplier + '</strong></a></p>' +
+                                        '</div>' +
+                                        '<div class="form-group col-xs-2 text-right">' +
+                                            '<p class="form-control-static">></p>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="col-xs-12" style="border-top:1px solid #dddddd;">' +
+                                    '<div class="row" style="padding-top:5px; padding-bottom:5px; ">' +
+                                        '<div class="col-xs-12">' +
+                                            '<div class="col-xs-4 text-center" style="border-right:1px solid #dddddd;">' +
+                                                this.Allowance + '<br /><small>@WebResource.Purchase_Index_Stock (' + this.Unit + ')</small>' +
+                                            '</div>' +
+                                            '<div class="col-xs-4 text-center" style="border-right:1px solid #dddddd;">' +
+                                                this.ProfitLoss + '<br /><small>@WebResource.Purchase_Index_ProfitLoss (' + this.Unit + ')</small>' +
+                                            '</div>' +
+                                            '<div class="col-xs-4 text-center">' +
+                                                this.Cost + '<br /><small>@WebResource.Purchase_Index_Cost (@WebResource.Purchase_Index_Yuan)</small>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="form-group col-xs-12" style="border-bottom:1px solid #dddddd; padding-bottom:15px">' +
+                                    '<p class="form-control-static" style="border-top:1px solid #dddddd;">@WebResource.Purchase_Add_Remark@WebResource.Message_Colon' + this.Remark + '</p>' +
+                                '</div>' +
+                            '</div>';
+
                             datalist += data;
                         });
                         $(datalist).appendTo('#datalist');
@@ -151,6 +121,7 @@
                             $('#hidePageIndex').val(pageIndex);
                         }
                     }
+
                     $('#btnMore').text(btnMore);
                     if (disabled) {
                         $('#btnMore').attr({ 'disabled': 'disabled' });
