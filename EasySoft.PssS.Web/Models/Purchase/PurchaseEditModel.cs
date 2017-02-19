@@ -1,8 +1,8 @@
 ﻿// ----------------------------------------------------------
 // 系统名称：EasySoft PssS
-// 项目名称：领域实体类库
+// 项目名称：Web
 // 创 建 人：刘年超
-// 创建时间：2017-01-14
+// 创建时间：2017-01-15
 // ----------------------------------------------------------
 // 修改记录：
 // 
@@ -12,30 +12,28 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Models.Purchase
 {
-    using EasySoft.PssS.Domain.ValueObject;
+    using Resources;
     using EasySoft.PssS.Domain.Entity;
     using System;
     using System.Collections.Generic;
     using Util;
-    using Web.Resources;
+    using Domain.ValueObject;
     using System.Linq;
 
     /// <summary>
-    /// 采购视图模型类
+    /// 修改采购记录视图模型类
     /// </summary>
-    public class PurchaseDetailModel
+    public class PurchaseEditModel
     {
-        #region 属性
+        /// <summary>
+        /// 获取或设置Id
+        /// </summary>
+        public string Id { get; set; }
 
         /// <summary>
         /// 获取或设置页面标题
         /// </summary>
         public string Title { get; set; }
-
-        /// <summary>
-        /// 获取或设置Id
-        /// </summary>
-        public string Id { get; set; }
 
         /// <summary>
         /// 获取或设置日期
@@ -53,9 +51,9 @@ namespace EasySoft.PssS.Web.Models.Purchase
         public string ParentPageTitle { get; set; }
 
         /// <summary>
-        /// 获取或设置项
+        /// 获取或设置采购项名称
         /// </summary>
-        public string Item { get; set; }
+        public string ItemName { get; set; }
 
         /// <summary>
         /// 获取或设置数量
@@ -73,38 +71,24 @@ namespace EasySoft.PssS.Web.Models.Purchase
         public string Supplier { get; set; }
 
         /// <summary>
-        /// 获取或设置余量
-        /// </summary>
-        public decimal Allowance { get; set; }
-
-        /// <summary>
-        /// 获取或设置成本汇总
-        /// </summary>
-        public decimal Cost { get; set; }
-
-        /// <summary>
-        /// 获取或设置益损
-        /// </summary>
-        public decimal ProfitLoss { get; set; }
-
-        /// <summary>
         /// 获取或设置备注
         /// </summary>
         public string Remark { get; set; }
 
         /// <summary>
-        /// 获取或设置采购单状态
+        /// 获取或设置成本明细
         /// </summary>
-        public PurchaseStatus Status { get; set; }
+        public List<CostModel> Costs { get; set; }
 
-        #endregion
-
-        #region 构造函数
+        /// <summary>
+        /// 获取或设置采购项
+        /// </summary>
+        public List<PurchaseItemModel> PurchaseItems { get; set; }
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public PurchaseDetailModel()
+        public PurchaseEditModel()
         {
         }
 
@@ -112,7 +96,7 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// 构造函数
         /// </summary>
         /// <param name="entity">实体模型对象</param>
-        public PurchaseDetailModel(Purchase entity)
+        public PurchaseEditModel(Purchase entity)
         {
             this.Id = entity.Id;
             this.Category = entity.Category.ToString();
@@ -121,24 +105,39 @@ namespace EasySoft.PssS.Web.Models.Purchase
             {
                 this.ParentPageTitle = WebResource.Purchase_Index_PackTitle;
             }
-            this.Item = entity.Item;
+            this.Title = string.Format("{0}{1}", WebResource.Button_Edit, this.ParentPageTitle);
+
+            this.ItemName = entity.Item;
+            List<PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(this.Category, false);
+            var query = items.Where(i => i.Code == entity.Item).FirstOrDefault();
+            if (query != null)
+            {
+                this.ItemName =query.Name;
+            }
+
             this.Date = DateTimeUtil.ConvertDateToString(entity.Date);
             this.Unit = entity.Unit;
             this.Quantity = entity.Quantity;
-            this.ProfitLoss = entity.ProfitLoss;
             this.Supplier = entity.Supplier;
             this.Remark = entity.Remark;
-            this.Status = entity.Status;
             if (string.IsNullOrWhiteSpace(this.Remark))
             {
                 this.Remark = WebResource.Common_None;
             }
-            this.Allowance = entity.Allowance;
-            this.Cost = entity.Cost;
-            
+            this.Costs = new List<CostModel>();
+            List<CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), false);
+            foreach (Cost cost in entity.Costs)
+            {
+                string itemName = entity.Item;
+                var query1 = costItems.Where(i => i.ItemCode == cost.Item).FirstOrDefault();
+                if (query1 != null)
+                {
+                    itemName = query1.ItemName;
+                }
+                this.Costs.Add(new CostModel { Id = cost.Id, ItemCode = cost.Item, ItemName = itemName, Money = cost.Money });
+
+            }
+
         }
-
-        #endregion
-
     }
 }

@@ -41,7 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BusinessResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="ParameterService.cs" />
+    <Compile Include="CostService.cs" />
+    <Compile Include="ProfitLossService.cs" />
     <Compile Include="PurchaseService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,10 +70,20 @@
       <Project>{c280cd59-a92f-462e-b31c-71d45249fe5d}</Project>
       <Name>EasySoft.PssS.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EasySoft.PssS.Util\EasySoft.PssS.Util.csproj">
+      <Project>{D2D7D55D-B61F-46D2-947F-DBB480E77629}</Project>
+      <Name>EasySoft.PssS.Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.XmlRepository\EasySoft.PssS.XmlRepository.csproj">
       <Project>{b34b32fb-4c36-4763-b013-5b6fd9358194}</Project>
       <Name>EasySoft.PssS.XmlRepository</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="BusinessResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BusinessResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

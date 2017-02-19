@@ -17,50 +17,38 @@ namespace EasySoft.PssS.Repository
     using System.Data.Common;
 
     /// <summary>
-    /// 采购项仓储接口
+    /// 益损仓储接口
     /// </summary>
-    public interface IPurchaseRepository
+    public interface IProfitLossRepository
     {
         /// <summary>
-        /// 获取采购信息
+        /// 新增益损信息
         /// </summary>
         /// <param name="trans">数据库事务</param>
         /// <param name="entity">数据实体对象</param>
-        void Insert(DbTransaction trans, Purchase entity);
+        void Insert(DbTransaction trans, ProfitLoss entity);
 
         /// <summary>
-        /// 更新采购信息
-        /// </summary>
-        /// <param name="trans">数据库事务</param>
-        /// <param name="entity">数据实体对象</param>
-        void Update(DbTransaction trans, Purchase entity);
-
-        /// <summary>
-        /// 删除采购信息
+        /// 删除益损信息
         /// </summary>
         /// <param name="trans">数据库事务</param>
         /// <param name="id">Id</param>
         void Delete(DbTransaction trans, string id);
 
         /// <summary>
-        /// 根据Id获取一条采购信息
+        /// 根据Id获取一条益损信息
         /// </summary>
         /// <param name="trans">数据库事务</param>
         /// <param name="id">Id</param>
-        /// <returns>返回采购实体对象</returns>
-        Purchase Select(DbTransaction trans, string id);
+        /// <returns>返回益损实体对象</returns>
+        ProfitLoss Select(DbTransaction trans, string id);
 
         /// <summary>
-        /// 查询采购表信息，用于列表分页显示
+        /// 根据记录Id获取益损信息
         /// </summary>
-        /// <param name="category">产品分类</param>
-        /// <param name="item">产品项</param>
-        /// <param name="pageIndex">当前页码</param>
-        /// <param name="pageSize">数据源中每页要显示的行的数目</param>
-        /// <param name="totalCount">数据源总记录数</param>
-        /// <returns>返回数据表</returns>
-        List<Purchase> Search(string category, string item, int pageIndex, int pageSize, ref int totalCount);
-
-
+        /// <param name="trans">数据库事务</param>
+        /// <param name="recordId">记录Id</param>
+        /// <returns>返回成本信息</returns>
+        List<ProfitLoss> SearchByRecordId(DbTransaction trans, string recordId);
     }
 }

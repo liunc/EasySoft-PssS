@@ -169,7 +169,7 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 个人中心 的本地化字符串。
+        ///   查找类似 首页 的本地化字符串。
         /// </summary>
         public static string Home_Index_Title {
             get {
@@ -192,6 +192,15 @@ namespace EasySoft.PssS.Web.Resources {
         public static string Message_Colon {
             get {
                 return ResourceManager.GetString("Message_Colon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 您确认要删除该数据吗？ 的本地化字符串。
+        /// </summary>
+        public static string Message_ConfirmDelete {
+            get {
+                return ResourceManager.GetString("Message_ConfirmDelete", resourceCulture);
             }
         }
         
@@ -246,6 +255,69 @@ namespace EasySoft.PssS.Web.Resources {
         public static string Message_SubmitFailed {
             get {
                 return ResourceManager.GetString("Message_SubmitFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 分类 的本地化字符串。
+        /// </summary>
+        public static string ProfitLoss_Add_Category {
+            get {
+                return ResourceManager.GetString("ProfitLoss_Add_Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请选择分类 的本地化字符串。
+        /// </summary>
+        public static string ProfitLoss_Add_CategoryTip {
+            get {
+                return ResourceManager.GetString("ProfitLoss_Add_CategoryTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 记录Id 的本地化字符串。
+        /// </summary>
+        public static string ProfitLoss_Add_RecordId {
+            get {
+                return ResourceManager.GetString("ProfitLoss_Add_RecordId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请设置目标类型 的本地化字符串。
+        /// </summary>
+        public static string ProfitLoss_Add_TargetTypeTip {
+            get {
+                return ResourceManager.GetString("ProfitLoss_Add_TargetTypeTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增益损 的本地化字符串。
+        /// </summary>
+        public static string ProfitLoss_Add_Title {
+            get {
+                return ResourceManager.GetString("ProfitLoss_Add_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 损耗 的本地化字符串。
+        /// </summary>
+        public static string ProfitLoss_Loss {
+            get {
+                return ResourceManager.GetString("ProfitLoss_Loss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 增益 的本地化字符串。
+        /// </summary>
+        public static string ProfitLoss_Profit {
+            get {
+                return ResourceManager.GetString("ProfitLoss_Profit", resourceCulture);
             }
         }
         
@@ -363,15 +435,6 @@ namespace EasySoft.PssS.Web.Resources {
         public static string Purchase_Add_QuantityTip1 {
             get {
                 return ResourceManager.GetString("Purchase_Add_QuantityTip1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请输入数量，单位： 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_QuantityTip2 {
-            get {
-                return ResourceManager.GetString("Purchase_Add_QuantityTip2", resourceCulture);
             }
         }
         

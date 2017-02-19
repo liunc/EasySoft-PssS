@@ -127,7 +127,7 @@
     <value>。</value>
   </data>
   <data name="Home_Index_Title" xml:space="preserve">
-    <value>个人中心</value>
+    <value>首页</value>
   </data>
   <data name="Message_ArgumentIsNull" xml:space="preserve">
     <value>未传入参数。</value>
@@ -173,9 +173,6 @@
   </data>
   <data name="Purchase_Add_QuantityTip1" xml:space="preserve">
     <value>请输入数量</value>
-  </data>
-  <data name="Purchase_Add_QuantityTip2" xml:space="preserve">
-    <value>请输入数量，单位：</value>
   </data>
   <data name="Purchase_Add_Remark" xml:space="preserve">
     <value>备注</value>
@@ -287,5 +284,29 @@
   </data>
   <data name="Common_Detail" xml:space="preserve">
     <value>明细</value>
+  </data>
+  <data name="Message_ConfirmDelete" xml:space="preserve">
+    <value>您确认要删除该数据吗？</value>
+  </data>
+  <data name="ProfitLoss_Add_Category" xml:space="preserve">
+    <value>分类</value>
+  </data>
+  <data name="ProfitLoss_Add_CategoryTip" xml:space="preserve">
+    <value>请选择分类</value>
+  </data>
+  <data name="ProfitLoss_Add_RecordId" xml:space="preserve">
+    <value>记录Id</value>
+  </data>
+  <data name="ProfitLoss_Add_TargetTypeTip" xml:space="preserve">
+    <value>请设置目标类型</value>
+  </data>
+  <data name="ProfitLoss_Add_Title" xml:space="preserve">
+    <value>新增益损</value>
+  </data>
+  <data name="ProfitLoss_Loss" xml:space="preserve">
+    <value>损耗</value>
+  </data>
+  <data name="ProfitLoss_Profit" xml:space="preserve">
+    <value>增益</value>
   </data>
 </root>

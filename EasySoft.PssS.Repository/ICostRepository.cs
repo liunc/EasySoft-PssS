@@ -29,11 +29,27 @@ namespace EasySoft.PssS.Repository
         void Insert(DbTransaction trans, Cost entity);
 
         /// <summary>
+        /// 修改成本信息
+        /// </summary>
+        /// <param name="trans">数据库事务</param>
+        /// <param name="id">Id</param>
+        /// <param name="money">金额</param>
+        void Update(DbTransaction trans, string id, decimal money);
+
+        /// <summary>
         /// 根据记录Id获取成本信息
         /// </summary>
         /// <param name="trans">数据库事务</param>
         /// <param name="recordId">记录Id</param>
         /// <returns>返回成本信息</returns>
-        List<Cost> GetCostByRecordId(DbTransaction trans, string recordId);
+        void DeleteByRecordId(DbTransaction trans, string recordId);
+
+        /// <summary>
+        /// 根据记录Id获取成本信息
+        /// </summary>
+        /// <param name="trans">数据库事务</param>
+        /// <param name="recordId">记录Id</param>
+        /// <returns>返回成本信息</returns>
+        List<Cost> SearchByRecordId(DbTransaction trans, string recordId);
     }
 }

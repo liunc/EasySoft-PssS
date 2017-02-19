@@ -29,7 +29,7 @@ namespace EasySoft.PssS.DbRepository
         #region 方法
 
         /// <summary>
-        /// 获取采购信息
+        /// 新增成本信息
         /// </summary>
         /// <param name="trans">数据库事务</param>
         /// <param name="entity">数据实体对象</param>
@@ -64,12 +64,36 @@ namespace EasySoft.PssS.DbRepository
         }
 
         /// <summary>
+        /// 修改成本信息
+        /// </summary>
+        /// <param name="trans">数据库事务</param>
+        /// <param name="id">Id</param>
+        /// <param name="money">金额</param>
+        public void Update(DbTransaction trans, string id, decimal money)
+        {
+            string cmdText = @"UPDATE [dbo].[Cost]
+                                SET [Money] = @Money
+                             WHERE [Id] = @Id";
+
+            DbParameter[] paras = new DbParameter[] {
+                    DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), id),
+                    DbHelper.SetParameter(new SqlParameter("@Money", SqlDbType.Decimal, 18), money)};
+
+            if (trans == null)
+            {
+                DbHelper.ExecuteNonQuery(cmdText, paras);
+                return;
+            }
+            DbHelper.ExecuteNonQuery(trans, cmdText, paras);
+        }
+
+        /// <summary>
         /// 根据记录Id获取成本信息
         /// </summary>
         /// <param name="trans">数据库事务</param>
         /// <param name="recordId">记录Id</param>
         /// <returns>返回成本信息</returns>
-        public List<Cost> GetCostByRecordId(DbTransaction trans, string recordId)
+        public List<Cost> SearchByRecordId(DbTransaction trans, string recordId)
         {
             string cmdText = @"SELECT [Id]
                                    ,[RecordId]
@@ -99,6 +123,26 @@ namespace EasySoft.PssS.DbRepository
                 reader.Close();
             }
             return entities;
+        }
+
+        /// <summary>
+        /// 根据记录Id删除成本信息
+        /// </summary>
+        /// <param name="trans">数据库事务</param>
+        /// <param name="recordId">记录Id</param>
+        /// <returns>返回成本信息</returns>
+        public void DeleteByRecordId(DbTransaction trans, string recordId)
+        {
+            string cmdText = @"DELETE FROM [dbo].[Cost] WHERE [RecordId] = @RecordId";
+
+            DbParameter paras = DbHelper.SetParameter(new SqlParameter("@RecordId", SqlDbType.Char, 32), recordId);
+
+            if (trans == null)
+            {
+                DbHelper.ExecuteNonQuery(cmdText, paras);
+                return;
+            }
+            DbHelper.ExecuteNonQuery(trans, cmdText, paras);
         }
 
         #endregion

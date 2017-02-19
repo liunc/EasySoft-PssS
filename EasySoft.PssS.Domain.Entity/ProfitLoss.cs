@@ -17,7 +17,7 @@ namespace EasySoft.PssS.Domain.Entity
     /// <summary>
     /// 益损领域实体类
     /// </summary>
-    public class ProfitLoss : EntityWithOperatorBase
+    public class ProfitLoss : EntityBase
     {
         #region 属性
 
@@ -25,6 +25,11 @@ namespace EasySoft.PssS.Domain.Entity
         /// 获取或设置关联Id
         /// </summary>
         public string RecordId { get; set; }
+
+        /// <summary>
+        /// 获取或设置目标类型
+        /// </summary>
+        public ProfitLossTargetType TargetType { get; set; }
 
         /// <summary>
         /// 获取或设置分类
@@ -41,28 +46,34 @@ namespace EasySoft.PssS.Domain.Entity
         /// </summary>
         public string Remark { get; set; }
 
+        /// <summary>
+        /// 获取或设置创建者
+        /// </summary>
+        public Operator Creator { get; set; }
+
         #endregion
 
         #region 方法
 
         /// <summary>
-        /// 增加益损项
+        /// 增加益损信息
         /// </summary>
         /// <param name="recordId">关联Id</param>
+        /// <param name="targetType">目标类型</param>
         /// <param name="category">分类</param>
         /// <param name="quantity">数量</param>
         /// <param name="remark">备注</param>
         /// <param name="money">金额</param>
         /// <param name="creator">创建人</param>
-        public void Add(string recordId, ProfitLossCategory category, decimal quantity, string remark, string creator)
+        public void Add(string recordId, ProfitLossTargetType targetType, ProfitLossCategory category, decimal quantity, string remark, string creator)
         {
             this.NewId();
             this.RecordId = recordId;
+            this.TargetType = targetType;
             this.Category = category;
             this.Quantity = quantity;
             this.Remark = string.IsNullOrWhiteSpace(remark) ? string.Empty : remark.Trim();
             this.Creator = new Operator(creator);
-            this.Mender = this.Creator;
         }
 
         #endregion

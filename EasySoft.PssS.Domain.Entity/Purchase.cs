@@ -74,6 +74,11 @@ namespace EasySoft.PssS.Domain.Entity
         public string Remark { get; set; }
 
         /// <summary>
+        /// 获取或设置采购单状态
+        /// </summary>
+        public PurchaseStatus Status { get; set; }
+
+        /// <summary>
         /// 获取或设置成本集合
         /// </summary>
         public List<Cost> Costs { get; set; }
@@ -122,6 +127,7 @@ namespace EasySoft.PssS.Domain.Entity
             this.Supplier = string.IsNullOrWhiteSpace(supplier) ? string.Empty : supplier.Trim();
             this.Allowance = quantity;
             this.Remark = string.IsNullOrWhiteSpace(remark) ? string.Empty : remark.Trim();
+            this.Status = PurchaseStatus.None;
             this.Creator = new Operator(creator);
             this.Mender = this.Creator;
             foreach (KeyValuePair<string, decimal> cost in costs)
@@ -131,6 +137,25 @@ namespace EasySoft.PssS.Domain.Entity
                 this.Cost += cost.Value;
                 this.Costs.Add(cost1);
             }
+        }
+
+        /// <summary>
+        /// 更新采购记录
+        /// </summary>
+        /// <param name="date">日期</param>
+        /// <param name="quantity">数量</param>
+        /// <param name="supplier">供应方</param>
+        /// <param name="remark">备注</param>
+        /// <param name="cost">成本</param>
+        /// <param name="mender">修改人</param>
+        public void Update(DateTime date, decimal quantity, string supplier, string remark, decimal cost, string mender)
+        {
+            this.Date = date;
+            this.Quantity = quantity;
+            this.Supplier = string.IsNullOrWhiteSpace(supplier) ? string.Empty : supplier.Trim();
+            this.Remark = string.IsNullOrWhiteSpace(remark) ? string.Empty : remark.Trim();
+            this.Cost = cost;
+            this.Mender = new Operator(mender);
         }
 
         #endregion

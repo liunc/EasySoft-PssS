@@ -3,7 +3,7 @@
 
 <div class="row">
     <ol class="breadcrumb">
-        <li><a href="/Home/Index">Home</a></li>
+        <li><a href="/Home/Index">@WebResource.Home_Index_Title</a></li>
         <li class="active">@Model.Title</li>
     </ol>
 </div>
@@ -80,7 +80,7 @@
                         $(result.Data).each(function () {
                             var data = '<div class="row">' +
                                 '<div class="col-xs-12" style="border-top:1px solid #dddddd;">' +
-                                    '<div class="row">' +
+                                    '<div class="row" style="cursor:pointer">' +
                                         '<div class="form-group col-xs-10">' +
                                             '<p class="form-control-static"><a href="/Purchase/Detail/' + this.Id + '"><strong>' + this.Item + ' ' + this.Date + ' ' + this.Supplier + '</strong></a></p>' +
                                         '</div>' +

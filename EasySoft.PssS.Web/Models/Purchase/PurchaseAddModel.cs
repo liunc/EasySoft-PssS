@@ -12,7 +12,10 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Models.Purchase
 {
+    using Resources;
+    using System;
     using System.Collections.Generic;
+    using Util;
 
     /// <summary>
     /// 新增采购记录视图模型类
@@ -25,6 +28,11 @@ namespace EasySoft.PssS.Web.Models.Purchase
         public string Title { get; set; }
 
         /// <summary>
+        /// 获取当前时间
+        /// </summary>
+        public string CurrentDate { get { return DateTime.Now.ToString(DateTimeUtil.YYYY_MM_DD); } }
+
+        /// <summary>
         /// 获取或设置日期
         /// </summary>
         public string Date { get; set; }
@@ -33,6 +41,11 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// 获取或设置采购分类
         /// </summary>
         public string Category { get; set; }
+
+        /// <summary>
+        /// 获取或设置父级页面标题
+        /// </summary>
+        public string ParentPageTitle { get; set; }
 
         /// <summary>
         /// 获取或设置采购项

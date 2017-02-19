@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICostItemRepository.cs" />
+    <Compile Include="IProfitLossRepository.cs" />
     <Compile Include="ICostRepository.cs" />
     <Compile Include="IPurchaseRepository.cs" />
     <Compile Include="IPurchaseItemRepository.cs" />

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProfitLossRepository.cs" />
     <Compile Include="DbHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CostRepository.cs" />

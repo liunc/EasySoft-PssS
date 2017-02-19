@@ -33,6 +33,7 @@ namespace EasySoft.PssS.Web.Controllers
         #region 变量
 
         private PurchaseService purchaseService = null;
+        private CostService costService = null;
         private ParameterService parameterService = null;
 
         #endregion
@@ -45,6 +46,7 @@ namespace EasySoft.PssS.Web.Controllers
         public PurchaseController()
         {
             this.purchaseService = new PurchaseService();
+            this.costService = new CostService();
             this.parameterService = new ParameterService();
         }
 
@@ -122,8 +124,15 @@ namespace EasySoft.PssS.Web.Controllers
             model.Title = title;
             model.PurchaseItems = ParameterHelper.GetPurchaseItem(category, true);
             model.Category = enumCategory.ToString();
+
+            model.ParentPageTitle = WebResource.Purchase_Index_ProductTitle;
+            if (enumCategory == PurchaseCategory.Pack)
+            {
+                model.ParentPageTitle = WebResource.Purchase_Index_PackTitle;
+            }
+
             model.Costs = new List<CostModel>();
-            foreach(CostItemModel cost in ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true))
+            foreach (CostItemModel cost in ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true))
             {
                 model.Costs.Add(new CostModel { ItemCode = cost.ItemCode, ItemName = cost.ItemName });
             }
@@ -219,7 +228,7 @@ namespace EasySoft.PssS.Web.Controllers
         /// <returns>返回视图</returns>
         public ActionResult Detail(string id)
         {
-            PurchaseDetailModel model = new PurchaseDetailModel(this.purchaseService.Find(id));
+            PurchaseDetailModel model = new PurchaseDetailModel(this.purchaseService.Selete(id));
             List<PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(model.Category, false);
             var query = items.Where(i => i.Code == model.Item).FirstOrDefault();
             if (query != null)
@@ -230,36 +239,137 @@ namespace EasySoft.PssS.Web.Controllers
         }
 
         /// <summary>
-        /// 获取分页数据
+        /// 获取Edit视图
         /// </summary>
-        /// <param name="category">分类</param>
-        /// <param name="item">项</param>
-        /// <param name="pageIndex">当前索引</param>
-        /// <returns>返回分页数据</returns>
-        [HttpPost]
-        public ActionResult GetCostList(string id)
-        {
-            List<CostModel> models = new List<CostModel>();
-            List<Cost> entities = this.purchaseService.GetCostList(id);
-            List<CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), false);
-            foreach (Cost entity in entities)
-            {
-                string itemName = entity.Item;
-                var query = costItems.Where(i => i.ItemCode == entity.Item).FirstOrDefault();
-                if (query != null)
-                {
-                    itemName = query.ItemName;
-                }
-                models.Add(new CostModel { Id = entity.Id, ItemCode = entity.Item, ItemName = itemName, Money = entity.Money });
-            }
-            return Json(models);
-        }
-
+        /// <param name="id">Id</param>
+        /// <returns>返回视图</returns>
         public ActionResult Edit(string id)
         {
-            return View();
+            Purchase entity = this.purchaseService.Selete(id);
+            entity.Costs = this.costService.GetList(id);
+            PurchaseEditModel model = new PurchaseEditModel(entity);
+            List<PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(model.Category, false);
+            var query = items.Where(i => i.Code == model.ItemName).FirstOrDefault();
+            if (query != null)
+            {
+                model.ItemName = query.Name;
+            }
+            return View(model);
         }
 
+        /// <summary>
+        /// 提交修改采购记录
+        /// </summary>
+        /// <param name="model">修改采购的数据</param>
+        /// <returns>返回执行结果</returns>
+        [HttpPost]
+        public ActionResult Edit(PurchaseEditModel model)
+        {
+            JsonResultModel result = new JsonResultModel();
+            try
+            {
+                List<string> errorMessages = new List<string>();
+                Dictionary<string, decimal> costs = new Dictionary<string, decimal>();
+                DateTime date = new DateTime();
+
+                #region 验证
+
+                if (model == null)
+                {
+                    errorMessages.Add(WebResource.Message_ArgumentIsNull);
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(model.Id))
+                    {
+                        errorMessages.Add(string.Format("{0}{1} Id{2}", WebResource.Message_ArgumentIsNull, WebResource.Message_Colon, WebResource.Common_FullStop));
+                    }
+                    if (!DateTime.TryParse(model.Date, out date))
+                    {
+                        errorMessages.Add(WebResource.Purchase_Add_DateTip + WebResource.Common_FullStop);
+                    }
+                    if (model.Quantity <= 0)
+                    {
+                        errorMessages.Add(WebResource.Purchase_Add_QuantityTip);
+                    }
+                    if (!string.IsNullOrWhiteSpace(model.Supplier) && model.Supplier.Trim().Length > 50)
+                    {
+                        errorMessages.Add(WebResource.Purchase_Add_SupplierTip + WebResource.Common_FullStop);
+                    }
+                    if (!string.IsNullOrWhiteSpace(model.Remark) && model.Remark.Trim().Length > 120)
+                    {
+                        errorMessages.Add(string.Format("{0}{1}", WebResource.Purchase_Add_RemarkTip + WebResource.Common_FullStop));
+                    }
+                    if (model.Costs == null || model.Costs.Count == 0)
+                    {
+                        errorMessages.Add(WebResource.Purchase_Add_CostDataIsNull);
+                    }
+                    else
+                    {
+                        foreach (CostModel cost in model.Costs)
+                        {
+                            if (string.IsNullOrWhiteSpace(cost.Id))
+                            {
+                                errorMessages.Add(WebResource.Purchase_Add_CostItemIsNull);
+                                break;
+                            }
+                            if (cost.Money < 0)
+                            {
+                                errorMessages.Add(WebResource.Purchase_Add_CostMoneyTip);
+                                break;
+                            }
+                            costs.Add(cost.Id, cost.Money);
+                        }
+                    }
+                }
+                if (errorMessages.Count > 0)
+                {
+                    result.BuilderErrorMessage(errorMessages);
+                    return Json(result);
+                }
+
+                #endregion
+
+                this.purchaseService.Update(model.Id, date, model.Quantity, model.Supplier, model.Remark, costs, this.Session["Moblie"].ToString());
+                result.Result = true;
+                result.Data = "/Purchase/Detail/" + model.Id;
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                result.BuilderErrorMessage(ex.Message);
+                return Json(result);
+            }
+        }
+
+        /// <summary>
+        /// 提交修改采购记录
+        /// </summary>
+        /// <param name="model">修改采购的数据</param>
+        /// <returns>返回执行结果</returns>
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            JsonResultModel result = new JsonResultModel();
+            try
+            {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    result.BuilderErrorMessage(string.Format("{0}{1} Id{2}", WebResource.Message_ArgumentIsNull, WebResource.Message_Colon, WebResource.Common_FullStop));
+                }
+                else
+                {
+                    this.purchaseService.Delete(id);
+                    result.Result = true;
+                }
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                result.BuilderErrorMessage(ex.Message);
+                return Json(result);
+            }
+        }
         #endregion
 
         #region 私有方法

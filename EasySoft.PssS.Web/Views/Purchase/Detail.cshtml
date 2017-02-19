@@ -1,5 +1,6 @@
 ﻿@using System.Collections.Generic;
 @using EasySoft.PssS.Web.Resources;
+@using EasySoft.PssS.Domain.ValueObject;
 
 @model EasySoft.PssS.Web.Models.Purchase.PurchaseDetailModel
 
@@ -9,11 +10,12 @@
 
 <div class="row">
     <ol class="breadcrumb">
-        <li><a href="/Home/Index">Home</a></li>
-        <li><a href="/Purchase/Index/@Model.Category">@Model.ParentPageTile</a></li>
+        <li><a href="/Home/Index">@WebResource.Home_Index_Title</a></li>
+        <li><a href="/Purchase/Index/@Model.Category">@Model.ParentPageTitle</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
+
 <table class="table table-condensed">
     <tr>
         <td class="col-xs-2">@WebResource.Purchase_Add_Date</td>
@@ -48,7 +50,7 @@
         <td>
             @Model.ProfitLoss.ToString("0.##")@Model.Unit
         </td>
-        <td></td>
+        <td class="text-right"><a id="btnViewProfitLoss" href="javascript:;">@WebResource.Button_View</a> </td>
     </tr>
     <tr>
         <td>@WebResource.Purchase_Index_Cost</td>
@@ -60,14 +62,21 @@
         <td colspan="2">@Model.Remark</td>
     </tr>
 </table>
-
-
-
-<div class="form-group">
-    <input type="button" value="@WebResource.Button_Back" class="btn btn-default  btn-block" />
-
+<div class="col-xs-12 text-center">
+    <div class="btn-group">
+        @if (Model.Status != PurchaseStatus.Finished)
+        {
+            if (Model.Status == PurchaseStatus.None)
+            {
+            <button type="button" class="btn btn-default" onclick="window.location.href = '/Purchase/Edit/@Model.Id';">@WebResource.Button_Edit</button>
+            <button type="button" class="btn btn-default"onclick="return deletePurchase();">@WebResource.Button_Delete</button>
+            }
+            <button type="button" class="btn btn-default" onclick="window.location.href = '/ProfitLost/Add/Purchase/@Model.Id';">@WebResource.Button_OverOrLoss</button>
+            <button type="button" class="btn btn-default">@WebResource.Button_Output</button>
+        }
+        <button type="button" class="btn btn-primary" onclick="window.history.back();">@WebResource.Button_Back</button>
+    </div>
 </div>
-
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="alertDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -96,8 +105,8 @@
         $(function () {
             $('#btnViewCost').click(function () {
                 $.ajax({
-                    type: 'post',
-                    url: '/Purchase/GetCostList',
+                    type: 'get',
+                    url: '/Cost/GetList',
                     data: { id: '@Model.Id' },
                     success: function (result) {
                         var msg = '<table class="table table-condensed">';
@@ -116,12 +125,72 @@
                         showDetail('System Error');
                     }
                 });
-                return false;
+            });
+
+            $('#btnViewProfitLoss').click(function () {
+                $.ajax({
+                    type: 'get',
+                    url: '/ProfitLoss/GetList',
+                    data: { recordId: '@Model.Id' },
+                    success: function (result) {
+                        var msg = '<table class="table table-condensed">';
+                        msg += '<tr>' +
+                                            '<th class="col-xs-3">@WebResource.Purchase_Add_Quantity</td>'
+                                            + '<th class="col-xs-9">@WebResource.Purchase_Add_Remark</td>'
+                                        + '</tr>';
+                        if (result != null && result.length > 0) {
+                            $(result).each(function () {
+                                var profit = this.Category == '@ProfitLossCategory.Profit.ToString()';
+                                var quantity = '<td style="background-color:#ff0000">-' + this.ItemName + '</td>'
+                                if (this.Category == '@ProfitLossCategory.Profit.ToString()') {
+                                    quantity = '<td style="background-color:#0000ff">' + this.ItemName + '</td>'
+                                }
+                                msg += '<tr>' + quantity
+                                            + '<td>' + this.Remark + '</td>'
+                                        + '</tr>';
+                            });
+                        }
+                        else {
+                            msg += '<tr>' + '<td colspan="2">@WebResource.Message_NoData</td>'
+                                       + '</tr>';
+                        }
+                        msg += '</table>';
+                        showDetail(msg);
+                    },
+                    error: function () {
+                        showDetail('System Error');
+                    }
+                });
             });
         });
-        function showDetail(errorMessage) {
-            $('#detail').html(errorMessage);
+        function showDetail(message) {
+            $('#detail').html(message);
             $('#alertDetail').modal('show');
+        }
+        function deletePurchase() {
+            if (confirm('@WebResource.Message_ConfirmDelete')) {
+                $.ajax({
+                    type: "post",
+                    url: "/Purchase/Delete",
+                    data: { id: '@Model.Id' },
+                    success: function (result) {
+                        if (result.Result) {
+                            window.location.href = '/Purchase/Index/@Model.Category';
+                        }
+                        else {
+                            showError(result.Message);
+                        }
+                        return false;
+                    },
+                    error: function () {
+                        showError('System Error');
+                    },
+                    complete: function () {
+                        $('#btnSubmit').removeAttr('disabled');
+                    }
+                });
+            }
+            return false;
         }
     </script>
 }

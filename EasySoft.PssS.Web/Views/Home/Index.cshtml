@@ -4,29 +4,14 @@
 @{
     ViewBag.Title = WebResource.Home_Index_Title;
 }
-
-
-    <div class="uchome-info">
-        <div class="uchome-info-uimg">
-            <img src="~/Content/images/img1.jpg" />
-        </div>
-        <div class="uchome-info-uinfo">
-            <p>@Model.Name，中午好，欢迎光临！[<a href="/User/Logout" class="white">退出</a>]</p>
-            <p>手机：@Model.Moblie，消息：<a href="#" class="red">12</a></p>
-            <p>支出：<span class="red">￥20000.00</span>，收入：<span class="red">￥20000.00</span></p>
-        </div>
+<div style="padding-top:15px">
+    <div class="jumbotron">
+        <p>@Model.Name，中午好，欢迎光临！[<a href="/User/Logout">退出</a>]</p>
+        <p>手机：@Model.Moblie</p>
+        <p>支出：<span class="red">￥20000.00</span></p>
+        <p>收入：<span class="red">￥20000.00</span></p>
     </div>
-    <!--头部导航
-    <div class="am-cf uchome-nav">
-        <ul class="am-avg-sm-5">
-            <li><a href="#">今日签到</a></li>
-            <li><a href="#">我的资料</a></li>
-            <li><a href="#">我的二维码</a></li>
-            <li><a href="#">升级为商家</a></li>
-            <li><a href="#">我的伙伴</a></li>
-        </ul>
-    </div>-->
-
+</div>
     <div class="am-cf uchome-apps">
         <ul class="am-avg-sm-3 uchome-apps-ul">
             <li><a href="/Purchase/IntoDepot/Product"><p class="imgp"><img src="~/Content/images/uhomeapp5.png" class="am-img-responsive" /></p><p class="namep">@WebResource.Purchase_Add_ProductTitle</p><p class="lastp">0笔</p></a></li>

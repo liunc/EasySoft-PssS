@@ -61,6 +61,15 @@ namespace EasySoft.PssS.Domain.Entity
             this.Money = money;
         }
 
+        /// <summary>
+        /// 更新成本项
+        /// </summary>
+        /// <param name="money">金额</param>
+        public void Update(decimal money)
+        {
+            this.Money = money;
+        }
+
         #endregion
     }
 }

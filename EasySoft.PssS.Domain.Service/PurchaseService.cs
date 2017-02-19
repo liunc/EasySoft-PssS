@@ -13,12 +13,13 @@
 namespace EasySoft.PssS.Domain.Service
 {
     using EasySoft.PssS.DbRepository;
+    using EasySoft.PssS.Domain.Entity;
+    using EasySoft.PssS.Domain.ValueObject;
     using EasySoft.PssS.Repository;
-    using Entity;
-    using System.Data.Common;
+    using EasySoft.PssS.Util;
     using System;
     using System.Collections.Generic;
-    using ValueObject;
+    using System.Data.Common;
 
     /// <summary>
     /// 采购领域服务类
@@ -28,7 +29,7 @@ namespace EasySoft.PssS.Domain.Service
         #region 变量
 
         private IPurchaseRepository purchaseRepository = null;
-        private ICostRepository costRepository = null;
+        private CostService costService = null;
 
         #endregion
 
@@ -40,7 +41,7 @@ namespace EasySoft.PssS.Domain.Service
         public PurchaseService()
         {
             this.purchaseRepository = new PurchaseRepository();
-            this.costRepository = new CostRepository();
+            this.costService = new CostService();
         }
 
         #endregion
@@ -79,8 +80,106 @@ namespace EasySoft.PssS.Domain.Service
                     this.purchaseRepository.Insert(trans, entity);
                     foreach (Cost cost in entity.Costs)
                     {
-                        this.costRepository.Insert(trans, cost);
+                        this.costService.Insert(trans, cost);
                     }
+
+                    trans.Commit();
+                }
+                catch
+                {
+                    if (trans != null)
+                    {
+                        trans.Rollback();
+                    }
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 修改采购记录
+        /// </summary>
+        /// <param name="date">日期</param>
+        /// <param name="category">分类</param>
+        /// <param name="item">项</param>
+        /// <param name="quantity">数量</param>
+        /// <param name="unit">单位</param>
+        /// <param name="supplier">供应方</param>
+        /// <param name="remark">备注</param>
+        /// <param name="costs">成本</param>
+        /// <param name="creator">创建人</param>
+        public void Update(string id, DateTime date, decimal quantity, string supplier, string remark, Dictionary<string, decimal> costs, string mender)
+        {
+            using (DbConnection conn = DbHelper.CreateConnection())
+            {
+                DbTransaction trans = null;
+                try
+                {
+                    conn.Open();
+                    trans = conn.BeginTransaction();
+                    if (trans == null)
+                    {
+                        throw new ArgumentNullException("DbTransaction");
+                    }
+
+                    Purchase oldEntity = this.Select(trans, id);
+                    if (oldEntity.Status != PurchaseStatus.None)
+                    {
+                        throw new EasySoftException(BusinessResource.Purchase_NotAllowEdit);
+                    }
+                    List<Cost> oldCosts = this.costService.SearchByRecordId(trans, id);
+                    oldEntity.Costs = new List<Cost>();
+                    decimal costTotal = 0;
+                    foreach (Cost cost in oldCosts)
+                    {
+                        decimal money = costs[cost.Id];
+                        if (money != cost.Money)
+                        {
+                            this.costService.Update(trans, cost.Id, money);
+                        }
+                        costTotal += money;
+                    }
+                    oldEntity.Update(date, quantity, supplier, remark, costTotal, mender);
+                    this.Update(trans, oldEntity);
+
+                    trans.Commit();
+                }
+                catch
+                {
+                    if (trans != null)
+                    {
+                        trans.Rollback();
+                    }
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 删除采购记录
+        /// </summary>
+        /// <param name="id">Id</param>
+        public void Delete(string id)
+        {
+            using (DbConnection conn = DbHelper.CreateConnection())
+            {
+                DbTransaction trans = null;
+                try
+                {
+                    conn.Open();
+                    trans = conn.BeginTransaction();
+                    if (trans == null)
+                    {
+                        throw new ArgumentNullException("DbTransaction");
+                    }
+
+                    Purchase oldEntity = this.Select(trans, id);
+                    if (oldEntity.Status != PurchaseStatus.None)
+                    {
+                        throw new EasySoftException(BusinessResource.Purchase_NotAllowDelete);
+                    }
+                    this.costService.DeleteByRecordId(trans, id);
+                    this.purchaseRepository.Delete(trans, id);
 
                     trans.Commit();
                 }
@@ -114,25 +213,38 @@ namespace EasySoft.PssS.Domain.Service
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>返回采购记录</returns>
-        public Purchase Find(string id)
+        public Purchase Selete(string id)
         {
-            Purchase entity = this.purchaseRepository.Select(null, id);
+            return this.Select(null, id);
+        }
+
+        #endregion
+
+        #region 受保护的方法
+
+        /// <summary>
+        /// 根据Id查找一条数据
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <returns>返回采购记录</returns>
+        internal Purchase Select(DbTransaction trans, string id)
+        {
+            Purchase entity = this.purchaseRepository.Select(trans, id);
             if (entity == null)
             {
-                throw new Exception("No record");
+                throw new EasySoftException(BusinessResource.Purchase_NoFoundById);
             }
-            entity.Costs = this.costRepository.GetCostByRecordId(null, id);
             return entity;
         }
 
         /// <summary>
-        /// 根据Id获取成本项明细
+        /// 更新采购信息
         /// </summary>
-        /// <param name="id">Id</param>
-        /// <returns>返回成本项明细集合</returns>
-        public List<Cost> GetCostList(string id)
+        /// <param name="trans">数据库事务</param>
+        /// <param name="entity">数据实体对象</param>
+        internal void Update(DbTransaction trans, Purchase entity)
         {
-            return this.costRepository.GetCostByRecordId(null, id);
+            this.purchaseRepository.Update(trans, entity);
         }
 
         #endregion

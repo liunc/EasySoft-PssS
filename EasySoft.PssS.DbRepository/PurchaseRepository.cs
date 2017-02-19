@@ -39,6 +39,7 @@ namespace EasySoft.PssS.DbRepository
                                   ,[Cost]
                                   ,[ProfitLoss]
                                   ,[Remark]
+                                  ,[Status]
                                   ,[Creator]
                                   ,[CreateTime]
                                   ,[Mender]
@@ -49,7 +50,7 @@ namespace EasySoft.PssS.DbRepository
         #region 方法
 
         /// <summary>
-        /// 获取采购信息
+        /// 新增采购信息
         /// </summary>
         /// <param name="trans">数据库事务</param>
         /// <param name="entity">数据实体对象</param>
@@ -67,6 +68,7 @@ namespace EasySoft.PssS.DbRepository
                                    ,[Cost]
                                    ,[ProfitLoss]
                                    ,[Remark]
+                                   ,[Status]
                                    ,[Creator]
                                    ,[CreateTime]
                                    ,[Mender]
@@ -83,6 +85,7 @@ namespace EasySoft.PssS.DbRepository
                                    ,@Cost
                                    ,@ProfitLoss
                                    ,@Remark
+                                   ,@Status
                                    ,@Creator 
                                    ,@CreateTime 
                                    ,@Mender 
@@ -100,10 +103,71 @@ namespace EasySoft.PssS.DbRepository
                     DbHelper.SetParameter(new SqlParameter("@Cost", SqlDbType.Decimal, 18), entity.Cost),
                     DbHelper.SetParameter(new SqlParameter("@ProfitLoss", SqlDbType.Decimal, 18), entity.ProfitLoss),
                     DbHelper.SetParameter(new SqlParameter("@Remark", SqlDbType.NVarChar, 120), entity.Remark),
+                    DbHelper.SetParameter(new SqlParameter("@Status", SqlDbType.SmallInt), entity.Status),
                     DbHelper.SetParameter(new SqlParameter("@Creator", SqlDbType.NVarChar, 20), entity.Creator.UserId),
                     DbHelper.SetParameter(new SqlParameter("@CreateTime", SqlDbType.DateTime), entity.Creator.Time),
                     DbHelper.SetParameter(new SqlParameter("@Mender", SqlDbType.NVarChar, 20), entity.Mender.UserId),
                     DbHelper.SetParameter(new SqlParameter("@ModifyTime", SqlDbType.DateTime), entity.Mender.Time)};
+
+            if (trans == null)
+            {
+                DbHelper.ExecuteNonQuery(cmdText, paras);
+                return;
+            }
+            DbHelper.ExecuteNonQuery(trans, cmdText, paras);
+        }
+
+        /// <summary>
+        /// 更新采购信息
+        /// </summary>
+        /// <param name="trans">数据库事务</param>
+        /// <param name="entity">数据实体对象</param>
+        public void Update(DbTransaction trans, Purchase entity)
+        {
+            string cmdText = @"UPDATE [dbo].[Purchase]
+                                SET [Date] = @Date
+                                   ,[Quantity] = @Quantity
+                                   ,[Supplier] = @Supplier
+                                   ,[Allowance] = @Allowance
+                                   ,[Cost] = @Cost
+                                   ,[ProfitLoss] = @ProfitLoss
+                                   ,[Remark] = @Remark
+                                   ,[Status] = @Status
+                                   ,[Mender] = @Mender
+                                   ,[ModifyTime] = @ModifyTime
+                                WHERE [Id] = @Id";
+
+            DbParameter[] paras = new DbParameter[] {
+                    DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), entity.Id),
+                    DbHelper.SetParameter(new SqlParameter("@Date", SqlDbType.Date), entity.Date),
+                    DbHelper.SetParameter(new SqlParameter("@Quantity", SqlDbType.Decimal, 18), entity.Quantity),
+                    DbHelper.SetParameter(new SqlParameter("@Supplier", SqlDbType.NVarChar, 50), entity.Supplier),
+                    DbHelper.SetParameter(new SqlParameter("@Allowance", SqlDbType.Decimal, 18), entity.Allowance),
+                    DbHelper.SetParameter(new SqlParameter("@Cost", SqlDbType.Decimal, 18), entity.Cost),
+                    DbHelper.SetParameter(new SqlParameter("@ProfitLoss", SqlDbType.Decimal, 18), entity.ProfitLoss),
+                    DbHelper.SetParameter(new SqlParameter("@Remark", SqlDbType.NVarChar, 120), entity.Remark),
+                    DbHelper.SetParameter(new SqlParameter("@Status", SqlDbType.SmallInt), entity.Status),
+                    DbHelper.SetParameter(new SqlParameter("@Mender", SqlDbType.NVarChar, 20), entity.Mender.UserId),
+                    DbHelper.SetParameter(new SqlParameter("@ModifyTime", SqlDbType.DateTime), entity.Mender.Time)};
+
+            if (trans == null)
+            {
+                DbHelper.ExecuteNonQuery(cmdText, paras);
+                return;
+            }
+            DbHelper.ExecuteNonQuery(trans, cmdText, paras);
+        }
+
+        /// <summary>
+        /// 删除采购信息
+        /// </summary>
+        /// <param name="trans">数据库事务</param>
+        /// <param name="id">Id</param>
+        public void Delete(DbTransaction trans, string id)
+        {
+            string cmdText = @"DELETE FROM [dbo].[Purchase] WHERE [Id] = @Id";
+
+            DbParameter paras = DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), id);
 
             if (trans == null)
             {
@@ -215,6 +279,7 @@ namespace EasySoft.PssS.DbRepository
                 Cost = Convert.ToDecimal(reader["Cost"]),
                 ProfitLoss = Convert.ToDecimal(reader["ProfitLoss"]),
                 Remark = reader["Remark"].ToString(),
+                Status = (PurchaseStatus)Enum.Parse(typeof(PurchaseStatus), reader["Status"].ToString()),
                 Creator = new Operator(reader["Creator"].ToString(), Convert.ToDateTime(reader["CreateTime"])),
                 Mender = new Operator(reader["Mender"].ToString(), Convert.ToDateTime(reader["ModifyTime"]))
             };

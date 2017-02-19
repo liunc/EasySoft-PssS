@@ -21,7 +21,7 @@ namespace EasySoft.PssS.Util
     {
         #region 常量
 
-        private static readonly string YYYY_MM_DD = "yyyy-MM-dd";
+        public const string YYYY_MM_DD = "yyyy-MM-dd";
 
         #endregion
 

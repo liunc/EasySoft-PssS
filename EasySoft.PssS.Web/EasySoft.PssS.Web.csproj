@@ -132,6 +132,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProfitLossController.cs" />
+    <Compile Include="Controllers\CostController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\MyAuthorizeAttribute.cs" />
@@ -142,8 +144,11 @@
     <Compile Include="Models\JsonResultModel.cs" />
     <Compile Include="Models\KeyValueModel.cs" />
     <Compile Include="Models\PagingModel.cs" />
+    <Compile Include="Models\ProfitLoss\ProfitLossAddModel.cs" />
+    <Compile Include="Models\ProfitLoss\ProfitLossModel.cs" />
     <Compile Include="Models\Purchase\CostItemModel.cs" />
     <Compile Include="Models\Purchase\CostModel.cs" />
+    <Compile Include="Models\Purchase\PurchaseEditModel.cs" />
     <Compile Include="Models\Purchase\PurchaseDetailModel.cs" />
     <Compile Include="Models\Purchase\PurchaseModel.cs" />
     <Compile Include="Models\Purchase\PurchaseAddModel.cs" />
@@ -159,6 +164,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
@@ -168,6 +174,8 @@
     <Content Include="InitialData\XML\CostItem.xml" />
     <Content Include="InitialData\XML\PurchaseItem.xml" />
     <Content Include="InitialData\XML\User.xml" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -199,6 +207,8 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Purchase\Edit.cshtml" />
+    <Content Include="Views\ProfitLoss\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
