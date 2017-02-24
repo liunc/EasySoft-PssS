@@ -72,7 +72,7 @@ namespace EasySoft.PssS.Web.Controllers
             PurchaseIndexModel model = new PurchaseIndexModel();
             model.Category = enumCategory.ToString();
             model.Title = title;
-            model.PurchaseItems = ParameterHelper.GetPurchaseItem(model.Category, false);
+            model.PurchaseItems = ParameterHelper.GetPurchaseItem(model.Category, false).Values.ToList();
             return View(model);
         }
 
@@ -90,11 +90,11 @@ namespace EasySoft.PssS.Web.Controllers
             PagingModel<PurchaseModel> model = new PagingModel<PurchaseModel>();
             model.Data = new List<PurchaseModel>();
             List<Purchase> entities = this.purchaseService.Search(category, item, pageIndex, model.PageSize, ref totalCount);
-            List<PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(category, false);
+            Dictionary<string, PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(category, false);
 
             foreach (Purchase entity in entities)
             {
-                var query = items.Where(i => i.Code == entity.Item).FirstOrDefault();
+                PurchaseItemModel query = items[entity.Item];
                 if (query != null)
                 {
                     entity.Item = query.Name;
@@ -122,7 +122,7 @@ namespace EasySoft.PssS.Web.Controllers
 
             PurchaseAddModel model = new PurchaseAddModel();
             model.Title = title;
-            model.PurchaseItems = ParameterHelper.GetPurchaseItem(category, true);
+            model.PurchaseItems = ParameterHelper.GetPurchaseItem(category, true).Values.ToList();
             model.Category = enumCategory.ToString();
 
             model.ParentPageTitle = WebResource.Purchase_Index_ProductTitle;
@@ -132,7 +132,7 @@ namespace EasySoft.PssS.Web.Controllers
             }
 
             model.Costs = new List<CostModel>();
-            foreach (CostItemModel cost in ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true))
+            foreach (CostItemModel cost in ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true).Values)
             {
                 model.Costs.Add(new CostModel { ItemCode = cost.ItemCode, ItemName = cost.ItemName });
             }
@@ -229,8 +229,8 @@ namespace EasySoft.PssS.Web.Controllers
         public ActionResult Detail(string id)
         {
             PurchaseDetailModel model = new PurchaseDetailModel(this.purchaseService.Selete(id));
-            List<PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(model.Category, false);
-            var query = items.Where(i => i.Code == model.Item).FirstOrDefault();
+            Dictionary<string, PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(model.Category, false);
+            var query = ParameterHelper.GetPurchaseItem(model.Category, false)[model.Item];
             if (query != null)
             {
                 model.Item = query.Name;
@@ -248,8 +248,7 @@ namespace EasySoft.PssS.Web.Controllers
             Purchase entity = this.purchaseService.Selete(id);
             entity.Costs = this.costService.GetList(id);
             PurchaseEditModel model = new PurchaseEditModel(entity);
-            List<PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(model.Category, false);
-            var query = items.Where(i => i.Code == model.ItemName).FirstOrDefault();
+            PurchaseItemModel query = ParameterHelper.GetPurchaseItem(model.Category, false)[model.ItemName];
             if (query != null)
             {
                 model.ItemName = query.Name;

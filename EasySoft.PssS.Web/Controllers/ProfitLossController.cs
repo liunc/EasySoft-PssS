@@ -69,41 +69,46 @@ namespace EasySoft.PssS.Web.Controllers
         /// <summary>
         /// 获取Add视图
         /// </summary>
+        /// <param name="category">类型</param>
         /// <param name="targetType">目标类型</param>
         /// <param name="recordId">记录Id</param>
         /// <returns>返回视图</returns>
-        [Route("ProfitLoss/Add/{targetType}/{recordId}")]
-        public ActionResult Add(string targetType, string recordId)
+        [Route("ProfitLoss/Add/{category}/{targetType}/{recordId}")]
+        public ActionResult Add(string category, string targetType, string recordId)
         {
-            if (string.IsNullOrWhiteSpace(targetType))
+            List<string> errorMessages = new List<string>();
+
+            ProfitLossCategory enumCategory = ValidateHelper.CheckProfitLossCategory(category, ref errorMessages);
+            ProfitLossTargetType enumTargetType = ValidateHelper.CheckProfitLossTargetType(targetType, ref errorMessages);
+            ValidateHelper.CheckStringArgument(WebResource.Field_RecordId, recordId, true, ref errorMessages);
+
+            if(errorMessages.Count > 0)
             {
-                throw new Exception(string.Format("{0}{1}", WebResource.ProfitLoss_Add_TargetTypeTip + WebResource.Common_FullStop));
+                return RedirectToAction("Index", "Error", errorMessages);
             }
-            if (string.IsNullOrWhiteSpace(recordId))
-            {
-                throw new Exception(string.Format("{0}{1} {2}{3}", WebResource.Message_ArgumentIsNull, WebResource.Message_Colon, WebResource.ProfitLoss_Add_RecordId, WebResource.Common_FullStop));
-            }
-            string parentPageTitle = string.Empty;
-            string parentPageUrl = string.Empty;
-            decimal allowance = 0;
-            string unit = string.Empty;
-            if (targetType.Equals(ProfitLossTargetType.Purchase.ToString(), StringComparison.CurrentCultureIgnoreCase))
+
+            ProfitLossAddModel model = new ProfitLossAddModel { RecordId = recordId, Category = enumCategory.ToString(), TargetType = enumTargetType.ToString(), Title = WebResource.Title_Loss };
+            if (enumTargetType == ProfitLossTargetType.Purchase)
             {
                 Purchase purchase = this.purchaseService.Selete(recordId);
                 if (purchase.Category == PurchaseCategory.Product)
                 {
-                    parentPageTitle = WebResource.Purchase_Index_ProductTitle;
-                    parentPageUrl = "/Purchase/Index/Product";
+                    model.ParentPageTitle = WebResource.Purchase_Index_ProductTitle;
+                    model.ParentPageUrl = "/Purchase/Index/Product";
                 }
                 else
                 {
-                    parentPageTitle = WebResource.Purchase_Index_PackTitle;
-                    parentPageUrl = "/Purchase/Index/Pack";
+                    model.ParentPageTitle = WebResource.Purchase_Index_PackTitle;
+                    model.ParentPageUrl = "/Purchase/Index/Pack";
                 }
-                allowance = purchase.Allowance;
-                unit = purchase.Unit;
+                model.Allowance = purchase.Allowance;
+                model.Unit = purchase.Unit;
             }
-            ProfitLossAddModel model = new ProfitLossAddModel { RecordId = recordId, TargetType = targetType, ParentPageTitle = parentPageTitle, ParentPageUrl = parentPageUrl, Allowance = allowance, Unit = unit };
+            if (enumCategory == ProfitLossCategory.Profit)
+            {
+                model.Title = WebResource.Title_Profit;
+                model.Allowance = 99999999.99M;
+            }
             return View(model);
         }
 
@@ -114,51 +119,29 @@ namespace EasySoft.PssS.Web.Controllers
         /// <returns>返回执行结果</returns>
         public ActionResult Add(ProfitLossAddModel model)
         {
+
             JsonResultModel result = new JsonResultModel();
             try
             {
                 List<string> errorMessages = new List<string>();
-
-                #region 验证
-
-                if (model == null)
+                if (!ValidateHelper.CheckObjectArgument<ProfitLossAddModel>("model", model, ref errorMessages))
                 {
-                    errorMessages.Add(WebResource.Message_ArgumentIsNull);
+                    result.BuilderErrorMessage(errorMessages[0]);
+                    return Json(result);
                 }
-                else
-                {
-                    if (string.IsNullOrWhiteSpace(model.RecordId))
-                    {
-                        errorMessages.Add(string.Format("{0}{1} {2}{3}", WebResource.Message_ArgumentIsNull, WebResource.Message_Colon, WebResource.ProfitLoss_Add_RecordId, WebResource.Common_FullStop));
-                    }
-                    if (string.IsNullOrWhiteSpace(model.TargetType))
-                    {
-                        errorMessages.Add(string.Format("{0}{1}", WebResource.ProfitLoss_Add_TargetTypeTip + WebResource.Common_FullStop));
-                    }
-                    if (string.IsNullOrWhiteSpace(model.Category))
-                    {
-                        errorMessages.Add(string.Format("{0}{1}", WebResource.ProfitLoss_Add_CategoryTip + WebResource.Common_FullStop));
-                    }
-                    if (model.Quantity <= 0)
-                    {
-                        errorMessages.Add(string.Format("{0}{1}", WebResource.Purchase_Add_QuantityTip + WebResource.Common_FullStop));
-                    }
-                    if (!string.IsNullOrWhiteSpace(model.Remark) && model.Remark.Trim().Length > 120)
-                    {
-                        errorMessages.Add(string.Format("{0}{1}", WebResource.Purchase_Add_RemarkTip + WebResource.Common_FullStop));
-                    }
-                }
+
+                ProfitLossCategory enumCategory = ValidateHelper.CheckProfitLossCategory(model.Category, ref errorMessages);
+                ProfitLossTargetType enumTargetType = ValidateHelper.CheckProfitLossTargetType(model.TargetType, ref errorMessages);
+                ValidateHelper.CheckStringArgument(WebResource.Field_RecordId, model.RecordId, true, ref errorMessages);
+                ValidateHelper.CheckDecimal(WebResource.Field_Quantity, model.Quantity, 0.01M, 99999999.99M, ref errorMessages);
+                ValidateHelper.CheckInputString(WebResource.Field_Remark, model.Remark, false, 120, ref errorMessages);
                 if (errorMessages.Count > 0)
                 {
                     result.BuilderErrorMessage(errorMessages);
                     return Json(result);
                 }
 
-                #endregion
-                ProfitLossTargetType targetType = (ProfitLossTargetType)Enum.Parse(typeof(ProfitLossTargetType), model.TargetType.Trim());
-                ProfitLossCategory category = (ProfitLossCategory)Enum.Parse(typeof(ProfitLossCategory), model.Category.Trim());
-
-                this.profitLossService.Add(model.RecordId.Trim(), targetType, category, model.Quantity, model.Remark, this.Session["Moblie"].ToString());
+                this.profitLossService.Add(model.RecordId.Trim(), enumTargetType, enumCategory, model.Quantity, model.Remark, this.Session["Moblie"].ToString());
                 result.Result = true;
                 return Json(result);
             }

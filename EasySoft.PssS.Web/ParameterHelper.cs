@@ -40,16 +40,16 @@ namespace EasySoft.PssS.Web
         /// <param name="category">采购分类</param>
         /// <param name="onlyValid">是否仅包含有效</param>
         /// <returns>返回采购项信息</returns>
-        public static List<PurchaseItemModel> GetPurchaseItem(string category, bool onlyValid)
+        public static Dictionary<string, PurchaseItemModel> GetPurchaseItem(string category, bool onlyValid)
         {
             return GetParameter<PurchaseItemModel, PurchaseItem>(
                     "PurchaseItem",
                     category,
                     onlyValid,
                     new ParameterService().GetPurchaseItem,
-                    new Action<List<PurchaseItemModel>, PurchaseItem>((models, item) =>
+                    new Action<Dictionary<string, PurchaseItemModel>, PurchaseItem>((models, item) =>
                     {
-                        models.Add(new PurchaseItemModel { Code = item.Code, Name = item.Name, InputUnit = item.InputUnit, OutputUnit = item.OutputUnit, InOutRate = item.InOutRate });
+                        models.Add(item.Code, new PurchaseItemModel { Code = item.Code, Name = item.Name, InputUnit = item.InputUnit, OutputUnit = item.OutputUnit, InOutRate = item.InOutRate });
                     }));
         }
 
@@ -59,16 +59,16 @@ namespace EasySoft.PssS.Web
         /// <param name="category">成本分类</param>
         /// <param name="onlyValid">是否仅包含有效</param>
         /// <returns>返回成本项信息</returns>
-        public static List<CostItemModel> GetCostItem(string category, bool onlyValid)
+        public static Dictionary<string, CostItemModel> GetCostItem(string category, bool onlyValid)
         {
             return GetParameter<CostItemModel, CostItem>(
                     "CostItem",
                     category,
                     onlyValid,
                     new ParameterService().GetCostItem,
-                    new Action<List<CostItemModel>, CostItem>((models, item) =>
+                    new Action<Dictionary<string, CostItemModel>, CostItem>((models, item) =>
                     {
-                        models.Add(new CostItemModel { ItemCode = item.Code, ItemName = item.Name });
+                        models.Add(item.Code, new CostItemModel { ItemCode = item.Code, ItemName = item.Name });
                     }));
         }
 
@@ -90,16 +90,16 @@ namespace EasySoft.PssS.Web
         /// <param name="getItems">获取参数项的方法</param>
         /// <param name="convertItems">转换参数项的模型</param>
         /// <returns>返回参数项信息</returns>
-        private static List<T> GetParameter<T, K>(string name, string category, bool onlyValid, Func<string, bool, List<K>> getItems, Action<List<T>, K> convertItems)
+        private static Dictionary<string, T> GetParameter<T, K>(string name, string category, bool onlyValid, Func<string, bool, List<K>> getItems, Action<Dictionary<string, T>, K> convertItems)
         {
-            List<T> models = new List<T>();
+            Dictionary<string, T> models = new Dictionary<string, T>();
             string cacheName = string.Format("{0}_{1}{2}", name, category, onlyValid ? string.Empty : "_All");
-            models = (List<T>)HttpRuntime.Cache[cacheName];
+            models = (Dictionary<string, T>)HttpRuntime.Cache[cacheName];
             if (models == null)
             {
                 lock (syncLock)
                 {
-                    models = new List<T>();
+                    models = new Dictionary<string, T>();
                     foreach (K item in getItems(category, onlyValid))
                     {
                         convertItems(models, item);

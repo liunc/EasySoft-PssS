@@ -165,7 +165,7 @@
   <data name="Purchase_Add_PackTitle" xml:space="preserve">
     <value>包装入库</value>
   </data>
-  <data name="Purchase_Add_Quantity" xml:space="preserve">
+  <data name="Field_Quantity" xml:space="preserve">
     <value>数量</value>
   </data>
   <data name="Purchase_Add_QuantityTip" xml:space="preserve">
@@ -174,7 +174,7 @@
   <data name="Purchase_Add_QuantityTip1" xml:space="preserve">
     <value>请输入数量</value>
   </data>
-  <data name="Purchase_Add_Remark" xml:space="preserve">
+  <data name="Field_Remark" xml:space="preserve">
     <value>备注</value>
   </data>
   <data name="Purchase_Add_RemarkTip" xml:space="preserve">
@@ -294,19 +294,52 @@
   <data name="ProfitLoss_Add_CategoryTip" xml:space="preserve">
     <value>请选择分类</value>
   </data>
-  <data name="ProfitLoss_Add_RecordId" xml:space="preserve">
+  <data name="Field_RecordId" xml:space="preserve">
     <value>记录Id</value>
   </data>
   <data name="ProfitLoss_Add_TargetTypeTip" xml:space="preserve">
     <value>请设置目标类型</value>
-  </data>
-  <data name="ProfitLoss_Add_Title" xml:space="preserve">
-    <value>新增益损</value>
   </data>
   <data name="ProfitLoss_Loss" xml:space="preserve">
     <value>损耗</value>
   </data>
   <data name="ProfitLoss_Profit" xml:space="preserve">
     <value>增益</value>
+  </data>
+  <data name="Validate_DecimalFieldRange" xml:space="preserve">
+    <value>请输入{0}，值为[{1} - {2}]之间的整数或小数</value>
+  </data>
+  <data name="Validate_IntFieldRange" xml:space="preserve">
+    <value>请输入{0}，值为[{1} - {2}]之间的整数</value>
+  </data>
+  <data name="Validate_PleaseInputField" xml:space="preserve">
+    <value>请输入{0}</value>
+  </data>
+  <data name="Validate_PleaseSelectField" xml:space="preserve">
+    <value>请选择{0}</value>
+  </data>
+  <data name="Button_Loss" xml:space="preserve">
+    <value>报损</value>
+  </data>
+  <data name="Button_Profit" xml:space="preserve">
+    <value>报益</value>
+  </data>
+  <data name="Field_ProfitLossCategory" xml:space="preserve">
+    <value>益损类型</value>
+  </data>
+  <data name="Field_ProfitLossTargetType" xml:space="preserve">
+    <value>益损目标类型</value>
+  </data>
+  <data name="Title_Loss" xml:space="preserve">
+    <value>报损</value>
+  </data>
+  <data name="Title_Profit" xml:space="preserve">
+    <value>报益</value>
+  </data>
+  <data name="Validate_ArgumentInValid" xml:space="preserve">
+    <value>参数[{0}]无效</value>
+  </data>
+  <data name="Validate_FieldLengthOverflow" xml:space="preserve">
+    <value>请输入{0}，字数在[{1} - {2}]个之间。</value>
   </data>
 </root>

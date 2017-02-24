@@ -18,6 +18,11 @@ namespace EasySoft.PssS.Domain.ValueObject
     public enum ProfitLossCategory
     {
         /// <summary>
+        /// 未指定
+        /// </summary>
+        None,
+
+        /// <summary>
         /// 增益
         /// </summary>
         Profit,

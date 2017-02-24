@@ -35,7 +35,7 @@
 
     <tr>
         <td>
-            @WebResource.Purchase_Add_Quantity
+            @WebResource.Field_Quantity
         </td>
         <td>@Model.Quantity.ToString("0.##")@Model.Unit </td>
         <td></td>
@@ -58,7 +58,7 @@
         <td class="text-right"><a id="btnViewCost" href="javascript:;">@WebResource.Button_View</a> </td>
     </tr>
     <tr>
-        <td>@WebResource.Purchase_Add_Remark</td>
+        <td>@WebResource.Field_Remark</td>
         <td colspan="2">@Model.Remark</td>
     </tr>
 </table>
@@ -71,7 +71,8 @@
             <button type="button" class="btn btn-default" onclick="window.location.href = '/Purchase/Edit/@Model.Id';">@WebResource.Button_Edit</button>
             <button type="button" class="btn btn-default"onclick="return deletePurchase();">@WebResource.Button_Delete</button>
             }
-            <button type="button" class="btn btn-default" onclick="window.location.href = '/ProfitLost/Add/Purchase/@Model.Id';">@WebResource.Button_OverOrLoss</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href = '/ProfitLoss/Add/Profit/Purchase/@Model.Id';">@WebResource.Button_Profit</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href = '/ProfitLoss/Add/Loss/Purchase/@Model.Id';">@WebResource.Button_Loss</button>
             <button type="button" class="btn btn-default">@WebResource.Button_Output</button>
         }
         <button type="button" class="btn btn-primary" onclick="window.history.back();">@WebResource.Button_Back</button>
@@ -135,15 +136,15 @@
                     success: function (result) {
                         var msg = '<table class="table table-condensed">';
                         msg += '<tr>' +
-                                            '<th class="col-xs-3">@WebResource.Purchase_Add_Quantity</td>'
-                                            + '<th class="col-xs-9">@WebResource.Purchase_Add_Remark</td>'
+                                            '<th class="col-xs-3">@WebResource.Field_Quantity</td>'
+                                            + '<th class="col-xs-9">@WebResource.Field_Remark</td>'
                                         + '</tr>';
                         if (result != null && result.length > 0) {
                             $(result).each(function () {
                                 var profit = this.Category == '@ProfitLossCategory.Profit.ToString()';
-                                var quantity = '<td style="background-color:#ff0000">-' + this.ItemName + '</td>'
+                                var quantity = '<td style="background-color:#ff0000">-' + this.Quantity + '</td>'
                                 if (this.Category == '@ProfitLossCategory.Profit.ToString()') {
-                                    quantity = '<td style="background-color:#0000ff">' + this.ItemName + '</td>'
+                                    quantity = '<td style="background-color:#0000ff">' + this.Quantity + '</td>'
                                 }
                                 msg += '<tr>' + quantity
                                             + '<td>' + this.Remark + '</td>'

@@ -59,11 +59,11 @@ namespace EasySoft.PssS.Web.Controllers
         {
             List<CostModel> models = new List<CostModel>();
             List<Cost> entities = this.costService.GetList(id);
-            List<CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), false);
+            Dictionary<string, CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), false);
             foreach (Cost entity in entities)
             {
                 string itemName = entity.Item;
-                var query = costItems.Where(i => i.ItemCode == entity.Item).FirstOrDefault();
+                CostItemModel query = costItems[entity.Item];
                 if (query != null)
                 {
                     itemName = query.ItemName;

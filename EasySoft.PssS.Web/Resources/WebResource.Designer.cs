@@ -88,6 +88,15 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 报损 的本地化字符串。
+        /// </summary>
+        public static string Button_Loss {
+            get {
+                return ResourceManager.GetString("Button_Loss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 确定 的本地化字符串。
         /// </summary>
         public static string Button_Ok {
@@ -111,6 +120,15 @@ namespace EasySoft.PssS.Web.Resources {
         public static string Button_OverOrLoss {
             get {
                 return ResourceManager.GetString("Button_OverOrLoss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 报益 的本地化字符串。
+        /// </summary>
+        public static string Button_Profit {
+            get {
+                return ResourceManager.GetString("Button_Profit", resourceCulture);
             }
         }
         
@@ -165,6 +183,51 @@ namespace EasySoft.PssS.Web.Resources {
         public static string Common_None {
             get {
                 return ResourceManager.GetString("Common_None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 益损类型 的本地化字符串。
+        /// </summary>
+        public static string Field_ProfitLossCategory {
+            get {
+                return ResourceManager.GetString("Field_ProfitLossCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 益损目标类型 的本地化字符串。
+        /// </summary>
+        public static string Field_ProfitLossTargetType {
+            get {
+                return ResourceManager.GetString("Field_ProfitLossTargetType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数量 的本地化字符串。
+        /// </summary>
+        public static string Field_Quantity {
+            get {
+                return ResourceManager.GetString("Field_Quantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 记录Id 的本地化字符串。
+        /// </summary>
+        public static string Field_RecordId {
+            get {
+                return ResourceManager.GetString("Field_RecordId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 备注 的本地化字符串。
+        /// </summary>
+        public static string Field_Remark {
+            get {
+                return ResourceManager.GetString("Field_Remark", resourceCulture);
             }
         }
         
@@ -277,29 +340,11 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 记录Id 的本地化字符串。
-        /// </summary>
-        public static string ProfitLoss_Add_RecordId {
-            get {
-                return ResourceManager.GetString("ProfitLoss_Add_RecordId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 请设置目标类型 的本地化字符串。
         /// </summary>
         public static string ProfitLoss_Add_TargetTypeTip {
             get {
                 return ResourceManager.GetString("ProfitLoss_Add_TargetTypeTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 新增益损 的本地化字符串。
-        /// </summary>
-        public static string ProfitLoss_Add_Title {
-            get {
-                return ResourceManager.GetString("ProfitLoss_Add_Title", resourceCulture);
             }
         }
         
@@ -412,15 +457,6 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 数量 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_Quantity {
-            get {
-                return ResourceManager.GetString("Purchase_Add_Quantity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 请输入数量，值为大于0的整数或小数。 的本地化字符串。
         /// </summary>
         public static string Purchase_Add_QuantityTip {
@@ -435,15 +471,6 @@ namespace EasySoft.PssS.Web.Resources {
         public static string Purchase_Add_QuantityTip1 {
             get {
                 return ResourceManager.GetString("Purchase_Add_QuantityTip1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 备注 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_Remark {
-            get {
-                return ResourceManager.GetString("Purchase_Add_Remark", resourceCulture);
             }
         }
         
@@ -565,6 +592,24 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 报损 的本地化字符串。
+        /// </summary>
+        public static string Title_Loss {
+            get {
+                return ResourceManager.GetString("Title_Loss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 报益 的本地化字符串。
+        /// </summary>
+        public static string Title_Profit {
+            get {
+                return ResourceManager.GetString("Title_Profit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 手机号或密码错误，请重新输入。 的本地化字符串。
         /// </summary>
         public static string User_Login_Error {
@@ -633,6 +678,60 @@ namespace EasySoft.PssS.Web.Resources {
         public static string User_Login_Title {
             get {
                 return ResourceManager.GetString("User_Login_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 参数[{0}]无效 的本地化字符串。
+        /// </summary>
+        public static string Validate_ArgumentInValid {
+            get {
+                return ResourceManager.GetString("Validate_ArgumentInValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入{0}，值为[{1} - {2}]之间的整数或小数 的本地化字符串。
+        /// </summary>
+        public static string Validate_DecimalFieldRange {
+            get {
+                return ResourceManager.GetString("Validate_DecimalFieldRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入{0}，字数在[{1} - {2}]个之间。 的本地化字符串。
+        /// </summary>
+        public static string Validate_FieldLengthOverflow {
+            get {
+                return ResourceManager.GetString("Validate_FieldLengthOverflow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入{0}，值为[{1} - {2}]之间的整数 的本地化字符串。
+        /// </summary>
+        public static string Validate_IntFieldRange {
+            get {
+                return ResourceManager.GetString("Validate_IntFieldRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入{0} 的本地化字符串。
+        /// </summary>
+        public static string Validate_PleaseInputField {
+            get {
+                return ResourceManager.GetString("Validate_PleaseInputField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请选择{0} 的本地化字符串。
+        /// </summary>
+        public static string Validate_PleaseSelectField {
+            get {
+                return ResourceManager.GetString("Validate_PleaseSelectField", resourceCulture);
             }
         }
     }

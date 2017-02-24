@@ -108,8 +108,8 @@ namespace EasySoft.PssS.Web.Models.Purchase
             this.Title = string.Format("{0}{1}", WebResource.Button_Edit, this.ParentPageTitle);
 
             this.ItemName = entity.Item;
-            List<PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(this.Category, false);
-            var query = items.Where(i => i.Code == entity.Item).FirstOrDefault();
+            Dictionary<string, PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(this.Category, false);
+            PurchaseItemModel query = items[entity.Item];
             if (query != null)
             {
                 this.ItemName =query.Name;
@@ -125,11 +125,11 @@ namespace EasySoft.PssS.Web.Models.Purchase
                 this.Remark = WebResource.Common_None;
             }
             this.Costs = new List<CostModel>();
-            List<CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), false);
+            Dictionary<string, CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), false);
             foreach (Cost cost in entity.Costs)
             {
                 string itemName = entity.Item;
-                var query1 = costItems.Where(i => i.ItemCode == cost.Item).FirstOrDefault();
+                CostItemModel query1 = costItems[cost.Item];
                 if (query1 != null)
                 {
                     itemName = query1.ItemName;

@@ -9,11 +9,11 @@ namespace EasySoft.PssS.Web
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-1.10.2.min.js"));
+                        "~/Scripts/jquery-1.10.2.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate.min.js",
-                        "~/Scripts/jquery.validate.unobtrusive.min.js"));
+                        "~/Scripts/jquery.validate.js"));
+                        //"~/Scripts/jquery.validate.unobtrusive.min.js"));
 
             // 使用要用于开发和学习的 Modernizr 的开发版本。然后，当你做好
             // 生产准备时，请使用 http://modernizr.com 上的生成工具来仅选择所需的测试。
@@ -21,25 +21,12 @@ namespace EasySoft.PssS.Web
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                        "~/Scripts/bootstrap.min.js",
-                        "~/Scripts/respond.min.js"));
+                        "~/Scripts/bootstrap.js",
+                        "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                        "~/Content/bootstrap.min.css",
+                        "~/Content/bootstrap.css",
                         "~/Content/site.css"));
-
-
-
-
-
-
-
-
-
-            bundles.Add(new ScriptBundle("~/bundles/amazeui").Include(
-                        "~/Scripts/amazeui/jquery.min.js",
-                        "~/Scripts/amazeui/amazeui.min.js"
-                        ));
         }
     }
 }

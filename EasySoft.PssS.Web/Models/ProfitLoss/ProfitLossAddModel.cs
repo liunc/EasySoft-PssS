@@ -10,6 +10,8 @@
 // ----------------------------------------------------------
 // 版权所有：易则科技工作室 
 // ----------------------------------------------------------
+using System.ComponentModel.DataAnnotations;
+
 namespace EasySoft.PssS.Web.Models.ProfitLoss
 {
     /// <summary>
@@ -17,6 +19,12 @@ namespace EasySoft.PssS.Web.Models.ProfitLoss
     /// </summary>
     public class ProfitLossAddModel : ProfitLossModel
     {
+
+        /// <summary>
+        /// 获取或设置标题
+        /// </summary>
+        public string Title { get; set; }
+
         /// <summary>
         /// 获取或设置父级页面标题
         /// </summary>
