@@ -10,7 +10,7 @@
 
 <div class="row">
     <ol class="breadcrumb">
-        <li><a href="/Home/Index">@WebResource.Home_Index_Title</a></li>
+        <li><a href="/Home/Index">@WebResource.Title_Index</a></li>
         <li><a href="/Purchase/Index/@Model.Category">@Model.ParentPageTitle</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
@@ -18,17 +18,17 @@
 
 <table class="table table-condensed">
     <tr>
-        <td class="col-xs-2">@WebResource.Purchase_Add_Date</td>
+        <td class="col-xs-2">@WebResource.Field_Date</td>
         <td class="col-xs-7">@Model.Date</td>
         <td class="col-xs-3"></td>
     </tr>
     <tr>
-        <td>@WebResource.Purchase_Add_Item</td>
+        <td>@WebResource.Field_Item</td>
         <td>@Model.Item</td>
         <td></td>
     </tr>
     <tr>
-        <td>@WebResource.Purchase_Add_Supplier</td>
+        <td>@WebResource.Field_Supplier</td>
         <td>@Model.Supplier</td>
         <td></td>
     </tr>
@@ -41,19 +41,19 @@
         <td></td>
     </tr>
     <tr>
-        <td>@WebResource.Purchase_Index_Stock</td>
+        <td>@WebResource.Field_Allowance</td>
         <td>@Model.Allowance.ToString("0.##")@Model.Unit</td>
         <td></td>
     </tr>
     <tr>
-        <td>@WebResource.Purchase_Index_ProfitLoss</td>
+        <td>@WebResource.Field_ProfitLoss</td>
         <td>
             @Model.ProfitLoss.ToString("0.##")@Model.Unit
         </td>
         <td class="text-right"><a id="btnViewProfitLoss" href="javascript:;">@WebResource.Button_View</a> </td>
     </tr>
     <tr>
-        <td>@WebResource.Purchase_Index_Cost</td>
+        <td>@WebResource.Field_Cost</td>
         <td>@Model.Cost.ToString("0.##")@WebResource.Purchase_Index_Yuan</td>
         <td class="text-right"><a id="btnViewCost" href="javascript:;">@WebResource.Button_View</a> </td>
     </tr>

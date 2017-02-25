@@ -25,6 +25,24 @@ namespace EasySoft.PssS.Web
     /// </summary>
     public class ValidateHelper
     {
+        #region 常量
+
+        public const int INT_MIN = 0;
+
+        public const int INT_MAX = 99999999;
+
+        public const decimal DECIMAL_ZERO = 0M;
+
+        public const decimal DECIMAL_MIN = 0.01M;
+
+        public const decimal DECIMAL_MAX = 99999999.99M;
+
+        public const int STRING_LENGTH_50 = 50;
+
+        public const int STRING_LENGTH_120 = 120;
+
+        #endregion
+
         #region 获取字符串
 
         /// <summary>
@@ -151,12 +169,15 @@ namespace EasySoft.PssS.Web
         /// <param name="minValue">最小值</param>
         /// <param name="maxValue">最大值</param>
         /// <param name="errorMessages">返回的错误信息集合</param>
-        public static void CheckDecimal(string name, decimal value, decimal minValue, decimal maxValue, ref List<string> errorMessages)
+        /// <returns>返回检查结果</returns>
+        public static bool CheckDecimal(string name, decimal value, decimal minValue, decimal maxValue, ref List<string> errorMessages)
         {
             if (value < minValue || value > maxValue)
             {
                 errorMessages.Add(GetDecimalFieldRangeString(name, minValue, maxValue));
+                return false;
             }
+            return true;
         }
 
         /// <summary>
@@ -183,21 +204,24 @@ namespace EasySoft.PssS.Web
         /// <param name="isRequired">是否必选项</param>
         /// <param name="options">选项集合</param>
         /// <param name="errorMessages">返回的错误信息集合</param>
-        public static void CheckSelectString(string name, string value, bool isRequired, List<string> options, ref List<string> errorMessages)
+        /// <returns>返回执行结果</returns>
+        public static bool CheckSelectString(string name, string value, bool isRequired, List<string> options, ref List<string> errorMessages)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
                 if (isRequired)
                 {
                     errorMessages.Add(GetPleaseSelectFieldString(name));
-                    return;
+                    return false;
                 }
-                return;
+                return true;
             }
             if (!options.Contains(value))
             {
                 errorMessages.Add(GetArgumentInValidString(name));
+                return false;
             }
+            return true;
         }
 
         /// <summary>
@@ -238,6 +262,30 @@ namespace EasySoft.PssS.Web
         }
 
         #endregion
+        
+        /// <summary>
+        /// 检查采购类型
+        /// </summary>
+        /// <param name="value">传入的字符串</param>
+        /// <param name="errorMessages">返回的错误信息集合</param>
+        /// <returns>返回字符串对应的枚举值</returns>
+        public static PurchaseCategory CheckPurchaseCategory(string value, ref List<string> errorMessages)
+        {
+            if (!CheckStringArgument(WebResource.Field_PurchaseCategory, value, true, ref errorMessages))
+            {
+                return PurchaseCategory.None;
+            }
+            if (value.Equals(PurchaseCategory.Product.ToString(), StringComparison.CurrentCultureIgnoreCase))
+            {
+                return PurchaseCategory.Product;
+            }
+            if (value.Equals(PurchaseCategory.Pack.ToString(), StringComparison.CurrentCultureIgnoreCase))
+            {
+                return PurchaseCategory.Pack;
+            }
+            errorMessages.Add(GetArgumentInValidString(WebResource.Field_PurchaseCategory));
+            return PurchaseCategory.None;
+        }
 
         /// <summary>
         /// 检查益损类型

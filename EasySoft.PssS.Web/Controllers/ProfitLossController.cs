@@ -77,11 +77,9 @@ namespace EasySoft.PssS.Web.Controllers
         public ActionResult Add(string category, string targetType, string recordId)
         {
             List<string> errorMessages = new List<string>();
-
             ProfitLossCategory enumCategory = ValidateHelper.CheckProfitLossCategory(category, ref errorMessages);
             ProfitLossTargetType enumTargetType = ValidateHelper.CheckProfitLossTargetType(targetType, ref errorMessages);
             ValidateHelper.CheckStringArgument(WebResource.Field_RecordId, recordId, true, ref errorMessages);
-
             if(errorMessages.Count > 0)
             {
                 return RedirectToAction("Index", "Error", errorMessages);
@@ -93,12 +91,12 @@ namespace EasySoft.PssS.Web.Controllers
                 Purchase purchase = this.purchaseService.Selete(recordId);
                 if (purchase.Category == PurchaseCategory.Product)
                 {
-                    model.ParentPageTitle = WebResource.Purchase_Index_ProductTitle;
+                    model.ParentPageTitle = WebResource.Title_Purchase_Product;
                     model.ParentPageUrl = "/Purchase/Index/Product";
                 }
                 else
                 {
-                    model.ParentPageTitle = WebResource.Purchase_Index_PackTitle;
+                    model.ParentPageTitle = WebResource.Title_Purchase_Pack;
                     model.ParentPageUrl = "/Purchase/Index/Pack";
                 }
                 model.Allowance = purchase.Allowance;
@@ -107,7 +105,7 @@ namespace EasySoft.PssS.Web.Controllers
             if (enumCategory == ProfitLossCategory.Profit)
             {
                 model.Title = WebResource.Title_Profit;
-                model.Allowance = 99999999.99M;
+                model.Allowance = ValidateHelper.DECIMAL_MAX;
             }
             return View(model);
         }
@@ -133,8 +131,8 @@ namespace EasySoft.PssS.Web.Controllers
                 ProfitLossCategory enumCategory = ValidateHelper.CheckProfitLossCategory(model.Category, ref errorMessages);
                 ProfitLossTargetType enumTargetType = ValidateHelper.CheckProfitLossTargetType(model.TargetType, ref errorMessages);
                 ValidateHelper.CheckStringArgument(WebResource.Field_RecordId, model.RecordId, true, ref errorMessages);
-                ValidateHelper.CheckDecimal(WebResource.Field_Quantity, model.Quantity, 0.01M, 99999999.99M, ref errorMessages);
-                ValidateHelper.CheckInputString(WebResource.Field_Remark, model.Remark, false, 120, ref errorMessages);
+                ValidateHelper.CheckDecimal(WebResource.Field_Quantity, model.Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX, ref errorMessages);
+                ValidateHelper.CheckInputString(WebResource.Field_Remark, model.Remark, false, ValidateHelper.STRING_LENGTH_120, ref errorMessages);
                 if (errorMessages.Count > 0)
                 {
                     result.BuilderErrorMessage(errorMessages);

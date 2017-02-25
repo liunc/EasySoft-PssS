@@ -126,7 +126,7 @@
   <data name="Common_FullStop" xml:space="preserve">
     <value>。</value>
   </data>
-  <data name="Home_Index_Title" xml:space="preserve">
+  <data name="Title_Index" xml:space="preserve">
     <value>首页</value>
   </data>
   <data name="Message_ArgumentIsNull" xml:space="preserve">
@@ -147,13 +147,13 @@
   <data name="Purchase_Add_CostMoneyTip" xml:space="preserve">
     <value>成本项金额必须大于等于0。</value>
   </data>
-  <data name="Purchase_Add_Date" xml:space="preserve">
+  <data name="Field_Date" xml:space="preserve">
     <value>日期</value>
   </data>
   <data name="Purchase_Add_DateTip" xml:space="preserve">
     <value>请选择日期</value>
   </data>
-  <data name="Purchase_Add_Item" xml:space="preserve">
+  <data name="Field_Item" xml:space="preserve">
     <value>项目</value>
   </data>
   <data name="Purchase_Add_ItemTip" xml:space="preserve">
@@ -162,7 +162,7 @@
   <data name="Purchase_Add_MoneyTip" xml:space="preserve">
     <value>请输入金额，单位：元</value>
   </data>
-  <data name="Purchase_Add_PackTitle" xml:space="preserve">
+  <data name="Title_Purchase_AddPack" xml:space="preserve">
     <value>包装入库</value>
   </data>
   <data name="Field_Quantity" xml:space="preserve">
@@ -180,19 +180,19 @@
   <data name="Purchase_Add_RemarkTip" xml:space="preserve">
     <value>请输入备注信息，最多120个字</value>
   </data>
-  <data name="Purchase_Add_Supplier" xml:space="preserve">
+  <data name="Field_Supplier" xml:space="preserve">
     <value>供应方</value>
   </data>
   <data name="Purchase_Add_SupplierTip" xml:space="preserve">
     <value>请输入供应方名称，最多50个字</value>
   </data>
-  <data name="Purchase_Index_IntoDepot" xml:space="preserve">
+  <data name="Button_IntoDepot" xml:space="preserve">
     <value>入库</value>
   </data>
   <data name="SystemName" xml:space="preserve">
     <value>爱原汁味的生活</value>
   </data>
-  <data name="User_Login_LoginButton" xml:space="preserve">
+  <data name="Button_Login" xml:space="preserve">
     <value>立即登录</value>
   </data>
   <data name="User_Login_Error" xml:space="preserve">
@@ -204,16 +204,16 @@
   <data name="User_Login_PasswordTip" xml:space="preserve">
     <value>请输入您的密码</value>
   </data>
-  <data name="User_Login_Title" xml:space="preserve">
-    <value>登录</value>
+  <data name="Title_Login" xml:space="preserve">
+    <value>登录。</value>
   </data>
-  <data name="Purchase_Index_AllItem" xml:space="preserve">
+  <data name="Message_AllItem" xml:space="preserve">
     <value>所有项目</value>
   </data>
-  <data name="Purchase_Index_PackTitle" xml:space="preserve">
+  <data name="Title_Purchase_Pack" xml:space="preserve">
     <value>包装库存</value>
   </data>
-  <data name="Purchase_Index_ProductTitle" xml:space="preserve">
+  <data name="Title_Purchase_Product" xml:space="preserve">
     <value>产品库存</value>
   </data>
   <data name="Button_Delete" xml:space="preserve">
@@ -237,19 +237,19 @@
   <data name="Message_NoData" xml:space="preserve">
     <value>没有数据</value>
   </data>
-  <data name="Purchase_Index_Cost" xml:space="preserve">
+  <data name="Field_Cost" xml:space="preserve">
     <value>成本</value>
   </data>
-  <data name="Purchase_Index_ProfitLoss" xml:space="preserve">
+  <data name="Field_ProfitLoss" xml:space="preserve">
     <value>益损</value>
   </data>
-  <data name="Purchase_Index_Stock" xml:space="preserve">
+  <data name="Field_Allowance" xml:space="preserve">
     <value>库存</value>
   </data>
   <data name="Message_NoMoreData" xml:space="preserve">
     <value>所有数据都在上面了</value>
   </data>
-  <data name="Purchase_Add_ProductTitle" xml:space="preserve">
+  <data name="Title_Purchase_AddProduct" xml:space="preserve">
     <value>产品入库</value>
   </data>
   <data name="Button_Back" xml:space="preserve">
@@ -264,13 +264,13 @@
   <data name="Message_Info" xml:space="preserve">
     <value>信息</value>
   </data>
-  <data name="User_Login_Moblie" xml:space="preserve">
+  <data name="Field_Moblie" xml:space="preserve">
     <value>手机号</value>
   </data>
-  <data name="User_Login_Password" xml:space="preserve">
+  <data name="Field_Password" xml:space="preserve">
     <value>密码</value>
   </data>
-  <data name="User_Login_Tip" xml:space="preserve">
+  <data name="Message_LoginTip" xml:space="preserve">
     <value>使用本地帐户登录。</value>
   </data>
   <data name="Purchase_Index_Yuan" xml:space="preserve">
@@ -341,5 +341,14 @@
   </data>
   <data name="Validate_FieldLengthOverflow" xml:space="preserve">
     <value>请输入{0}，字数在[{1} - {2}]个之间。</value>
+  </data>
+  <data name="Field_PurchaseCategory" xml:space="preserve">
+    <value>采购类型</value>
+  </data>
+  <data name="Field_CostItem" xml:space="preserve">
+    <value>成本项</value>
+  </data>
+  <data name="Field_CostItemMoney" xml:space="preserve">
+    <value>成本项金额</value>
   </data>
 </root>

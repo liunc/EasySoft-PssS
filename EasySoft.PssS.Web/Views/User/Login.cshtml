@@ -3,17 +3,17 @@
 @{
     Layout = "~/Views/Shared/_LayoutNoNav.cshtml";
 }
-<h2>@WebResource.User_Login_Title@WebResource.Common_FullStop</h2>
+<h2>@WebResource.Title_Login</h2>
 <div class="row">
     <div class="col-md-12">
         <form role="form">
-            <h4>@WebResource.User_Login_Tip</h4>
+            <h4>@WebResource.Message_LoginTip</h4>
             <hr />
             <div class="form-group">
-                <input class="form-control" id="txtMoblie" type="text" placeholder="@WebResource.User_Login_MoblieTip" />
+                <input class="form-control" id="txtMoblie" type="text" placeholder="@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Moblie)" />
             </div>
             <div class="form-group">
-                <input class="form-control" id="txtPassword" name="Password" type="password" placeholder="@WebResource.User_Login_PasswordTip" />
+                <input class="form-control" id="txtPassword" name="Password" type="password" placeholder="@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Password)" />
 
             </div>
             @*<div class="form-group">
@@ -25,7 +25,7 @@
                     </div>
                 </div>*@
             <div class="form-group">
-                <input id="btnLogin" type="submit" value="@WebResource.User_Login_LoginButton" class="btn btn-primary  btn-block" />
+                <input id="btnLogin" type="submit" value="@WebResource.Button_Login" class="btn btn-primary  btn-block" />
 
             </div>
         </form>
@@ -64,17 +64,17 @@
                 var moblie = $.trim($('#txtMoblie').val());
                 var password = $.trim($('#txtPassword').val());
                 if (moblie.length == 0) {
-                    showError("@WebResource.User_Login_MoblieTip");
+                    showError('@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Moblie)');
                     return false;
                 }
                 if (password.length == 0) {
-                    showError("@WebResource.User_Login_PasswordTip");
+                    showError('@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Password)');
                     return false;
                 }
                 var model = {};
                 model.Moblie = moblie;
                 model.Password = password;
-                model.ReturnUrl = "@ViewBag.ReturnUrl";
+                model.ReturnUrl = '@ViewBag.ReturnUrl';
                 $.ajax({
                     type: 'post',
                     url: '/User/Login',
@@ -92,7 +92,7 @@
                         showError('System Error');
                     },
                     complete: function () {
-                        
+
                     }
                 });
                 return false;

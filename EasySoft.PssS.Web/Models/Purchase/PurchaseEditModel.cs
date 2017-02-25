@@ -100,10 +100,10 @@ namespace EasySoft.PssS.Web.Models.Purchase
         {
             this.Id = entity.Id;
             this.Category = entity.Category.ToString();
-            this.ParentPageTitle = WebResource.Purchase_Index_ProductTitle;
+            this.ParentPageTitle = WebResource.Title_Purchase_Product;
             if (entity.Category == PurchaseCategory.Pack)
             {
-                this.ParentPageTitle = WebResource.Purchase_Index_PackTitle;
+                this.ParentPageTitle = WebResource.Title_Purchase_Pack;
             }
             this.Title = string.Format("{0}{1}", WebResource.Button_Edit, this.ParentPageTitle);
 

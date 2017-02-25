@@ -12,26 +12,26 @@
 }
 <div class="row">
     <ol class="breadcrumb">
-        <li><a href="/Home/Index">@WebResource.Home_Index_Title</a></li>
+        <li><a href="/Home/Index">@WebResource.Title_Index</a></li>
         <li><a href="/Purchase/Index/@Model.Category">@Model.ParentPageTitle</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
 <form id="formAddPurchase" class="form-horizontal">
     <div class="form-group">
-        <label for="txtDate" class="col-xs-3 control-label">@WebResource.Purchase_Add_Date</label>
+        <label for="txtDate" class="col-xs-3 control-label">@WebResource.Field_Date</label>
         <div class="col-xs-9">
             <input id="txtDate" name="txtDate" class="form_datetime form-control" type="text" value="@Model.Date" readonly />
         </div>
     </div>
     <div class="form-group">
-        <label for="txtSupplier" class="col-xs-3 control-label">@WebResource.Purchase_Add_Supplier</label>
+        <label for="txtSupplier" class="col-xs-3 control-label">@WebResource.Field_Supplier</label>
         <div class="col-xs-9">
             <input id="txtSupplier" name="txtSupplier" value="@Model.Supplier" type="text" class="form-control" placeholder="@WebResource.Purchase_Add_SupplierTip" maxlength="50" />
         </div>
     </div>
     <div class="form-group">
-        <label for="ddlItem" class="col-xs-3 control-label">@WebResource.Purchase_Add_Item</label>
+        <label for="ddlItem" class="col-xs-3 control-label">@WebResource.Field_Item</label>
         <div class="col-xs-9">
             <p class="form-control-static">@Model.ItemName</p>
         </div>

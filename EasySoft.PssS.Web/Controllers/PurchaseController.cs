@@ -13,17 +13,16 @@
 namespace EasySoft.PssS.Web.Controllers
 {
     using EasySoft.PssS.Domain.Entity;
-    using EasySoft.PssS.Domain.ValueObject;
     using EasySoft.PssS.Domain.Service;
-    using Models;
-    using Models.Purchase;
-    using System.Collections.Generic;
-    using System.Web.Mvc;
-    using Resources;
+    using EasySoft.PssS.Domain.ValueObject;
+    using EasySoft.PssS.Web.Filters;
+    using EasySoft.PssS.Web.Models;
+    using EasySoft.PssS.Web.Models.Purchase;
+    using EasySoft.PssS.Web.Resources;
     using System;
-    using System.Configuration;
+    using System.Collections.Generic;
     using System.Linq;
-    using Filters;
+    using System.Web.Mvc;
 
     /// <summary>
     /// 采购控制器类
@@ -34,7 +33,6 @@ namespace EasySoft.PssS.Web.Controllers
 
         private PurchaseService purchaseService = null;
         private CostService costService = null;
-        private ParameterService parameterService = null;
 
         #endregion
 
@@ -47,7 +45,6 @@ namespace EasySoft.PssS.Web.Controllers
         {
             this.purchaseService = new PurchaseService();
             this.costService = new CostService();
-            this.parameterService = new ParameterService();
         }
 
         #endregion
@@ -63,15 +60,18 @@ namespace EasySoft.PssS.Web.Controllers
         [MyAuthorize(AuthRoles = new string[] { "Admin" })]
         public ActionResult Index(string category)
         {
-            string title = WebResource.Purchase_Index_ProductTitle;
-            PurchaseCategory enumCategory = this.GetPurchaseCategory(category);
+            List<string> errorMessages = new List<string>();
+            PurchaseCategory enumCategory = ValidateHelper.CheckPurchaseCategory(category, ref errorMessages);
+            if (errorMessages.Count > 0)
+            {
+                return RedirectToAction("Index", "Error", errorMessages);
+            }
+
+            PurchaseIndexModel model = new PurchaseIndexModel { Category = enumCategory.ToString(), Title = WebResource.Title_Purchase_Product };
             if (enumCategory == PurchaseCategory.Pack)
             {
-                title = WebResource.Purchase_Index_PackTitle;
+                model.Title = WebResource.Title_Purchase_Pack;
             }
-            PurchaseIndexModel model = new PurchaseIndexModel();
-            model.Category = enumCategory.ToString();
-            model.Title = title;
             model.PurchaseItems = ParameterHelper.GetPurchaseItem(model.Category, false).Values.ToList();
             return View(model);
         }
@@ -111,26 +111,23 @@ namespace EasySoft.PssS.Web.Controllers
         /// <param name="category">分类</param>
         /// <returns>返回视图</returns>
         [Route("Purchase/IntoDepot/{category=Product}")]
+        [MyAuthorize(AuthRoles = new string[] { "Admin" })]
         public ActionResult IntoDepot(string category)
         {
-            string title = WebResource.Purchase_Add_ProductTitle;
-            PurchaseCategory enumCategory = this.GetPurchaseCategory(category);
-            if (enumCategory == PurchaseCategory.Pack)
+            List<string> errorMessages = new List<string>();
+            PurchaseCategory enumCategory = ValidateHelper.CheckPurchaseCategory(category, ref errorMessages);
+            if (errorMessages.Count > 0)
             {
-                title = WebResource.Purchase_Add_PackTitle;
+                return RedirectToAction("Index", "Error", errorMessages);
             }
 
-            PurchaseAddModel model = new PurchaseAddModel();
-            model.Title = title;
+            PurchaseAddModel model = new PurchaseAddModel { Category = enumCategory.ToString(), Title = WebResource.Title_Purchase_AddProduct, ParentPageTitle = WebResource.Title_Purchase_Product };
+            if (enumCategory == PurchaseCategory.Pack)
+            {
+                model.Title = WebResource.Title_Purchase_AddPack;
+                model.ParentPageTitle = WebResource.Title_Purchase_Pack;
+            }
             model.PurchaseItems = ParameterHelper.GetPurchaseItem(category, true).Values.ToList();
-            model.Category = enumCategory.ToString();
-
-            model.ParentPageTitle = WebResource.Purchase_Index_ProductTitle;
-            if (enumCategory == PurchaseCategory.Pack)
-            {
-                model.ParentPageTitle = WebResource.Purchase_Index_PackTitle;
-            }
-
             model.Costs = new List<CostModel>();
             foreach (CostItemModel cost in ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true).Values)
             {
@@ -152,53 +149,36 @@ namespace EasySoft.PssS.Web.Controllers
             try
             {
                 List<string> errorMessages = new List<string>();
-                Dictionary<string, decimal> costs = new Dictionary<string, decimal>();
-                DateTime date = new DateTime();
-
-                #region 验证
-
-                if (model == null)
+                if (!ValidateHelper.CheckObjectArgument<PurchaseAddModel>("model", model, ref errorMessages))
                 {
-                    errorMessages.Add(WebResource.Message_ArgumentIsNull);
+                    result.BuilderErrorMessage(errorMessages[0]);
+                    return Json(result);
                 }
-                else
+
+                PurchaseCategory enumCategory = ValidateHelper.CheckPurchaseCategory(model.Category, ref errorMessages);
+                DateTime date = new DateTime();
+                if (!DateTime.TryParse(model.Date, out date))
                 {
-                    if (!DateTime.TryParse(model.Date, out date))
+                    errorMessages.Add(ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Date));
+                }
+                ValidateHelper.CheckSelectString(WebResource.Field_Item, model.Item, true, ParameterHelper.GetPurchaseItem(enumCategory.ToString(), true).Keys.ToList(), ref errorMessages);
+                ValidateHelper.CheckDecimal(WebResource.Field_Quantity, model.Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX, ref errorMessages);
+                ValidateHelper.CheckInputString(WebResource.Field_Supplier, model.Supplier, false, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
+                Dictionary<string, decimal> costs = new Dictionary<string, decimal>();
+                if (model.Costs != null && model.Costs.Count > 0)
+                {
+                    List<string> costOptions = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true).Keys.ToList();
+                    foreach (CostModel cost in model.Costs)
                     {
-                        errorMessages.Add(WebResource.Purchase_Add_DateTip + WebResource.Common_FullStop);
-                    }
-                    if (string.IsNullOrWhiteSpace(model.Item))
-                    {
-                        errorMessages.Add(WebResource.Purchase_Add_ItemTip + WebResource.Common_FullStop);
-                    }
-                    if (model.Quantity <= 0)
-                    {
-                        errorMessages.Add(WebResource.Purchase_Add_QuantityTip);
-                    }
-                    if (!string.IsNullOrWhiteSpace(model.Supplier) && model.Supplier.Trim().Length > 50)
-                    {
-                        errorMessages.Add(WebResource.Purchase_Add_SupplierTip + WebResource.Common_FullStop);
-                    }
-                    if (model.Costs == null || model.Costs.Count == 0)
-                    {
-                        errorMessages.Add(WebResource.Purchase_Add_CostDataIsNull);
-                    }
-                    else
-                    {
-                        foreach (CostModel cost in model.Costs)
+                        if (!ValidateHelper.CheckSelectString(WebResource.Field_CostItem, cost.ItemCode, true, costOptions, ref errorMessages))
                         {
-                            if (string.IsNullOrWhiteSpace(cost.ItemCode))
-                            {
-                                errorMessages.Add(WebResource.Purchase_Add_CostItemIsNull);
-                                break;
-                            }
-                            if (cost.Money < 0)
-                            {
-                                errorMessages.Add(WebResource.Purchase_Add_CostMoneyTip);
-                                break;
-                            }
-                            costs.Add(cost.ItemCode, cost.Money);
+                            break;
                         }
+                        if (!ValidateHelper.CheckDecimal(WebResource.Field_CostItemMoney, cost.Money, ValidateHelper.DECIMAL_ZERO, ValidateHelper.DECIMAL_MAX, ref errorMessages))
+                        {
+                            break;
+                        }
+                        costs.Add(cost.ItemCode, cost.Money);
                     }
                 }
                 if (errorMessages.Count > 0)
@@ -207,9 +187,9 @@ namespace EasySoft.PssS.Web.Controllers
                     return Json(result);
                 }
 
-                #endregion
 
-                this.purchaseService.IntoDepot(date, this.GetPurchaseCategory(model.Category), model.Item.Trim(), model.Quantity, model.Unit.Trim(), model.Supplier, model.Remark, costs, this.Session["Moblie"].ToString());
+
+                this.purchaseService.IntoDepot(date, enumCategory, model.Item.Trim(), model.Quantity, model.Unit.Trim(), model.Supplier, model.Remark, costs, this.Session["Moblie"].ToString());
                 result.Result = true;
                 result.Data = "/Purchase/Index/" + model.Category;
                 return Json(result);
@@ -228,6 +208,13 @@ namespace EasySoft.PssS.Web.Controllers
         /// <returns>返回视图</returns>
         public ActionResult Detail(string id)
         {
+            List<string> errorMessages = new List<string>();
+            ValidateHelper.CheckStringArgument("Id", id, true, ref errorMessages);
+            if (errorMessages.Count > 0)
+            {
+                return RedirectToAction("Index", "Error", errorMessages);
+            }
+
             PurchaseDetailModel model = new PurchaseDetailModel(this.purchaseService.Selete(id));
             Dictionary<string, PurchaseItemModel> items = ParameterHelper.GetPurchaseItem(model.Category, false);
             var query = ParameterHelper.GetPurchaseItem(model.Category, false)[model.Item];
@@ -248,7 +235,7 @@ namespace EasySoft.PssS.Web.Controllers
             Purchase entity = this.purchaseService.Selete(id);
             entity.Costs = this.costService.GetList(id);
             PurchaseEditModel model = new PurchaseEditModel(entity);
-            PurchaseItemModel query = ParameterHelper.GetPurchaseItem(model.Category, false)[model.ItemName];
+            PurchaseItemModel query = ParameterHelper.GetPurchaseItem(model.Category, false)[entity.Item];
             if (query != null)
             {
                 model.ItemName = query.Name;
@@ -369,33 +356,7 @@ namespace EasySoft.PssS.Web.Controllers
                 return Json(result);
             }
         }
-        #endregion
 
-        #region 私有方法
-
-        /// <summary>
-        /// 将类型字符串转换为枚举值
-        /// </summary>
-        /// <param name="category">类型字符串</param>
-        /// <returns>返回采购枚举值</returns>
-        private PurchaseCategory GetPurchaseCategory(string category)
-        {
-            if (string.IsNullOrWhiteSpace(category))
-            {
-                throw new ArgumentNullException("Category");
-            }
-            category = category.ToLower();
-            if (category == "product")
-            {
-                return PurchaseCategory.Product;
-            }
-            if (category == "pack")
-            {
-                return PurchaseCategory.Pack;
-            }
-            throw new ArgumentException("Category");
-        }
-
-        #endregion
+#endregion
     }
 }
