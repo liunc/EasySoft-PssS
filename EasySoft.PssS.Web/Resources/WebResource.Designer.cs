@@ -124,6 +124,15 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 退出 的本地化字符串。
+        /// </summary>
+        public static string Button_Out {
+            get {
+                return ResourceManager.GetString("Button_Out", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 出库 的本地化字符串。
         /// </summary>
         public static string Button_Output {
@@ -205,6 +214,15 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 元 的本地化字符串。
+        /// </summary>
+        public static string Common_Yuan {
+            get {
+                return ResourceManager.GetString("Common_Yuan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 库存 的本地化字符串。
         /// </summary>
         public static string Field_Allowance {
@@ -264,6 +282,15 @@ namespace EasySoft.PssS.Web.Resources {
         public static string Field_Moblie {
             get {
                 return ResourceManager.GetString("Field_Moblie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 金额 的本地化字符串。
+        /// </summary>
+        public static string Field_Money {
+            get {
+                return ResourceManager.GetString("Field_Money", resourceCulture);
             }
         }
         
@@ -349,6 +376,33 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 总资产(元) 的本地化字符串。
+        /// </summary>
+        public static string Field_TotalAssets {
+            get {
+                return ResourceManager.GetString("Field_TotalAssets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成本(元) 的本地化字符串。
+        /// </summary>
+        public static string Field_TotalCost {
+            get {
+                return ResourceManager.GetString("Field_TotalCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 收益(元) 的本地化字符串。
+        /// </summary>
+        public static string Field_TotalIncome {
+            get {
+                return ResourceManager.GetString("Field_TotalIncome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 所有项目 的本地化字符串。
         /// </summary>
         public static string Message_AllItem {
@@ -412,6 +466,15 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 手机号或密码错误，请重新输入。 的本地化字符串。
+        /// </summary>
+        public static string Message_LoginError {
+            get {
+                return ResourceManager.GetString("Message_LoginError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 使用本地帐户登录。 的本地化字符串。
         /// </summary>
         public static string Message_LoginTip {
@@ -448,33 +511,6 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 分类 的本地化字符串。
-        /// </summary>
-        public static string ProfitLoss_Add_Category {
-            get {
-                return ResourceManager.GetString("ProfitLoss_Add_Category", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请选择分类 的本地化字符串。
-        /// </summary>
-        public static string ProfitLoss_Add_CategoryTip {
-            get {
-                return ResourceManager.GetString("ProfitLoss_Add_CategoryTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请设置目标类型 的本地化字符串。
-        /// </summary>
-        public static string ProfitLoss_Add_TargetTypeTip {
-            get {
-                return ResourceManager.GetString("ProfitLoss_Add_TargetTypeTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 损耗 的本地化字符串。
         /// </summary>
         public static string ProfitLoss_Loss {
@@ -489,114 +525,6 @@ namespace EasySoft.PssS.Web.Resources {
         public static string ProfitLoss_Profit {
             get {
                 return ResourceManager.GetString("ProfitLoss_Profit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 成本数据为空。 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_CostDataIsNull {
-            get {
-                return ResourceManager.GetString("Purchase_Add_CostDataIsNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 存在空的成本项。 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_CostItemIsNull {
-            get {
-                return ResourceManager.GetString("Purchase_Add_CostItemIsNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 成本项金额必须大于等于0。 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_CostMoneyTip {
-            get {
-                return ResourceManager.GetString("Purchase_Add_CostMoneyTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请选择日期 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_DateTip {
-            get {
-                return ResourceManager.GetString("Purchase_Add_DateTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请选择项目 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_ItemTip {
-            get {
-                return ResourceManager.GetString("Purchase_Add_ItemTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请输入金额，单位：元 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_MoneyTip {
-            get {
-                return ResourceManager.GetString("Purchase_Add_MoneyTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请输入数量，值为大于0的整数或小数。 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_QuantityTip {
-            get {
-                return ResourceManager.GetString("Purchase_Add_QuantityTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请输入数量 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_QuantityTip1 {
-            get {
-                return ResourceManager.GetString("Purchase_Add_QuantityTip1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请输入备注信息，最多120个字 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_RemarkTip {
-            get {
-                return ResourceManager.GetString("Purchase_Add_RemarkTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请输入供应方名称，最多50个字 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Add_SupplierTip {
-            get {
-                return ResourceManager.GetString("Purchase_Add_SupplierTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 记录明细 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Detail_Title {
-            get {
-                return ResourceManager.GetString("Purchase_Detail_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 元 的本地化字符串。
-        /// </summary>
-        public static string Purchase_Index_Yuan {
-            get {
-                return ResourceManager.GetString("Purchase_Index_Yuan", resourceCulture);
             }
         }
         
@@ -637,11 +565,47 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 出库记录 的本地化字符串。
+        /// </summary>
+        public static string Title_OutputRecord {
+            get {
+                return ResourceManager.GetString("Title_OutputRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 外发订单 的本地化字符串。
+        /// </summary>
+        public static string Title_OutwardOrder {
+            get {
+                return ResourceManager.GetString("Title_OutwardOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 产品出库 的本地化字符串。
+        /// </summary>
+        public static string Title_ProductOutput {
+            get {
+                return ResourceManager.GetString("Title_ProductOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 报益 的本地化字符串。
         /// </summary>
         public static string Title_Profit {
             get {
                 return ResourceManager.GetString("Title_Profit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 采购 的本地化字符串。
+        /// </summary>
+        public static string Title_Purchase {
+            get {
+                return ResourceManager.GetString("Title_Purchase", resourceCulture);
             }
         }
         
@@ -682,29 +646,20 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 手机号或密码错误，请重新输入。 的本地化字符串。
+        ///   查找类似 记录明细 的本地化字符串。
         /// </summary>
-        public static string User_Login_Error {
+        public static string Title_RecordDetail {
             get {
-                return ResourceManager.GetString("User_Login_Error", resourceCulture);
+                return ResourceManager.GetString("Title_RecordDetail", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 请输入您的手机号 的本地化字符串。
+        ///   查找类似 销售订单 的本地化字符串。
         /// </summary>
-        public static string User_Login_MoblieTip {
+        public static string Title_SaleOrder {
             get {
-                return ResourceManager.GetString("User_Login_MoblieTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 请输入您的密码 的本地化字符串。
-        /// </summary>
-        public static string User_Login_PasswordTip {
-            get {
-                return ResourceManager.GetString("User_Login_PasswordTip", resourceCulture);
+                return ResourceManager.GetString("Title_SaleOrder", resourceCulture);
             }
         }
         
@@ -718,7 +673,7 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 请输入{0}，值为[{1} - {2}]之间的整数或小数 的本地化字符串。
+        ///   查找类似 请输入{0}，值为[{1} - {2}]之间的整数或小数。 的本地化字符串。
         /// </summary>
         public static string Validate_DecimalFieldRange {
             get {
@@ -736,7 +691,16 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 请输入{0}，值为[{1} - {2}]之间的整数 的本地化字符串。
+        ///   查找类似 请输入{0}，最多{1}个字。 的本地化字符串。
+        /// </summary>
+        public static string Validate_FieldMaxLength {
+            get {
+                return ResourceManager.GetString("Validate_FieldMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入{0}，值为[{1} - {2}]之间的整数。 的本地化字符串。
         /// </summary>
         public static string Validate_IntFieldRange {
             get {
@@ -745,7 +709,16 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 请输入{0} 的本地化字符串。
+        ///   查找类似 请输入格式为yyyy-MM-dd的日期字符串。 的本地化字符串。
+        /// </summary>
+        public static string Validate_PleaseInputDateString {
+            get {
+                return ResourceManager.GetString("Validate_PleaseInputDateString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入{0}。 的本地化字符串。
         /// </summary>
         public static string Validate_PleaseInputField {
             get {

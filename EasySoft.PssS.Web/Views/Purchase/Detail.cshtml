@@ -5,7 +5,7 @@
 @model EasySoft.PssS.Web.Models.Purchase.PurchaseDetailModel
 
 @{
-    ViewBag.Title = WebResource.Purchase_Detail_Title;
+    ViewBag.Title = WebResource.Title_RecordDetail;
 }
 
 <div class="row">
@@ -23,16 +23,15 @@
         <td class="col-xs-3"></td>
     </tr>
     <tr>
-        <td>@WebResource.Field_Item</td>
-        <td>@Model.Item</td>
-        <td></td>
-    </tr>
-    <tr>
         <td>@WebResource.Field_Supplier</td>
         <td>@Model.Supplier</td>
         <td></td>
     </tr>
-
+    <tr>
+        <td>@WebResource.Field_Item</td>
+        <td>@Model.Item</td>
+        <td></td>
+    </tr>
     <tr>
         <td>
             @WebResource.Field_Quantity
@@ -47,14 +46,14 @@
     </tr>
     <tr>
         <td>@WebResource.Field_ProfitLoss</td>
-        <td>
+        <td id="tdProfitLoss">
             @Model.ProfitLoss.ToString("0.##")@Model.Unit
         </td>
         <td class="text-right"><a id="btnViewProfitLoss" href="javascript:;">@WebResource.Button_View</a> </td>
     </tr>
     <tr>
         <td>@WebResource.Field_Cost</td>
-        <td>@Model.Cost.ToString("0.##")@WebResource.Purchase_Index_Yuan</td>
+        <td>@Model.Cost.ToString("0.##")@WebResource.Common_Yuan</td>
         <td class="text-right"><a id="btnViewCost" href="javascript:;">@WebResource.Button_View</a> </td>
     </tr>
     <tr>
@@ -62,7 +61,7 @@
         <td colspan="2">@Model.Remark</td>
     </tr>
 </table>
-<div class="col-xs-12 text-center">
+<div class="row text-center">
     <div class="btn-group">
         @if (Model.Status != PurchaseStatus.Finished)
         {
@@ -73,7 +72,7 @@
             }
             <button type="button" class="btn btn-default" onclick="window.location.href = '/ProfitLoss/Add/Profit/Purchase/@Model.Id';">@WebResource.Button_Profit</button>
             <button type="button" class="btn btn-default" onclick="window.location.href = '/ProfitLoss/Add/Loss/Purchase/@Model.Id';">@WebResource.Button_Loss</button>
-            <button type="button" class="btn btn-default">@WebResource.Button_Output</button>
+            
         }
         <button type="button" class="btn btn-primary" onclick="window.history.back();">@WebResource.Button_Back</button>
     </div>
@@ -104,6 +103,9 @@
 @section scripts {
     <script type="text/javascript">
         $(function () {
+            
+            getProfitLossStatus();
+
             $('#btnViewCost').click(function () {
                 $.ajax({
                     type: 'get',
@@ -115,7 +117,7 @@
                             $(result).each(function () {
                                 msg += '<tr>' +
                                             '<td class="col-xs-3">' + this.ItemName + '</td>'
-                                            + '<td class="col-xs-9">' + this.Money + '@WebResource.Purchase_Index_Yuan</td>'
+                                            + '<td class="col-xs-9">' + this.Money + '@WebResource.Common_Yuan</td>'
                                         + '</tr>';
                             });
                         }
@@ -164,6 +166,14 @@
                 });
             });
         });
+        function getProfitLossStatus() {
+            var profitLoss = @Model.ProfitLoss.ToString("0.##");
+            var str = profitLoss + '@Model.Unit';
+            if(profitLoss < 0){
+                str = '<span style="color: #ff0000">' + str +'</span>';
+            }
+            $('#tdProfitLoss').html(str);
+        }
         function showDetail(message) {
             $('#detail').html(message);
             $('#alertDetail').modal('show');

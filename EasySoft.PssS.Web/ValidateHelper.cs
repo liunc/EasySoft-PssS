@@ -37,6 +37,8 @@ namespace EasySoft.PssS.Web
 
         public const decimal DECIMAL_MAX = 99999999.99M;
 
+        public const int STRING_LENGTH_32 = 32;
+
         public const int STRING_LENGTH_50 = 50;
 
         public const int STRING_LENGTH_120 = 120;
@@ -73,6 +75,17 @@ namespace EasySoft.PssS.Web
         public static string GetPleaseSelectFieldString(string name)
         {
             return string.Format(WebResource.Validate_PleaseSelectField, name);
+        }
+
+        /// <summary>
+        /// 获取请输入字段，最多多少个字字符串
+        /// </summary>
+        /// <param name="name">字段名</param>
+        /// <param name="maxlength">最大长度</param>
+        /// <returns>返回字符串</returns>
+        public static string GetFieldMaxLengthString(string name, int maxlength)
+        {
+            return string.Format(WebResource.Validate_FieldMaxLength, name, maxlength);
         }
 
         /// <summary>
@@ -124,16 +137,17 @@ namespace EasySoft.PssS.Web
         /// <param name="minLength">最短长度</param>
         /// <param name="maxLength">最大长度</param>
         /// <param name="errorMessages">返回的错误信息集合</param>
-        public static void CheckInputString(string name, string value, bool isRequired, int minLength, int maxLength, ref List<string> errorMessages)
+        /// <returns>返回检查结果</returns>
+        public static bool CheckInputString(string name, string value, bool isRequired, int minLength, int maxLength, ref List<string> errorMessages)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
                 if (isRequired)
                 {
                     errorMessages.Add(GetPleaseInputFieldString(name));
-                    return;
+                    return false;
                 }
-                return;
+                return true;
             }
             value = value.Trim();
             value = Sanitizer.GetSafeHtmlFragment(value);
@@ -145,7 +159,9 @@ namespace EasySoft.PssS.Web
             if ((minLength > 0 && length < minLength) || (maxLength > 0 && length > maxLength))
             {
                 errorMessages.Add(GetFieldLengthOverflowString(name, minLength, maxLength));
+                return false;
             }
+            return true;
         }
 
         /// <summary>
@@ -156,9 +172,10 @@ namespace EasySoft.PssS.Web
         /// <param name="isRequired">是否为非空项</param>
         /// <param name="maxLength">最大长度</param>
         /// <param name="errorMessages">返回的错误信息集合</param>
-        public static void CheckInputString(string name, string value, bool isRequired, int maxLength, ref List<string> errorMessages)
+        /// <returns>返回检查结果</returns>
+        public static bool CheckInputString(string name, string value, bool isRequired, int maxLength, ref List<string> errorMessages)
         {
-            CheckInputString(name, value, isRequired, 0, maxLength, ref errorMessages);
+            return CheckInputString(name, value, isRequired, 0, maxLength, ref errorMessages);
         }
 
         /// <summary>
@@ -225,6 +242,32 @@ namespace EasySoft.PssS.Web
         }
 
         /// <summary>
+        /// 检查选项字符串
+        /// </summary>
+        /// <param name="name">字段名称</param>
+        /// <param name="value">字段值</param>
+        /// <param name="isRequired">是否必选项</param>
+        /// <param name="errorMessages">返回的错误信息集合</param>
+        /// <returns>返回转换成的日期数据</returns>
+        public static DateTime CheckDateString(string name, string value, bool isRequired, ref List<string> errorMessages)
+        {
+            DateTime date = new DateTime();
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                if (isRequired)
+                {
+                    errorMessages.Add(GetPleaseInputFieldString(name));
+                }
+                return date;
+            }
+            if(!DateTime.TryParse(value, out date))
+            {
+                errorMessages.Add(WebResource.Validate_PleaseInputDateString);
+            }
+            return date;
+        }
+
+        /// <summary>
         /// 检查字符串参数
         /// </summary>
         /// <param name="name">字段名称</param>
@@ -262,7 +305,7 @@ namespace EasySoft.PssS.Web
         }
 
         #endregion
-        
+
         /// <summary>
         /// 检查采购类型
         /// </summary>

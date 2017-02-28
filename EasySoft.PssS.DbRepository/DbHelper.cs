@@ -29,6 +29,7 @@ namespace EasySoft.PssS.DbRepository
         #region 变量
 
         private static readonly string CONNECTION_STRING = "SQLSERVER_CONNECTION_STRING";
+        private static DbProviderFactory dbProvider = null;
 
         #endregion
 
@@ -41,7 +42,11 @@ namespace EasySoft.PssS.DbRepository
         {
             get
             {
-                return DbProviderFactories.GetFactory(ConfigurationManager.ConnectionStrings[CONNECTION_STRING].ProviderName.Trim()); 
+                if (dbProvider == null)
+                {
+                    dbProvider = DbProviderFactories.GetFactory(ConfigurationManager.ConnectionStrings[CONNECTION_STRING].ProviderName.Trim());
+                }
+                return dbProvider;
             }
         }
 
@@ -609,7 +614,7 @@ namespace EasySoft.PssS.DbRepository
         {
             return ExecuteNonQuery(CommandType.Text, cmdText);
         }
-
+        
         #endregion
 
         #region 分页
@@ -698,7 +703,41 @@ namespace EasySoft.PssS.DbRepository
 
         #endregion
 
-        #region 设置Parameter
+        #region 设置DbParameter
+
+        /// <summary>
+        /// 设置DbParameter
+        /// </summary>
+        /// <param name="name">名称</param>
+        /// <param name="dbType">数据类型</param>
+        /// <param name="size">最大长度</param>
+        /// <param name="value">DbParameter的值</param>
+        /// <returns>返回DbParameter</returns>
+        public static DbParameter SetParameter(string name, DbType dbType, int size, object value)
+        {
+            DbParameter parameter = DbProvider.CreateParameter();
+            parameter.ParameterName = name;
+            parameter.DbType = dbType;
+            if (size > 0)
+            {
+                parameter.Size = size;
+            }
+            parameter.Value = value;
+            return parameter;
+        }
+
+        /// <summary>
+        /// 设置DbParameter
+        /// </summary>
+        /// <param name="name">名称</param>
+        /// <param name="dbType">数据类型</param>
+        /// <param name="size">最大长度</param>
+        /// <param name="value">DbParameter的值</param>
+        /// <returns>返回DbParameter</returns>
+        public static DbParameter SetParameter(string name, DbType dbType, object value)
+        {
+            return SetParameter(name, dbType, 0, value);
+        }
 
         /// <summary>
         /// 设置SqlCommand参数

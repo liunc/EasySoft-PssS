@@ -19,22 +19,22 @@
 </div>
 <form id="formAddPurchase" class="form-horizontal">
     <div class="form-group">
-        <label for="txtDate" class="col-xs-3 control-label">@WebResource.Field_Date</label>
+        <label for="txtDate" class="col-xs-3 control-label"><span style="color:#ff0000">*</span> @WebResource.Field_Date</label>
         <div class="col-xs-9">
             <input id="txtDate" name="txtDate" class="form_datetime form-control" type="text" value="@Model.CurrentDate" readonly />
         </div>
     </div>
     <div class="form-group">
-        <label for="txtSupplier" class="col-xs-3 control-label">@WebResource.Field_Supplier</label>
+        <label for="txtSupplier" class="col-xs-3 control-label"><span style="color:#ff0000">*</span> @WebResource.Field_Supplier</label>
         <div class="col-xs-9">
-            <input id="txtSupplier" name="txtSupplier" type="text" class="form-control" placeholder="@WebResource.Purchase_Add_SupplierTip" maxlength="50" />
+            <input id="txtSupplier" name="txtSupplier" type="text" class="form-control" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Supplier,  ValidateHelper.STRING_LENGTH_50)" maxlength="50" />
         </div>
     </div>
     <div class="form-group">
-        <label for="ddlItem" class="col-xs-3 control-label">@WebResource.Field_Item</label>
+        <label for="ddlItem" class="col-xs-3 control-label"><span style="color:#ff0000">*</span> @WebResource.Field_Item</label>
         <div class="col-xs-9">
-            <select id="ddlItem" name="ddlItem" class="form-control" placeholder="@WebResource.Purchase_Add_ItemTip" required>
-                <option value="">@WebResource.Purchase_Add_ItemTip</option>
+            <select id="ddlItem" name="ddlItem" class="form-control" required>
+                <option value="">@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Item)</option>
                 @foreach (var item in Model.PurchaseItems)
                 {
                     <option value="@item.Code">@item.Name</option>
@@ -43,10 +43,10 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="txtQuantity" class="col-xs-3 control-label">@WebResource.Field_Quantity</label>
+        <label for="txtQuantity" class="col-xs-3 control-label"><span style="color:#ff0000">*</span> @WebResource.Field_Quantity</label>
         <div class="col-xs-9">
             <div class="input-group">
-                <input id="txtQuantity" name="txtQuantity" type="number" min="0.01" max="99999999.99" class="form-control" aria-describedby="txtUnit" placeholder="@WebResource.Purchase_Add_QuantityTip1">
+                <input id="txtQuantity" name="txtQuantity" type="number" min="0.01" max="99999999.99" class="form-control" aria-describedby="txtUnit" placeholder="@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Quantity)">
                 <span class="input-group-addon" id="txtUnit">---</span>
             </div>
         </div>
@@ -60,8 +60,8 @@
             <label for="@cost.ItemCode" class="col-xs-3 control-label">@cost.ItemName</label>
             <div class="col-xs-9">
                 <div class="input-group">
-                    <input type="number" min="0" max="99999999.99" id="@cost.ItemCode" aria-describedby="span@cost.ItemCod" name="costMoney" class="form-control" placeholder="@WebResource.Purchase_Add_MoneyTip" />
-                    <span class="input-group-addon" id="span@cost.ItemCode">@WebResource.Purchase_Index_Yuan</span>
+                    <input type="number" min="0" max="99999999.99" id="@cost.ItemCode" aria-describedby="span@cost.ItemCod" name="costMoney" class="form-control" placeholder="@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Money)" />
+                    <span class="input-group-addon" id="span@cost.ItemCode">@WebResource.Common_Yuan</span>
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
     <div class="form-group">
         <label for="txtRemark" class="col-xs-3 control-label">@WebResource.Field_Remark</label>
         <div class="col-xs-9">
-            <textarea class="form-control" rows="4" id="txtRemark" name="txtRemark" maxlength="120" placeholder="@WebResource.Purchase_Add_RemarkTip"></textarea>
+            <textarea class="form-control" rows="4" id="txtRemark" name="txtRemark" maxlength="120" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Remark,  ValidateHelper.STRING_LENGTH_120)"></textarea>
         </div>
     </div>
     <div class="form-group"><div class="col-xs-3"></div>
@@ -137,11 +137,11 @@
                 errorClass: 'help-block',
                 focusInvalid: false,
                 rules: {
-                    txtDate:{
+                    txtDate: {
                         required: true,
-                        date:true
+                        date: true
                     },
-                    txtSupplier:{
+                    txtSupplier: {
                         required: true,
                         maxlength: 50
                     },
@@ -151,7 +151,7 @@
                     txtQuantity: {
                         required: true,
                         number: true,
-                        min :0.01,
+                        min: 0.01,
                         max: 99999999.99
                     },
                     costMoney: {
@@ -163,31 +163,31 @@
                         maxlength: 120
                     }
                 },
-                messages:{
-                    txtDate:{
-                        required: '@WebResource.Purchase_Add_DateTip',
-                        date:'@WebResource.Purchase_Add_DateTip'
+                messages: {
+                    txtDate: {
+                        required: '@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Date)',
+                        date: '@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Date)'
                     },
-                    txtSupplier:{
-                        required: '@WebResource.Purchase_Add_SupplierTip',
-                        maxlength: '@WebResource.Purchase_Add_SupplierTip'
+                    txtSupplier: {
+                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Supplier)',
+                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Supplier, ValidateHelper.STRING_LENGTH_50)'
                     },
                     ddlItem: {
-                        required: '@WebResource.Purchase_Add_ItemTip'
+                        required: '@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Item)'
                     },
                     txtQuantity: {
-                        required: '@WebResource.Purchase_Add_QuantityTip',
-                        number: '@WebResource.Purchase_Add_QuantityTip1',
-                        min :'@WebResource.Purchase_Add_QuantityTip1',
-                        max: '@WebResource.Purchase_Add_QuantityTip1'
+                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Quantity)',
+                        number: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX)',
+                        min: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX)',
+                        max: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX)'
                     },
                     costMoney: {
-                        number: '@WebResource.Purchase_Add_MoneyTip',
-                        min: '@WebResource.Purchase_Add_MoneyTip',
-                        max: '@WebResource.Purchase_Add_MoneyTip'
+                        number: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Money)',
+                        min: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Money, ValidateHelper.DECIMAL_ZERO, ValidateHelper.DECIMAL_MAX)',
+                        max: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Money, ValidateHelper.DECIMAL_ZERO, ValidateHelper.DECIMAL_MAX)'
                     },
                     txtRemark: {
-                        maxlength: '@WebResource.Purchase_Add_RemarkTip'
+                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Remark, ValidateHelper.STRING_LENGTH_120)'
                     }
                 },
                 highlight: function (element) {

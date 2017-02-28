@@ -17,6 +17,7 @@ namespace EasySoft.PssS.Web.Controllers
     using EasySoft.PssS.Web.Models;
     using EasySoft.PssS.Web.Models.User;
     using EasySoft.PssS.Web.Resources;
+    using System.Collections.Generic;
     using System.Web.Mvc;
     using System.Web.Security;
 
@@ -49,11 +50,11 @@ namespace EasySoft.PssS.Web.Controllers
         /// 获取Login视图
         /// </summary>
         /// <param name="returnUrl">跳转页面Url</param>
-        /// <returns></returns>
+        /// <returns>返回视图对象</returns>
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
+            LoginModel model = new LoginModel { ReturnUrl = returnUrl };
+            return View(model);
         }
 
         /// <summary>
@@ -65,30 +66,24 @@ namespace EasySoft.PssS.Web.Controllers
         public ActionResult Login(LoginModel model)
         {
             JsonResultModel result = new JsonResultModel();
-            if(model == null)
+            List<string> errorMessages = new List<string>();
+            if (!ValidateHelper.CheckObjectArgument<LoginModel>("model", model, ref errorMessages))
             {
-                result.Message = WebResource.Message_ArgumentIsNull;
+                result.BuilderErrorMessage(errorMessages);
+                return Json(result);
             }
-            else
+            ValidateHelper.CheckInputString(WebResource.Field_Moblie, model.Moblie, true, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
+            ValidateHelper.CheckInputString(WebResource.Field_Password, model.Password, true, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
+            if (errorMessages.Count > 0)
             {
-                if (string.IsNullOrWhiteSpace(model.Moblie))
-                {
-                    result.Message = WebResource.User_Login_MoblieTip + WebResource.Common_FullStop;
-                }
-                else if (string.IsNullOrWhiteSpace(model.Password))
-                {
-                    result.Message = WebResource.User_Login_PasswordTip + WebResource.Common_FullStop;
-                }
-            }
-            if (!string.IsNullOrWhiteSpace(result.Message))
-            {
+                result.BuilderErrorMessage(errorMessages);
                 return Json(result);
             }
 
             User user = this.userService.Login(model.Moblie.Trim(), model.Password.Trim());
             if (user == null)
             {
-                result.Message = WebResource.User_Login_Error;
+                result.Message = WebResource.Message_LoginError;
             }
             else
             {
@@ -98,15 +93,15 @@ namespace EasySoft.PssS.Web.Controllers
                 FormsAuthentication.SetAuthCookie(model.Moblie, false);
 
                 result.Result = true;
-                result.Data = string.IsNullOrWhiteSpace(model.ReturnUrl) ? "/": model.ReturnUrl;
+                result.Data = string.IsNullOrWhiteSpace(model.ReturnUrl) ? "/" : model.ReturnUrl;
             }
             return Json(result);
         }
 
         /// <summary>
-        /// 用户退回
+        /// 用户退出
         /// </summary>
-        /// <returns></returns>
+        /// <returns>用户退出</returns>
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();

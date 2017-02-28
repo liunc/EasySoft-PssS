@@ -35,25 +35,15 @@ namespace EasySoft.PssS.DbRepository
         /// <param name="entity">数据实体对象</param>
         public void Insert(DbTransaction trans, Cost entity)
         {
-            string cmdText = @"INSERT INTO [dbo].[Cost]
-                                   ([Id]
-                                   ,[RecordId]
-                                   ,[Category]
-                                   ,[Item]
-                                   ,[Money])
-                             VALUES
-                                   (@Id
-                                   ,@RecordId 
-                                   ,@Category 
-                                   ,@Item 
-                                   ,@Money)";
+            string cmdText = @"INSERT INTO [dbo].[Cost]([Id], [RecordId], [Category], [Item], [Money])
+                             VALUES(@Id, @RecordId, @Category, @Item, @Money)";
 
             DbParameter[] paras = new DbParameter[] {
-                    DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), entity.Id),
-                    DbHelper.SetParameter(new SqlParameter("@RecordId", SqlDbType.Char, 32), entity.RecordId),
-                    DbHelper.SetParameter(new SqlParameter("@Category", SqlDbType.VarChar, 10), entity.Category.ToString()),
-                    DbHelper.SetParameter(new SqlParameter("@Item", SqlDbType.VarChar, 20), entity.Item),
-                    DbHelper.SetParameter(new SqlParameter("@Money", SqlDbType.Decimal, 18), entity.Money)};
+                    DbHelper.SetParameter("Id", DbType.StringFixedLength, 32, entity.Id),
+                    DbHelper.SetParameter("@RecordId", DbType.String, 32, entity.RecordId),
+                    DbHelper.SetParameter("@Category", DbType.String, 10, entity.Category.ToString()),
+                    DbHelper.SetParameter("@Item", DbType.String, 20, entity.Item),
+                    DbHelper.SetParameter("@Money", DbType.Decimal, 18, entity.Money)};
 
             if (trans == null)
             {
@@ -71,13 +61,11 @@ namespace EasySoft.PssS.DbRepository
         /// <param name="money">金额</param>
         public void Update(DbTransaction trans, string id, decimal money)
         {
-            string cmdText = @"UPDATE [dbo].[Cost]
-                                SET [Money] = @Money
-                             WHERE [Id] = @Id";
+            string cmdText = @"UPDATE [dbo].[Cost] SET [Money] = @Money WHERE [Id] = @Id";
 
             DbParameter[] paras = new DbParameter[] {
-                    DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), id),
-                    DbHelper.SetParameter(new SqlParameter("@Money", SqlDbType.Decimal, 18), money)};
+                    DbHelper.SetParameter("Id", DbType.String, 32, id),
+                    DbHelper.SetParameter("Money", DbType.Decimal, 18, money)};
 
             if (trans == null)
             {
@@ -95,14 +83,10 @@ namespace EasySoft.PssS.DbRepository
         /// <returns>返回成本信息</returns>
         public List<Cost> SearchByRecordId(DbTransaction trans, string recordId)
         {
-            string cmdText = @"SELECT [Id]
-                                   ,[RecordId]
-                                   ,[Category]
-                                   ,[Item]
-                                   ,[Money]
+            string cmdText = @"SELECT [Id], [RecordId], [Category], [Item], [Money]
                             FROM [dbo].[Cost] WHERE [RecordId] = @RecordId";
 
-            DbParameter paras = DbHelper.SetParameter(new SqlParameter("@RecordId", SqlDbType.Char, 32), recordId);
+            DbParameter paras = DbHelper.SetParameter("RecordId", DbType.String, 32, recordId);
 
             DbDataReader reader = null;
             if (trans == null)
@@ -135,7 +119,7 @@ namespace EasySoft.PssS.DbRepository
         {
             string cmdText = @"DELETE FROM [dbo].[Cost] WHERE [RecordId] = @RecordId";
 
-            DbParameter paras = DbHelper.SetParameter(new SqlParameter("@RecordId", SqlDbType.Char, 32), recordId);
+            DbParameter paras = DbHelper.SetParameter("RecordId", DbType.String, 32, recordId);
 
             if (trans == null)
             {

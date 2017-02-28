@@ -1,10 +1,12 @@
 ﻿@using EasySoft.PssS.Web.Resources;
 @model EasySoft.PssS.Web.Models.Purchase.PurchaseIndexModel
-
+@{
+    ViewBag.Title = Model.Title;
+}
 <div class="row">
     <ol class="breadcrumb">
         <li><a href="/Home/Index">@WebResource.Title_Index</a></li>
-        <li class="active">@Model.Title</li>
+        <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
 <div class="row">
@@ -52,6 +54,13 @@
             getData();
         });
 
+        function getProfitLossStatus(profitLoss) {
+            var str = profitLoss;
+            if(profitLoss < 0){
+                str = '<span style="color: #ff0000">' + str +'</span>';
+            }
+            return str;
+        }
         function getData() {
 
             if (typeof ($('#btnMore').attr('disabled')) != 'undefined') {
@@ -79,9 +88,9 @@
                         $(result.Data).each(function () {
                             var data = '<div class="row">' +
                                 '<div class="col-xs-12" style="border-top:1px solid #dddddd;">' +
-                                    '<div class="row" style="cursor:pointer">' +
+                                    '<div class="row" style="cursor:pointer" onclick="window.location.href=\'/Purchase/Detail/'+this.Id+ '\'">' +
                                         '<div class="form-group col-xs-10">' +
-                                            '<p class="form-control-static"><a href="/Purchase/Detail/' + this.Id + '"><strong>' + this.Item + ' ' + this.Date + ' ' + this.Supplier + '</strong></a></p>' +
+                                            '<p class="form-control-static">' + this.Item + ' ' + this.Date + ' ' + this.Supplier + '</p>' +
                                         '</div>' +
                                         '<div class="form-group col-xs-2 text-right">' +
                                             '<p class="form-control-static">></p>' +
@@ -95,10 +104,10 @@
                                                 this.Allowance + '<br /><small>@WebResource.Field_Allowance (' + this.Unit + ')</small>' +
                                             '</div>' +
                                             '<div class="col-xs-4 text-center" style="border-right:1px solid #dddddd;">' +
-                                                this.ProfitLoss + '<br /><small>@WebResource.Field_ProfitLoss (' + this.Unit + ')</small>' +
+                                                getProfitLossStatus(this.ProfitLoss) + '<br /><small>@WebResource.Field_ProfitLoss (' + this.Unit + ')</small>' +
                                             '</div>' +
                                             '<div class="col-xs-4 text-center">' +
-                                                this.Cost + '<br /><small>@WebResource.Field_Cost (@WebResource.Purchase_Index_Yuan)</small>' +
+                                                this.Cost + '<br /><small>@WebResource.Field_Cost (@WebResource.Common_Yuan)</small>' +
                                             '</div>' +
                                         '</div>' +
                                     '</div>' +

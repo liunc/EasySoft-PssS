@@ -19,7 +19,6 @@ namespace EasySoft.PssS.DbRepository
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
-    using System.Data.SqlClient;
 
     /// <summary>
     /// 采购项仓储实现类
@@ -28,23 +27,7 @@ namespace EasySoft.PssS.DbRepository
     {
         #region 常量
 
-        private static readonly string SELECT_SQLSTRING = @"SELECT [Id]
-                                  ,[Date]
-                                  ,[Category]
-                                  ,[Item]
-                                  ,[Quantity]
-                                  ,[Unit]
-                                  ,[Supplier]
-                                  ,[Allowance]
-                                  ,[Cost]
-                                  ,[ProfitLoss]
-                                  ,[Remark]
-                                  ,[Status]
-                                  ,[Creator]
-                                  ,[CreateTime]
-                                  ,[Mender]
-                                  ,[ModifyTime]
-                              FROM [dbo].[Purchase] {0}";
+        private static readonly string SELECT_SQLSTRING = @"SELECT [Id], [Date], [Category], [Item], [Quantity], [Unit], [Supplier], [Allowance], [Cost], [ProfitLoss], [Remark], [Status], [Creator], [CreateTime], [Mender], [ModifyTime] FROM [dbo].[Purchase] {0}";
         #endregion
 
         #region 方法
@@ -56,58 +39,26 @@ namespace EasySoft.PssS.DbRepository
         /// <param name="entity">数据实体对象</param>
         public void Insert(DbTransaction trans, Purchase entity)
         {
-            string cmdText = @"INSERT INTO [dbo].[Purchase]
-                                   ([Id]
-                                   ,[Date]
-                                   ,[Category]
-                                   ,[Item]
-                                   ,[Quantity]
-                                   ,[Unit]
-                                   ,[Supplier]
-                                   ,[Allowance]
-                                   ,[Cost]
-                                   ,[ProfitLoss]
-                                   ,[Remark]
-                                   ,[Status]
-                                   ,[Creator]
-                                   ,[CreateTime]
-                                   ,[Mender]
-                                   ,[ModifyTime])
-                             VALUES
-                                   (@Id
-                                   ,@Date 
-                                   ,@Category 
-                                   ,@Item 
-                                   ,@Quantity 
-                                   ,@Unit 
-                                   ,@Supplier 
-                                   ,@Allowance 
-                                   ,@Cost
-                                   ,@ProfitLoss
-                                   ,@Remark
-                                   ,@Status
-                                   ,@Creator 
-                                   ,@CreateTime 
-                                   ,@Mender 
-                                   ,@ModifyTime)";
+            string cmdText = @"INSERT INTO [dbo].[Purchase]([Id], [Date], [Category], [Item], [Quantity], [Unit], [Supplier], [Allowance], [Cost], [ProfitLoss], [Remark], [Status], [Creator], [CreateTime], [Mender], [ModifyTime])
+                             VALUES(@Id, @Date, @Category, @Item, @Quantity, @Unit, @Supplier, @Allowance, @Cost, @ProfitLoss, @Remark, @Status, @Creator, @CreateTime, @Mender, @ModifyTime)";
 
             DbParameter[] paras = new DbParameter[] {
-                    DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), entity.Id),
-                    DbHelper.SetParameter(new SqlParameter("@Date", SqlDbType.Date), entity.Date),
-                    DbHelper.SetParameter(new SqlParameter("@Category", SqlDbType.VarChar, 10), entity.Category.ToString()),
-                    DbHelper.SetParameter(new SqlParameter("@Item", SqlDbType.VarChar, 20), entity.Item),
-                    DbHelper.SetParameter(new SqlParameter("@Quantity", SqlDbType.Decimal, 18), entity.Quantity),
-                    DbHelper.SetParameter(new SqlParameter("@Unit", SqlDbType.NVarChar, 5), entity.Unit),
-                    DbHelper.SetParameter(new SqlParameter("@Supplier", SqlDbType.NVarChar, 50), entity.Supplier),
-                    DbHelper.SetParameter(new SqlParameter("@Allowance", SqlDbType.Decimal, 18), entity.Allowance),
-                    DbHelper.SetParameter(new SqlParameter("@Cost", SqlDbType.Decimal, 18), entity.Cost),
-                    DbHelper.SetParameter(new SqlParameter("@ProfitLoss", SqlDbType.Decimal, 18), entity.ProfitLoss),
-                    DbHelper.SetParameter(new SqlParameter("@Remark", SqlDbType.NVarChar, 120), entity.Remark),
-                    DbHelper.SetParameter(new SqlParameter("@Status", SqlDbType.SmallInt), entity.Status),
-                    DbHelper.SetParameter(new SqlParameter("@Creator", SqlDbType.NVarChar, 20), entity.Creator.UserId),
-                    DbHelper.SetParameter(new SqlParameter("@CreateTime", SqlDbType.DateTime), entity.Creator.Time),
-                    DbHelper.SetParameter(new SqlParameter("@Mender", SqlDbType.NVarChar, 20), entity.Mender.UserId),
-                    DbHelper.SetParameter(new SqlParameter("@ModifyTime", SqlDbType.DateTime), entity.Mender.Time)};
+                    DbHelper.SetParameter("Id", DbType.String, 32, entity.Id),
+                    DbHelper.SetParameter("Date", DbType.DateTime, entity.Date),
+                    DbHelper.SetParameter("Category", DbType.String, 10, entity.Category.ToString()),
+                    DbHelper.SetParameter("Item", DbType.String, 20, entity.Item),
+                    DbHelper.SetParameter("Quantity", DbType.Decimal, 18, entity.Quantity),
+                    DbHelper.SetParameter("Unit", DbType.String, 5, entity.Unit),
+                    DbHelper.SetParameter("Supplier", DbType.String, 50, entity.Supplier),
+                    DbHelper.SetParameter("Allowance", DbType.Decimal, 18, entity.Allowance),
+                    DbHelper.SetParameter("Cost", DbType.Decimal, 18, entity.Cost),
+                    DbHelper.SetParameter("ProfitLoss", DbType.Decimal, 18, entity.ProfitLoss),
+                    DbHelper.SetParameter("Remark", DbType.String, 120, entity.Remark),
+                    DbHelper.SetParameter("Status", DbType.Int16, entity.Status),
+                    DbHelper.SetParameter("Creator", DbType.String, 20, entity.Creator.UserId),
+                    DbHelper.SetParameter("CreateTime", DbType.DateTime, entity.Creator.Time),
+                    DbHelper.SetParameter("Mender", DbType.String, 20, entity.Mender.UserId),
+                    DbHelper.SetParameter("ModifyTime", DbType.DateTime, entity.Mender.Time)};
 
             if (trans == null)
             {
@@ -138,17 +89,17 @@ namespace EasySoft.PssS.DbRepository
                                 WHERE [Id] = @Id";
 
             DbParameter[] paras = new DbParameter[] {
-                    DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), entity.Id),
-                    DbHelper.SetParameter(new SqlParameter("@Date", SqlDbType.Date), entity.Date),
-                    DbHelper.SetParameter(new SqlParameter("@Quantity", SqlDbType.Decimal, 18), entity.Quantity),
-                    DbHelper.SetParameter(new SqlParameter("@Supplier", SqlDbType.NVarChar, 50), entity.Supplier),
-                    DbHelper.SetParameter(new SqlParameter("@Allowance", SqlDbType.Decimal, 18), entity.Allowance),
-                    DbHelper.SetParameter(new SqlParameter("@Cost", SqlDbType.Decimal, 18), entity.Cost),
-                    DbHelper.SetParameter(new SqlParameter("@ProfitLoss", SqlDbType.Decimal, 18), entity.ProfitLoss),
-                    DbHelper.SetParameter(new SqlParameter("@Remark", SqlDbType.NVarChar, 120), entity.Remark),
-                    DbHelper.SetParameter(new SqlParameter("@Status", SqlDbType.SmallInt), entity.Status),
-                    DbHelper.SetParameter(new SqlParameter("@Mender", SqlDbType.NVarChar, 20), entity.Mender.UserId),
-                    DbHelper.SetParameter(new SqlParameter("@ModifyTime", SqlDbType.DateTime), entity.Mender.Time)};
+                    DbHelper.SetParameter("Id", DbType.String, 32, entity.Id),
+                    DbHelper.SetParameter("Date", DbType.DateTime, entity.Date),
+                    DbHelper.SetParameter("Quantity", DbType.Decimal, 18, entity.Quantity),
+                    DbHelper.SetParameter("Supplier", DbType.String, 50, entity.Supplier),
+                    DbHelper.SetParameter("Allowance", DbType.Decimal, 18, entity.Allowance),
+                    DbHelper.SetParameter("Cost", DbType.Decimal, 18, entity.Cost),
+                    DbHelper.SetParameter("ProfitLoss", DbType.Decimal, 18, entity.ProfitLoss),
+                    DbHelper.SetParameter("Remark", DbType.String, 120, entity.Remark),
+                    DbHelper.SetParameter("Status", DbType.Int16, entity.Status),
+                    DbHelper.SetParameter("Mender", DbType.String, 20, entity.Mender.UserId),
+                    DbHelper.SetParameter("ModifyTime", DbType.DateTime, entity.Mender.Time)};
 
             if (trans == null)
             {
@@ -167,7 +118,7 @@ namespace EasySoft.PssS.DbRepository
         {
             string cmdText = @"DELETE FROM [dbo].[Purchase] WHERE [Id] = @Id";
 
-            DbParameter paras = DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), id);
+            DbParameter paras = DbHelper.SetParameter("Id", DbType.String, 32, id);
 
             if (trans == null)
             {
@@ -187,7 +138,7 @@ namespace EasySoft.PssS.DbRepository
         {
             string cmdText = string.Format(SELECT_SQLSTRING, "WHERE [Id] = @Id");
 
-            DbParameter paras = DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), id);
+            DbParameter paras = DbHelper.SetParameter("Id", DbType.String, 32, id);
 
             DbDataReader reader = null;
             if (trans == null)
@@ -226,12 +177,12 @@ namespace EasySoft.PssS.DbRepository
             if (!string.IsNullOrEmpty(category))
             {
                 conditions.Add("[Category] = @Category");
-                paras.Add(DbHelper.SetParameter(new SqlParameter("@Category", SqlDbType.VarChar, 10), category));
+                paras.Add(DbHelper.SetParameter("Category", DbType.String, 10, category));
             }
             if (!string.IsNullOrEmpty(item))
             {
                 conditions.Add("[Item] = @Item");
-                paras.Add(DbHelper.SetParameter(new SqlParameter("@Item", SqlDbType.VarChar, 20), item));
+                paras.Add(DbHelper.SetParameter("Item", DbType.String, 20, item));
             }
             string whereCmdText = string.Empty;
             if (conditions.Count > 0)

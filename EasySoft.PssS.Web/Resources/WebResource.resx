@@ -138,29 +138,11 @@
   <data name="Message_SubmitFailed" xml:space="preserve">
     <value>提交失败，错误信息</value>
   </data>
-  <data name="Purchase_Add_CostDataIsNull" xml:space="preserve">
-    <value>成本数据为空。</value>
-  </data>
-  <data name="Purchase_Add_CostItemIsNull" xml:space="preserve">
-    <value>存在空的成本项。</value>
-  </data>
-  <data name="Purchase_Add_CostMoneyTip" xml:space="preserve">
-    <value>成本项金额必须大于等于0。</value>
-  </data>
   <data name="Field_Date" xml:space="preserve">
     <value>日期</value>
   </data>
-  <data name="Purchase_Add_DateTip" xml:space="preserve">
-    <value>请选择日期</value>
-  </data>
   <data name="Field_Item" xml:space="preserve">
     <value>项目</value>
-  </data>
-  <data name="Purchase_Add_ItemTip" xml:space="preserve">
-    <value>请选择项目</value>
-  </data>
-  <data name="Purchase_Add_MoneyTip" xml:space="preserve">
-    <value>请输入金额，单位：元</value>
   </data>
   <data name="Title_Purchase_AddPack" xml:space="preserve">
     <value>包装入库</value>
@@ -168,23 +150,11 @@
   <data name="Field_Quantity" xml:space="preserve">
     <value>数量</value>
   </data>
-  <data name="Purchase_Add_QuantityTip" xml:space="preserve">
-    <value>请输入数量，值为大于0的整数或小数。</value>
-  </data>
-  <data name="Purchase_Add_QuantityTip1" xml:space="preserve">
-    <value>请输入数量</value>
-  </data>
   <data name="Field_Remark" xml:space="preserve">
     <value>备注</value>
   </data>
-  <data name="Purchase_Add_RemarkTip" xml:space="preserve">
-    <value>请输入备注信息，最多120个字</value>
-  </data>
   <data name="Field_Supplier" xml:space="preserve">
     <value>供应方</value>
-  </data>
-  <data name="Purchase_Add_SupplierTip" xml:space="preserve">
-    <value>请输入供应方名称，最多50个字</value>
   </data>
   <data name="Button_IntoDepot" xml:space="preserve">
     <value>入库</value>
@@ -195,14 +165,8 @@
   <data name="Button_Login" xml:space="preserve">
     <value>立即登录</value>
   </data>
-  <data name="User_Login_Error" xml:space="preserve">
+  <data name="Message_LoginError" xml:space="preserve">
     <value>手机号或密码错误，请重新输入。</value>
-  </data>
-  <data name="User_Login_MoblieTip" xml:space="preserve">
-    <value>请输入您的手机号</value>
-  </data>
-  <data name="User_Login_PasswordTip" xml:space="preserve">
-    <value>请输入您的密码</value>
   </data>
   <data name="Title_Login" xml:space="preserve">
     <value>登录。</value>
@@ -255,7 +219,7 @@
   <data name="Button_Back" xml:space="preserve">
     <value>返回</value>
   </data>
-  <data name="Purchase_Detail_Title" xml:space="preserve">
+  <data name="Title_RecordDetail" xml:space="preserve">
     <value>记录明细</value>
   </data>
   <data name="Message_Error" xml:space="preserve">
@@ -273,7 +237,7 @@
   <data name="Message_LoginTip" xml:space="preserve">
     <value>使用本地帐户登录。</value>
   </data>
-  <data name="Purchase_Index_Yuan" xml:space="preserve">
+  <data name="Common_Yuan" xml:space="preserve">
     <value>元</value>
   </data>
   <data name="Common_None" xml:space="preserve">
@@ -288,17 +252,8 @@
   <data name="Message_ConfirmDelete" xml:space="preserve">
     <value>您确认要删除该数据吗？</value>
   </data>
-  <data name="ProfitLoss_Add_Category" xml:space="preserve">
-    <value>分类</value>
-  </data>
-  <data name="ProfitLoss_Add_CategoryTip" xml:space="preserve">
-    <value>请选择分类</value>
-  </data>
   <data name="Field_RecordId" xml:space="preserve">
     <value>记录Id</value>
-  </data>
-  <data name="ProfitLoss_Add_TargetTypeTip" xml:space="preserve">
-    <value>请设置目标类型</value>
   </data>
   <data name="ProfitLoss_Loss" xml:space="preserve">
     <value>损耗</value>
@@ -307,13 +262,13 @@
     <value>增益</value>
   </data>
   <data name="Validate_DecimalFieldRange" xml:space="preserve">
-    <value>请输入{0}，值为[{1} - {2}]之间的整数或小数</value>
+    <value>请输入{0}，值为[{1} - {2}]之间的整数或小数。</value>
   </data>
   <data name="Validate_IntFieldRange" xml:space="preserve">
-    <value>请输入{0}，值为[{1} - {2}]之间的整数</value>
+    <value>请输入{0}，值为[{1} - {2}]之间的整数。</value>
   </data>
   <data name="Validate_PleaseInputField" xml:space="preserve">
-    <value>请输入{0}</value>
+    <value>请输入{0}。</value>
   </data>
   <data name="Validate_PleaseSelectField" xml:space="preserve">
     <value>请选择{0}</value>
@@ -350,5 +305,41 @@
   </data>
   <data name="Field_CostItemMoney" xml:space="preserve">
     <value>成本项金额</value>
+  </data>
+  <data name="Button_Out" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="Field_TotalAssets" xml:space="preserve">
+    <value>总资产(元)</value>
+  </data>
+  <data name="Field_TotalCost" xml:space="preserve">
+    <value>成本(元)</value>
+  </data>
+  <data name="Field_TotalIncome" xml:space="preserve">
+    <value>收益(元)</value>
+  </data>
+  <data name="Title_OutputRecord" xml:space="preserve">
+    <value>出库记录</value>
+  </data>
+  <data name="Title_OutwardOrder" xml:space="preserve">
+    <value>外发订单</value>
+  </data>
+  <data name="Title_ProductOutput" xml:space="preserve">
+    <value>产品出库</value>
+  </data>
+  <data name="Title_Purchase" xml:space="preserve">
+    <value>采购</value>
+  </data>
+  <data name="Title_SaleOrder" xml:space="preserve">
+    <value>销售订单</value>
+  </data>
+  <data name="Field_Money" xml:space="preserve">
+    <value>金额</value>
+  </data>
+  <data name="Validate_FieldMaxLength" xml:space="preserve">
+    <value>请输入{0}，最多{1}个字。</value>
+  </data>
+  <data name="Validate_PleaseInputDateString" xml:space="preserve">
+    <value>请输入格式为yyyy-MM-dd的日期字符串。</value>
   </data>
 </root>

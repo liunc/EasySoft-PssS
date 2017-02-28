@@ -156,14 +156,11 @@ namespace EasySoft.PssS.Web.Controllers
                 }
 
                 PurchaseCategory enumCategory = ValidateHelper.CheckPurchaseCategory(model.Category, ref errorMessages);
-                DateTime date = new DateTime();
-                if (!DateTime.TryParse(model.Date, out date))
-                {
-                    errorMessages.Add(ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Date));
-                }
+                DateTime date = ValidateHelper.CheckDateString(WebResource.Field_Date, model.Date, true, ref errorMessages);
+                ValidateHelper.CheckInputString(WebResource.Field_Supplier, model.Supplier, false, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
                 ValidateHelper.CheckSelectString(WebResource.Field_Item, model.Item, true, ParameterHelper.GetPurchaseItem(enumCategory.ToString(), true).Keys.ToList(), ref errorMessages);
                 ValidateHelper.CheckDecimal(WebResource.Field_Quantity, model.Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX, ref errorMessages);
-                ValidateHelper.CheckInputString(WebResource.Field_Supplier, model.Supplier, false, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
+                
                 Dictionary<string, decimal> costs = new Dictionary<string, decimal>();
                 if (model.Costs != null && model.Costs.Count > 0)
                 {
@@ -186,9 +183,7 @@ namespace EasySoft.PssS.Web.Controllers
                     result.BuilderErrorMessage(errorMessages);
                     return Json(result);
                 }
-
-
-
+                
                 this.purchaseService.IntoDepot(date, enumCategory, model.Item.Trim(), model.Quantity, model.Unit.Trim(), model.Supplier, model.Remark, costs, this.Session["Moblie"].ToString());
                 result.Result = true;
                 result.Data = "/Purchase/Index/" + model.Category;
@@ -255,59 +250,38 @@ namespace EasySoft.PssS.Web.Controllers
             try
             {
                 List<string> errorMessages = new List<string>();
-                Dictionary<string, decimal> costs = new Dictionary<string, decimal>();
-                DateTime date = new DateTime();
-
+                
                 #region 验证
 
-                if (model == null)
+                if(!ValidateHelper.CheckObjectArgument<PurchaseEditModel>("model", model, ref errorMessages))
                 {
-                    errorMessages.Add(WebResource.Message_ArgumentIsNull);
+                    result.BuilderErrorMessage(errorMessages[0]);
+                    return Json(result);
                 }
-                else
+                ValidateHelper.CheckStringArgument("model.Id", model.Id, true, ref errorMessages);
+                DateTime date = ValidateHelper.CheckDateString(WebResource.Field_Date, model.Date, true, ref errorMessages);
+                ValidateHelper.CheckInputString(WebResource.Field_Supplier, model.Supplier, false, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
+                ValidateHelper.CheckDecimal(WebResource.Field_Quantity, model.Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX, ref errorMessages);
+                ValidateHelper.CheckInputString(WebResource.Field_Remark, model.Remark, false,  ValidateHelper.STRING_LENGTH_120, ref errorMessages);
+
+                Dictionary<string, decimal> costs = new Dictionary<string, decimal>();
+                if (model.Costs != null && model.Costs.Count > 0)
                 {
-                    if (string.IsNullOrWhiteSpace(model.Id))
+                    List<string> costOptions = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true).Keys.ToList();
+                    foreach (CostModel cost in model.Costs)
                     {
-                        errorMessages.Add(string.Format("{0}{1} Id{2}", WebResource.Message_ArgumentIsNull, WebResource.Message_Colon, WebResource.Common_FullStop));
-                    }
-                    if (!DateTime.TryParse(model.Date, out date))
-                    {
-                        errorMessages.Add(WebResource.Purchase_Add_DateTip + WebResource.Common_FullStop);
-                    }
-                    if (model.Quantity <= 0)
-                    {
-                        errorMessages.Add(WebResource.Purchase_Add_QuantityTip);
-                    }
-                    if (!string.IsNullOrWhiteSpace(model.Supplier) && model.Supplier.Trim().Length > 50)
-                    {
-                        errorMessages.Add(WebResource.Purchase_Add_SupplierTip + WebResource.Common_FullStop);
-                    }
-                    if (!string.IsNullOrWhiteSpace(model.Remark) && model.Remark.Trim().Length > 120)
-                    {
-                        errorMessages.Add(string.Format("{0}{1}", WebResource.Purchase_Add_RemarkTip + WebResource.Common_FullStop));
-                    }
-                    if (model.Costs == null || model.Costs.Count == 0)
-                    {
-                        errorMessages.Add(WebResource.Purchase_Add_CostDataIsNull);
-                    }
-                    else
-                    {
-                        foreach (CostModel cost in model.Costs)
+                        if (!ValidateHelper.CheckInputString(WebResource.Field_CostItem, cost.Id, true, ValidateHelper.STRING_LENGTH_32, ref errorMessages))
                         {
-                            if (string.IsNullOrWhiteSpace(cost.Id))
-                            {
-                                errorMessages.Add(WebResource.Purchase_Add_CostItemIsNull);
-                                break;
-                            }
-                            if (cost.Money < 0)
-                            {
-                                errorMessages.Add(WebResource.Purchase_Add_CostMoneyTip);
-                                break;
-                            }
-                            costs.Add(cost.Id, cost.Money);
+                            break;
                         }
+                        if (!ValidateHelper.CheckDecimal(WebResource.Field_CostItemMoney, cost.Money, ValidateHelper.DECIMAL_ZERO, ValidateHelper.DECIMAL_MAX, ref errorMessages))
+                        {
+                            break;
+                        }
+                        costs.Add(cost.Id, cost.Money);
                     }
                 }
+                
                 if (errorMessages.Count > 0)
                 {
                     result.BuilderErrorMessage(errorMessages);

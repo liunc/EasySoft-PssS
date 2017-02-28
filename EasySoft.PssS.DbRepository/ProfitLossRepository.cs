@@ -19,7 +19,6 @@ namespace EasySoft.PssS.DbRepository
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
-    using System.Data.SqlClient;
 
     /// <summary>
     /// 益损仓储实现类
@@ -28,18 +27,10 @@ namespace EasySoft.PssS.DbRepository
     {
         #region 常量
 
-        private static readonly string SELECT_SQLSTRING = @"SELECT [Id]
-                                  ,[RecordId]
-                                  ,[TargetType]
-                                  ,[Category]
-                                  ,[Quantity]
-                                  ,[Remark]
-                                  ,[Creator]
-                                  ,[CreateTime]
-                              FROM [dbo].[ProfitLoss] {0}";
+        private static readonly string SELECT_SQLSTRING = @"SELECT [Id],[RecordId], [TargetType], [Category], [Quantity], [Remark], [Creator], [CreateTime] FROM [dbo].[ProfitLoss] {0}";
         #endregion
 
-        #region 方法
+        #region 方法 
 
         /// <summary>
         /// 新增益损信息
@@ -48,34 +39,18 @@ namespace EasySoft.PssS.DbRepository
         /// <param name="entity">数据实体对象</param>
         public void Insert(DbTransaction trans, ProfitLoss entity)
         {
-            string cmdText = @"INSERT INTO [dbo].[ProfitLoss]
-                                   ([Id]
-                                   ,[RecordId]
-                                   ,[TargetType]
-                                   ,[Category]
-                                   ,[Quantity]
-                                   ,[Remark]
-                                   ,[Creator]
-                                   ,[CreateTime])
-                             VALUES
-                                   (@Id
-                                   ,@RecordId
-                                   ,@TargetType
-                                   ,@Category
-                                   ,@Quantity
-                                   ,@Remark
-                                   ,@Creator
-                                   ,@CreateTime)";
+            string cmdText = @"INSERT INTO [dbo].[ProfitLoss]([Id], [RecordId], [TargetType],[Category], [Quantity], [Remark], [Creator], [CreateTime])
+                             VALUES(@Id, @RecordId, @TargetType, @Category, @Quantity, @Remark, @Creator, @CreateTime)";
 
             DbParameter[] paras = new DbParameter[] {
-                    DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), entity.Id),
-                    DbHelper.SetParameter(new SqlParameter("@RecordId", SqlDbType.Char, 32), entity.RecordId),
-                    DbHelper.SetParameter(new SqlParameter("@TargetType", SqlDbType.VarChar, 10), entity.TargetType.ToString()),
-                    DbHelper.SetParameter(new SqlParameter("@Category", SqlDbType.VarChar, 10), entity.Category.ToString()),
-                    DbHelper.SetParameter(new SqlParameter("@Quantity", SqlDbType.Decimal, 18), entity.Quantity),
-                    DbHelper.SetParameter(new SqlParameter("@Remark", SqlDbType.NVarChar, 120), entity.Remark),
-                    DbHelper.SetParameter(new SqlParameter("@Creator", SqlDbType.NVarChar, 20), entity.Creator.UserId),
-                    DbHelper.SetParameter(new SqlParameter("@CreateTime", SqlDbType.DateTime), entity.Creator.Time)};
+                    DbHelper.SetParameter("Id", DbType.String, 32, entity.Id),
+                    DbHelper.SetParameter("RecordId", DbType.String, 32, entity.RecordId),
+                    DbHelper.SetParameter("TargetType", DbType.String, 10, entity.TargetType.ToString()),
+                    DbHelper.SetParameter("Category", DbType.String, 10, entity.Category.ToString()),
+                    DbHelper.SetParameter("Quantity", DbType.Decimal, 18, entity.Quantity),
+                    DbHelper.SetParameter("Remark", DbType.String, 120, entity.Remark),
+                    DbHelper.SetParameter("Creator", DbType.String, 20, entity.Creator.UserId),
+                    DbHelper.SetParameter("CreateTime", DbType.DateTime, entity.Creator.Time)};
 
             if (trans == null)
             {
@@ -94,7 +69,7 @@ namespace EasySoft.PssS.DbRepository
         {
             string cmdText = @"DELETE FROM [dbo].[ProfitLoss] WHERE [Id] = @Id";
 
-            DbParameter paras = DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), id);
+            DbParameter paras = DbHelper.SetParameter("Id", DbType.String, 32, id);
 
             if (trans == null)
             {
@@ -114,7 +89,7 @@ namespace EasySoft.PssS.DbRepository
         {
             string cmdText = string.Format(SELECT_SQLSTRING, "WHERE [Id] = @Id");
 
-            DbParameter paras = DbHelper.SetParameter(new SqlParameter("@Id", SqlDbType.Char, 32), id);
+            DbParameter paras = DbHelper.SetParameter("Id", DbType.String, 32, id);
 
             DbDataReader reader = null;
             if (trans == null)
@@ -147,7 +122,7 @@ namespace EasySoft.PssS.DbRepository
         {
             string cmdText = string.Format(SELECT_SQLSTRING, "WHERE [RecordId] = @RecordId");
 
-            DbParameter paras = DbHelper.SetParameter(new SqlParameter("@RecordId", SqlDbType.Char, 32), recordId);
+            DbParameter paras = DbHelper.SetParameter("RecordId", DbType.String, 32, recordId);
 
             DbDataReader reader = null;
             if (trans == null)
