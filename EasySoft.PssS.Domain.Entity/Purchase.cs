@@ -152,6 +152,7 @@ namespace EasySoft.PssS.Domain.Entity
         {
             this.Date = date;
             this.Quantity = quantity;
+            this.Allowance = quantity;
             this.Supplier = string.IsNullOrWhiteSpace(supplier) ? string.Empty : supplier.Trim();
             this.Remark = string.IsNullOrWhiteSpace(remark) ? string.Empty : remark.Trim();
             this.Cost = cost;

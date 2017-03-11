@@ -174,6 +174,7 @@
     <Compile Include="ValidateHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -190,6 +191,7 @@
     <Content Include="InitialData\XML\CostItem.xml" />
     <Content Include="InitialData\XML\PurchaseItem.xml" />
     <Content Include="InitialData\XML\User.xml" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="Scripts\bootstrap.js" />

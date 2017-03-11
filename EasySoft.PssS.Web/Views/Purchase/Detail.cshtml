@@ -67,11 +67,11 @@
         {
             if (Model.Status == PurchaseStatus.None)
             {
-            <button type="button" class="btn btn-default" onclick="window.location.href = '/Purchase/Edit/@Model.Id';">@WebResource.Button_Edit</button>
+            <a class="btn btn-default" href="/Purchase/Edit/@Model.Id" target="_blank">@WebResource.Button_Edit</a>
             <button type="button" class="btn btn-default"onclick="return deletePurchase();">@WebResource.Button_Delete</button>
             }
-            <button type="button" class="btn btn-default" onclick="window.location.href = '/ProfitLoss/Add/Profit/Purchase/@Model.Id';">@WebResource.Button_Profit</button>
-            <button type="button" class="btn btn-default" onclick="window.location.href = '/ProfitLoss/Add/Loss/Purchase/@Model.Id';">@WebResource.Button_Loss</button>
+            <a class="btn btn-default" href="/ProfitLoss/Add/Profit/Purchase/@Model.Id"  target="_blank">@WebResource.Button_Profit</a>
+            <a class="btn btn-default" href="/ProfitLoss/Add/Loss/Purchase/@Model.Id"  target="_blank">@WebResource.Button_Loss</a>
             
         }
         <button type="button" class="btn btn-primary" onclick="window.history.back();">@WebResource.Button_Back</button>
@@ -99,6 +99,24 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+
+<div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@WebResource.Message_Info</h4>
+            </div>
+            <div class="modal-body">
+                <p>@WebResource.Message_ConfirmDelete</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">@WebResource.Button_Close</button>
+                <button type="button" class="btn btn-primary" onclick="confirmDelete();">@WebResource.Button_Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @section scripts {
     <script type="text/javascript">
@@ -179,28 +197,30 @@
             $('#alertDetail').modal('show');
         }
         function deletePurchase() {
-            if (confirm('@WebResource.Message_ConfirmDelete')) {
-                $.ajax({
-                    type: "post",
-                    url: "/Purchase/Delete",
-                    data: { id: '@Model.Id' },
-                    success: function (result) {
-                        if (result.Result) {
-                            window.location.href = '/Purchase/Index/@Model.Category';
-                        }
-                        else {
-                            showError(result.Message);
-                        }
-                        return false;
-                    },
-                    error: function () {
-                        showError('System Error');
-                    },
-                    complete: function () {
-                        $('#btnSubmit').removeAttr('disabled');
+            $('#confirmDelete').modal('show');
+        }
+        function confirmDelete(){
+            $('#confirmDelete').modal('hide');
+            $.ajax({
+                type: "post",
+                url: "/Purchase/Delete",
+                data: { id: '@Model.Id' },
+                success: function (result) {
+                    if (result.Result) {
+                        window.location.href = '/Purchase/Index/@Model.Category';
                     }
-                });
-            }
+                    else {
+                        showError(result.Message);
+                    }
+                    return false;
+                },
+                error: function () {
+                    showError('System Error');
+                },
+                complete: function () {
+                    $('#btnSubmit').removeAttr('disabled');
+                }
+            });
             return false;
         }
     </script>

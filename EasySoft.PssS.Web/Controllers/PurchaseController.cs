@@ -292,7 +292,6 @@ namespace EasySoft.PssS.Web.Controllers
 
                 this.purchaseService.Update(model.Id, date, model.Quantity, model.Supplier, model.Remark, costs, this.Session["Moblie"].ToString());
                 result.Result = true;
-                result.Data = "/Purchase/Detail/" + model.Id;
                 return Json(result);
             }
             catch (Exception ex)

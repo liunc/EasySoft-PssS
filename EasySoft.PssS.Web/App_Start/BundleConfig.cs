@@ -9,11 +9,16 @@ namespace EasySoft.PssS.Web
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-1.10.2.js"));
+                        "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate.js"));
-                        //"~/Scripts/jquery.validate.unobtrusive.min.js"));
+            //"~/Scripts/jquery.validate.unobtrusive.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(
+                        "~/Scripts/bootstrap-datetimepicker.js",
+                        "~/Scripts/bootstrap-datetimepicker.zh-CN.js"));
+            
 
             // 使用要用于开发和学习的 Modernizr 的开发版本。然后，当你做好
             // 生产准备时，请使用 http://modernizr.com 上的生成工具来仅选择所需的测试。
@@ -27,6 +32,9 @@ namespace EasySoft.PssS.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/bootstrap.css",
                         "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/datetimepicker").Include(
+                        "~/Content/bootstrap-datetimepicker.css"));
         }
     }
 }

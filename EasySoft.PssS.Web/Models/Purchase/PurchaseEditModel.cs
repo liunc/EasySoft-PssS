@@ -120,10 +120,6 @@ namespace EasySoft.PssS.Web.Models.Purchase
             this.Quantity = entity.Quantity;
             this.Supplier = entity.Supplier;
             this.Remark = entity.Remark;
-            if (string.IsNullOrWhiteSpace(this.Remark))
-            {
-                this.Remark = WebResource.Common_None;
-            }
             this.Costs = new List<CostModel>();
             Dictionary<string, CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), false);
             foreach (Cost cost in entity.Costs)

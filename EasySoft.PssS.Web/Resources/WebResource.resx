@@ -342,4 +342,7 @@
   <data name="Validate_PleaseInputDateString" xml:space="preserve">
     <value>请输入格式为yyyy-MM-dd的日期字符串。</value>
   </data>
+  <data name="Button_Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
 </root>

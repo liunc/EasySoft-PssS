@@ -78,6 +78,9 @@
                 type: 'post',
                 url: '/Purchase/GetDataByPaing',
                 data: { category: '@Model.Category', item: item, pageIndex: pageIndex },
+                beforeSend: function () {
+                    btnMore = "@WebResource.Message_Loading";
+                },
                 success: function (result) {
                     if (result.TotalCount == 0) {
                         btnMore = "@WebResource.Message_NoData";

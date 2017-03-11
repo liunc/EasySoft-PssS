@@ -12,14 +12,11 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.DbRepository
 {
+    using EasySoft.PssS.Repository;
     using System;
-    using System.Collections.Generic;
     using System.Configuration;
     using System.Data;
     using System.Data.Common;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// 数据库工具类
@@ -29,11 +26,33 @@ namespace EasySoft.PssS.DbRepository
         #region 变量
 
         private static readonly string CONNECTION_STRING = "SQLSERVER_CONNECTION_STRING";
+        private static string providerName = string.Empty;
         private static DbProviderFactory dbProvider = null;
+        private static IDbClientExtend dbClientExtend = null;
 
         #endregion
 
         #region 属性
+
+        /// <summary>
+        /// 获取ProviderName
+        /// </summary>
+        private static string ProviderName
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(providerName))
+                {
+                    providerName = ConfigurationManager.ConnectionStrings[CONNECTION_STRING].ProviderName;
+                    if (string.IsNullOrWhiteSpace(providerName))
+                    {
+                        throw new ArgumentNullException("ProviderName");
+                    }
+                    providerName = providerName.Trim();
+                }
+                return providerName;
+            }
+        }
 
         /// <summary>
         /// 获取提供程序对数据源类的实现的实例
@@ -44,9 +63,37 @@ namespace EasySoft.PssS.DbRepository
             {
                 if (dbProvider == null)
                 {
-                    dbProvider = DbProviderFactories.GetFactory(ConfigurationManager.ConnectionStrings[CONNECTION_STRING].ProviderName.Trim());
+                    dbProvider = DbProviderFactories.GetFactory(ProviderName);
+                    if (dbProvider == null)
+                    {
+                        throw new ArgumentNullException("DbProviderFactory");
+                    }
                 }
                 return dbProvider;
+            }
+        }
+
+        /// <summary>
+        /// 获取DbClientExtend
+        /// </summary>
+        private static IDbClientExtend DbClientExtend
+        {
+            get
+            {
+                if (dbClientExtend == null)
+                {
+                    string[] temps = ProviderName.Split(new char[] { '.' });
+                    if (temps.Length > 0)
+                    {
+                        Type type = Type.GetType(string.Format("EasySoft.PssS.DbRepository.{0}Extend", temps[temps.Length - 1]));
+                        dbClientExtend = (IDbClientExtend)Activator.CreateInstance(type);
+                    }
+                    if (dbClientExtend == null)
+                    {
+                        throw new ArgumentNullException("DbClientExtend");
+                    }
+                }
+                return dbClientExtend;
             }
         }
 
@@ -614,7 +661,7 @@ namespace EasySoft.PssS.DbRepository
         {
             return ExecuteNonQuery(CommandType.Text, cmdText);
         }
-        
+
         #endregion
 
         #region 分页
@@ -631,27 +678,7 @@ namespace EasySoft.PssS.DbRepository
         /// <returns>返回数据表</returns>
         public static DbDataReader Paging(string cmdText, int pageSize, int totalCount, int pageIndex, string orderByStr, params DbParameter[] paras)
         {
-            int index = cmdText.ToUpper().IndexOf("FROM");
-            string cmdText1 = cmdText.Substring(0, index);
-            string cmdText2 = cmdText.Substring(index);
-
-            int pageCount = totalCount == 0 ? 1 : (totalCount / pageSize) + (totalCount % pageSize == 0 ? 0 : 1);
-            if (pageIndex > pageCount)
-            {
-                pageIndex = pageCount;
-            }
-
-            int start = (pageIndex - 1) * pageSize + 1;
-            int end = 0;
-            if (pageIndex == pageCount)
-            {
-                end = totalCount;
-            }
-            else
-            {
-                end = pageSize * pageIndex;
-            }
-            cmdText = string.Format("SELECT * FROM ({0} , ROW_NUMBER() OVER (ORDER BY {1}) AS RN {2}) RLT WHERE RLT.RN BETWEEN {3} AND {4}", cmdText1, orderByStr, cmdText2, start, end);
+            cmdText = DbClientExtend.GetPagingSqlString(cmdText, pageSize, totalCount, pageIndex, orderByStr);
             return ExecuteReader(cmdText, paras);
         }
 
@@ -737,38 +764,6 @@ namespace EasySoft.PssS.DbRepository
         public static DbParameter SetParameter(string name, DbType dbType, object value)
         {
             return SetParameter(name, dbType, 0, value);
-        }
-
-        /// <summary>
-        /// 设置SqlCommand参数
-        /// </summary>
-        /// <param name="parameter">SqlCommand参数对象</param>
-        /// <param name="parameterValue">SqlCommand参数的值</param>
-        /// <returns>返回SqlCommand参数</returns>
-        public static DbParameter SetParameter(DbParameter parameter, object parameterValue)
-        {
-            if (string.IsNullOrEmpty(parameter.ParameterName))
-            {
-                throw new ArgumentNullException("DbParameter.ParameterName");
-            }
-            parameter.Value = parameterValue;
-            return parameter;
-        }
-
-        /// <summary>
-        /// 设置SqlCommand参数
-        /// </summary>
-        /// <param name="parameter">SqlCommand参数对象</param>
-        /// <param name="parameterValue">SqlCommand参数的值</param>
-        /// <param name="parameterValue">SqlCommand参数的默认值，如果传入的参数值等于默认值，则SqlCommand参数的值为DBNull.Value</param>
-        /// <returns>返回SqlCommand参数</returns>
-        public static DbParameter SetParameter(DbParameter parameter, object parameterValue, object defaultValue)
-        {
-            if (object.Equals(parameterValue, defaultValue))
-            {
-                return SetParameter(parameter, DBNull.Value);
-            }
-            return SetParameter(parameter, parameterValue);
         }
 
         #endregion

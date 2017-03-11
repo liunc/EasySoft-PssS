@@ -78,7 +78,7 @@
                     txtQuantity: {
                         required: true,
                         number: true,
-                        min: 0.01,
+                        min: @ValidateHelper.DECIMAL_MIN,
                         max: @Model.Allowance
                     },
                     txtRemark: {
@@ -87,13 +87,13 @@
                 },
                 messages: {
                     txtQuantity: {
-                        required: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, 0.01M, Model.Allowance)',
-                        number: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, 0.01M, Model.Allowance)',
-                        min: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, 0.01M, Model.Allowance)',
-                        max: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, 0.01M, Model.Allowance)'
+                        required: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, Model.Allowance)',
+                        number: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, Model.Allowance)',
+                        min: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, Model.Allowance)',
+                        max: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, Model.Allowance)'
                     },
                     txtRemark: {
-                        maxlength: '@ValidateHelper.GetFieldLengthOverflowString(WebResource.Field_Remark, 0, 120)'
+                        maxlength: '@ValidateHelper.GetFieldLengthOverflowString(WebResource.Field_Remark,ValidateHelper.INT_MIN, ValidateHelper.STRING_LENGTH_120)'
                     }
                 },
                 highlight: function (element) {
@@ -123,7 +123,8 @@
                             data: { model: model },
                             success: function (result) {
                                 if (result.Result) {
-                                    window.location.href = '/Purchase/Detail/@Model.RecordId';
+                                    window.opener.location.reload();
+                                    window.close();
                                 }
                                 else {
                                     showError(result.Message);

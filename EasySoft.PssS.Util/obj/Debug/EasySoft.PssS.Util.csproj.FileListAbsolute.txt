@@ -1,0 +1,10 @@
+D:\github\EasySoft-PssS\trunk\EasySoft.PssS.Util\bin\Debug\EasySoft.PssS.Util.dll
+D:\github\EasySoft-PssS\trunk\EasySoft.PssS.Util\bin\Debug\EasySoft.PssS.Util.pdb
+D:\github\EasySoft-PssS\trunk\EasySoft.PssS.Util\obj\Debug\EasySoft.PssS.Util.dll
+D:\github\EasySoft-PssS\trunk\EasySoft.PssS.Util\obj\Debug\EasySoft.PssS.Util.pdb
+D:\github\EasySoft-PssS\trunk\EasySoft.PssS.Util\obj\Debug\EasySoft.PssS.Util.csprojResolveAssemblyReference.cache
+D:\github\EasySoft-PssS\EasySoft.PssS.Util\bin\Debug\EasySoft.PssS.Util.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Util\bin\Debug\EasySoft.PssS.Util.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Util\obj\Debug\EasySoft.PssS.Util.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Util\obj\Debug\EasySoft.PssS.Util.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Util\obj\Debug\EasySoft.PssS.Util.csprojResolveAssemblyReference.cache

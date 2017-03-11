@@ -28,6 +28,7 @@ namespace EasySoft.PssS.DbRepository
         #region 常量
 
         private static readonly string SELECT_SQLSTRING = @"SELECT [Id], [Date], [Category], [Item], [Quantity], [Unit], [Supplier], [Allowance], [Cost], [ProfitLoss], [Remark], [Status], [Creator], [CreateTime], [Mender], [ModifyTime] FROM [dbo].[Purchase] {0}";
+        
         #endregion
 
         #region 方法

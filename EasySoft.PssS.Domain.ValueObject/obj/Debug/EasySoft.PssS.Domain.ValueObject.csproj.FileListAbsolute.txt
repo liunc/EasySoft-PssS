@@ -1,0 +1,14 @@
+D:\github\EasySoft-PssS\trunk\EasySoft.PssS.Domain.ValueObject\bin\Debug\EasySoft.PssS.Domain.ValueObject.dll
+D:\github\EasySoft-PssS\trunk\EasySoft.PssS.Domain.ValueObject\bin\Debug\EasySoft.PssS.Domain.ValueObject.pdb
+D:\github\EasySoft-PssS\trunk\EasySoft.PssS.Domain.ValueObject\obj\Debug\EasySoft.PssS.Domain.ValueObject.csprojResolveAssemblyReference.cache
+D:\github\EasySoft-PssS\trunk\EasySoft.PssS.Domain.ValueObject\obj\Debug\EasySoft.PssS.Domain.ValueObject.dll
+D:\github\EasySoft-PssS\trunk\EasySoft.PssS.Domain.ValueObject\obj\Debug\EasySoft.PssS.Domain.ValueObject.pdb
+D:\github\EasySoft-PssS\trunk\EasySoft.PssS.Domain.ValueObject\bin\Debug\EasySoft.PssS.Util.dll
+D:\github\EasySoft-PssS\trunk\EasySoft.PssS.Domain.ValueObject\bin\Debug\EasySoft.PssS.Util.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.ValueObject\bin\Debug\EasySoft.PssS.Domain.ValueObject.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.ValueObject\bin\Debug\EasySoft.PssS.Domain.ValueObject.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.ValueObject\bin\Debug\EasySoft.PssS.Util.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.ValueObject\bin\Debug\EasySoft.PssS.Util.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.ValueObject\obj\Debug\EasySoft.PssS.Domain.ValueObject.csprojResolveAssemblyReference.cache
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.ValueObject\obj\Debug\EasySoft.PssS.Domain.ValueObject.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.ValueObject\obj\Debug\EasySoft.PssS.Domain.ValueObject.pdb

@@ -8,7 +8,7 @@
 }
 
 @section styles {
-    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    @Styles.Render("~/Content/datetimepicker")
 }
 <div class="row">
     <ol class="breadcrumb">
@@ -19,19 +19,19 @@
 </div>
 <form id="formAddPurchase" class="form-horizontal">
     <div class="form-group">
-        <label for="txtDate" class="col-xs-3 control-label"><span style="color:#ff0000">*</span> @WebResource.Field_Date</label>
+        <label for="txtDate" class="col-xs-3 control-label">@WebResource.Field_Date <span style="color:#ff0000">*</span></label>
         <div class="col-xs-9">
             <input id="txtDate" name="txtDate" class="form_datetime form-control" type="text" value="@Model.CurrentDate" readonly />
         </div>
     </div>
     <div class="form-group">
-        <label for="txtSupplier" class="col-xs-3 control-label"><span style="color:#ff0000">*</span> @WebResource.Field_Supplier</label>
+        <label for="txtSupplier" class="col-xs-3 control-label">@WebResource.Field_Supplier <span style="color:#ff0000">*</span></label>
         <div class="col-xs-9">
             <input id="txtSupplier" name="txtSupplier" type="text" class="form-control" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Supplier,  ValidateHelper.STRING_LENGTH_50)" maxlength="50" />
         </div>
     </div>
     <div class="form-group">
-        <label for="ddlItem" class="col-xs-3 control-label"><span style="color:#ff0000">*</span> @WebResource.Field_Item</label>
+        <label for="ddlItem" class="col-xs-3 control-label">@WebResource.Field_Item <span style="color:#ff0000">*</span></label>
         <div class="col-xs-9">
             <select id="ddlItem" name="ddlItem" class="form-control" required>
                 <option value="">@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Item)</option>
@@ -43,16 +43,16 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="txtQuantity" class="col-xs-3 control-label"><span style="color:#ff0000">*</span> @WebResource.Field_Quantity</label>
+        <label for="txtQuantity" class="col-xs-3 control-label">@WebResource.Field_Quantity <span style="color:#ff0000">*</span></label>
         <div class="col-xs-9">
             <div class="input-group">
                 <input id="txtQuantity" name="txtQuantity" type="number" min="0.01" max="99999999.99" class="form-control" aria-describedby="txtUnit" placeholder="@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Quantity)">
                 <span class="input-group-addon" id="txtUnit">---</span>
             </div>
         </div>
-        
+
     </div>
-    
+
 
     @foreach (var cost in Model.Costs)
     {
@@ -72,12 +72,13 @@
             <textarea class="form-control" rows="4" id="txtRemark" name="txtRemark" maxlength="120" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Remark,  ValidateHelper.STRING_LENGTH_120)"></textarea>
         </div>
     </div>
-    <div class="form-group"><div class="col-xs-3"></div>
-    <div class="col-xs-9 btn-group">
-        <button id="btnSubmit" type="submit" class="btn btn-primary">@WebResource.Button_Submit</button>
-        <button type="button" class="btn btn-default" onclick="window.history.back();">@WebResource.Button_Back</button>
+    <div class="form-group">
+        <div class="col-xs-3"></div>
+        <div class="col-xs-9 btn-group">
+            <button id="btnSubmit" type="submit" class="btn btn-primary">@WebResource.Button_Submit</button>
+            <button type="button" class="btn btn-default" onclick="window.history.back();">@WebResource.Button_Back</button>
+        </div>
     </div>
-</div>
 </form>
 @foreach (var item in Model.PurchaseItems)
 {
@@ -107,9 +108,8 @@
 </div>
 
 @section scripts {
-    <script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
-    <script type="text/javascript" src="~/Scripts/jquery.validate.min.js" charset="UTF-8"></script>
+    @Scripts.Render("~/bundles/datetimepicker")
+    @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
 
         $(function () {

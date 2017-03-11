@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDbClientExtend.cs" />
     <Compile Include="ICostItemRepository.cs" />
     <Compile Include="IProfitLossRepository.cs" />
     <Compile Include="ICostRepository.cs" />
