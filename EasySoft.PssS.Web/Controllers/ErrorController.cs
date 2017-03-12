@@ -29,5 +29,11 @@ namespace EasySoft.PssS.Web.Controllers
             ViewBag.ErrorMessages = errorMessages;
             return View();
         }
+
+        public ActionResult NotFound()
+        {
+            ViewBag.ErrorMessages = "The page was not found.";
+            return View();
+        }
     }
 }
