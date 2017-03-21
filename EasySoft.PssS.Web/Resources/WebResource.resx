@@ -169,7 +169,7 @@
     <value>手机号或密码错误，请重新输入。</value>
   </data>
   <data name="Title_Login" xml:space="preserve">
-    <value>登录。</value>
+    <value>用户登录</value>
   </data>
   <data name="Message_AllItem" xml:space="preserve">
     <value>所有项目</value>
@@ -235,7 +235,7 @@
     <value>密码</value>
   </data>
   <data name="Message_LoginTip" xml:space="preserve">
-    <value>使用本地帐户登录。</value>
+    <value>使用手机号登录。</value>
   </data>
   <data name="Common_Yuan" xml:space="preserve">
     <value>元</value>
@@ -344,5 +344,20 @@
   </data>
   <data name="Button_Close" xml:space="preserve">
     <value>关闭</value>
+  </data>
+  <data name="Dialog_FirstButton" xml:space="preserve">
+    <value>第一个按钮</value>
+  </data>
+  <data name="Dialog_Id" xml:space="preserve">
+    <value>对话框Id</value>
+  </data>
+  <data name="Dialog_MessageBodyId" xml:space="preserve">
+    <value>消息体Id</value>
+  </data>
+  <data name="Dialog_SecondButton" xml:space="preserve">
+    <value>第二个按钮</value>
+  </data>
+  <data name="Dialog_Title" xml:space="preserve">
+    <value>对话框标题</value>
   </data>
 </root>

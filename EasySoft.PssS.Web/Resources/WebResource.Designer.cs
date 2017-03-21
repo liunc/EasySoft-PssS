@@ -232,6 +232,51 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 第一个按钮 的本地化字符串。
+        /// </summary>
+        public static string Dialog_FirstButton {
+            get {
+                return ResourceManager.GetString("Dialog_FirstButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 对话框Id 的本地化字符串。
+        /// </summary>
+        public static string Dialog_Id {
+            get {
+                return ResourceManager.GetString("Dialog_Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 消息体Id 的本地化字符串。
+        /// </summary>
+        public static string Dialog_MessageBodyId {
+            get {
+                return ResourceManager.GetString("Dialog_MessageBodyId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第二个按钮 的本地化字符串。
+        /// </summary>
+        public static string Dialog_SecondButton {
+            get {
+                return ResourceManager.GetString("Dialog_SecondButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 对话框标题 的本地化字符串。
+        /// </summary>
+        public static string Dialog_Title {
+            get {
+                return ResourceManager.GetString("Dialog_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 库存 的本地化字符串。
         /// </summary>
         public static string Field_Allowance {
@@ -484,7 +529,7 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 使用本地帐户登录。 的本地化字符串。
+        ///   查找类似 使用手机号登录。 的本地化字符串。
         /// </summary>
         public static string Message_LoginTip {
             get {
@@ -556,7 +601,7 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 登录。 的本地化字符串。
+        ///   查找类似 用户登录 的本地化字符串。
         /// </summary>
         public static string Title_Login {
             get {

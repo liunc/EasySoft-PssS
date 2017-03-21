@@ -139,7 +139,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfitLossController.cs" />
     <Compile Include="Controllers\CostController.cs" />
@@ -149,6 +149,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Common\DialogModel.cs" />
     <Compile Include="Models\Home\IndexModel.cs" />
     <Compile Include="Models\JsonResultModel.cs" />
     <Compile Include="Models\KeyValueModel.cs" />
@@ -226,7 +227,9 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Purchase\Edit.cshtml" />
     <Content Include="Views\ProfitLoss\Add.cshtml" />
-    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Common\Dialog.cshtml" />
+    <Content Include="Views\Common\Error.cshtml" />
+    <Content Include="Views\Common\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
