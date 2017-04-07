@@ -1,0 +1,9 @@
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.RepositoryImplement\obj\Debug\EasySoft.Core.Persistence.RepositoryImplement.csprojResolveAssemblyReference.cache
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.RepositoryImplement\bin\Debug\EasySoft.Core.Persistence.RepositoryImplement.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.RepositoryImplement\bin\Debug\EasySoft.Core.Persistence.RepositoryImplement.pdb
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.RepositoryImplement\bin\Debug\EasySoft.Core.Persistence.Repository.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.RepositoryImplement\bin\Debug\EasySoft.Core.Persistence.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.RepositoryImplement\bin\Debug\EasySoft.Core.Persistence.Repository.pdb
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.RepositoryImplement\bin\Debug\EasySoft.Core.Persistence.pdb
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.RepositoryImplement\obj\Debug\EasySoft.Core.Persistence.RepositoryImplement.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.RepositoryImplement\obj\Debug\EasySoft.Core.Persistence.RepositoryImplement.pdb

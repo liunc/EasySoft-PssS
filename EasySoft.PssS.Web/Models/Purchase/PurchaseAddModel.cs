@@ -12,10 +12,10 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Models.Purchase
 {
+    using Core.Util;
     using Resources;
     using System;
     using System.Collections.Generic;
-    using Util;
 
     /// <summary>
     /// 新增采购记录视图模型类

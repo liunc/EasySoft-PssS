@@ -12,6 +12,7 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Repository
 {
+    using Core.Persistence.Repository;
     using EasySoft.PssS.Domain.Entity;
     using System.Collections.Generic;
     using System.Data.Common;
@@ -19,37 +20,8 @@ namespace EasySoft.PssS.Repository
     /// <summary>
     /// 采购项仓储接口
     /// </summary>
-    public interface IPurchaseRepository
+    public interface IPurchaseRepository : IBaseRepository<Purchase, string>
     {
-        /// <summary>
-        /// 获取采购信息
-        /// </summary>
-        /// <param name="trans">数据库事务</param>
-        /// <param name="entity">数据实体对象</param>
-        void Insert(DbTransaction trans, Purchase entity);
-
-        /// <summary>
-        /// 更新采购信息
-        /// </summary>
-        /// <param name="trans">数据库事务</param>
-        /// <param name="entity">数据实体对象</param>
-        void Update(DbTransaction trans, Purchase entity);
-
-        /// <summary>
-        /// 删除采购信息
-        /// </summary>
-        /// <param name="trans">数据库事务</param>
-        /// <param name="id">Id</param>
-        void Delete(DbTransaction trans, string id);
-
-        /// <summary>
-        /// 根据Id获取一条采购信息
-        /// </summary>
-        /// <param name="trans">数据库事务</param>
-        /// <param name="id">Id</param>
-        /// <returns>返回采购实体对象</returns>
-        Purchase Select(DbTransaction trans, string id);
-
         /// <summary>
         /// 查询采购表信息，用于列表分页显示
         /// </summary>
@@ -60,7 +32,6 @@ namespace EasySoft.PssS.Repository
         /// <param name="totalCount">数据源总记录数</param>
         /// <returns>返回数据表</returns>
         List<Purchase> Search(string category, string item, int pageIndex, int pageSize, ref int totalCount);
-
 
     }
 }

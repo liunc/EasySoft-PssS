@@ -40,8 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CostItemRepository.cs" />
-    <Compile Include="PurchaseItemRepository.cs" />
+    <Compile Include="DeliveryConfigRepository.cs" />
+    <Compile Include="PurchaseConfigRepository.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlRepositoryBase.cs" />
@@ -58,10 +58,6 @@
     <ProjectReference Include="..\EasySoft.PssS.Repository\EasySoft.PssS.Repository.csproj">
       <Project>{C280CD59-A92F-462E-B31C-71D45249FE5D}</Project>
       <Name>EasySoft.PssS.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasySoft.PssS.Util\EasySoft.PssS.Util.csproj">
-      <Project>{d2d7d55d-b61f-46d2-947f-dbb480e77629}</Project>
-      <Name>EasySoft.PssS.Util</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

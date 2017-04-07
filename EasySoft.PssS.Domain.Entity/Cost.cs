@@ -12,11 +12,14 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Domain.Entity
 {
+    using Core.Persistence;
     using EasySoft.PssS.Domain.ValueObject;
+    using System.Data;
 
     /// <summary>
     /// 成本领域实体类
     /// </summary>
+    [Table("dbo.Cost")]
     public class Cost : EntityBase
     {
         #region 属性
@@ -24,21 +27,25 @@ namespace EasySoft.PssS.Domain.Entity
         /// <summary>
         /// 获取或设置关联Id
         /// </summary>
+        [Column(Name = "RecordId", DataType = DbType.String, Size = 36, AllowEdit = false)]
         public string RecordId { get; set; }
 
         /// <summary>
         /// 获取或设置分类
         /// </summary>
+        [Column(Name = "Category", DataType = DbType.String, Size = 10, AllowEdit = false)]
         public CostCategory Category { get; set; }
 
         /// <summary>
         /// 获取或设置项
         /// </summary>
+        [Column(Name = "Item", DataType = DbType.String, Size = 20, AllowEdit = false)]
         public string Item { get; set; }
 
         /// <summary>
         /// 获取或设置金额
         /// </summary>
+        [Column(Name = "Money", DataType = DbType.Decimal, Size = 18)]
         public decimal Money { get; set; }
 
         #endregion

@@ -190,6 +190,8 @@
     <Content Include="Images\uhomeapp8.png" />
     <Content Include="Images\uhomeapp9.png" />
     <Content Include="InitialData\XML\CostItem.xml" />
+    <Content Include="InitialData\XML\PurchaseConfig.xml" />
+    <Content Include="InitialData\XML\DeliveryConfig.xml" />
     <Content Include="InitialData\XML\PurchaseItem.xml" />
     <Content Include="InitialData\XML\User.xml" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
@@ -230,6 +232,7 @@
     <Content Include="Views\Common\Dialog.cshtml" />
     <Content Include="Views\Common\Error.cshtml" />
     <Content Include="Views\Common\NotFound.cshtml" />
+    <Content Include="Views\Common\Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -247,6 +250,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EasySoft.Core.Util\EasySoft.Core.Util.csproj">
+      <Project>{AEBBCF64-AC18-4890-93CB-3597FDC43DB0}</Project>
+      <Name>EasySoft.Core.Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.Domain.Entity\EasySoft.PssS.Domain.Entity.csproj">
       <Project>{7e7215bd-421b-4126-98c2-4e469114efe5}</Project>
       <Name>EasySoft.PssS.Domain.Entity</Name>
@@ -262,10 +269,6 @@
     <ProjectReference Include="..\EasySoft.PssS.Repository\EasySoft.PssS.Repository.csproj">
       <Project>{c280cd59-a92f-462e-b31c-71d45249fe5d}</Project>
       <Name>EasySoft.PssS.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasySoft.PssS.Util\EasySoft.PssS.Util.csproj">
-      <Project>{d2d7d55d-b61f-46d2-947f-dbb480e77629}</Project>
-      <Name>EasySoft.PssS.Util</Name>
     </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.XmlRepository\EasySoft.PssS.XmlRepository.csproj">
       <Project>{b34b32fb-4c36-4763-b013-5b6fd9358194}</Project>

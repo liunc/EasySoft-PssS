@@ -41,15 +41,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDbClientExtend.cs" />
-    <Compile Include="ICostItemRepository.cs" />
     <Compile Include="IProfitLossRepository.cs" />
     <Compile Include="ICostRepository.cs" />
+    <Compile Include="IDeliveryConfigRepository.cs" />
     <Compile Include="IPurchaseRepository.cs" />
-    <Compile Include="IPurchaseItemRepository.cs" />
+    <Compile Include="IPurchaseConfigRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EasySoft.Core.Persistence.Repository\EasySoft.Core.Persistence.Repository.csproj">
+      <Project>{756b3972-c3b1-4b69-9213-771fbf66df8b}</Project>
+      <Name>EasySoft.Core.Persistence.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.Domain.Entity\EasySoft.PssS.Domain.Entity.csproj">
       <Project>{7E7215BD-421B-4126-98C2-4E469114EFE5}</Project>
       <Name>EasySoft.PssS.Domain.Entity</Name>

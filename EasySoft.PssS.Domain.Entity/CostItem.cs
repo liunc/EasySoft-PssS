@@ -18,7 +18,7 @@ namespace EasySoft.PssS.Domain.Entity
     /// <summary>
     /// 成本项领域实体类
     /// </summary>
-    public class CostItem: EntityBase
+    public class CostItem
     {
         #region 属性
 
@@ -36,11 +36,6 @@ namespace EasySoft.PssS.Domain.Entity
         /// 获取或设置有效标识
         /// </summary>
         public string Valid { get; set; }
-
-        /// <summary>
-        /// 获取或设置采购分类
-        /// </summary>
-        public CostCategory Category { get; set; }
 
         #endregion
     }

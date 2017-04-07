@@ -64,7 +64,7 @@ namespace EasySoft.PssS.Web.Controllers
             PurchaseCategory enumCategory = ValidateHelper.CheckPurchaseCategory(category, ref errorMessages);
             if (errorMessages.Count > 0)
             {
-                return RedirectToAction("Index", "Error", errorMessages);
+                return RedirectToAction("Error", "Common", errorMessages);
             }
 
             PurchaseIndexModel model = new PurchaseIndexModel { Category = enumCategory.ToString(), Title = WebResource.Title_Purchase_Product };
@@ -118,7 +118,7 @@ namespace EasySoft.PssS.Web.Controllers
             PurchaseCategory enumCategory = ValidateHelper.CheckPurchaseCategory(category, ref errorMessages);
             if (errorMessages.Count > 0)
             {
-                return RedirectToAction("Index", "Error", errorMessages);
+                return RedirectToAction("Error", "Common", errorMessages);
             }
 
             PurchaseAddModel model = new PurchaseAddModel { Category = enumCategory.ToString(), Title = WebResource.Title_Purchase_AddProduct, ParentPageTitle = WebResource.Title_Purchase_Product };
@@ -129,7 +129,7 @@ namespace EasySoft.PssS.Web.Controllers
             }
             model.PurchaseItems = ParameterHelper.GetPurchaseItem(category, true).Values.ToList();
             model.Costs = new List<CostModel>();
-            foreach (CostItemModel cost in ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true).Values)
+            foreach (CostItemModel cost in ParameterHelper.GetCostItem(CostCategory.Purchase.ToString(), true).Values)
             {
                 model.Costs.Add(new CostModel { ItemCode = cost.ItemCode, ItemName = cost.ItemName });
             }
@@ -164,7 +164,7 @@ namespace EasySoft.PssS.Web.Controllers
                 Dictionary<string, decimal> costs = new Dictionary<string, decimal>();
                 if (model.Costs != null && model.Costs.Count > 0)
                 {
-                    List<string> costOptions = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true).Keys.ToList();
+                    List<string> costOptions = ParameterHelper.GetCostItem(CostCategory.Purchase.ToString(), true).Keys.ToList();
                     foreach (CostModel cost in model.Costs)
                     {
                         if (!ValidateHelper.CheckSelectString(WebResource.Field_CostItem, cost.ItemCode, true, costOptions, ref errorMessages))
@@ -267,7 +267,7 @@ namespace EasySoft.PssS.Web.Controllers
                 Dictionary<string, decimal> costs = new Dictionary<string, decimal>();
                 if (model.Costs != null && model.Costs.Count > 0)
                 {
-                    List<string> costOptions = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), true).Keys.ToList();
+                    List<string> costOptions = ParameterHelper.GetCostItem(CostCategory.Purchase.ToString(), true).Keys.ToList();
                     foreach (CostModel cost in model.Costs)
                     {
                         if (!ValidateHelper.CheckInputString(WebResource.Field_CostItem, cost.Id, true, ValidateHelper.STRING_LENGTH_32, ref errorMessages))

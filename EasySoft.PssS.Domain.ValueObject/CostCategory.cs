@@ -22,13 +22,13 @@ namespace EasySoft.PssS.Domain.ValueObject
         /// </summary>
         None,
         /// <summary>
-        /// 入库
+        /// 采购
         /// </summary>
-        IntoDepot,
+        Purchase,
         /// <summary>
-        /// 出库
+        /// 交付
         /// </summary>
-        OutDepot
+        Delivery
 
     }
 }

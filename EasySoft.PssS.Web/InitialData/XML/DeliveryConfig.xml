@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <Delivery>
+    <Produce Valid="1" Code="BINGTANGCHENG" Unit="箱" NeedPack ="true" PackRate="10:1">冰糖橙</Produce>
+    <Produce Valid="1" Code="QICHENG" Unit="箱" NeedPack ="true" PackRate="10:1">脐橙</Produce>
+    <Produce Valid="1" Code="DONGSUN" Unit="斤">冬笋</Produce>
+    <Cost>
+      <Item Valid="1" Code="KUAIDI">快递费</Item>
+      <Item Valid="1" Code="YUNSHU">运输中转</Item>
+      <Item Valid="1" Code="QITA">其它费用</Item>
+    </Cost>
+  </Delivery>
+</root>

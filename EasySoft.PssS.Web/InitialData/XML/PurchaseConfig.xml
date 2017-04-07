@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <Purchase>
+    <Category Code="Product" Name="产品">
+      <Item Valid="1" Code="BINGTANGCHENG" Unit="斤">冰糖橙</Item>
+      <Item Valid="1" Code="QICHENG" Unit="斤">脐橙</Item>
+      <Item Valid="1" Code="DONGSUN" Unit="斤">冬笋</Item>
+    </Category>
+    <Category Code="Pack" Name="包装">
+      <Item Valid="1" Code="ZHIXIANG" Unit="个">纸箱</Item>
+    </Category>
+    <Cost>
+      <Item Valid="1" Code="HUOKUAN">货款</Item>
+      <Item Valid="1" Code="YUNSHU">运输中转</Item>
+      <Item Valid="1" Code="QITA">其它费用</Item>
+    </Cost>
+  </Purchase>
+</root>

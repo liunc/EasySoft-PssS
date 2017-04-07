@@ -12,7 +12,9 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Domain.Entity
 {
+    using Core.Persistence;
     using System;
+    using System.Data;
 
     /// <summary>
     /// 领域实体基类
@@ -24,6 +26,7 @@ namespace EasySoft.PssS.Domain.Entity
         /// <summary>
         /// 获取或设置Id
         /// </summary>
+        [Column(Size =32, DataType = DbType.String, PrimaryKey =true )]
         public string Id { get; set; }
 
         #endregion

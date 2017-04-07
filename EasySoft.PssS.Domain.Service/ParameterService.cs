@@ -24,8 +24,8 @@ namespace EasySoft.PssS.Domain.Service
     {
         #region 变量
 
-        private IPurchaseItemRepository purchaseItemRepository;
-        private ICostItemRepository costItemRepository;
+        private IPurchaseConfigRepository purchaseConfigRepository;
+        private IDeliveryConfigRepository deliveryConfigRepository;
 
         #endregion
 
@@ -36,8 +36,8 @@ namespace EasySoft.PssS.Domain.Service
         /// </summary>
         public ParameterService()
         {
-            this.purchaseItemRepository = new PurchaseItemRepository();
-            this.costItemRepository = new CostItemRepository();
+            this.purchaseConfigRepository = new PurchaseConfigRepository();
+            this.deliveryConfigRepository = new DeliveryConfigRepository();
         }
 
         #endregion
@@ -45,25 +45,21 @@ namespace EasySoft.PssS.Domain.Service
         #region 方法
 
         /// <summary>
-        /// 获取采购项信息
+        /// 获取采购配置信息
         /// </summary>
-        /// <param name="category">分类</param>
-        /// <param name="onlyValid">是否仅包含有效</param>
-        /// <returns>返回采购项信息</returns>
-        public List<PurchaseItem> GetPurchaseItem(string category, bool onlyValid)
+        /// <returns>返回采购配置信息</returns>
+        public PurchaseConfig GetPurchaseConfig()
         {
-            return this.purchaseItemRepository.GetPurchaseItem(category, onlyValid);
+            return this.purchaseConfigRepository.GetPurchaseConfig();
         }
 
         /// <summary>
-        /// 获取成本项信息
+        /// 获取成本配置信息
         /// </summary>
-        /// <param name="category">分类</param>
-        /// <param name="valid">是否仅包含有效</param>
-        /// <returns>返回成本项信息</returns>
-        public List<CostItem> GetCostItem(string category, bool onlyValid)
+        /// <returns>返回成本配置信息</returns>
+        public DeliveryConfig GetDeliveryConfig()
         {
-            return this.costItemRepository.GetCostItem(category, onlyValid);
+            return this.deliveryConfigRepository.GetDeliveryConfig();
         }
 
         #endregion

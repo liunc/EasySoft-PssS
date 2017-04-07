@@ -1,0 +1,4 @@
+D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Debug\EasySoft.Core.Util.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Debug\EasySoft.Core.Util.pdb
+D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Debug\EasySoft.Core.Util.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Debug\EasySoft.Core.Util.pdb

@@ -82,7 +82,7 @@
 </form>
 @foreach (var item in Model.PurchaseItems)
 {
-    <input type="hidden" id="@item.Code" value="@item.InputUnit" />
+    <input type="hidden" id="@item.Code" value="@item.Unit" />
 }
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="alertError" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

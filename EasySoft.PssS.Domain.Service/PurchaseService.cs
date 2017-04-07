@@ -12,11 +12,11 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Domain.Service
 {
+    using Core.Util;
     using EasySoft.PssS.DbRepository;
     using EasySoft.PssS.Domain.Entity;
     using EasySoft.PssS.Domain.ValueObject;
     using EasySoft.PssS.Repository;
-    using EasySoft.PssS.Util;
     using System;
     using System.Collections.Generic;
     using System.Data.Common;

@@ -49,6 +49,14 @@
     <Compile Include="PurchaseRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EasySoft.Core.Persistence.RepositoryImplement\EasySoft.Core.Persistence.RepositoryImplement.csproj">
+      <Project>{AF986694-C4BA-4733-BB57-48F2B4468A76}</Project>
+      <Name>EasySoft.Core.Persistence.RepositoryImplement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.Core.Persistence.Repository\EasySoft.Core.Persistence.Repository.csproj">
+      <Project>{756B3972-C3B1-4B69-9213-771FBF66DF8B}</Project>
+      <Name>EasySoft.Core.Persistence.Repository</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.Domain.Entity\EasySoft.PssS.Domain.Entity.csproj">
       <Project>{7e7215bd-421b-4126-98c2-4e469114efe5}</Project>
       <Name>EasySoft.PssS.Domain.Entity</Name>

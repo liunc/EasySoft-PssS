@@ -95,7 +95,6 @@ D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.Domain.Entity.dll
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.Domain.Service.dll
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.Domain.ValueObject.dll
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.Repository.dll
-D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.Util.dll
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.XmlRepository.dll
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\HtmlSanitizationLibrary.dll
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
@@ -117,7 +116,6 @@ D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.Domain.Entity.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.Domain.Service.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.Domain.ValueObject.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.Repository.pdb
-D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.Util.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.XmlRepository.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\AntiXssLibrary.xml
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\HtmlSanitizationLibrary.xml
@@ -150,3 +148,11 @@ D:\github\EasySoft-PssS\EasySoft.PssS.Web\obj\Debug\EasySoft.PssS.Web.Resources.
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\obj\Debug\EasySoft.PssS.Web.csproj.GenerateResource.Cache
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\obj\Debug\EasySoft.PssS.Web.dll
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\obj\Debug\EasySoft.PssS.Web.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.Util.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.Persistence.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.Persistence.Repository.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.Persistence.RepositoryImplement.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.Util.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.Persistence.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.Persistence.Repository.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.Persistence.RepositoryImplement.pdb

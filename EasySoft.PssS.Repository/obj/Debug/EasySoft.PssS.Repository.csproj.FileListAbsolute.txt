@@ -13,10 +13,14 @@ D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.PssS.Reposit
 D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.PssS.Repository.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.PssS.Domain.Entity.dll
 D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.PssS.Domain.ValueObject.dll
-D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.PssS.Util.dll
 D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.PssS.Domain.Entity.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.PssS.Domain.ValueObject.pdb
-D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.PssS.Util.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Repository\obj\Debug\EasySoft.PssS.Repository.csprojResolveAssemblyReference.cache
 D:\github\EasySoft-PssS\EasySoft.PssS.Repository\obj\Debug\EasySoft.PssS.Repository.dll
 D:\github\EasySoft-PssS\EasySoft.PssS.Repository\obj\Debug\EasySoft.PssS.Repository.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.Core.Persistence.Repository.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.Core.Persistence.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.Core.Util.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.Core.Persistence.Repository.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.Core.Persistence.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Debug\EasySoft.Core.Util.pdb

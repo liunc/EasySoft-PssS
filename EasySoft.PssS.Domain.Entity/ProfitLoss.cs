@@ -12,11 +12,16 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Domain.Entity
 {
+    using Core.Persistence;
+    using Core.Util;
     using EasySoft.PssS.Domain.ValueObject;
+    using System;
+    using System.Data;
 
     /// <summary>
     /// 益损领域实体类
     /// </summary>
+    [Table("dbo.ProfitLoss")]
     public class ProfitLoss : EntityBase
     {
         #region 属性
@@ -24,32 +29,44 @@ namespace EasySoft.PssS.Domain.Entity
         /// <summary>
         /// 获取或设置关联Id
         /// </summary>
+        [Column(Name = "RecordId", DataType = DbType.String, Size = 36, AllowEdit = false)]
         public string RecordId { get; set; }
 
         /// <summary>
         /// 获取或设置目标类型
         /// </summary>
+        [Column(Name = "TargetType", DataType = DbType.String, Size = 10, AllowEdit =false)]
         public ProfitLossTargetType TargetType { get; set; }
 
         /// <summary>
         /// 获取或设置分类
         /// </summary>
+        [Column(Name = "Category", DataType = DbType.String, Size = 10, AllowEdit =false)]
         public ProfitLossCategory Category { get; set; }
 
         /// <summary>
         /// 获取或设置数量
         /// </summary>
+        [Column(Name = "Quantity", DataType = DbType.Decimal, Size = 18)]
         public decimal Quantity { get; set; }
 
         /// <summary>
         /// 获取或设置备注
         /// </summary>
+        [Column(Name = "Remark", DataType = DbType.String, Size = 120)]
         public string Remark { get; set; }
 
         /// <summary>
         /// 获取或设置创建者
         /// </summary>
-        public Operator Creator { get; set; }
+        [Column(Name = "Creator", DataType = DbType.String, Size = 20, AllowEdit = false)]
+        public string Creator { get; set; }
+
+        /// <summary>
+        /// 获取或设置创建时间
+        /// </summary>
+        [Column(Name = "CreateTime", DataType = DbType.DateTime, AllowEdit = false)]
+        public DateTime CreateTime { get; set; }
 
         #endregion
 
@@ -73,7 +90,8 @@ namespace EasySoft.PssS.Domain.Entity
             this.Category = category;
             this.Quantity = quantity;
             this.Remark = string.IsNullOrWhiteSpace(remark) ? string.Empty : remark.Trim();
-            this.Creator = new Operator(creator);
+            this.Creator = creator;
+            this.CreateTime = DateTimeUtil.ConvertUTCToBeijing(DateTime.UtcNow);
         }
 
         #endregion

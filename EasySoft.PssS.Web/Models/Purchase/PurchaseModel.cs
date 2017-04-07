@@ -16,8 +16,8 @@ namespace EasySoft.PssS.Web.Models.Purchase
     using EasySoft.PssS.Domain.Entity;
     using System;
     using System.Collections.Generic;
-    using Util;
     using Web.Resources;
+    using Core.Util;
 
     /// <summary>
     /// 采购视图模型类

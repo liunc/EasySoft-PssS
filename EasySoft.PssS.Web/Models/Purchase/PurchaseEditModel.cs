@@ -16,9 +16,9 @@ namespace EasySoft.PssS.Web.Models.Purchase
     using EasySoft.PssS.Domain.Entity;
     using System;
     using System.Collections.Generic;
-    using Util;
     using Domain.ValueObject;
     using System.Linq;
+    using Core.Util;
 
     /// <summary>
     /// 修改采购记录视图模型类
@@ -121,7 +121,7 @@ namespace EasySoft.PssS.Web.Models.Purchase
             this.Supplier = entity.Supplier;
             this.Remark = entity.Remark;
             this.Costs = new List<CostModel>();
-            Dictionary<string, CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), false);
+            Dictionary<string, CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.Purchase.ToString(), false);
             foreach (Cost cost in entity.Costs)
             {
                 string itemName = entity.Item;

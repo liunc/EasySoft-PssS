@@ -31,17 +31,7 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// <summary>
         /// 获取或设置入库单位
         /// </summary>
-        public string InputUnit { get; set; }
-
-        /// <summary>
-        /// 获取或设置出库单位
-        /// </summary>
-        public string OutputUnit { get; set; }
-
-        /// <summary>
-        /// 获取或设置入库单位
-        /// </summary>
-        public string InOutRate { get; set; }
+        public string Unit { get; set; }
 
         #endregion
     }

@@ -40,19 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Operator.cs" />
     <Compile Include="ProfitLossTargetType.cs" />
     <Compile Include="ProfitLossCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CostCategory.cs" />
     <Compile Include="PurchaseStatus.cs" />
     <Compile Include="PurchaseCategory.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EasySoft.PssS.Util\EasySoft.PssS.Util.csproj">
-      <Project>{D2D7D55D-B61F-46D2-947F-DBB480E77629}</Project>
-      <Name>EasySoft.PssS.Util</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

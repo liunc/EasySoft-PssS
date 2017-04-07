@@ -59,7 +59,7 @@ namespace EasySoft.PssS.Web.Controllers
         {
             List<CostModel> models = new List<CostModel>();
             List<Cost> entities = this.costService.GetList(id);
-            Dictionary<string, CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.IntoDepot.ToString(), false);
+            Dictionary<string, CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.Purchase.ToString(), false);
             foreach (Cost entity in entities)
             {
                 string itemName = entity.Item;

@@ -54,6 +54,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EasySoft.Core.Persistence.RepositoryImplement\EasySoft.Core.Persistence.RepositoryImplement.csproj">
+      <Project>{af986694-c4ba-4733-bb57-48f2b4468a76}</Project>
+      <Name>EasySoft.Core.Persistence.RepositoryImplement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.Core.Persistence.Repository\EasySoft.Core.Persistence.Repository.csproj">
+      <Project>{756b3972-c3b1-4b69-9213-771fbf66df8b}</Project>
+      <Name>EasySoft.Core.Persistence.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.Core.Util\EasySoft.Core.Util.csproj">
+      <Project>{AEBBCF64-AC18-4890-93CB-3597FDC43DB0}</Project>
+      <Name>EasySoft.Core.Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.DbRepository\EasySoft.PssS.DbRepository.csproj">
       <Project>{4376B3E1-97A7-49D3-9AE5-04ABCE55FAD7}</Project>
       <Name>EasySoft.PssS.DbRepository</Name>
@@ -69,10 +81,6 @@
     <ProjectReference Include="..\EasySoft.PssS.Repository\EasySoft.PssS.Repository.csproj">
       <Project>{c280cd59-a92f-462e-b31c-71d45249fe5d}</Project>
       <Name>EasySoft.PssS.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EasySoft.PssS.Util\EasySoft.PssS.Util.csproj">
-      <Project>{D2D7D55D-B61F-46D2-947F-DBB480E77629}</Project>
-      <Name>EasySoft.PssS.Util</Name>
     </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.XmlRepository\EasySoft.PssS.XmlRepository.csproj">
       <Project>{b34b32fb-4c36-4763-b013-5b6fd9358194}</Project>

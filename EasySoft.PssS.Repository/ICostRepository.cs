@@ -12,6 +12,7 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Repository
 {
+    using Core.Persistence.Repository;
     using EasySoft.PssS.Domain.Entity;
     using System.Collections.Generic;
     using System.Data.Common;
@@ -19,22 +20,8 @@ namespace EasySoft.PssS.Repository
     /// <summary>
     /// 成本项仓储接口
     /// </summary>
-    public interface ICostRepository
+    public interface ICostRepository:IBaseRepository<Cost, string>
     {
-        /// <summary>
-        /// 获取成本信息
-        /// </summary>
-        /// <param name="trans">数据库事务</param>
-        /// <param name="entity">数据实体对象</param>
-        void Insert(DbTransaction trans, Cost entity);
-
-        /// <summary>
-        /// 修改成本信息
-        /// </summary>
-        /// <param name="trans">数据库事务</param>
-        /// <param name="id">Id</param>
-        /// <param name="money">金额</param>
-        void Update(DbTransaction trans, string id, decimal money);
 
         /// <summary>
         /// 根据记录Id获取成本信息

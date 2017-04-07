@@ -12,6 +12,7 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.DbRepository
 {
+    using Core.Persistence.RepositoryImplement;
     using Domain.ValueObject;
     using EasySoft.PssS.Domain.Entity;
     using EasySoft.PssS.Repository;
@@ -24,56 +25,9 @@ namespace EasySoft.PssS.DbRepository
     /// <summary>
     /// 成本仓储实现类
     /// </summary>
-    public class CostRepository : ICostRepository
+    public class CostRepository : BaseRepository<Cost, string>, ICostRepository
     {
         #region 方法
-
-        /// <summary>
-        /// 新增成本信息
-        /// </summary>
-        /// <param name="trans">数据库事务</param>
-        /// <param name="entity">数据实体对象</param>
-        public void Insert(DbTransaction trans, Cost entity)
-        {
-            string cmdText = @"INSERT INTO [dbo].[Cost]([Id], [RecordId], [Category], [Item], [Money])
-                             VALUES(@Id, @RecordId, @Category, @Item, @Money)";
-
-            DbParameter[] paras = new DbParameter[] {
-                    DbHelper.SetParameter("Id", DbType.StringFixedLength, 32, entity.Id),
-                    DbHelper.SetParameter("@RecordId", DbType.String, 32, entity.RecordId),
-                    DbHelper.SetParameter("@Category", DbType.String, 10, entity.Category.ToString()),
-                    DbHelper.SetParameter("@Item", DbType.String, 20, entity.Item),
-                    DbHelper.SetParameter("@Money", DbType.Decimal, 18, entity.Money)};
-
-            if (trans == null)
-            {
-                DbHelper.ExecuteNonQuery(cmdText, paras);
-                return;
-            }
-            DbHelper.ExecuteNonQuery(trans, cmdText, paras);
-        }
-
-        /// <summary>
-        /// 修改成本信息
-        /// </summary>
-        /// <param name="trans">数据库事务</param>
-        /// <param name="id">Id</param>
-        /// <param name="money">金额</param>
-        public void Update(DbTransaction trans, string id, decimal money)
-        {
-            string cmdText = @"UPDATE [dbo].[Cost] SET [Money] = @Money WHERE [Id] = @Id";
-
-            DbParameter[] paras = new DbParameter[] {
-                    DbHelper.SetParameter("Id", DbType.String, 32, id),
-                    DbHelper.SetParameter("Money", DbType.Decimal, 18, money)};
-
-            if (trans == null)
-            {
-                DbHelper.ExecuteNonQuery(cmdText, paras);
-                return;
-            }
-            DbHelper.ExecuteNonQuery(trans, cmdText, paras);
-        }
 
         /// <summary>
         /// 根据记录Id获取成本信息
@@ -83,8 +37,7 @@ namespace EasySoft.PssS.DbRepository
         /// <returns>返回成本信息</returns>
         public List<Cost> SearchByRecordId(DbTransaction trans, string recordId)
         {
-            string cmdText = @"SELECT [Id], [RecordId], [Category], [Item], [Money]
-                            FROM [dbo].[Cost] WHERE [RecordId] = @RecordId";
+            string cmdText = string.Format(@"{0} WHERE [RecordId] = @RecordId", this.Resolver.SelectAllCommandText);
 
             DbParameter paras = DbHelper.SetParameter("RecordId", DbType.String, 32, recordId);
 
@@ -138,7 +91,7 @@ namespace EasySoft.PssS.DbRepository
         /// </summary>
         /// <param name="reader">DbDataReader对象</param>
         /// <returns>返回实体对象</returns>
-        private Cost SetEntity(DbDataReader reader)
+        protected override Cost SetEntity(DbDataReader reader)
         {
             return new Cost
             {

@@ -14,13 +14,19 @@
 namespace EasySoft.PssS.Domain.Entity
 {
     using EasySoft.PssS.Domain.ValueObject;
+    using System.Collections.Generic;
 
     /// <summary>
     /// 采购项领域实体类
     /// </summary>
-    public class PurchaseItem: EntityBase
+    public class PurchaseItem
     {
         #region 属性
+
+        /// <summary>
+        /// 获取或设置采购分类
+        /// </summary>
+        public PurchaseCategory Category { get; set; }
 
         /// <summary>
         /// 获取或设置编码
@@ -38,24 +44,9 @@ namespace EasySoft.PssS.Domain.Entity
         public string Valid { get; set; }
 
         /// <summary>
-        /// 获取或设置入库单位
+        /// 获取或设置单位
         /// </summary>
-        public string InputUnit { get; set; }
-
-        /// <summary>
-        /// 获取或设置出库单位
-        /// </summary>
-        public string OutputUnit { get; set; }
-
-        /// <summary>
-        /// 获取或设置入库单位
-        /// </summary>
-        public string InOutRate { get; set; }
-
-        /// <summary>
-        /// 获取或设置采购分类
-        /// </summary>
-        public PurchaseCategory Category { get; set; }
+        public string Unit { get; set; }
 
         #endregion
     }

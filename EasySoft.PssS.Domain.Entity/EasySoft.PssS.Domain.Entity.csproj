@@ -47,10 +47,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CostItem.cs" />
     <Compile Include="Purchase.cs" />
+    <Compile Include="DeliveryConfig.cs" />
+    <Compile Include="DeliveryItem.cs" />
     <Compile Include="PurchaseItem.cs" />
+    <Compile Include="PurchaseConfig.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EasySoft.Core.Persistence\EasySoft.Core.Persistence.csproj">
+      <Project>{743eea0e-c40a-42fc-9cda-33597f050f38}</Project>
+      <Name>EasySoft.Core.Persistence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.Core.Util\EasySoft.Core.Util.csproj">
+      <Project>{aebbcf64-ac18-4890-93cb-3597fdc43db0}</Project>
+      <Name>EasySoft.Core.Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.Domain.ValueObject\EasySoft.PssS.Domain.ValueObject.csproj">
       <Project>{5e07dbae-0b02-44b9-aaef-191f08e07c12}</Project>
       <Name>EasySoft.PssS.Domain.ValueObject</Name>

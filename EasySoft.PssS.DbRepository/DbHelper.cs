@@ -12,7 +12,6 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.DbRepository
 {
-    using EasySoft.PssS.Repository;
     using System;
     using System.Configuration;
     using System.Data;
@@ -28,7 +27,6 @@ namespace EasySoft.PssS.DbRepository
         private static readonly string CONNECTION_STRING = "SQLSERVER_CONNECTION_STRING";
         private static string providerName = string.Empty;
         private static DbProviderFactory dbProvider = null;
-        private static IDbClientExtend dbClientExtend = null;
 
         #endregion
 
@@ -37,7 +35,7 @@ namespace EasySoft.PssS.DbRepository
         /// <summary>
         /// 获取ProviderName
         /// </summary>
-        private static string ProviderName
+        public static string ProviderName
         {
             get
             {
@@ -72,31 +70,7 @@ namespace EasySoft.PssS.DbRepository
                 return dbProvider;
             }
         }
-
-        /// <summary>
-        /// 获取DbClientExtend
-        /// </summary>
-        private static IDbClientExtend DbClientExtend
-        {
-            get
-            {
-                if (dbClientExtend == null)
-                {
-                    string[] temps = ProviderName.Split(new char[] { '.' });
-                    if (temps.Length > 0)
-                    {
-                        Type type = Type.GetType(string.Format("EasySoft.PssS.DbRepository.{0}Extend", temps[temps.Length - 1]));
-                        dbClientExtend = (IDbClientExtend)Activator.CreateInstance(type);
-                    }
-                    if (dbClientExtend == null)
-                    {
-                        throw new ArgumentNullException("DbClientExtend");
-                    }
-                }
-                return dbClientExtend;
-            }
-        }
-
+        
         #endregion
 
         #region 创建数据库连接
@@ -660,26 +634,6 @@ namespace EasySoft.PssS.DbRepository
         public static int ExecuteNonQuery(string cmdText)
         {
             return ExecuteNonQuery(CommandType.Text, cmdText);
-        }
-
-        #endregion
-
-        #region 分页
-
-        /// <summary>
-        /// MSSQL Server2005以上版本获取分页的数据集(不能用distinct)
-        /// </summary>
-        /// <param name="cmdText">要执行的存储过程名或T-SQL语句，不包含order by</param>
-        /// <param name="pageSize">数据源中每页要显示的行的数目</param>
-        /// <param name="totalCount">数据源总记录数</param>
-        /// <param name="pageIndex">要获取记录的页码</param>
-        /// <param name="orderByStr">排序字符串，如"SERIALNO ASC,NAME DESC"</param>
-        /// <param name="paras">DbParameter 参数集合</param>
-        /// <returns>返回数据表</returns>
-        public static DbDataReader Paging(string cmdText, int pageSize, int totalCount, int pageIndex, string orderByStr, params DbParameter[] paras)
-        {
-            cmdText = DbClientExtend.GetPagingSqlString(cmdText, pageSize, totalCount, pageIndex, orderByStr);
-            return ExecuteReader(cmdText, paras);
         }
 
         #endregion

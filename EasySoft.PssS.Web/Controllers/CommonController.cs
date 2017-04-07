@@ -1,4 +1,4 @@
-﻿using EasySoft.PssS.Util;
+﻿using EasySoft.Core.Util;
 using EasySoft.PssS.Web.Models.Common;
 using EasySoft.PssS.Web.Resources;
 using System;
@@ -30,6 +30,10 @@ namespace EasySoft.PssS.Web.Controllers
             return View();
         }
 
+        public PartialViewResult Footer()
+        {
+            return PartialView();
+        }
         public PartialViewResult Dialog(string id, string title, string messageBodyId, string firstButton, string secondButton)
         {
             List<string> errorMessages = new List<string>();
