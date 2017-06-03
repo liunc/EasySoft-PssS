@@ -154,9 +154,9 @@
     <value>备注</value>
   </data>
   <data name="Field_Supplier" xml:space="preserve">
-    <value>供应方</value>
+    <value>供应商</value>
   </data>
-  <data name="Button_IntoDepot" xml:space="preserve">
+  <data name="Button_Into" xml:space="preserve">
     <value>入库</value>
   </data>
   <data name="SystemName" xml:space="preserve">
@@ -195,7 +195,7 @@
   <data name="Button_ViewMore" xml:space="preserve">
     <value>查看更多 &gt;&gt;</value>
   </data>
-  <data name="Message_Colon" xml:space="preserve">
+  <data name="Field_Colon" xml:space="preserve">
     <value>：</value>
   </data>
   <data name="Message_NoData" xml:space="preserve">
@@ -207,7 +207,7 @@
   <data name="Field_ProfitLoss" xml:space="preserve">
     <value>益损</value>
   </data>
-  <data name="Field_Allowance" xml:space="preserve">
+  <data name="Field_Inventory" xml:space="preserve">
     <value>库存</value>
   </data>
   <data name="Message_NoMoreData" xml:space="preserve">
@@ -228,7 +228,7 @@
   <data name="Message_Info" xml:space="preserve">
     <value>信息</value>
   </data>
-  <data name="Field_Moblie" xml:space="preserve">
+  <data name="Field_Mobile" xml:space="preserve">
     <value>手机号</value>
   </data>
   <data name="Field_Password" xml:space="preserve">
@@ -271,7 +271,7 @@
     <value>请输入{0}。</value>
   </data>
   <data name="Validate_PleaseSelectField" xml:space="preserve">
-    <value>请选择{0}</value>
+    <value>请选择{0}。</value>
   </data>
   <data name="Button_Loss" xml:space="preserve">
     <value>报损</value>
@@ -318,13 +318,13 @@
   <data name="Field_TotalIncome" xml:space="preserve">
     <value>收益(元)</value>
   </data>
-  <data name="Title_OutputRecord" xml:space="preserve">
+  <data name="Title_OutboundRecord" xml:space="preserve">
     <value>出库记录</value>
   </data>
   <data name="Title_OutwardOrder" xml:space="preserve">
     <value>外发订单</value>
   </data>
-  <data name="Title_ProductOutput" xml:space="preserve">
+  <data name="Title_ProductOutbound" xml:space="preserve">
     <value>产品出库</value>
   </data>
   <data name="Title_Purchase" xml:space="preserve">
@@ -345,8 +345,8 @@
   <data name="Button_Close" xml:space="preserve">
     <value>关闭</value>
   </data>
-  <data name="Dialog_FirstButton" xml:space="preserve">
-    <value>第一个按钮</value>
+  <data name="Dialog_OkButton" xml:space="preserve">
+    <value>确定按钮</value>
   </data>
   <data name="Dialog_Id" xml:space="preserve">
     <value>对话框Id</value>
@@ -354,10 +354,106 @@
   <data name="Dialog_MessageBodyId" xml:space="preserve">
     <value>消息体Id</value>
   </data>
-  <data name="Dialog_SecondButton" xml:space="preserve">
-    <value>第二个按钮</value>
+  <data name="Dialog_CancelButton" xml:space="preserve">
+    <value>取消按钮</value>
   </data>
   <data name="Dialog_Title" xml:space="preserve">
     <value>对话框标题</value>
+  </data>
+  <data name="Message_PageNotFound" xml:space="preserve">
+    <value>您访问的页面不存在，请返回上一页。</value>
+  </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Dialog_ConfirmString" xml:space="preserve">
+    <value>确定字符串</value>
+  </data>
+  <data name="Message_Confirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="Title_OutboundFirst" xml:space="preserve">
+    <value>出库 - 选择产品</value>
+  </data>
+  <data name="Title_OutboundFour" xml:space="preserve">
+    <value>出库 - 完成</value>
+  </data>
+  <data name="Title_OutboundSecond" xml:space="preserve">
+    <value>出库 - 选择包装</value>
+  </data>
+  <data name="Title_OutboundThird" xml:space="preserve">
+    <value>出库 - 日期、成本及备注</value>
+  </data>
+  <data name="Title_AddCustomer" xml:space="preserve">
+    <value>新增客户</value>
+  </data>
+  <data name="Title_Customer" xml:space="preserve">
+    <value>客户</value>
+  </data>
+  <data name="Title_CustomerAddress" xml:space="preserve">
+    <value>管理地址</value>
+  </data>
+  <data name="Title_CustomerGroupManagement" xml:space="preserve">
+    <value>分组管理</value>
+  </data>
+  <data name="Title_CustomerManagement" xml:space="preserve">
+    <value>客户管理</value>
+  </data>
+  <data name="Title_EditCustomer" xml:space="preserve">
+    <value>编辑客户</value>
+  </data>
+  <data name="Field_Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Title_AddCustomerGroup" xml:space="preserve">
+    <value>新增客户分组</value>
+  </data>
+  <data name="Title_CustomerGroupDetail" xml:space="preserve">
+    <value>客户分组明细</value>
+  </data>
+  <data name="Title_EditCustomerGroup" xml:space="preserve">
+    <value>编辑客户分组</value>
+  </data>
+  <data name="Field_Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Field_Nickname" xml:space="preserve">
+    <value>昵称</value>
+  </data>
+  <data name="Field_Address" xml:space="preserve">
+    <value>地址</value>
+  </data>
+  <data name="Field_Group" xml:space="preserve">
+    <value>分组</value>
+  </data>
+  <data name="Message_AllGroup" xml:space="preserve">
+    <value>所有分组</value>
+  </data>
+  <data name="Field_WeChatId" xml:space="preserve">
+    <value>微信号</value>
+  </data>
+  <data name="Title_CustomerDetail" xml:space="preserve">
+    <value>客户明细</value>
+  </data>
+  <data name="Field_Linkman" xml:space="preserve">
+    <value>联系人</value>
+  </data>
+  <data name="Title_AddCustomerAddress" xml:space="preserve">
+    <value>新增客户地址</value>
+  </data>
+  <data name="Field_CustomerId" xml:space="preserve">
+    <value>客户Id</value>
+  </data>
+  <data name="Field_DefaultAddress" xml:space="preserve">
+    <value>默认地址</value>
+  </data>
+  <data name="Field_BasicInfo" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="Field_SetDefault" xml:space="preserve">
+    <value>设为默认</value>
+  </data>
+  <data name="Button_Save" xml:space="preserve">
+    <value>保存</value>
   </data>
 </root>

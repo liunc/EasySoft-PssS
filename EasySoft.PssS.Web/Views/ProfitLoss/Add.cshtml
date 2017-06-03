@@ -15,62 +15,39 @@
         <li class="active">@Model.Title</li>
     </ol>
 </div>
-<form id="formAddPurchase" class="form-horizontal">
+
+<form id="formAddProfitLoss" role="form">
 
     <div class="form-group">
-        <label for="txtQuantity" class="col-xs-3 control-label">@WebResource.Field_Quantity</label>
-        <div class="col-xs-9">
-            <div class="input-group">
-                <input id="txtQuantity" name="txtQuantity" type="number" min="0" max="@Model.Allowance.ToString("0.##")" class="form-control" aria-describedby="txtUnit" placeholder="@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, 0.01M, Model.Allowance)">
-                <span class="input-group-addon" id="txtUnit">@Model.Unit</span>
-            </div>
+        <div class="input-group">
+            <input id="txtQuantity" name="txtQuantity" type="number" min="0.01" max="@Model.Inventory.ToString("0.##")" class="form-control" aria-describedby="txtUnit" placeholder="@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, 0.01M, Model.Inventory)">
+            <span class="input-group-addon" id="txtUnit">@Model.Unit</span>
         </div>
     </div>
     <div class="form-group">
-        <label for="txtRemark" class="col-xs-3 control-label">@WebResource.Field_Remark</label>
-        <div class="col-xs-9">
-            <textarea class="form-control" rows="4" id="txtRemark" name="txtRemark" maxlength="120" placeholder="@ValidateHelper.GetFieldLengthOverflowString(WebResource.Field_Remark, 0, 120)"></textarea>
-        </div>
+        <textarea class="form-control" rows="3" id="txtRemark" name="txtRemark" maxlength="120" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Remark,  ValidateHelper.STRING_LENGTH_120)"></textarea>
     </div>
+
     <div class="form-group">
         <div class="col-xs-3"></div>
         <div class="col-xs-9 btn-group">
-            <button id="btnSubmit" type="submit" class="btn btn-primary">@WebResource.Button_Submit</button>
+            <button id="btnSubmit" type="submit" class="btn btn-success">@WebResource.Button_Submit</button>
             <button type="button" class="btn btn-default" onclick="window.history.back();">@WebResource.Button_Back</button>
         </div>
     </div>
 </form>
 
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="alertError" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    @WebResource.Message_Error
-                </h4>
-            </div>
-            <div class="modal-body" id="errorMessage">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-dismiss="modal">
-                    @WebResource.Button_Ok
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
+<a id="returnUrl" href="@Model.ReturnUrl" style="display:none"></a>
+
+@Html.Action("Dialog", "Common", new { id = "dialogError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Close })
 
 @section scripts {
-    <script type="text/javascript" src="~/Scripts/jquery.validate.min.js" charset="UTF-8"></script>
+    @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
 
         $(function () {
 
-            $('#formAddPurchase').validate({
+            $('#formAddProfitLoss').validate({
                 errorElement: 'span',
                 errorClass: 'help-block',
                 focusInvalid: false,
@@ -79,7 +56,7 @@
                         required: true,
                         number: true,
                         min: @ValidateHelper.DECIMAL_MIN,
-                        max: @Model.Allowance
+                        max: @Model.Inventory
                     },
                     txtRemark: {
                         maxlength: 120
@@ -87,34 +64,37 @@
                 },
                 messages: {
                     txtQuantity: {
-                        required: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, Model.Allowance)',
-                        number: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, Model.Allowance)',
-                        min: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, Model.Allowance)',
-                        max: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, Model.Allowance)'
+                        required: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, Model.Inventory)',
+                        number: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, Model.Inventory)',
+                        min: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, Model.Inventory)',
+                        max: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, Model.Inventory)'
                     },
                     txtRemark: {
                         maxlength: '@ValidateHelper.GetFieldLengthOverflowString(WebResource.Field_Remark,ValidateHelper.INT_MIN, ValidateHelper.STRING_LENGTH_120)'
                     }
                 },
+
+                //自定义错误消息放到哪里
+                errorPlacement: function (error, element) {
+                    element.closest('.form-group').append(error);//显示错误消息提示
+                },
+                //给未通过验证的元素进行处理
                 highlight: function (element) {
-                    $(element).closest('.form-group').addClass('has-error').removeClass('has-success');
+                    $(element).closest('.form-group').addClass('has-error has-feedback').removeClass('has-success');
+                },
+                //验证通过的处理
+                success: function (element) {
+                    element.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
+                    element.remove();
                 },
 
-                success: function (label) {
-                    label.closest('.form-group').removeClass('has-error').addClass('has-success');
-                    label.remove();
-                },
-                errorPlacement: function (error, element) {
-                    //element.parent('div').append(error);
-                    $(element).closest('.form-group').find('div:first').append(error);
-                },
                 submitHandler: function (form) {
                     if (this.valid()) {
                         $('#btnSubmit').attr({ 'disabled': 'disabled' });
                         var model = {};
                         model.RecordId = '@Model.RecordId';
-                        model.Category = '@Model.Category';
-                        model.TargetType = '@Model.TargetType';
+                        model.CategoryString = '@Model.CategoryString';
+                        model.TargetTypeString = '@Model.TargetTypeString';
                         model.Quantity = parseFloat($('#txtQuantity').val());
                         model.Remark = $.trim($('#txtRemark').val());
                         $.ajax({
@@ -123,8 +103,7 @@
                             data: { model: model },
                             success: function (result) {
                                 if (result.Result) {
-                                    window.opener.location.reload();
-                                    window.close();
+                                    window.location.href = $('#returnUrl').attr('href');
                                 }
                                 else {
                                     showError(result.Message);
@@ -145,7 +124,7 @@
         });
         function showError(errorMessage) {
             $('#errorMessage').html(errorMessage);
-            $('#alertError').modal();
+            $('#dialogError').modal();
         }
     </script>
 }

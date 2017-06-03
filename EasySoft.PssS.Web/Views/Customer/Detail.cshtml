@@ -1,0 +1,112 @@
+﻿@using EasySoft.Core.Util;
+@using EasySoft.PssS.Web.Resources;
+@using EasySoft.PssS.Web.Models.Customer;
+@model CustomerDetailModel
+
+@{
+    ViewBag.Title = WebResource.Title_CustomerDetail;
+    ViewBag.PreviousUrl = string.Format("/Customer/Index?name={0}&groupId={1}&page={2}", Model.QueryName, Model.QueryGroupId, Model.PageIndex);
+}
+<div class="col-xs-12">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:'';">@WebResource.Field_BasicInfo</a></li>
+        <li><a href="/CustomerAddress/Index?customerId=@Model.Id&name=@Model.QueryName&groupId=@Model.QueryGroupId&page=@Model.PageIndex">@WebResource.Field_Address</a></li>
+    </ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <td colspan="2">&nbsp;</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="width:25%;">@WebResource.Field_Name</td>
+                <td style="width:75%;">@Model.Name</td>
+            </tr>
+            <tr>
+                <td>@WebResource.Field_Mobile</td>
+                <td>@Model.Mobile</td>
+            </tr>
+            <tr>
+                <td>@WebResource.Field_Group</td>
+                <td>@Model.Group</td>
+            </tr>
+            <tr>
+                <td>@WebResource.Field_Nickname</td>
+                <td>@Model.Nickname</td>
+            </tr>
+            <tr>
+                <td>@WebResource.Field_WeChatId</td>
+                <td>@Model.WeChatId</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+@Html.Action("Dialog", "Common", new { id = "dialogError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Close })
+@Html.Action("Confirm", "Common", new { id = "confirmDelete", title = WebResource.Message_Confirm, confirmString = @WebResource.Message_ConfirmDelete, okButton = @WebResource.Button_Ok, cancelButton = @WebResource.Button_Cancel, okButtonClick = "confirmDelete();" })
+@section footer{
+    <div class="navbar-default navbar-fixed-bottom">
+        <div class="col-xs-4">
+            <div class="row">
+                <button id="btnDelete" type="button" class="btn btn-danger btn-block" style="border-Radius:0px">@WebResource.Button_Delete</button>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="row">
+                <a id="btnEdit" href="/Customer/Edit/@Model.Id?name=@Model.QueryName&groupId=@Model.QueryGroupId&page=@Model.PageIndex" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Edit</a>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="row">
+                <button id="btnBack" type="button" class="btn btn-default btn-block" style="border-Radius:0px">@WebResource.Button_Back</button>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script type="text/javascript">
+                function confirmDelete() {
+                    $('#confirmDelete').modal('hide');
+                    $.ajax({
+                        type: "post",
+                        url: "/Customer/Delete",
+                        data: { id: '@Model.Id' },
+                        success: function (result) {
+                            if (result.Result) {
+                                window.location.href = '@ViewBag.PreviousUrl';
+                            }
+                            else {
+                                showError(result.Message);
+                            }
+                            return false;
+                        },
+                        error: function () {
+                            showError('System Error');
+                        }
+                    });
+                    return false;
+                }
+
+                function showError(errorMessage) {
+                    $('#errorMessage').html(errorMessage);
+                    $('#dialogError').modal('show');
+                }
+
+                $(function () {
+                    $('#btnDelete').click(function () {
+                        $('#confirmDelete').modal('show');
+                    });
+                    $('#btnEdit').click(function () {
+                        window.location.href = '/Customer/Edit/@Model.Id?page=@Model.PageIndex'
+                    });
+                    $('#btnBack').click(function () {
+                        window.location.href = '@ViewBag.PreviousUrl';
+                    });
+                });
+
+    </script>
+}
+

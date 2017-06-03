@@ -12,19 +12,107 @@
 // ----------------------------------------------------------
 namespace EasySoft.Core.Persistence.RepositoryImplement
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// MSSQL对象关系映射解析类
     /// </summary>
     /// <typeparam name="TEntity">实体对象类型</typeparam>
     /// <typeparam name="TKey">主键类型</typeparam>
-    public class SqlClientPersistenceResolver: PersistenceResolver
+    public class SqlClientPersistenceResolver : PersistenceResolver
     {
+        #region 构造函数
+
         /// <summary>
         /// 构造函数
         /// </summary>
         public SqlClientPersistenceResolver()
         {
+
         }
+
+        #endregion
+
+        #region 属性
+
+        /// <summary>
+        /// 获取Insert SQL命令
+        /// </summary>
+        public override string InsertCommandText
+        {
+            get
+            {
+                return string.Format("INSERT INTO {0}({1}) VALUES(@{2});", this.TableName, string.Join(", ", this.InsertColumns), string.Join(", @", this.InsertColumns));
+            }
+        }
+
+        /// <summary>
+        /// 获取Update SQL命令
+        /// </summary>
+        public override string UpdateCommandText
+        {
+            get
+            {
+                return string.Format("UPDATE {0} SET {1} WHERE {2};", this.TableName, string.Join(", ", this.FormatColumn(this.UpdateColumns)), string.Join(" AND ", this.FormatColumn(this.PrimaryKeyColumns)));
+            }
+        }
+
+        /// <summary>
+        /// 获取Update SQL命令
+        /// </summary>
+        public override string DeleteCommandText
+        {
+            get
+            {
+                return string.Format("DELETE FROM {0} WHERE {1}", this.TableName, string.Join(" AND ", this.FormatColumn(this.PrimaryKeyColumns)));
+            }
+        }
+
+        /// <summary>
+        /// 获取Select By Primary Keys SQL命令
+        /// </summary>
+        public override string SelectByPrimaryKeysCommandText
+        {
+            get
+            {
+                return string.Format("SELECT {0} FROM {1} WHERE {2}", string.Join(", ", this.AllColumns), this.TableName, string.Join(" AND ", this.FormatColumn(this.PrimaryKeyColumns)));
+            }
+        }
+
+        /// <summary>
+        /// 获取Select All SQL命令
+        /// </summary>
+        public override string SelectAllCommandText
+        {
+            get
+            {
+                return string.Format("SELECT {0} FROM {1}", string.Join(", ", this.AllColumns), this.TableName);
+            }
+        }
+
+        /// <summary>
+        /// 获取Select All SQL命令
+        /// </summary>
+        public override string CountByPrimaryKeysCommandText
+        {
+            get
+            {
+                return string.Format("SELECT COUNT(1) FROM {0} WHERE {1}", this.TableName, string.Join(" AND ", this.FormatColumn(this.PrimaryKeyColumns)));
+            }
+        }
+
+        /// <summary>
+        /// 获取Select All SQL命令
+        /// </summary>
+        public override string CountAllCommandText
+        {
+            get
+            {
+                return string.Format("SELECT COUNT(1) FROM {0}", this.TableName);
+            }
+        }
+
+        #endregion
 
         #region 分页Sql字符串
 
@@ -60,6 +148,20 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
                 end = pageSize * pageIndex;
             }
             return string.Format("SELECT * FROM ({0} , ROW_NUMBER() OVER (ORDER BY {1}) AS RN {2}) RLT WHERE RLT.RN BETWEEN {3} AND {4}", cmdText1, orderByStr, cmdText2, start, end);
+        }
+
+        #endregion
+
+        #region 私有方法
+
+        private List<string> FormatColumn(List<string> columns)
+        {
+            List<string> formatedColumns = new List<string>();
+            foreach (string column in columns)
+            {
+                formatedColumns.Add(string.Format("{0} = @{0}", column));
+            }
+            return formatedColumns;
         }
 
         #endregion

@@ -18,11 +18,6 @@ namespace EasySoft.PssS.Domain.ValueObject
     public enum ProfitLossTargetType
     {
         /// <summary>
-        /// 未指定
-        /// </summary>
-        None,
-
-        /// <summary>
         /// 采购
         /// </summary>
         Purchase,

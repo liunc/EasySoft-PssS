@@ -12,7 +12,7 @@
 // ----------------------------------------------------------
 namespace EasySoft.Core.Persistence.RepositoryImplement
 {
-    using Repository;
+    using EasySoft.Core.Persistence.Repository;
     using System;
     using System.Collections.Generic;
     using System.Data.Common;
@@ -166,6 +166,36 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
         }
 
         /// <summary>
+        /// 查询所有数据
+        /// </summary>
+        /// <param name="trans">数据库事务</param>
+        /// <returns>返回实体对象</returns>
+        public List<TEntity> All(DbTransaction trans)
+        {
+            string cmdText = this.Resolver.SelectAllCommandText;
+
+            DbDataReader reader = null;
+            if (trans == null)
+            {
+                reader = DbHelper.ExecuteReader(cmdText);
+            }
+            else
+            {
+                reader = DbHelper.ExecuteReader(trans, cmdText);
+            }
+            List<TEntity> entitys = new List<TEntity>();
+            while (reader.Read())
+            {
+                entitys.Add(this.SetEntity(reader));
+            }
+            if (!reader.IsClosed)
+            {
+                reader.Close();
+            }
+            return entitys;
+        }
+
+        /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="cmdText">要执行的存储过程名或T-SQL语句，不包含order by</param>
@@ -217,26 +247,41 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
         {
             return default(TEntity);
         }
-        
 
+        /// <summary>
+        /// 获取SQL参数
+        /// </summary>
+        /// <param name="entity">领域实体对象</param>
+        /// <param name="source">SQL参数源</param>
+        /// <returns>返回SQL参数</returns>
         private DbParameter[] GetParameters(TEntity entity, Dictionary<string, DbParameter> source)
         {
             DbParameter[] parameters = new DbParameter[source.Count];
-            source.Values.CopyTo(parameters, 0);
             int i = 0;
             foreach (KeyValuePair<string, DbParameter> pair in source)
             {
+                parameters[i] = pair.Value;
                 parameters[i].Value = entity.GetType().InvokeMember(pair.Key, BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance, null, entity, new object[0]);
                 i++;
             }
             return parameters;
         }
 
+        /// <summary>
+        /// 获取SQL参数
+        /// </summary>
+        /// <param name="primaryKey">主键值</param>
+        /// <param name="source">SQL参数源</param>
+        /// <returns>返回SQL参数</returns>
         private DbParameter GetPrimaryKeyParameter(TKey primaryKey, Dictionary<string, DbParameter> source)
         {
-            DbParameter[] parameters = null;
-            source.Values.CopyTo(parameters, 0);
-            parameters[0].Value = primaryKey;
+            DbParameter[] parameters = new DbParameter[source.Count];
+            foreach (KeyValuePair<string, DbParameter> pair in source)
+            {
+                parameters[0] = pair.Value;
+                parameters[0].Value = primaryKey;
+                break;
+            }
             return parameters[0];
         }
 

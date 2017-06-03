@@ -15,134 +15,98 @@
             <option value="1">@WebResource.Message_AllItem</option>
             @foreach (var item in Model.PurchaseItems)
             {
-                <option value="@item.Code">@item.Name</option>
+                if (!string.IsNullOrWhiteSpace(Model.SelectedItem) && item.Code == Model.SelectedItem)
+                {
+                    <option selected value="@item.Code">@item.Name</option>
+                }
+                else
+                {
+                    <option value="@item.Code">@item.Name</option>
+                }
             }
         </select>
     </div>
     <div class="form-group col-xs-3">
         <button id="btnAdd" class="btn btn-success btn-sm">
             <span class="glyphicon glyphicon-plus"></span>
-            @WebResource.Button_IntoDepot
+            @WebResource.Button_Into
         </button>
     </div>
 </div>
-<div id="datalist">
+<div class="row" style="background-color:#f5f5fa; padding-top:8px; ">
+    @foreach (var data in Model.Data)
+    {<div class="col-xs-12" style="background-color:#ffffff; margin-bottom:8px;">
+        <div class="row">
+            <div class="col-xs-12" style="padding-bottom:5px; border-top:1px solid #dddddd;cursor:pointer;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" onclick="window.location.href='@string.Format("/Purchase/Detail/{0}?item={1}&page={2}", data.Id, Model.SelectedItem, Model.PageIndex)'">
+                <p class="form-control-static">@data.Item @data.Date @data.Supplier </p>
+            </div>
+        </div>
+        <div class="row" style="border-top:1px solid #dddddd;">
+
+            <div class="col-xs-4 text-center" style="border-right:1px solid #dddddd;">
+                @data.Inventory
+                <br />
+                <small>@WebResource.Field_Inventory ( @data.Unit )</small>
+            </div>
+            <div class="col-xs-4 text-center" style="border-right:1px solid #dddddd;">
+                @if (data.ProfitLoss > 0)
+                {
+                    <span style="color:#0000ff">@data.ProfitLoss</span>
+                }
+                else if (data.ProfitLoss < 0)
+                {
+                    <span style="color:#ff0000">@data.ProfitLoss</span>
+                }
+                else
+                {
+                    @data.ProfitLoss
+                }
+                <br />
+                <small>@WebResource.Field_ProfitLoss (@data.Unit)</small>
+            </div>
+            <div class="col-xs-4 text-center">
+                @data.Cost
+                <br />
+                <small>@WebResource.Field_Cost (@WebResource.Common_Yuan)</small>
+            </div>
+
+        </div>
+    </div>
+    }
 </div>
-<input type="hidden" id="hidePageIndex" value="1" />
-<!--更多在底部-->
-<div class="row text-center">
-    <button id="btnMore" type="button" class="btn btn-default">@WebResource.Button_ViewMore</button>
-</div>
+@Html.Action("PageNavigation", "Common", new { pageIndex = Model.PageIndex, totalCount = Model.TotalCount, url = string.Format("/Purchase/Index/{0}?item={1}&page=", Model.Category, Model.SelectedItem) })
+
+
 @section scripts {
     <script type="text/javascript">
         $(function () {
 
             $('#btnAdd').click(function () {
-                var url = '/Purchase/IntoDepot/Product';
+                var url = '/Purchase/Add/Product';
                 var category = '@Model.Category';
                 if (category == 'Pack') {
-                    url = '/Purchase/IntoDepot/Pack';
+                    url = '/Purchase/Add/Pack';
                 }
                 window.location.href = url;
             });
 
-            $('#btnMore').click(function () { getData(); });
             $('#ddlPurchaseItem').change(function () {
-                $('#hidePageIndex').val('1');
-                $('#datalist').empty();
-                getData();
+                var item = $('#ddlPurchaseItem').val();
+                if (item == '1') {
+                    item = '';
+                }
+                window.location.href = '/Purchase/Index/@Model.Category?item=' + item + '&page=1';
             });
-            getData();
         });
 
         function getProfitLossStatus(profitLoss) {
             var str = profitLoss;
-            if(profitLoss < 0){
-                str = '<span style="color: #ff0000">' + str +'</span>';
+            if (profitLoss < 0) {
+                str = '<span style="color: #ff0000">' + str + '</span>';
             }
             return str;
         }
-        function getData() {
 
-            if (typeof ($('#btnMore').attr('disabled')) != 'undefined') {
-                $('#btnMore').removeAttr('disabled');
-            }
-
-            var pageIndex = parseInt($('#hidePageIndex').val());
-            var btnMore = "@WebResource.Button_ViewMore";
-            var disabled = false;
-            var item = $('#ddlPurchaseItem').val();
-            if (item == '1') {
-                item = '';
-            }
-            $.ajax({
-                type: 'post',
-                url: '/Purchase/GetDataByPaing',
-                data: { category: '@Model.Category', item: item, pageIndex: pageIndex },
-                beforeSend: function () {
-                    btnMore = "@WebResource.Message_Loading";
-                },
-                success: function (result) {
-                    if (result.TotalCount == 0) {
-                        btnMore = "@WebResource.Message_NoData";
-                        disabled = true;
-                    }
-                    else {
-                        var datalist = '';
-                        $(result.Data).each(function () {
-                            var data = '<div class="row">' +
-                                '<div class="col-xs-12" style="border-top:1px solid #dddddd;">' +
-                                    '<div class="row" style="cursor:pointer" onclick="window.location.href=\'/Purchase/Detail/'+this.Id+ '\'">' +
-                                        '<div class="form-group col-xs-10">' +
-                                            '<p class="form-control-static">' + this.Item + ' ' + this.Date + ' ' + this.Supplier + '</p>' +
-                                        '</div>' +
-                                        '<div class="form-group col-xs-2 text-right">' +
-                                            '<p class="form-control-static">></p>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>' +
-                                '<div class="col-xs-12" style="border-top:1px solid #dddddd;">' +
-                                    '<div class="row" style="padding-top:5px; padding-bottom:5px; ">' +
-                                        '<div class="col-xs-12">' +
-                                            '<div class="col-xs-4 text-center" style="border-right:1px solid #dddddd;">' +
-                                                this.Allowance + '<br /><small>@WebResource.Field_Allowance (' + this.Unit + ')</small>' +
-                                            '</div>' +
-                                            '<div class="col-xs-4 text-center" style="border-right:1px solid #dddddd;">' +
-                                                getProfitLossStatus(this.ProfitLoss) + '<br /><small>@WebResource.Field_ProfitLoss (' + this.Unit + ')</small>' +
-                                            '</div>' +
-                                            '<div class="col-xs-4 text-center">' +
-                                                this.Cost + '<br /><small>@WebResource.Field_Cost (@WebResource.Common_Yuan)</small>' +
-                                            '</div>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>' +
-                                '<div class="form-group col-xs-12" style="border-bottom:1px solid #dddddd; padding-bottom:15px">' +
-                                    '<p class="form-control-static" style="border-top:1px solid #dddddd;">@WebResource.Field_Remark@WebResource.Message_Colon' + this.Remark + '</p>' +
-                                '</div>' +
-                            '</div>';
-
-                            datalist += data;
-                        });
-                        $(datalist).appendTo('#datalist');
-                        if (pageIndex * result.PageSize >= result.TotalCount) {
-                            btnMore = "@WebResource.Message_NoMoreData";
-                            disabled = true;
-                        }
-                        else {
-                            pageIndex = pageIndex + 1;
-                            $('#hidePageIndex').val(pageIndex);
-                        }
-                    }
-
-                    $('#btnMore').text(btnMore);
-                    if (disabled) {
-                        $('#btnMore').attr({ 'disabled': 'disabled' });
-                    }
-                    return false;
-                }
-            });
-            return false;
-        }
     </script>
 }
 
@@ -167,3 +131,4 @@
 
 
 </div>
+

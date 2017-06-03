@@ -1,0 +1,33 @@
+﻿@using EasySoft.PssS.Web.Resources;
+@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = WebResource.Message_Error;
+}
+
+<h2>@WebResource.Message_Error</h2>
+@if (Model != null)
+{
+    <span>
+        @Model.Exception.ToString();
+    </span>
+    <div>
+        @Html.ActionLink("Change value and try again", "Index", "Home");
+    </div>
+    <div>
+        @Model.Exception.StackTrace
+    </div>
+    <p class="bg-danger text-danger">
+        异常类型：@Model.Exception.GetType().Name
+    </p>
+    <p class="bg-danger text-danger">
+        触发异常的控制器：@Model.ControllerName
+    </p>
+    <p class="bg-danger text-danger">
+        触发异常的操作方法：@Model.ActionName
+    </p>
+    <p class="bg-danger text-danger">
+        错误信息:@Model.Exception.Message
+    </p>
+}
+
+

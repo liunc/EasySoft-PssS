@@ -12,6 +12,9 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Models.User
 {
+    using EasySoft.PssS.Web.Resources;
+    using System.Collections.Generic;
+
     /// <summary>
     /// 登录视图模型类
     /// </summary>
@@ -20,7 +23,7 @@ namespace EasySoft.PssS.Web.Models.User
         /// <summary>
         /// 获取或设置手机号码
         /// </summary>
-        public string Moblie { get; set; }
+        public string Mobile { get; set; }
 
         /// <summary>
         /// 获取或设置密码
@@ -31,5 +34,15 @@ namespace EasySoft.PssS.Web.Models.User
         /// 获取或设置要跳转的地址
         /// </summary>
         public string ReturnUrl{get;set;}
+
+        /// <summary>
+        /// 提交验证
+        /// </summary>
+        /// <param name="errorMessages">返回的错误信息</param>
+        public void PostValidate(ref List<string> errorMessages)
+        {
+            ValidateHelper.CheckInputString(WebResource.Field_Mobile, this.Mobile, true, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
+            ValidateHelper.CheckInputString(WebResource.Field_Password, this.Password, true, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
+        }
     }
 }

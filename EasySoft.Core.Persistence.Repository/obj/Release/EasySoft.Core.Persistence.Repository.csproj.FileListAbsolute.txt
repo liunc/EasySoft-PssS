@@ -1,0 +1,4 @@
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.Repository\bin\Release\EasySoft.Core.Persistence.Repository.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.Repository\bin\Release\EasySoft.Core.Persistence.Repository.pdb
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.Repository\obj\Release\EasySoft.Core.Persistence.Repository.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence.Repository\obj\Release\EasySoft.Core.Persistence.Repository.pdb

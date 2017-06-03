@@ -61,6 +61,69 @@ namespace EasySoft.PssS.Domain.Service {
         }
         
         /// <summary>
+        ///   查找类似 相同名称的分组已存在。 的本地化字符串。
+        /// </summary>
+        internal static string Customer_ExistsSameGroupName {
+            get {
+                return ResourceManager.GetString("Customer_ExistsSameGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未找到指定的客户数据记录。 的本地化字符串。
+        /// </summary>
+        internal static string Customer_NoFound {
+            get {
+                return ResourceManager.GetString("Customer_NoFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未找到指定的客户地址数据记录。 的本地化字符串。
+        /// </summary>
+        internal static string Customer_NoFoundAddress {
+            get {
+                return ResourceManager.GetString("Customer_NoFoundAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未找到默认分组Id。 的本地化字符串。
+        /// </summary>
+        internal static string Customer_NoFoundDefaultGroupId {
+            get {
+                return ResourceManager.GetString("Customer_NoFoundDefaultGroupId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未找到指定的客户分组数据记录。 的本地化字符串。
+        /// </summary>
+        internal static string Customer_NoFoundGroup {
+            get {
+                return ResourceManager.GetString("Customer_NoFoundGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 默认分组不允许删除。 的本地化字符串。
+        /// </summary>
+        internal static string Customer_NotAllowDeleteCustomerGroup {
+            get {
+                return ResourceManager.GetString("Customer_NotAllowDeleteCustomerGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 默认地址不允许删除。 的本地化字符串。
+        /// </summary>
+        internal static string Customer_NotAllowDeleteDefaultAddress {
+            get {
+                return ResourceManager.GetString("Customer_NotAllowDeleteDefaultAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 库存不足。 的本地化字符串。
         /// </summary>
         internal static string Purchase_LowStocks {

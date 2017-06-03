@@ -1,0 +1,83 @@
+﻿@using EasySoft.PssS.Web.Resources;
+@using EasySoft.PssS.Web.Resources;
+@model EasySoft.PssS.Web.Models.Customer.CustomerIndexModel
+
+@{
+    ViewBag.Title = WebResource.Title_CustomerManagement;
+    ViewBag.PreviousUrl = "/Home/Index";
+}
+<div class="col-xs-12">
+    <div class="row">
+        <div class="form-group col-xs-7">
+            <input id="txtName" type="text" value="@Model.QueryName" class="form-control input-sm" placeholder="@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Name)" maxlength="50" />
+        </div>
+        <div class="form-group col-xs-5">
+            <select id="ddlCustomerGroup" class="form-control input-sm">
+                <option value="1">@WebResource.Message_AllGroup</option>
+                @foreach (var item in Model.CustomerGroups)
+                {
+                    if (!string.IsNullOrWhiteSpace(Model.QueryGroupId) && item.Value == Model.QueryGroupId)
+                    {
+                        <option selected value="@item.Value">@item.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@WebResource.Field_Name</th>
+                <th>@WebResource.Field_Group</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var data in Model.PageData)
+            {
+                <tr>
+                    <td style="cursor:pointer;" onclick="window.location.href = '/Customer/Detail/@data.Id?name=@Model.QueryName&groupId=@Model.QueryGroupId&page=@Model.PageIndex'">@data.Name</td>
+                    <td>@data.GroupId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section footer {
+    <div class="navbar-default navbar-fixed-bottom">
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.Action("PageNavigation", "Common", new { pageIndex = Model.PageIndex, totalCount = Model.TotalCount, url = string.Format("/Customer/Index?name={0}&groupId={1}page=", Model.QueryName, Model.QueryGroupId) })
+            </div>
+        </div>
+        <div class="row">
+            <a href="/Customer/Add" class="btn btn-success btn-block ">
+                <span class="glyphicon glyphicon-plus"></span>
+                @WebResource.Title_AddCustomer
+            </a>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script type="text/javascript">
+        function query() {
+            var name = $.trim($('#txtName').val());
+            var groupId = $.trim($('#ddlCustomerGroup').val());
+            window.location.href = '/Customer/Index?name=' + name + '&groupId=' + groupId + '&page=1';
+        }
+        $(function () {
+            $('#txtName').blur(function () {
+                query();
+            });
+            $('#ddlCustomerGroup').change(function () {
+                query();
+            });
+        });
+    </script>
+}
+

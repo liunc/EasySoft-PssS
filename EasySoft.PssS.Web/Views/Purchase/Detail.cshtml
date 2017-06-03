@@ -11,16 +11,16 @@
 <div class="row">
     <ol class="breadcrumb">
         <li><a href="/Home/Index">@WebResource.Title_Index</a></li>
-        <li><a href="/Purchase/Index/@Model.Category">@Model.ParentPageTitle</a></li>
+        <li><a href="/Purchase/Index/@Model.CategoryString?item=@Model.SelectedItem&page=@Model.PageIndex">@Model.ParentPageTitle</a></li>
         <li class="active">@ViewBag.Title</li>
     </ol>
 </div>
 
 <table class="table table-condensed">
     <tr>
-        <td class="col-xs-2">@WebResource.Field_Date</td>
+        <td class="col-xs-3">@WebResource.Field_Date</td>
         <td class="col-xs-7">@Model.Date</td>
-        <td class="col-xs-3"></td>
+        <td class="col-xs-2"></td>
     </tr>
     <tr>
         <td>@WebResource.Field_Supplier</td>
@@ -40,8 +40,8 @@
         <td></td>
     </tr>
     <tr>
-        <td>@WebResource.Field_Allowance</td>
-        <td>@Model.Allowance.ToString("0.##")@Model.Unit</td>
+        <td>@WebResource.Field_Inventory</td>
+        <td>@Model.Inventory.ToString("0.##")@Model.Unit</td>
         <td></td>
     </tr>
     <tr>
@@ -67,61 +67,22 @@
         {
             if (Model.Status == PurchaseStatus.None)
             {
-            <a class="btn btn-default" href="/Purchase/Edit/@Model.Id" target="_blank">@WebResource.Button_Edit</a>
             <button type="button" class="btn btn-default"onclick="return deletePurchase();">@WebResource.Button_Delete</button>
             }
-            <a class="btn btn-default" href="/ProfitLoss/Add/Profit/Purchase/@Model.Id"  target="_blank">@WebResource.Button_Profit</a>
-            <a class="btn btn-default" href="/ProfitLoss/Add/Loss/Purchase/@Model.Id"  target="_blank">@WebResource.Button_Loss</a>
+            <a class="btn btn-default" href="/ProfitLoss/Add/Profit/Purchase/@Model.Id?item=@Model.SelectedItem&page=@Model.PageIndex">@WebResource.Button_Profit</a>
+            <a class="btn btn-default" href="/ProfitLoss/Add/Loss/Purchase/@Model.Id?item=@Model.SelectedItem&page=@Model.PageIndex">@WebResource.Button_Loss</a>
             
         }
-        <button type="button" class="btn btn-primary" onclick="window.history.back();">@WebResource.Button_Back</button>
+        <button type="button" class="btn btn-success" onclick="window.location.href = '/Purchase/Index/@Model.CategoryString?item=@Model.SelectedItem&page=@Model.PageIndex';">@WebResource.Button_Back</button>
     </div>
 </div>
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="alertDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    @WebResource.Common_Detail
-                </h4>
-            </div>
-            <div class="modal-body" id="detail">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-dismiss="modal">
-                    @WebResource.Button_Ok
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-
-<div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">@WebResource.Message_Info</h4>
-            </div>
-            <div class="modal-body">
-                <p>@WebResource.Message_ConfirmDelete</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">@WebResource.Button_Close</button>
-                <button type="button" class="btn btn-primary" onclick="confirmDelete();">@WebResource.Button_Ok</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
+@Html.Action("Dialog", "Common", new { id = "dialogDetail", title = WebResource.Common_Detail, messageBodyId = "detailMessage", okButton = @WebResource.Button_Close })
+@Html.Action("Confirm", "Common", new { id = "confirmDelete", title = WebResource.Message_Confirm, confirmString= @WebResource.Message_ConfirmDelete, okButton = @WebResource.Button_Ok, cancelButton = @WebResource.Button_Cancel, okButtonClick= "confirmDelete();" })
+@Html.Action("Dialog", "Common", new { id = "dialogAddProfitLoss", title = WebResource.Common_Detail, messageBodyId = "addProfitLossMessage", okButton = @WebResource.Button_Close })
 @section scripts {
     <script type="text/javascript">
         $(function () {
-            
+
             getProfitLossStatus();
 
             $('#btnViewCost').click(function () {
@@ -131,6 +92,10 @@
                     data: { id: '@Model.Id' },
                     success: function (result) {
                         var msg = '<table class="table table-condensed">';
+                        msg += '<tr>' +
+                                            '<th class="col-xs-3">@WebResource.Field_CostItem</td>'
+                                            + '<th class="col-xs-9">@WebResource.Field_Money</td>'
+                                        + '</tr>';
                         if (result != null && result.length > 0) {
                             $(result).each(function () {
                                 msg += '<tr>' +
@@ -161,10 +126,10 @@
                                         + '</tr>';
                         if (result != null && result.length > 0) {
                             $(result).each(function () {
-                                var profit = this.Category == '@ProfitLossCategory.Profit.ToString()';
-                                var quantity = '<td style="background-color:#ff0000">-' + this.Quantity + '</td>'
-                                if (this.Category == '@ProfitLossCategory.Profit.ToString()') {
-                                    quantity = '<td style="background-color:#0000ff">' + this.Quantity + '</td>'
+                                var profit = this.CategoryString == '@ProfitLossCategory.Profit.ToString()';
+                                var quantity = '<td style="color:#ff0000">-' + this.Quantity + '</td>'
+                                if (profit) {
+                                    quantity = '<td style="color:#0000ff">' + this.Quantity + '</td>'
                                 }
                                 msg += '<tr>' + quantity
                                             + '<td>' + this.Remark + '</td>'
@@ -184,6 +149,7 @@
                 });
             });
         });
+
         function getProfitLossStatus() {
             var profitLoss = @Model.ProfitLoss.ToString("0.##");
             var str = profitLoss + '@Model.Unit';
@@ -192,13 +158,16 @@
             }
             $('#tdProfitLoss').html(str);
         }
+
         function showDetail(message) {
-            $('#detail').html(message);
-            $('#alertDetail').modal('show');
+            $('#detailMessage').html(message);
+            $('#dialogDetail').modal('show');
         }
+
         function deletePurchase() {
             $('#confirmDelete').modal('show');
         }
+
         function confirmDelete(){
             $('#confirmDelete').modal('hide');
             $.ajax({
@@ -207,7 +176,7 @@
                 data: { id: '@Model.Id' },
                 success: function (result) {
                     if (result.Result) {
-                        window.location.href = '/Purchase/Index/@Model.Category';
+                        window.location.href = '/Purchase/Index/@Model.CategoryString?item=@Model.SelectedItem&page=@Model.PageIndex';
                     }
                     else {
                         showError(result.Message);
@@ -223,6 +192,12 @@
             });
             return false;
         }
+
+        function showAddProfitLoss(message) {
+            $('#detailMessage').html(message);
+            $('#dialogDetail').modal('show');
+        }
+
     </script>
 }
 

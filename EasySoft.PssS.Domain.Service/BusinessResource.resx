@@ -117,6 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Customer_ExistsSameGroupName" xml:space="preserve">
+    <value>相同名称的分组已存在。</value>
+  </data>
+  <data name="Customer_NoFound" xml:space="preserve">
+    <value>未找到指定的客户数据记录。</value>
+  </data>
+  <data name="Customer_NoFoundAddress" xml:space="preserve">
+    <value>未找到指定的客户地址数据记录。</value>
+  </data>
+  <data name="Customer_NoFoundDefaultGroupId" xml:space="preserve">
+    <value>未找到默认分组Id。</value>
+  </data>
+  <data name="Customer_NoFoundGroup" xml:space="preserve">
+    <value>未找到指定的客户分组数据记录。</value>
+  </data>
+  <data name="Customer_NotAllowDeleteCustomerGroup" xml:space="preserve">
+    <value>默认分组不允许删除。</value>
+  </data>
+  <data name="Customer_NotAllowDeleteDefaultAddress" xml:space="preserve">
+    <value>默认地址不允许删除。</value>
+  </data>
   <data name="Purchase_LowStocks" xml:space="preserve">
     <value>库存不足。</value>
   </data>

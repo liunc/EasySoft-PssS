@@ -30,7 +30,7 @@ namespace EasySoft.PssS.Repository
         /// <param name="pageIndex">当前页码</param>
         /// <param name="pageSize">数据源中每页要显示的行的数目</param>
         /// <param name="totalCount">数据源总记录数</param>
-        /// <returns>返回数据表</returns>
+        /// <returns>返回采购数据集合</returns>
         List<Purchase> Search(string category, string item, int pageIndex, int pageSize, ref int totalCount);
 
     }

@@ -1,0 +1,143 @@
+﻿@using EasySoft.PssS.Web.Resources;
+@using EasySoft.Core.Util;
+@using EasySoft.PssS.Web.Models.Customer;
+
+@model CustomerEditModel
+@{
+    ViewBag.Title = WebResource.Title_EditCustomer;
+    ViewBag.PreviousUrl = ViewBag.PreviousUrl = string.Format("/Customer/Detail/{0}?name={1}&groupId={2}&page={3}", Model.Id, Model.QueryName, Model.QueryGroupId, Model.PageIndex);
+}
+<div class="col-xs-12">
+    <form id="formAdd" role="form">
+        <div class="form-group">
+            <input id="txtName" name="txtName" value="@Model.Name" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Name,  Constant.STRING_LENGTH_50)" maxlength="50" required />
+        </div>
+        <div class="form-group">
+            <input id="txtMobile" name="txtMobile" value="@Model.Mobile" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Mobile,  Constant.STRING_LENGTH_20)" maxlength="20" />
+        </div>
+        <div class="form-group">
+            <select id="ddlCustomerGroup" name="ddlCustomerGroup" class="form-control" required>
+                @foreach (var item in Model.CustomerGroups)
+                {
+                    if (Model.GroupId == item.Value)
+                    {
+                        <option value="@item.Value" selected>@item.Text</option>
+                    }
+                    else
+                    {
+                    <option value="@item.Value">@item.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <input id="txtNickname" name="txtNickname" value="@Model.Nickname" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Nickname,  Constant.STRING_LENGTH_50)" maxlength="50" />
+        </div>
+        <div class="row navbar-default navbar-fixed-bottom">
+            <div class="col-xs-6">
+                <div class="row">
+                    <button id="btnSubmit" type="submit" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Submit</button>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="row">
+                    <button type="button" class="btn btn-default btn-block" onclick="window.history.back();" style="border-Radius:0px">@WebResource.Button_Back</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(function () {
+            $('#formAdd').validate({
+                errorElement: 'span',
+                errorClass: 'help-block',
+                focusInvalid: false,
+                rules: {
+                    txtName: {
+                        required: true,
+                        maxlength: @Constant.STRING_LENGTH_50
+                    },
+                    txtNickname: {
+                        maxlength: @Constant.STRING_LENGTH_50
+                    },
+                    txtMobile: {
+                        required: true,
+                        maxlength: @Constant.STRING_LENGTH_20
+                    }
+                },
+                messages: {
+                    txtName: {
+                        required: '@Validate.GetPleaseInputFieldString(WebResource.Field_Name)',
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Name, Constant.STRING_LENGTH_50)'
+                    },
+                    txtNickname: {
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Nickname, Constant.STRING_LENGTH_50)'
+                    },
+                    txtMobile: {
+                        required: '@Validate.GetPleaseInputFieldString(WebResource.Field_Mobile)',
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Mobile, Constant.STRING_LENGTH_20)'
+                    },
+                    txtAddress: {
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Address, Constant.STRING_LENGTH_120)'
+                    }
+                },
+                //自定义错误消息放到哪里
+                errorPlacement: function (error, element) {
+                    element.closest('.form-group').append(error);//显示错误消息提示
+                },
+                //给未通过验证的元素进行处理
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error has-feedback').removeClass('has-success');
+                },
+                //验证通过的处理
+                success: function (element) {
+                    element.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
+                    element.remove();
+                },
+                submitHandler: function (form) {
+                    if (this.valid()) {
+                        $('#btnSubmit').attr({ 'disabled': 'disabled' });
+                        var model = {};
+                        model.Id = '@Model.Id';
+                        model.Name = $.trim($('#txtName').val());
+                        model.Nickname = $.trim($('#txtNickname').val());
+                        model.GroupId = $.trim($('#ddlCustomerGroup').val());
+                        model.Mobile = $.trim($('#txtMobile').val());
+                        $.ajax({
+                            type: 'post',
+                            url: '/Customer/Update',
+                            data: { model: model },
+                            success: function (result) {
+                                if (result.Result) {
+                                    window.location.href = '@ViewBag.PreviousUrl';
+                                }
+                                else {
+                                    showError(result.Message);
+                                }
+                                return false;
+                            },
+                            error: function () {
+                                showError('System Error');
+                            },
+                            complete: function () {
+                                $('#btnSubmit').removeAttr('disabled');
+                            }
+                        });
+                    }
+                    return false;
+                }
+            });
+        });
+        function showError(errorMessage) {
+            $('#errorMessage').html(errorMessage);
+            $('#alertError').modal();
+        }
+    </script>
+}

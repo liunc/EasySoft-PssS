@@ -15,12 +15,12 @@ namespace EasySoft.PssS.Web.Controllers
     using Domain.Entity;
     using Domain.Service;
     using Domain.ValueObject;
+    using Filters;
     using Models;
     using Models.ProfitLoss;
     using Resources;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Web.Mvc;
 
     /// <summary>
@@ -61,7 +61,7 @@ namespace EasySoft.PssS.Web.Controllers
             List<ProfitLoss> entities = this.profitLossService.GetList(recordId);
             foreach (ProfitLoss entity in entities)
             {
-                models.Add(new ProfitLossModel { Id = entity.Id, Category = entity.Category.ToString(), Quantity = entity.Quantity, Remark = entity.Remark });
+                models.Add(new ProfitLossModel { Id = entity.Id, CategoryString = entity.Category.ToString(), Quantity = entity.Quantity, Remark = entity.Remark });
             }
             return Json(models, JsonRequestBehavior.AllowGet);
         }
@@ -74,7 +74,8 @@ namespace EasySoft.PssS.Web.Controllers
         /// <param name="recordId">记录Id</param>
         /// <returns>返回视图</returns>
         [Route("ProfitLoss/Add/{category}/{targetType}/{recordId}")]
-        public ActionResult Add(string category, string targetType, string recordId)
+        [MyAuthorize(AuthRoles = new string[] { "Admin" })]
+        public ActionResult Add(string category, string targetType, string recordId, string item, int page)
         {
             List<string> errorMessages = new List<string>();
             ProfitLossCategory enumCategory = ValidateHelper.CheckProfitLossCategory(category, ref errorMessages);
@@ -82,30 +83,33 @@ namespace EasySoft.PssS.Web.Controllers
             ValidateHelper.CheckStringArgument(WebResource.Field_RecordId, recordId, true, ref errorMessages);
             if(errorMessages.Count > 0)
             {
-                return RedirectToAction("Index", "Error", errorMessages);
+                return RedirectToAction("Error", "Common", errorMessages);
             }
 
-            ProfitLossAddModel model = new ProfitLossAddModel { RecordId = recordId, Category = enumCategory.ToString(), TargetType = enumTargetType.ToString(), Title = WebResource.Title_Loss };
+            ProfitLossAddModel model = new ProfitLossAddModel { RecordId = recordId, CategoryString = enumCategory.ToString(), TargetTypeString = enumTargetType.ToString(), Title = WebResource.Title_Loss };
+            
             if (enumTargetType == ProfitLossTargetType.Purchase)
             {
-                Purchase purchase = this.purchaseService.Selete(recordId);
+                Purchase purchase = this.purchaseService.Select(recordId);
+                string purchaseCategory = string.Empty;
                 if (purchase.Category == PurchaseCategory.Product)
                 {
                     model.ParentPageTitle = WebResource.Title_Purchase_Product;
-                    model.ParentPageUrl = "/Purchase/Index/Product";
                 }
                 else
                 {
                     model.ParentPageTitle = WebResource.Title_Purchase_Pack;
-                    model.ParentPageUrl = "/Purchase/Index/Pack";
                 }
-                model.Allowance = purchase.Allowance;
+                model.ParentPageUrl = string.Format("/Purchase/Index/{0}?item={1}&page={2}", purchase.Category.ToString(), item, page);
+                model.ReturnUrl = string.Format("/Purchase/Detail/{0}?item={1}&page={2}", recordId, item, page);
+                model.Inventory = purchase.Inventory;
                 model.Unit = purchase.Unit;
+                
             }
             if (enumCategory == ProfitLossCategory.Profit)
             {
                 model.Title = WebResource.Title_Profit;
-                model.Allowance = ValidateHelper.DECIMAL_MAX;
+                model.Inventory = ValidateHelper.DECIMAL_MAX;
             }
             return View(model);
         }
@@ -117,7 +121,6 @@ namespace EasySoft.PssS.Web.Controllers
         /// <returns>返回执行结果</returns>
         public ActionResult Add(ProfitLossAddModel model)
         {
-
             JsonResultModel result = new JsonResultModel();
             try
             {
@@ -127,19 +130,15 @@ namespace EasySoft.PssS.Web.Controllers
                     result.BuilderErrorMessage(errorMessages[0]);
                     return Json(result);
                 }
-
-                ProfitLossCategory enumCategory = ValidateHelper.CheckProfitLossCategory(model.Category, ref errorMessages);
-                ProfitLossTargetType enumTargetType = ValidateHelper.CheckProfitLossTargetType(model.TargetType, ref errorMessages);
-                ValidateHelper.CheckStringArgument(WebResource.Field_RecordId, model.RecordId, true, ref errorMessages);
-                ValidateHelper.CheckDecimal(WebResource.Field_Quantity, model.Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX, ref errorMessages);
-                ValidateHelper.CheckInputString(WebResource.Field_Remark, model.Remark, false, ValidateHelper.STRING_LENGTH_120, ref errorMessages);
+                
+                model.PostValidate(ref errorMessages);
                 if (errorMessages.Count > 0)
                 {
                     result.BuilderErrorMessage(errorMessages);
                     return Json(result);
                 }
 
-                this.profitLossService.Add(model.RecordId.Trim(), enumTargetType, enumCategory, model.Quantity, model.Remark, this.Session["Moblie"].ToString());
+                this.profitLossService.Add(model.RecordId.Trim(), model.TargetType, model.Category, model.Quantity, model.Remark, this.Session["Moblie"].ToString());
                 result.Result = true;
                 return Json(result);
             }

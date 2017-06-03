@@ -19,6 +19,7 @@ namespace EasySoft.PssS.Domain.Service
     using System;
     using System.Collections.Generic;
     using ValueObject;
+    using Core.Persistence.RepositoryImplement;
 
     /// <summary>
     /// 益损领域服务类
@@ -82,25 +83,11 @@ namespace EasySoft.PssS.Domain.Service
                     if (targetType == ProfitLossTargetType.Purchase)
                     {
                         Purchase purchase = this.purchaseService.Select(trans, recordId);
-                        if (purchase.Status == PurchaseStatus.None)
-                        {
-                            purchase.Status = PurchaseStatus.Processing;
-                        }
-                        decimal profitLoss = quantity;
-                        if (category == ProfitLossCategory.Profit)
-                        {
-                            profitLoss = quantity;
-                        }
-                        else if (category == ProfitLossCategory.Loss)
-                        {
-                            profitLoss = -quantity;
-                        }
-                        purchase.Allowance += profitLoss;
-                        if (purchase.Allowance < 0)
+                        purchase.AddProfitLoss(category, quantity);
+                        if (purchase.Inventory < 0)
                         {
                             throw new Exception(BusinessResource.Purchase_LowStocks);
                         }
-                        purchase.ProfitLoss += profitLoss;
                         this.purchaseService.Update(trans, purchase);
                     }
                     else if (targetType == ProfitLossTargetType.Sale)

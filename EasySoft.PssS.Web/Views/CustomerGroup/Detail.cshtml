@@ -1,0 +1,85 @@
+﻿@using EasySoft.PssS.Web.Resources;
+@using EasySoft.PssS.Web.Models.CustomerGroup;
+@model CustomerGroupEditModel
+
+@{
+    ViewBag.Title = WebResource.Title_CustomerGroupDetail;
+    ViewBag.PreviousUrl = "/CustomerGroup/Index?page=" + Model.PageIndex.ToString();
+}
+
+<div class="col-xs-12">
+    <table class="table">
+        <tbody>
+            <tr>
+                <td style="width:25%;">@WebResource.Field_Name</td>
+                <td style="width:75%;">@Model.Name</td>
+            </tr>
+            <tr>
+                <td>@WebResource.Field_Remark</td>
+                <td>@Model.Remark</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+@Html.Action("Confirm", "Common", new { id = "confirmDelete", title = WebResource.Message_Confirm, confirmString = @WebResource.Message_ConfirmDelete, okButton = @WebResource.Button_Ok, cancelButton = @WebResource.Button_Cancel, okButtonClick = "confirmDelete();" })
+@section footer{
+    <div class="navbar-default navbar-fixed-bottom">
+        <div class="col-xs-4">
+            <div class="row">
+                <button id="btnDelete" type="button" class="btn btn-danger btn-block" style="border-Radius:0px">@WebResource.Button_Delete</button>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="row">
+                <button id="btnEdit" type="button" onclick="" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Edit</button>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="row">
+                <button id="btnBack" type="button" class="btn btn-default btn-block" style="border-Radius:0px">@WebResource.Button_Back</button>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script type="text/javascript">
+        function confirmDelete() {
+            $('#confirmDelete').modal('hide');
+            $.ajax({
+                type: "post",
+                url: "/CustomerGroup/Delete",
+                data: { id: '@Model.Id' },
+                success: function (result) {
+                    if (result.Result) {
+                        window.location.href = '@ViewBag.PreviousUrl';
+                    }
+                    else {
+                        showError(result.Message);
+                    }
+                    return false;
+                },
+                error: function () {
+                    showError('System Error');
+                },
+                complete: function () {
+                    $('#btnSubmit').removeAttr('disabled');
+                }
+            });
+            return false;
+        }
+
+        $(function () {
+            $('#btnDelete').click(function () {
+                $('#confirmDelete').modal('show');
+            });
+            $('#btnEdit').click(function () {
+                window.location.href = '/CustomerGroup/Edit/@Model.Id?page=@Model.PageIndex'
+            });
+            $('#btnBack').click(function () {
+                window.location.href = '@ViewBag.PreviousUrl';
+            });
+        });
+
+    </script>
+}

@@ -28,3 +28,5 @@ D:\github\EasySoft-PssS\EasySoft.PssS.XmlRepository\bin\Debug\EasySoft.Core.Pers
 D:\github\EasySoft-PssS\EasySoft.PssS.XmlRepository\bin\Debug\EasySoft.Core.Persistence.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.XmlRepository\bin\Debug\EasySoft.Core.Util.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.XmlRepository\bin\Debug\EasySoft.Core.Persistence.Repository.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.XmlRepository\bin\Debug\HtmlSanitizationLibrary.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.XmlRepository\bin\Debug\HtmlSanitizationLibrary.xml

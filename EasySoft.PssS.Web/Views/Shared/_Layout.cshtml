@@ -11,42 +11,20 @@
     @RenderSection("styles", required: false)
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
+<body style="padding-top: 70px;">
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="/Home/Index" class="navbar-brand">@WebResource.SystemName</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink(@WebResource.Title_Index, "Index", "Home")</li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            @WebResource.Title_Purchase
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/Purchase/Index" class="">@WebResource.Title_Purchase_Product</a></li>
-                            <li><a href="/Purchase/Index/Pack" class="">@WebResource.Title_Purchase_Pack</a></li>
-                            <li><a href="/Purchase/OutputDepot" class="">@WebResource.Title_OutputRecord</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                <a href="@ViewBag.PreviousUrl" class="navbar-brand"><</a>
+                <p class="navbar-text" style="padding-left:15px; font-size:18px;  line-height: 20px; ">@ViewBag.Title</p>
             </div>
         </div>
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
-                @RenderBody()
-            </div>
+            @RenderBody()
         </div>
-        @Html.Action("Footer", "Common")
+        @RenderSection("footer", required: false)
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

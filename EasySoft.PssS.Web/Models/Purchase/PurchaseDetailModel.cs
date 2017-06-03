@@ -45,7 +45,12 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// <summary>
         /// 获取或设置采购分类
         /// </summary>
-        public string Category { get; set; }
+        public PurchaseCategory Category { get; set; }
+
+        /// <summary>
+        /// 获取或设置采购分类
+        /// </summary>
+        public string CategoryString { get; set; }
 
         /// <summary>
         /// 获取或设置父级页面标题
@@ -75,7 +80,7 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// <summary>
         /// 获取或设置余量
         /// </summary>
-        public decimal Allowance { get; set; }
+        public decimal Inventory { get; set; }
 
         /// <summary>
         /// 获取或设置成本汇总
@@ -97,6 +102,16 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// </summary>
         public PurchaseStatus Status { get; set; }
 
+        /// <summary>
+        /// 获取或设置父页面选中项
+        /// </summary>
+        public string SelectedItem { get; set; }
+
+        /// <summary>
+        /// 获取或设置父页面当前页索引，从1开始
+        /// </summary>
+        public int PageIndex { get; set; }
+
         #endregion
 
         #region 构造函数
@@ -112,17 +127,20 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// 构造函数
         /// </summary>
         /// <param name="entity">实体模型对象</param>
-        public PurchaseDetailModel(Purchase entity)
+        public PurchaseDetailModel(Purchase entity, string item, int page)
         {
             this.Id = entity.Id;
-            this.Category = entity.Category.ToString();
+            this.Category = entity.Category;
+            this.CategoryString = entity.Category.ToString();
             this.ParentPageTitle = WebResource.Title_Purchase_Product;
+            this.SelectedItem = item;
+            this.PageIndex = page;
             if (entity.Category == PurchaseCategory.Pack)
             {
                 this.ParentPageTitle = WebResource.Title_Purchase_Pack;
             }
             this.Item = entity.Item;
-            this.Date = DateTimeUtil.ConvertDateToString(entity.Date);
+            this.Date = DataConvert.ConvertDateToString(entity.Date);
             this.Unit = entity.Unit;
             this.Quantity = entity.Quantity;
             this.ProfitLoss = entity.ProfitLoss;
@@ -133,9 +151,9 @@ namespace EasySoft.PssS.Web.Models.Purchase
             {
                 this.Remark = WebResource.Common_None;
             }
-            this.Allowance = entity.Allowance;
+            this.Inventory = entity.Inventory;
             this.Cost = entity.Cost;
-            
+
         }
 
         #endregion

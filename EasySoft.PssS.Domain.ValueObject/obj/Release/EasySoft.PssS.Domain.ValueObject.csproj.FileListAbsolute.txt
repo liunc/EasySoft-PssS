@@ -1,0 +1,4 @@
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.ValueObject\bin\Release\EasySoft.PssS.Domain.ValueObject.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.ValueObject\bin\Release\EasySoft.PssS.Domain.ValueObject.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.ValueObject\obj\Release\EasySoft.PssS.Domain.ValueObject.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.ValueObject\obj\Release\EasySoft.PssS.Domain.ValueObject.pdb

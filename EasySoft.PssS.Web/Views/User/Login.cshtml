@@ -3,20 +3,19 @@
 @{
     Layout = "~/Views/Shared/_LayoutNoNav.cshtml";
 }
-<h2>@WebResource.Title_Login</h2>
-
+<h2 style="text-align:center" class="text-success">@WebResource.Title_Login</h2>
 <form role="form">
-    <hr />
+    <br />
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
-            <input class="form-control" id="txtMoblie" type="text" placeholder="@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Moblie)" />
+            <input class="form-control" id="txtMobile" type="text" placeholder="@WebResource.Field_Mobile" />
         </div>
     </div>
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-            <input class="form-control" id="txtPassword" name="Password" type="password" placeholder="@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Password)" />
+            <input class="form-control" id="txtPassword" name="Password" type="password" placeholder="@WebResource.Field_Password" />
         </div>
     </div>
     <div class="form-group">
@@ -24,17 +23,17 @@
     </div>
 </form>
 
-@Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", firstButton = @WebResource.Button_Ok })
+@Html.Action("Dialog", "Common", new { id = "dialogError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Close })
 
 @section scripts {
     <script type="text/javascript">
         $(function () {
             $('#btnLogin').click(function () {
                 $('#btnLogin').attr({ 'disabled': 'disabled' });
-                var moblie = $.trim($('#txtMoblie').val());
+                var mobile = $.trim($('#txtMobile').val());
                 var password = $.trim($('#txtPassword').val());
-                if (moblie.length == 0) {
-                    showError('@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Moblie)');
+                if (mobile.length == 0) {
+                    showError('@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Mobile)');
                     return false;
                 }
                 if (password.length == 0) {
@@ -42,7 +41,7 @@
                     return false;
                 }
                 var model = {};
-                model.Moblie = moblie;
+                model.Mobile = mobile;
                 model.Password = password;
                 model.ReturnUrl = '@Model.ReturnUrl';
                 $.ajax({
@@ -67,7 +66,7 @@
         });
         function showError(errorMessage) {
             $('#errorMessage').html(errorMessage);
-            $('#alertError').modal('show');
+            $('#dialogError').modal('show');
             $('#btnLogin').removeAttr('disabled');
         }
     </script>

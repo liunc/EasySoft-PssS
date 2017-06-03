@@ -102,13 +102,19 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
         {
             using (DbDataAdapter adapter = DbProvider.CreateDataAdapter())
             {
-                adapter.SelectCommand = DbProvider.CreateCommand();
-                PrepareCommand(adapter.SelectCommand, trans.Connection, trans, cmdType, cmdText, paras);
-                using (DataSet ds = new DataSet())
+                try
                 {
-                    adapter.Fill(ds);
+                    adapter.SelectCommand = DbProvider.CreateCommand();
+                    PrepareCommand(adapter.SelectCommand, trans.Connection, trans, cmdType, cmdText, paras);
+                    using (DataSet ds = new DataSet())
+                    {
+                        adapter.Fill(ds);
+                        return ds;
+                    }
+                }
+                finally
+                {
                     adapter.SelectCommand.Parameters.Clear();
-                    return ds;
                 }
             }
         }
@@ -162,13 +168,19 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
                 conn.Open();
                 using (DbDataAdapter da = DbProvider.CreateDataAdapter())
                 {
-                    da.SelectCommand = DbProvider.CreateCommand();
-                    PrepareCommand(da.SelectCommand, conn, null, cmdType, cmdText, paras);
-                    using (DataSet ds = new DataSet())
+                    try
                     {
-                        da.Fill(ds);
+                        da.SelectCommand = DbProvider.CreateCommand();
+                        PrepareCommand(da.SelectCommand, conn, null, cmdType, cmdText, paras);
+                        using (DataSet ds = new DataSet())
+                        {
+                            da.Fill(ds);
+                            return ds;
+                        }
+                    }
+                    finally
+                    {
                         da.SelectCommand.Parameters.Clear();
-                        return ds;
                     }
                 }
             }
@@ -222,13 +234,19 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
         {
             using (DbDataAdapter adapter = DbProvider.CreateDataAdapter())
             {
-                adapter.SelectCommand = DbProvider.CreateCommand();
-                PrepareCommand(adapter.SelectCommand, trans.Connection, trans, cmdType, cmdText, paras);
-                using (DataTable dt = new DataTable())
+                try
                 {
-                    adapter.Fill(dt);
+                    adapter.SelectCommand = DbProvider.CreateCommand();
+                    PrepareCommand(adapter.SelectCommand, trans.Connection, trans, cmdType, cmdText, paras);
+                    using (DataTable dt = new DataTable())
+                    {
+                        adapter.Fill(dt);
+                        return dt;
+                    }
+                }
+                finally
+                {
                     adapter.SelectCommand.Parameters.Clear();
-                    return dt;
                 }
             }
         }
@@ -282,13 +300,19 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
                 conn.Open();
                 using (DbDataAdapter adapter = DbProvider.CreateDataAdapter())
                 {
-                    adapter.SelectCommand = DbProvider.CreateCommand();
-                    PrepareCommand(adapter.SelectCommand, conn, null, cmdType, cmdText, paras);
-                    using (DataTable dt = new DataTable())
+                    try
                     {
-                        adapter.Fill(dt);
+                        adapter.SelectCommand = DbProvider.CreateCommand();
+                        PrepareCommand(adapter.SelectCommand, conn, null, cmdType, cmdText, paras);
+                        using (DataTable dt = new DataTable())
+                        {
+                            adapter.Fill(dt);
+                            return dt;
+                        }
+                    }
+                    finally
+                    {
                         adapter.SelectCommand.Parameters.Clear();
-                        return dt;
                     }
                 }
             }
@@ -342,10 +366,16 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
         {
             using (DbCommand cmd = DbProvider.CreateCommand())
             {
-                PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, paras);
-                DbDataReader dr = cmd.ExecuteReader();
-                cmd.Parameters.Clear();
-                return dr;
+                try
+                {
+                    PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, paras);
+                    DbDataReader dr = cmd.ExecuteReader();
+                    return dr;
+                }
+                finally
+                {
+                    cmd.Parameters.Clear();
+                }
             }
         }
 
@@ -381,14 +411,20 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
         /// <returns>返回DataReader</returns>
         public static DbDataReader ExecuteReader(CommandType cmdType, string cmdText, params DbParameter[] paras)
         {
+
             DbConnection conn = CreateConnection();
             conn.Open();
             DbCommand cmd = DbProvider.CreateCommand();
-
-            PrepareCommand(cmd, conn, null, cmdType, cmdText, paras);
-            DbDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            cmd.Parameters.Clear();
-            return dr;
+            try
+            {
+                PrepareCommand(cmd, conn, null, cmdType, cmdText, paras);
+                DbDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                return dr;
+            }
+            finally
+            {
+                cmd.Parameters.Clear();
+            }
         }
 
         /// <summary>
@@ -428,10 +464,16 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
         {
             using (DbCommand cmd = DbProvider.CreateCommand())
             {
-                PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, paras);
-                object val = cmd.ExecuteScalar();
-                cmd.Parameters.Clear();
-                return val;
+                try
+                {
+                    PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, paras);
+                    object val = cmd.ExecuteScalar();
+                    return val;
+                }
+                finally
+                {
+                    cmd.Parameters.Clear();
+                }
             }
         }
 
@@ -484,10 +526,16 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
                 conn.Open();
                 using (DbCommand cmd = DbProvider.CreateCommand())
                 {
-                    PrepareCommand(cmd, conn, null, cmdType, cmdText, paras);
-                    object val = cmd.ExecuteScalar();
-                    cmd.Parameters.Clear();
-                    return val;
+                    try
+                    {
+                        PrepareCommand(cmd, conn, null, cmdType, cmdText, paras);
+                        object val = cmd.ExecuteScalar();
+                        return val;
+                    }
+                    finally
+                    {
+                        cmd.Parameters.Clear();
+                    }
                 }
             }
         }
@@ -540,10 +588,16 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
         {
             using (DbCommand cmd = DbProvider.CreateCommand())
             {
-                PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, paras);
-                int val = cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
-                return val;
+                try
+                {
+                    PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, paras);
+                    int val = cmd.ExecuteNonQuery();
+                    return val;
+                }
+                finally
+                {
+                    cmd.Parameters.Clear();
+                }
             }
         }
 
@@ -596,14 +650,19 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
                 conn.Open();
                 using (DbCommand cmd = DbProvider.CreateCommand())
                 {
-                    PrepareCommand(cmd, conn, null, cmdType, cmdText, paras);
-                    int val = cmd.ExecuteNonQuery();
-                    cmd.Parameters.Clear();
-                    return val;
+                    try
+                    {
+                        PrepareCommand(cmd, conn, null, cmdType, cmdText, paras);
+                        int val = cmd.ExecuteNonQuery();
+                        return val;
+                    }
+                    finally
+                    {
+                        cmd.Parameters.Clear();
+                    }
                 }
             }
         }
-
 
         /// <summary>
         /// 执行SQL语句，返回受影响的行数
@@ -615,6 +674,7 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
         {
             return ExecuteNonQuery(CommandType.Text, cmdText, paras);
         }
+
         /// <summary>
         /// 执行SQL语句，返回受影响的行数
         /// </summary>
@@ -704,34 +764,6 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
                 parameter.Size = size;
             }
             return parameter;
-        }
-
-        /// <summary>
-        /// 设置DbParameter
-        /// </summary>
-        /// <param name="name">名称</param>
-        /// <param name="dbType">数据类型</param>
-        /// <param name="size">最大长度</param>
-        /// <param name="value">DbParameter的值</param>
-        /// <returns>返回DbParameter</returns>
-        public static DbParameter SetParameter(string name, DbType dbType, int size, object value)
-        {
-            DbParameter parameter = CreateParameter(name, dbType, size);
-            parameter.Value = value;
-            return parameter;
-        }
-
-        /// <summary>
-        /// 设置DbParameter
-        /// </summary>
-        /// <param name="name">名称</param>
-        /// <param name="dbType">数据类型</param>
-        /// <param name="size">最大长度</param>
-        /// <param name="value">DbParameter的值</param>
-        /// <returns>返回DbParameter</returns>
-        public static DbParameter SetParameter(string name, DbType dbType, object value)
-        {
-            return SetParameter(name, dbType, 0, value);
         }
 
         #endregion

@@ -27,7 +27,7 @@ namespace EasySoft.PssS.DbRepository
     public class PurchaseRepository : BaseRepository<Purchase, string>, IPurchaseRepository
     {
         #region 方法
-        
+
         /// <summary>
         /// 查询采购表信息，用于列表分页显示
         /// </summary>
@@ -41,15 +41,20 @@ namespace EasySoft.PssS.DbRepository
         {
             List<string> conditions = new List<string>();
             List<DbParameter> paras = new List<DbParameter>();
+            DbParameter para = null;
             if (!string.IsNullOrEmpty(category))
             {
                 conditions.Add("[Category] = @Category");
-                paras.Add(DbHelper.SetParameter("Category", DbType.String, 10, category));
+                para = DbHelper.CreateParameter("Category", DbType.String, 10);
+                para.Value = category;
+                paras.Add(para);
             }
             if (!string.IsNullOrEmpty(item))
             {
                 conditions.Add("[Item] = @Item");
-                paras.Add(DbHelper.SetParameter("Item", DbType.String, 20, item));
+                para = DbHelper.CreateParameter("Item", DbType.String, 20);
+                para.Value = item;
+                paras.Add(para);
             }
             string whereCmdText = string.Empty;
             if (conditions.Count > 0)
@@ -82,7 +87,7 @@ namespace EasySoft.PssS.DbRepository
                 Quantity = Convert.ToDecimal(reader["Quantity"]),
                 Unit = reader["Unit"].ToString(),
                 Supplier = reader["Supplier"].ToString(),
-                Allowance = Convert.ToDecimal(reader["Allowance"]),
+                Inventory = Convert.ToDecimal(reader["Inventory"]),
                 Cost = Convert.ToDecimal(reader["Cost"]),
                 ProfitLoss = Convert.ToDecimal(reader["ProfitLoss"]),
                 Remark = reader["Remark"].ToString(),

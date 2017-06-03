@@ -39,7 +39,8 @@ namespace EasySoft.PssS.DbRepository
         {
             string cmdText = string.Format(@"{0} WHERE [RecordId] = @RecordId", this.Resolver.SelectAllCommandText);
 
-            DbParameter paras = DbHelper.SetParameter("RecordId", DbType.String, 32, recordId);
+            DbParameter paras = DbHelper.CreateParameter("RecordId", DbType.String, 32);
+            paras.Value = recordId;
 
             DbDataReader reader = null;
             if (trans == null)
@@ -72,7 +73,8 @@ namespace EasySoft.PssS.DbRepository
         {
             string cmdText = @"DELETE FROM [dbo].[Cost] WHERE [RecordId] = @RecordId";
 
-            DbParameter paras = DbHelper.SetParameter("RecordId", DbType.String, 32, recordId);
+            DbParameter paras = DbHelper.CreateParameter("RecordId", DbType.String, 32);
+            paras.Value = recordId;
 
             if (trans == null)
             {

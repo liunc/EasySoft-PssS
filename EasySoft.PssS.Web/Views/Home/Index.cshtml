@@ -2,73 +2,130 @@
 @model EasySoft.PssS.Web.Models.Home.IndexModel
 
 @{
-    ViewBag.Title = WebResource.Title_Index;
+    Layout = "";
 }
-<div class="row" style="background-color:#4cae4c;color:#ffffff">
-    <div class="col-xs-12">
-        <div class="row" style="padding-top:15px;">
-            <div class="col-xs-9 text-left">
-                <div style="margin:7px 0 0 0;">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 
-                    <span>@Model.Name @Model.Moblie</span>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>@WebResource.SystemName</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body style="background-color:#f5f5fa;padding-bottom: 35px;">
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/Home/Index" class="navbar-brand">@WebResource.SystemName</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink(@WebResource.Title_Index, "Index", "Home")</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            @WebResource.Title_Purchase
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Purchase/Index" class="">@WebResource.Title_Purchase_Product</a></li>
+                            <li><a href="/Purchase/Index/Pack" class="">@WebResource.Title_Purchase_Pack</a></li>
+                            <li><a href="/Purchase/OutputDepot" class="">@WebResource.Title_OutboundRecord</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            @WebResource.Title_Customer
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/CustomerGroup/Index" class="">@WebResource.Title_CustomerGroupManagement</a></li>
+                            <li><a href="/Customer/Index" class="">@WebResource.Title_CustomerManagement</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+                <div class="row" style="background-color:#4cae4c;color:#ffffff">
+                    <div class="col-xs-12">
+                        <div class="row" style="padding-top:15px;">
+                            <div class="col-xs-9 text-left">
+                                <div style="margin:7px 0 0 0;">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                    <span>@Model.Name @Model.Moblie</span>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 text-right">
+                                <p style="margin-top:5px;"><button type="button" class="btn btn-success btn-xs" onclick="window.location.href = '/User/Logout'">@WebResource.Button_Out</button></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 text-center">
+                                <small>@WebResource.Field_TotalAssets</small>
+                                <h3 style="margin-top:0px">67788845.00</h3>
+                            </div>
+                        </div>
+                        <div class="row" style="border-top:1px solid #f5f5fa; padding:8px 0 8px 0">
+                            <div class="col-xs-6 text-center" style="border-right:1px solid #f5f5fa;">
+                                <small>@WebResource.Field_TotalCost</small>
+                                <br />
+                                <small>345678.01</small>
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <small>@WebResource.Field_TotalIncome</small>
+                                <br />
+                                <small>345678.01</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="background-color:#f5f5fa; padding-top:10px; padding-bottom:10px;">
+                    <div class="col-xs-12" style="background-color:white; ">
+                        <div class="row" style="border-top:1px solid #f5f5fa;border-bottom:1px solid #f5f5fa;">
+                            <div onclick="window.location.href = '/Purchase/IntoDepot/Product'" class="col-xs-4 text-center" style="border-right:1px solid #f5f5fa; padding: 15px 0 10px 0; cursor: pointer;">
+                                <img src="~/Images/uhomeapp5.png" style="width:30px; height:30px;" />
+                                <h6>@WebResource.Title_Purchase_AddProduct</h6>
+                            </div>
+                            <div onclick="window.location.href = '/Purchase/IntoDepot/Pack'" class="col-xs-4 text-center" style="border-right:1px solid #f5f5fa; padding: 15px 0 10px 0; cursor: pointer;">
+                                <img src="~/Images/uhomeapp8.png" style="width:30px; height:30px;" />
+                                <h6>@WebResource.Title_Purchase_AddPack</h6>
+                            </div>
+                            <div onclick="windows.location.href = '/Purchase/OutputDepot'" class="col-xs-4 text-center" style="padding: 15px 0 10px 0; cursor: pointer;">
+                                <img src="~/Images/icon1.png" style="width:30px; height:30px;" />
+                                <h6>@WebResource.Title_OutboundFirst</h6>
+                            </div>
+                        </div>
+                        <div class="row" style="border-bottom:1px solid #f5f5fa;">
+                            <div onclick="windows.location.href = '/Purchase/OutwardOrder'" class="col-xs-4 text-center" style="border-right:1px solid #f5f5fa; padding: 15px 0 10px 0; cursor: pointer;">
+                                <img src="~/Images/uhomeapp12.png" style="width:30px; height:30px;" />
+                                <h6>@WebResource.Title_OutwardOrder</h6>
+                            </div>
+                            <div onclick="windows.location.href = '/Purchase/IntoDepot/Product'" class="col-xs-4 text-center" style="border-right:1px solid #f5f5fa; padding: 15px 0 10px 0; cursor: pointer;">
+                                <img src="~/Images/uhomeapp9.png" style="width:30px; height:30px;" />
+                                <h6>@WebResource.Title_SaleOrder</h6>
+                            </div>
+                            <div onclick="windows.location.href = '/Purchase/IntoDepot/Product'" class="col-xs-4 text-center" style="padding: 15px 0 10px 0; cursor: pointer;">
+                                <img src="~/Images/img1.jpg" style="width:30px; height:30px;" />
+                                <h6>@WebResource.Title_Purchase_AddProduct</h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-xs-3 text-right">
-                <p style="margin-top:5px;"><button type="button" class="btn btn-success btn-xs" onclick="window.location.href = '/User/Logout'">@WebResource.Button_Out</button></p>
-            </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12 text-center">
-                <small>@WebResource.Field_TotalAssets</small>
-                <h3 style="margin-top:0px">67788845.00</h3>
-            </div>
-        </div>
-        <div class="row" style="border-top:1px solid #f5f5fa; padding:8px 0 8px 0">
-            <div class="col-xs-6 text-center" style="border-right:1px solid #f5f5fa;">
-                <small>@WebResource.Field_TotalCost</small>
-                <br />
-                <small>345678.01</small>
-            </div>
-            <div class="col-xs-6 text-center">
-                <small>@WebResource.Field_TotalIncome</small>
-                <br />
-                <small>345678.01</small>
-            </div>
-        </div>
+        @Html.Action("Footer", "Common")
     </div>
-</div>
-<div class="row" style="background-color:#f5f5fa; padding-top:10px; padding-bottom:10px;">
-    <div class="col-xs-12" style="background-color:white; ">
-        <div class="row" style="border-top:1px solid #f5f5fa;border-bottom:1px solid #f5f5fa;">
-            <div onclick="window.location.href = '/Purchase/IntoDepot/Product'" class="col-xs-4 text-center" style="border-right:1px solid #f5f5fa; padding: 15px 0 10px 0; cursor: pointer;">
-                <img src="~/Images/uhomeapp5.png" style="width:30px; height:30px;" />
-                <h6>@WebResource.Title_Purchase_AddProduct</h6>
-            </div>
-            <div onclick="window.location.href = '/Purchase/IntoDepot/Pack'" class="col-xs-4 text-center" style="border-right:1px solid #f5f5fa; padding: 15px 0 10px 0; cursor: pointer;">
-                <img src="~/Images/uhomeapp8.png" style="width:30px; height:30px;" />
-                <h6>@WebResource.Title_Purchase_AddPack</h6>
-            </div>
-            <div onclick="windows.location.href = '/Purchase/OutputDepot'" class="col-xs-4 text-center" style="padding: 15px 0 10px 0; cursor: pointer;">
-                <img src="~/Images/icon1.png" style="width:30px; height:30px;" />
-                <h6>@WebResource.Title_ProductOutput</h6>
-            </div>
-        </div>
-        <div class="row" style="border-bottom:1px solid #f5f5fa;">
-            <div onclick="windows.location.href = '/Purchase/OutwardOrder'" class="col-xs-4 text-center" style="border-right:1px solid #f5f5fa; padding: 15px 0 10px 0; cursor: pointer;">
-                <img src="~/Images/uhomeapp12.png" style="width:30px; height:30px;" />
-                <h6>@WebResource.Title_OutwardOrder</h6>
-            </div>
-            <div onclick="windows.location.href = '/Purchase/IntoDepot/Product'" class="col-xs-4 text-center" style="border-right:1px solid #f5f5fa; padding: 15px 0 10px 0; cursor: pointer;">
-                <img src="~/Images/uhomeapp9.png" style="width:30px; height:30px;" />
-                <h6>@WebResource.Title_SaleOrder</h6>
-            </div>
-            <div onclick="windows.location.href = '/Purchase/IntoDepot/Product'" class="col-xs-4 text-center" style="padding: 15px 0 10px 0; cursor: pointer;">
-                <img src="~/Images/img1.jpg" style="width:30px; height:30px;" />
-                <h6>@WebResource.Title_Purchase_AddProduct</h6>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

@@ -46,9 +46,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BusinessResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="CurstomerAddressService.cs" />
+    <Compile Include="CurstomerGroupService.cs" />
     <Compile Include="ParameterService.cs" />
     <Compile Include="CostService.cs" />
     <Compile Include="ProfitLossService.cs" />
+    <Compile Include="CurstomerService.cs" />
     <Compile Include="PurchaseService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

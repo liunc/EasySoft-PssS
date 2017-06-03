@@ -36,6 +36,8 @@ namespace EasySoft.PssS.Web
         public const decimal DECIMAL_MIN = 0.01M;
 
         public const decimal DECIMAL_MAX = 99999999.99M;
+        
+        public const int STRING_LENGTH_20 = 20;
 
         public const int STRING_LENGTH_32 = 32;
 
@@ -257,10 +259,10 @@ namespace EasySoft.PssS.Web
                 if (isRequired)
                 {
                     errorMessages.Add(GetPleaseInputFieldString(name));
+                    return date;
                 }
-                return date;
             }
-            if(!DateTime.TryParse(value, out date))
+            if (!DateTime.TryParse(value, out date))
             {
                 errorMessages.Add(WebResource.Validate_PleaseInputDateString);
             }
@@ -314,20 +316,12 @@ namespace EasySoft.PssS.Web
         /// <returns>返回字符串对应的枚举值</returns>
         public static PurchaseCategory CheckPurchaseCategory(string value, ref List<string> errorMessages)
         {
-            if (!CheckStringArgument(WebResource.Field_PurchaseCategory, value, true, ref errorMessages))
+            PurchaseCategory category = default(PurchaseCategory);
+            if (!Enum.TryParse<PurchaseCategory>(value, true, out category))
             {
-                return PurchaseCategory.None;
+                errorMessages.Add(GetArgumentInValidString(WebResource.Field_PurchaseCategory));
             }
-            if (value.Equals(PurchaseCategory.Product.ToString(), StringComparison.CurrentCultureIgnoreCase))
-            {
-                return PurchaseCategory.Product;
-            }
-            if (value.Equals(PurchaseCategory.Pack.ToString(), StringComparison.CurrentCultureIgnoreCase))
-            {
-                return PurchaseCategory.Pack;
-            }
-            errorMessages.Add(GetArgumentInValidString(WebResource.Field_PurchaseCategory));
-            return PurchaseCategory.None;
+            return category;
         }
 
         /// <summary>
@@ -338,20 +332,12 @@ namespace EasySoft.PssS.Web
         /// <returns>返回字符串对应的枚举值</returns>
         public static ProfitLossCategory CheckProfitLossCategory(string value, ref List<string> errorMessages)
         {
-            if (!CheckStringArgument(WebResource.Field_ProfitLossCategory, value, true, ref errorMessages))
+            ProfitLossCategory category = default(ProfitLossCategory);
+            if (!Enum.TryParse<ProfitLossCategory>(value, true, out category))
             {
-                return ProfitLossCategory.None;
+                errorMessages.Add(GetArgumentInValidString(WebResource.Field_ProfitLossCategory));
             }
-            if (value.Equals(ProfitLossCategory.Profit.ToString(), StringComparison.CurrentCultureIgnoreCase))
-            {
-                return ProfitLossCategory.Profit;
-            }
-            if (value.Equals(ProfitLossCategory.Loss.ToString(), StringComparison.CurrentCultureIgnoreCase))
-            {
-                return ProfitLossCategory.Loss;
-            }
-            errorMessages.Add(GetArgumentInValidString(WebResource.Field_ProfitLossCategory));
-            return ProfitLossCategory.None;
+            return category;
         }
 
         /// <summary>
@@ -362,20 +348,12 @@ namespace EasySoft.PssS.Web
         /// <returns>返回字符串对应的枚举值</returns>
         public static ProfitLossTargetType CheckProfitLossTargetType(string value, ref List<string> errorMessages)
         {
-            if (!CheckStringArgument(WebResource.Field_ProfitLossTargetType, value, true, ref errorMessages))
+            ProfitLossTargetType targetType = default(ProfitLossTargetType);
+            if (!Enum.TryParse<ProfitLossTargetType>(value, true, out targetType))
             {
-                return ProfitLossTargetType.None;
+                errorMessages.Add(GetArgumentInValidString(WebResource.Field_ProfitLossTargetType));
             }
-            if (value.Equals(ProfitLossTargetType.Purchase.ToString(), StringComparison.CurrentCultureIgnoreCase))
-            {
-                return ProfitLossTargetType.Purchase;
-            }
-            if (value.Equals(ProfitLossTargetType.Sale.ToString(), StringComparison.CurrentCultureIgnoreCase))
-            {
-                return ProfitLossTargetType.Sale;
-            }
-            errorMessages.Add(GetArgumentInValidString(WebResource.Field_ProfitLossCategory));
-            return ProfitLossTargetType.None;
+            return targetType;
         }
     }
 }

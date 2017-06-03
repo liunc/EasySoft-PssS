@@ -12,6 +12,7 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Domain.Service
 {
+    using Core.Persistence.RepositoryImplement;
     using Core.Util;
     using EasySoft.PssS.DbRepository;
     using EasySoft.PssS.Domain.Entity;
@@ -60,7 +61,7 @@ namespace EasySoft.PssS.Domain.Service
         /// <param name="remark">备注</param>
         /// <param name="costs">成本</param>
         /// <param name="creator">创建人</param>
-        public void IntoDepot(DateTime date, PurchaseCategory category, string item, decimal quantity, string unit, string supplier, string remark, Dictionary<string, decimal> costs, string creator)
+        public void Add(DateTime date, PurchaseCategory category, string item, decimal quantity, string unit, string supplier, string remark, Dictionary<string, decimal> costs, string creator)
         {
             using (DbConnection conn = DbHelper.CreateConnection())
             {
@@ -75,72 +76,13 @@ namespace EasySoft.PssS.Domain.Service
                     }
 
                     Purchase entity = new Purchase();
-                    entity.IntoDepot(date, category, item, quantity, unit, supplier, remark, costs, creator);
+                    entity.Add(date, category, item, quantity, unit, supplier, remark, costs, creator);
 
                     this.purchaseRepository.Insert(trans, entity);
                     foreach (Cost cost in entity.Costs)
                     {
                         this.costService.Insert(trans, cost);
                     }
-
-                    trans.Commit();
-                }
-                catch
-                {
-                    if (trans != null)
-                    {
-                        trans.Rollback();
-                    }
-                    throw;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 修改采购记录
-        /// </summary>
-        /// <param name="date">日期</param>
-        /// <param name="category">分类</param>
-        /// <param name="item">项</param>
-        /// <param name="quantity">数量</param>
-        /// <param name="unit">单位</param>
-        /// <param name="supplier">供应方</param>
-        /// <param name="remark">备注</param>
-        /// <param name="costs">成本</param>
-        /// <param name="creator">创建人</param>
-        public void Update(string id, DateTime date, decimal quantity, string supplier, string remark, Dictionary<string, decimal> costs, string mender)
-        {
-            using (DbConnection conn = DbHelper.CreateConnection())
-            {
-                DbTransaction trans = null;
-                try
-                {
-                    conn.Open();
-                    trans = conn.BeginTransaction();
-                    if (trans == null)
-                    {
-                        throw new ArgumentNullException("DbTransaction");
-                    }
-
-                    Purchase oldEntity = this.Select(trans, id);
-                    if (oldEntity.Status != PurchaseStatus.None)
-                    {
-                        throw new EasySoftException(BusinessResource.Purchase_NotAllowEdit);
-                    }
-                    List<Cost> oldCosts = this.costService.SearchByRecordId(trans, id);
-                    oldEntity.Costs = new List<Cost>();
-                    decimal costTotal = 0;
-                    foreach (Cost cost in oldCosts)
-                    {
-                        decimal money = costs[cost.Id];
-                        if (money != cost.Money)
-                        {
-                            this.costService.Update(trans, cost.Id, money);
-                        }
-                        costTotal += money;
-                    }
-                    oldEntity.Update(date, quantity, supplier, remark, costTotal, mender);
-                    this.Update(trans, oldEntity);
 
                     trans.Commit();
                 }
@@ -213,7 +155,7 @@ namespace EasySoft.PssS.Domain.Service
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>返回采购记录</returns>
-        public Purchase Selete(string id)
+        public Purchase Select(string id)
         {
             return this.Select(null, id);
         }

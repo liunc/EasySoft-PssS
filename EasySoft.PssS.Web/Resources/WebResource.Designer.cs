@@ -70,6 +70,15 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 取消 的本地化字符串。
+        /// </summary>
+        public static string Button_Cancel {
+            get {
+                return ResourceManager.GetString("Button_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 关闭 的本地化字符串。
         /// </summary>
         public static string Button_Close {
@@ -99,9 +108,9 @@ namespace EasySoft.PssS.Web.Resources {
         /// <summary>
         ///   查找类似 入库 的本地化字符串。
         /// </summary>
-        public static string Button_IntoDepot {
+        public static string Button_Into {
             get {
-                return ResourceManager.GetString("Button_IntoDepot", resourceCulture);
+                return ResourceManager.GetString("Button_Into", resourceCulture);
             }
         }
         
@@ -169,6 +178,15 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 保存 的本地化字符串。
+        /// </summary>
+        public static string Button_Save {
+            get {
+                return ResourceManager.GetString("Button_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 提交 的本地化字符串。
         /// </summary>
         public static string Button_Submit {
@@ -232,11 +250,20 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 第一个按钮 的本地化字符串。
+        ///   查找类似 取消按钮 的本地化字符串。
         /// </summary>
-        public static string Dialog_FirstButton {
+        public static string Dialog_CancelButton {
             get {
-                return ResourceManager.GetString("Dialog_FirstButton", resourceCulture);
+                return ResourceManager.GetString("Dialog_CancelButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 确定字符串 的本地化字符串。
+        /// </summary>
+        public static string Dialog_ConfirmString {
+            get {
+                return ResourceManager.GetString("Dialog_ConfirmString", resourceCulture);
             }
         }
         
@@ -259,11 +286,11 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 第二个按钮 的本地化字符串。
+        ///   查找类似 确定按钮 的本地化字符串。
         /// </summary>
-        public static string Dialog_SecondButton {
+        public static string Dialog_OkButton {
             get {
-                return ResourceManager.GetString("Dialog_SecondButton", resourceCulture);
+                return ResourceManager.GetString("Dialog_OkButton", resourceCulture);
             }
         }
         
@@ -277,11 +304,29 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 库存 的本地化字符串。
+        ///   查找类似 地址 的本地化字符串。
         /// </summary>
-        public static string Field_Allowance {
+        public static string Field_Address {
             get {
-                return ResourceManager.GetString("Field_Allowance", resourceCulture);
+                return ResourceManager.GetString("Field_Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 基本信息 的本地化字符串。
+        /// </summary>
+        public static string Field_BasicInfo {
+            get {
+                return ResourceManager.GetString("Field_BasicInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ： 的本地化字符串。
+        /// </summary>
+        public static string Field_Colon {
+            get {
+                return ResourceManager.GetString("Field_Colon", resourceCulture);
             }
         }
         
@@ -313,11 +358,56 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 客户Id 的本地化字符串。
+        /// </summary>
+        public static string Field_CustomerId {
+            get {
+                return ResourceManager.GetString("Field_CustomerId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 日期 的本地化字符串。
         /// </summary>
         public static string Field_Date {
             get {
                 return ResourceManager.GetString("Field_Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 默认地址 的本地化字符串。
+        /// </summary>
+        public static string Field_DefaultAddress {
+            get {
+                return ResourceManager.GetString("Field_DefaultAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 分组 的本地化字符串。
+        /// </summary>
+        public static string Field_Group {
+            get {
+                return ResourceManager.GetString("Field_Group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Id 的本地化字符串。
+        /// </summary>
+        public static string Field_Id {
+            get {
+                return ResourceManager.GetString("Field_Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 库存 的本地化字符串。
+        /// </summary>
+        public static string Field_Inventory {
+            get {
+                return ResourceManager.GetString("Field_Inventory", resourceCulture);
             }
         }
         
@@ -331,11 +421,20 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 联系人 的本地化字符串。
+        /// </summary>
+        public static string Field_Linkman {
+            get {
+                return ResourceManager.GetString("Field_Linkman", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 手机号 的本地化字符串。
         /// </summary>
-        public static string Field_Moblie {
+        public static string Field_Mobile {
             get {
-                return ResourceManager.GetString("Field_Moblie", resourceCulture);
+                return ResourceManager.GetString("Field_Mobile", resourceCulture);
             }
         }
         
@@ -345,6 +444,24 @@ namespace EasySoft.PssS.Web.Resources {
         public static string Field_Money {
             get {
                 return ResourceManager.GetString("Field_Money", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 名称 的本地化字符串。
+        /// </summary>
+        public static string Field_Name {
+            get {
+                return ResourceManager.GetString("Field_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 昵称 的本地化字符串。
+        /// </summary>
+        public static string Field_Nickname {
+            get {
+                return ResourceManager.GetString("Field_Nickname", resourceCulture);
             }
         }
         
@@ -421,7 +538,16 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 供应方 的本地化字符串。
+        ///   查找类似 设为默认 的本地化字符串。
+        /// </summary>
+        public static string Field_SetDefault {
+            get {
+                return ResourceManager.GetString("Field_SetDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 供应商 的本地化字符串。
         /// </summary>
         public static string Field_Supplier {
             get {
@@ -457,6 +583,24 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 微信号 的本地化字符串。
+        /// </summary>
+        public static string Field_WeChatId {
+            get {
+                return ResourceManager.GetString("Field_WeChatId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 所有分组 的本地化字符串。
+        /// </summary>
+        public static string Message_AllGroup {
+            get {
+                return ResourceManager.GetString("Message_AllGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 所有项目 的本地化字符串。
         /// </summary>
         public static string Message_AllItem {
@@ -475,11 +619,11 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 ： 的本地化字符串。
+        ///   查找类似 确认 的本地化字符串。
         /// </summary>
-        public static string Message_Colon {
+        public static string Message_Confirm {
             get {
-                return ResourceManager.GetString("Message_Colon", resourceCulture);
+                return ResourceManager.GetString("Message_Confirm", resourceCulture);
             }
         }
         
@@ -556,6 +700,15 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 您访问的页面不存在，请返回上一页。 的本地化字符串。
+        /// </summary>
+        public static string Message_PageNotFound {
+            get {
+                return ResourceManager.GetString("Message_PageNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 提交失败，错误信息 的本地化字符串。
         /// </summary>
         public static string Message_SubmitFailed {
@@ -592,6 +745,105 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 新增客户 的本地化字符串。
+        /// </summary>
+        public static string Title_AddCustomer {
+            get {
+                return ResourceManager.GetString("Title_AddCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增客户地址 的本地化字符串。
+        /// </summary>
+        public static string Title_AddCustomerAddress {
+            get {
+                return ResourceManager.GetString("Title_AddCustomerAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增客户分组 的本地化字符串。
+        /// </summary>
+        public static string Title_AddCustomerGroup {
+            get {
+                return ResourceManager.GetString("Title_AddCustomerGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客户 的本地化字符串。
+        /// </summary>
+        public static string Title_Customer {
+            get {
+                return ResourceManager.GetString("Title_Customer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 管理地址 的本地化字符串。
+        /// </summary>
+        public static string Title_CustomerAddress {
+            get {
+                return ResourceManager.GetString("Title_CustomerAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客户明细 的本地化字符串。
+        /// </summary>
+        public static string Title_CustomerDetail {
+            get {
+                return ResourceManager.GetString("Title_CustomerDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客户分组明细 的本地化字符串。
+        /// </summary>
+        public static string Title_CustomerGroupDetail {
+            get {
+                return ResourceManager.GetString("Title_CustomerGroupDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 分组管理 的本地化字符串。
+        /// </summary>
+        public static string Title_CustomerGroupManagement {
+            get {
+                return ResourceManager.GetString("Title_CustomerGroupManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客户管理 的本地化字符串。
+        /// </summary>
+        public static string Title_CustomerManagement {
+            get {
+                return ResourceManager.GetString("Title_CustomerManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 编辑客户 的本地化字符串。
+        /// </summary>
+        public static string Title_EditCustomer {
+            get {
+                return ResourceManager.GetString("Title_EditCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 编辑客户分组 的本地化字符串。
+        /// </summary>
+        public static string Title_EditCustomerGroup {
+            get {
+                return ResourceManager.GetString("Title_EditCustomerGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 首页 的本地化字符串。
         /// </summary>
         public static string Title_Index {
@@ -619,11 +871,47 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
+        ///   查找类似 出库 - 选择产品 的本地化字符串。
+        /// </summary>
+        public static string Title_OutboundFirst {
+            get {
+                return ResourceManager.GetString("Title_OutboundFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 出库 - 完成 的本地化字符串。
+        /// </summary>
+        public static string Title_OutboundFour {
+            get {
+                return ResourceManager.GetString("Title_OutboundFour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 出库记录 的本地化字符串。
         /// </summary>
-        public static string Title_OutputRecord {
+        public static string Title_OutboundRecord {
             get {
-                return ResourceManager.GetString("Title_OutputRecord", resourceCulture);
+                return ResourceManager.GetString("Title_OutboundRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 出库 - 选择包装 的本地化字符串。
+        /// </summary>
+        public static string Title_OutboundSecond {
+            get {
+                return ResourceManager.GetString("Title_OutboundSecond", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 出库 - 日期、成本及备注 的本地化字符串。
+        /// </summary>
+        public static string Title_OutboundThird {
+            get {
+                return ResourceManager.GetString("Title_OutboundThird", resourceCulture);
             }
         }
         
@@ -639,9 +927,9 @@ namespace EasySoft.PssS.Web.Resources {
         /// <summary>
         ///   查找类似 产品出库 的本地化字符串。
         /// </summary>
-        public static string Title_ProductOutput {
+        public static string Title_ProductOutbound {
             get {
-                return ResourceManager.GetString("Title_ProductOutput", resourceCulture);
+                return ResourceManager.GetString("Title_ProductOutbound", resourceCulture);
             }
         }
         
@@ -781,7 +1069,7 @@ namespace EasySoft.PssS.Web.Resources {
         }
         
         /// <summary>
-        ///   查找类似 请选择{0} 的本地化字符串。
+        ///   查找类似 请选择{0}。 的本地化字符串。
         /// </summary>
         public static string Validate_PleaseSelectField {
             get {

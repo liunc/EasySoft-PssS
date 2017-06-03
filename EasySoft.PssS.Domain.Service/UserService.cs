@@ -21,16 +21,37 @@ namespace EasySoft.PssS.Domain.Service
     /// </summary>
     public class UserService
     {
+        #region 变量
+
         private IUserRepository userRepository = null;
 
+        #endregion
+
+        #region 构造函数
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public UserService()
         {
             this.userRepository = new UserRepository();
         }
 
-        public User Login(string moblie, string password)
+        #endregion
+
+        #region 方法
+
+        /// <summary>
+        /// 用户登录 
+        /// </summary>
+        /// <param name="mobile">手机号</param>
+        /// <param name="password">密码</param>
+        /// <returns>返回用户信息</returns>
+        public User Login(string mobile, string password)
         {
-            return this.userRepository.GetUserByMoblieAndPassword(moblie, password);
+            return this.userRepository.GetUserByMobileAndPassword(mobile, password);
         }
+
+        #endregion
     }
 }

@@ -25,6 +25,6 @@ namespace EasySoft.PssS.Repository
         /// <param name="moblie">手机号</param>
         /// <param name="password">密码</param>
         /// <returns>返回用户信息</returns>
-        User GetUserByMoblieAndPassword(string moblie, string password);
+        User GetUserByMobileAndPassword(string moblie, string password);
     }
 }

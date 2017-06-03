@@ -33,14 +33,24 @@ namespace EasySoft.PssS.Web.Models.Common
         public string MessageBodyId { get; set; }
 
         /// <summary>
+        /// 获取或设置确认字符串
+        /// </summary>
+        public string ConfirmString { get; set; }
+
+        /// <summary>
         /// 获取或设置第一个按钮显示文本
         /// </summary>
-        public string FirstButton { get; set; }
+        public string OkButton { get; set; }
 
         /// <summary>
         /// 获取或设置第二个按钮显示文本
         /// </summary>
-        public string SecondButton { get; set; }
+        public string CancelButton { get; set; }
+
+        /// <summary>
+        /// 获取或设置第一个按钮显示文本
+        /// </summary>
+        public string OkButtonClick { get; set; }
 
         /// <summary>
         /// 获取标题Id

@@ -20,7 +20,7 @@ namespace EasySoft.PssS.Domain.Entity
         /// <summary>
         /// 获取或设置手机号
         /// </summary>
-        public string Moblie { get; set; }
+        public string Mobile { get; set; }
 
         /// <summary>
         /// 获取或设置密码

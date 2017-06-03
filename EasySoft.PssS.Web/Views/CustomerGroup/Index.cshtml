@@ -1,0 +1,42 @@
+﻿@using EasySoft.PssS.Web.Resources;
+@using EasySoft.PssS.Web.Models.CustomerGroup;
+
+@model CustomerGroupIndexModel
+
+@{
+    ViewBag.Title = WebResource.Title_CustomerGroupManagement;
+    ViewBag.PreviousUrl = "/Home/Index";
+}
+<div class="col-xs-12">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@WebResource.Field_Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CustomerGroupPageModel data in Model.PageData)
+            {
+                <tr style="cursor:pointer;" onclick="window.location.href = '/CustomerGroup/Detail/@data.Id?page=@Model.PageIndex'">
+                    <td>@data.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section footer {
+    <div class="navbar-default navbar-fixed-bottom">
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.Action("PageNavigation", "Common", new { pageIndex = Model.PageIndex, totalCount = Model.TotalCount, url = "/CustomerGroup/Index?page=" })
+            </div>
+        </div>
+        <div class="row">
+            <a href="/CustomerGroup/Add" class="btn btn-success btn-block ">
+                <span class="glyphicon glyphicon-plus"></span>
+                @WebResource.Title_AddCustomerGroup
+            </a>
+        </div>
+    </div>
+}
+

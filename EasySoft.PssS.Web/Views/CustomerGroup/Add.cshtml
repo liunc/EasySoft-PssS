@@ -1,0 +1,108 @@
+﻿@using EasySoft.PssS.Web.Resources;
+@{
+    ViewBag.Title = WebResource.Title_AddCustomerGroup;
+    ViewBag.PreviousUrl = "/CustomerGroup/Index";
+}
+<div class="col-xs-12">
+    <form id="formAdd" role="form">
+        <div class="form-group">
+            <input id="txtName" name="txtName" type="text" class="form-control" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Name,  ValidateHelper.STRING_LENGTH_50)" maxlength="50" required />
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" rows="3" id="txtRemark" name="txtRemark" maxlength="120" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Remark,  ValidateHelper.STRING_LENGTH_120)"></textarea>
+        </div>
+
+        <div class="row navbar-default navbar-fixed-bottom">
+            <div class="col-xs-6" >
+                <div class="row">
+                    <button id="btnSubmit" type="submit" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Submit</button>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="row">
+                    <button type="button" class="btn btn-default btn-block" onclick="window.history.back();" style="border-Radius:0px">@WebResource.Button_Back</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(function () {
+            $('#formAdd').validate({
+                errorElement: 'span',
+                errorClass: 'help-block',
+                focusInvalid: false,
+                rules: {
+                    txtName: {
+                        required: true,
+                        maxlength: 50
+                    },
+                    txtRemark: {
+                        maxlength: 120
+                    }
+                },
+                messages: {
+                    txtName: {
+                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Name)',
+                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Name, ValidateHelper.STRING_LENGTH_50)'
+                    },
+                    txtRemark: {
+                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Remark, ValidateHelper.STRING_LENGTH_120)'
+                    }
+                },
+                //自定义错误消息放到哪里
+                errorPlacement: function (error, element) {
+                    element.closest('.form-group').append(error);//显示错误消息提示
+                },
+                //给未通过验证的元素进行处理
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error has-feedback').removeClass('has-success');
+                },
+                //验证通过的处理
+                success: function (element) {
+                    element.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
+                    element.remove();
+                },
+                submitHandler: function (form) {
+                    if (this.valid()) {
+                        $('#btnSubmit').attr({ 'disabled': 'disabled' });
+                        var model = {};
+                        model.Name = $.trim($('#txtName').val());
+                        model.Remark = $.trim($('#txtRemark').val());
+                        $.ajax({
+                            type: 'post',
+                            url: '/CustomerGroup/Add',
+                            data: { model: model },
+                            success: function (result) {
+                                if (result.Result) {
+                                    window.location.href = '/CustomerGroup/Index';
+                                }
+                                else {
+                                    showError(result.Message);
+                                }
+                                return false;
+                            },
+                            error: function () {
+                                showError('System Error');
+                            },
+                            complete: function () {
+                                $('#btnSubmit').removeAttr('disabled');
+                            }
+                        });
+                    }
+                    return false;
+                }
+            });
+        });
+        function showError(errorMessage) {
+            $('#errorMessage').html(errorMessage);
+            $('#alertError').modal();
+        }
+    </script>
+}

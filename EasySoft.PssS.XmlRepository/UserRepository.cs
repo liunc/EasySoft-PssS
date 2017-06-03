@@ -38,19 +38,19 @@ namespace EasySoft.PssS.XmlRepository
         /// <summary>
         /// 根据手机号与密码获取用户信息
         /// </summary>
-        /// <param name="moblie">手机号</param>
+        /// <param name="mobile">手机号</param>
         /// <param name="password">密码</param>
         /// <returns>返回用户信息</returns>
-        public User GetUserByMoblieAndPassword(string moblie, string password)
+        public User GetUserByMobileAndPassword(string mobile, string password)
         {
-            XmlNode node = this.DataSource.SelectSingleNode(string.Format("//User[@Moblie='{0}' and @Password='{1}']", moblie, password));
+            XmlNode node = this.DataSource.SelectSingleNode(string.Format("//User[@Mobile='{0}' and @Password='{1}']", mobile, password));
             if (node == null)
             {
                 return null;
             }
             return new User
             {
-                Moblie = moblie,
+                Mobile = mobile,
                 Roles = this.GetXmlNodeAttribute(node, "Roles"),
                 Name = node.InnerText.Trim()
             };

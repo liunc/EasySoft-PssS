@@ -91,7 +91,7 @@ namespace EasySoft.PssS.Domain.Entity
             this.Quantity = quantity;
             this.Remark = string.IsNullOrWhiteSpace(remark) ? string.Empty : remark.Trim();
             this.Creator = creator;
-            this.CreateTime = DateTimeUtil.ConvertUTCToBeijing(DateTime.UtcNow);
+            this.CreateTime = DataConvert.ConvertUTCToBeijing(DateTime.UtcNow);
         }
 
         #endregion

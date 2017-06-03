@@ -139,8 +139,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CustomerAddressController.cs" />
+    <Compile Include="Controllers\CustomerGroupController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OutboundController.cs" />
     <Compile Include="Controllers\ProfitLossController.cs" />
     <Compile Include="Controllers\CostController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
@@ -150,17 +154,31 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Common\DialogModel.cs" />
+    <Compile Include="Models\Common\PageNavigationModel.cs" />
+    <Compile Include="Models\CustomerAddress\CustomerAddressAddModel.cs" />
+    <Compile Include="Models\CustomerAddress\CustomerAddressIndexModel.cs" />
+    <Compile Include="Models\CustomerAddress\CustomerAddressEditModel.cs" />
+    <Compile Include="Models\CustomerGroup\CustomerGroupIndexModel.cs" />
+    <Compile Include="Models\CustomerGroup\CustomerGroupPageModel.cs" />
+    <Compile Include="Models\CustomerGroup\CustomerGroupEditModel.cs" />
+    <Compile Include="Models\CustomerGroup\CustomerGroupAddModel.cs" />
+    <Compile Include="Models\CustomerAddress\CustomerAddressPageModel.cs" />
+    <Compile Include="Models\Customer\CustomerAddModel.cs" />
+    <Compile Include="Models\Customer\CustomerEditModel.cs" />
+    <Compile Include="Models\Customer\CustomerDetailModel.cs" />
+    <Compile Include="Models\Customer\CustomerPageModel.cs" />
+    <Compile Include="Models\Customer\CustomerIndexModel.cs" />
     <Compile Include="Models\Home\IndexModel.cs" />
     <Compile Include="Models\JsonResultModel.cs" />
-    <Compile Include="Models\KeyValueModel.cs" />
+    <Compile Include="Models\ValueTextModel.cs" />
+    <Compile Include="Models\Outbound\OutboundFirstModel.cs" />
     <Compile Include="Models\PagingModel.cs" />
     <Compile Include="Models\ProfitLoss\ProfitLossAddModel.cs" />
     <Compile Include="Models\ProfitLoss\ProfitLossModel.cs" />
     <Compile Include="Models\Purchase\CostItemModel.cs" />
     <Compile Include="Models\Purchase\CostModel.cs" />
-    <Compile Include="Models\Purchase\PurchaseEditModel.cs" />
     <Compile Include="Models\Purchase\PurchaseDetailModel.cs" />
-    <Compile Include="Models\Purchase\PurchaseModel.cs" />
+    <Compile Include="Models\Purchase\PurchasePageModel.cs" />
     <Compile Include="Models\Purchase\PurchaseAddModel.cs" />
     <Compile Include="Models\Purchase\PurchaseIndexModel.cs" />
     <Compile Include="Models\Purchase\PurchaseItemModel.cs" />
@@ -227,12 +245,25 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
-    <Content Include="Views\Purchase\Edit.cshtml" />
     <Content Include="Views\ProfitLoss\Add.cshtml" />
-    <Content Include="Views\Common\Dialog.cshtml" />
-    <Content Include="Views\Common\Error.cshtml" />
+    <Content Include="Views\Common\_Dialog.cshtml" />
     <Content Include="Views\Common\NotFound.cshtml" />
-    <Content Include="Views\Common\Footer.cshtml" />
+    <Content Include="Views\Common\_Footer.cshtml" />
+    <Content Include="Views\Purchase\Add.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Common\_Confirm.cshtml" />
+    <Content Include="Views\Common\_PageNavigation.cshtml" />
+    <Content Include="Views\Outbound\First.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\CustomerGroup\Add.cshtml" />
+    <Content Include="Views\CustomerGroup\Edit.cshtml" />
+    <Content Include="Views\CustomerGroup\Detail.cshtml" />
+    <Content Include="Views\CustomerGroup\Index.cshtml" />
+    <Content Include="Views\Customer\Add.cshtml" />
+    <Content Include="Views\Customer\Detail.cshtml" />
+    <Content Include="Views\CustomerAddress\Add.cshtml" />
+    <Content Include="Views\Customer\Edit.cshtml" />
+    <Content Include="Views\CustomerAddress\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -245,7 +276,6 @@
     <None Include="Project_Readme.html" />
     <Content Include="Views\Shared\_LayoutNoNav.cshtml" />
     <Content Include="Views\Purchase\Index.cshtml" />
-    <Content Include="Views\Purchase\IntoDepot.cshtml" />
     <Content Include="Views\Purchase\Detail.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>

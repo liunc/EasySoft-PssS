@@ -1,0 +1,10 @@
+D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Release\EasySoft.Core.Util.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Release\EasySoft.Core.Util.pdb
+D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Release\AntiXssLibrary.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Release\HtmlSanitizationLibrary.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Release\AntiXssLibrary.xml
+D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Release\HtmlSanitizationLibrary.xml
+D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Release\EasySoft.Core.Util.UtilResource.resources
+D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Release\EasySoft.Core.Util.csproj.GenerateResource.Cache
+D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Release\EasySoft.Core.Util.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Release\EasySoft.Core.Util.pdb

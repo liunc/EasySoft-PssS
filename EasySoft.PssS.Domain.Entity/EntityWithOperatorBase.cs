@@ -13,10 +13,9 @@
 namespace EasySoft.PssS.Domain.Entity
 {
     using Core.Persistence;
-    using EasySoft.PssS.Domain.ValueObject;
+    using Core.Util;
     using System;
     using System.Data;
-    using Core.Util;
 
     /// <summary>
     /// 领域实体基类，带操作者信息
@@ -69,8 +68,8 @@ namespace EasySoft.PssS.Domain.Entity
         /// <param name="time">时间</param>
         public void SetCreator(string userId, DateTime time)
         {
-            this.Creator = userId;
-            this.CreateTime = DateTimeUtil.ConvertUTCToBeijing(time);
+            this.Creator = userId.Trim();
+            this.CreateTime = DataConvert.ConvertUTCToBeijing(time);
         }
 
         /// <summary>
@@ -89,8 +88,8 @@ namespace EasySoft.PssS.Domain.Entity
         /// <param name="time">时间</param>
         public void SetMender(string userId, DateTime time)
         {
-            this.Mender = userId;
-            this.ModifyTime = DateTimeUtil.ConvertUTCToBeijing(time);
+            this.Mender = userId.Trim();
+            this.ModifyTime = DataConvert.ConvertUTCToBeijing(time);
         }
 
         #endregion

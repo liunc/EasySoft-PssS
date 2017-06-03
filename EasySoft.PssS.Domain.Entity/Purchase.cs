@@ -65,8 +65,8 @@ namespace EasySoft.PssS.Domain.Entity
         /// <summary>
         /// 获取或设置余量
         /// </summary>
-        [Column("Allowance", DbType.Decimal, Size = 18)]
-        public decimal Allowance { get; set; }
+        [Column("Inventory", DbType.Decimal, Size = 18)]
+        public decimal Inventory { get; set; }
 
         /// <summary>
         /// 获取或设置成本汇总
@@ -130,7 +130,7 @@ namespace EasySoft.PssS.Domain.Entity
         /// <param name="remark">备注</param>
         /// <param name="costs">成本</param>
         /// <param name="creator">创建人</param>
-        public void IntoDepot(DateTime date, PurchaseCategory category, string item, decimal quantity, string unit, string supplier, string remark, Dictionary<string, decimal> costs, string creator)
+        public void Add(DateTime date, PurchaseCategory category, string item, decimal quantity, string unit, string supplier, string remark, Dictionary<string, decimal> costs, string creator)
         {
             this.NewId();
             this.Date = date;
@@ -139,7 +139,7 @@ namespace EasySoft.PssS.Domain.Entity
             this.Quantity = quantity;
             this.Unit = string.IsNullOrWhiteSpace(unit) ? string.Empty : unit.Trim();
             this.Supplier = string.IsNullOrWhiteSpace(supplier) ? string.Empty : supplier.Trim();
-            this.Allowance = quantity;
+            this.Inventory = quantity;
             this.Remark = string.IsNullOrWhiteSpace(remark) ? string.Empty : remark.Trim();
             this.Status = PurchaseStatus.None;
             this.SetCreator(creator);
@@ -154,23 +154,23 @@ namespace EasySoft.PssS.Domain.Entity
         }
 
         /// <summary>
-        /// 更新采购记录
+        /// 增加益损数据
         /// </summary>
-        /// <param name="date">日期</param>
+        /// <param name="category">益损类型</param>
         /// <param name="quantity">数量</param>
-        /// <param name="supplier">供应方</param>
-        /// <param name="remark">备注</param>
-        /// <param name="cost">成本</param>
-        /// <param name="mender">修改人</param>
-        public void Update(DateTime date, decimal quantity, string supplier, string remark, decimal cost, string mender)
+        public void AddProfitLoss(ProfitLossCategory category, decimal quantity)
         {
-            this.Date = date;
-            this.Quantity = quantity;
-            this.Allowance = quantity;
-            this.Supplier = string.IsNullOrWhiteSpace(supplier) ? string.Empty : supplier.Trim();
-            this.Remark = string.IsNullOrWhiteSpace(remark) ? string.Empty : remark.Trim();
-            this.Cost = cost;
-            this.SetMender(mender);
+            if (this.Status == PurchaseStatus.None)
+            {
+                this.Status = PurchaseStatus.Processing;
+            }
+            decimal profitLoss = quantity;
+            if (category == ProfitLossCategory.Loss)
+            {
+                profitLoss = -quantity;
+            }
+            this.Inventory += profitLoss;
+            this.ProfitLoss += profitLoss;
         }
 
         #endregion

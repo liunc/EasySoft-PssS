@@ -12,7 +12,6 @@
 // ----------------------------------------------------------
 namespace EasySoft.Core.Persistence.Repository
 {
-    using System;
     using System.Collections.Generic;
     using System.Data.Common;
 
@@ -59,5 +58,12 @@ namespace EasySoft.Core.Persistence.Repository
         /// <param name="primaryKey">主键字段</param>
         /// <returns>返回数据记录是否存在</returns>
         bool Exists(DbTransaction trans, TKey primaryKey);
+
+        /// <summary>
+        /// 查询所有数据
+        /// </summary>
+        /// <param name="trans">数据库事务</param>
+        /// <returns>返回实体对象</returns>
+        List<TEntity> All(DbTransaction trans);
     }
 }

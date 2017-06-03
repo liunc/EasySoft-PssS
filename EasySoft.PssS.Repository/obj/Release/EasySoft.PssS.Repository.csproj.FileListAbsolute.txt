@@ -1,0 +1,17 @@
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\EasySoft.PssS.Repository.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\EasySoft.PssS.Repository.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\EasySoft.Core.Persistence.Repository.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\EasySoft.PssS.Domain.Entity.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\EasySoft.Core.Persistence.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\EasySoft.PssS.Domain.ValueObject.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\EasySoft.Core.Util.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\HtmlSanitizationLibrary.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\EasySoft.Core.Persistence.Repository.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\EasySoft.PssS.Domain.Entity.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\EasySoft.Core.Persistence.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\EasySoft.PssS.Domain.ValueObject.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\EasySoft.Core.Util.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\bin\Release\HtmlSanitizationLibrary.xml
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\obj\Release\EasySoft.PssS.Repository.csprojResolveAssemblyReference.cache
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\obj\Release\EasySoft.PssS.Repository.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Repository\obj\Release\EasySoft.PssS.Repository.pdb

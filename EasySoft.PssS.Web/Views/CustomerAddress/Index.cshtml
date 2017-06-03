@@ -1,0 +1,242 @@
+﻿@using EasySoft.Core.Util;
+@using EasySoft.PssS.Web.Resources;
+@using EasySoft.PssS.Web.Models.CustomerAddress;
+@model CustomerAddressIndexModel
+@{
+    ViewBag.Title = WebResource.Title_CustomerDetail;
+    ViewBag.PreviousUrl = string.Format("/Customer/Detail/{0}?name={1}&groupId={2}&page={3}", Model.CustomerId, Model.QueryName, Model.QueryGroupId, Model.PageIndex);
+}
+
+<div class="col-xs-12">
+    <ul class="nav nav-tabs">
+        <li><a href="/Customer/Detail/@Model.CustomerId?name=@Model.QueryName&groupId=@Model.QueryGroupId&page=@Model.PageIndex">@WebResource.Field_BasicInfo</a></li>
+        <li class="active"><a href="javascript:'';">@WebResource.Field_Address</a></li>
+    </ul>
+    <form id="formEdit" role="form" style="padding-top:15px;">
+        <div class="form-group">
+            <input type="hidden" id="hideId" />
+            <input id="txtLinkman" name="txtLinkman" type="text" class="form-control" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Linkman,  Constant.STRING_LENGTH_50)" maxlength="50" required />
+        </div>
+        <div class="form-group">
+            <input id="txtMobile" name="txtMobile" type="text" class="form-control" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Mobile,  ValidateHelper.STRING_LENGTH_20)" maxlength="20" />
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" rows="3" id="txtAddress" name="txtAddress" maxlength="120" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Address,  ValidateHelper.STRING_LENGTH_120)"></textarea>
+        </div>
+        <div class="form-group text-center">
+            <button id="btnSave" type="submit" class="btn btn-success">@WebResource.Button_Save</button>
+        </div>
+    </form>
+    <table id="tableAddress" class="table">
+        <tbody>
+            @foreach (var data in Model.Addresses)
+            {
+                if (data.IsDefault == Constant.COMMON_Y)
+                {
+            <tr class="success">
+                <td>
+                    @WebResource.Field_Linkman @WebResource.Field_Colon @data.Linkman <br />
+                    @WebResource.Field_Mobile @WebResource.Field_Colon @data.Mobile <br />
+                    @data.Address
+                    <input type="hidden" name="id" value="@data.Id" />
+                </td>
+                <td style="width:80px;">
+                    <span class="glyphicon glyphicon-ok text-success" aria-hidden="true" title="@WebResource.Field_DefaultAddress"></span>
+                    <br />
+                    <br />
+                    <a href="javascript:'';" onclick="return selectAddress('@data.Id')">@WebResource.Button_Edit</a>
+                </td>
+            </tr>
+                }
+                else
+                {
+            <tr>
+                <td>
+                    @WebResource.Field_Linkman @WebResource.Field_Colon @data.Linkman <br />
+                    @WebResource.Field_Mobile @WebResource.Field_Colon @data.Mobile <br />
+                    @data.Address
+                    <input type="hidden" name="id" value="@data.Id" />
+                </td>
+                <td style="width:80px;">
+                    <a id="btnSetDefault" onclick="return setDefault('@data.Id');" href="javascript:''" style="border-Radius:0px">@WebResource.Field_SetDefault</a>
+                    <br />
+                    <br />
+                    <a href="javascript:'';" onclick="return selectAddress('@data.Id')">@WebResource.Button_Edit</a>
+                    <a href="javascript:'';" onclick="return deleteAddress('@data.Id')">@WebResource.Button_Delete</a>
+                </td>
+            </tr>
+
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@section footer{
+    <div class="navbar-default navbar-fixed-bottom row">
+        <a href="/CustomerAddress/Add?customerId=@Model.CustomerId&name=@Model.QueryName&groupId=@Model.QueryGroupId&page=@Model.PageIndex" class="btn btn-success btn-block ">
+            <span class="glyphicon glyphicon-plus"></span>
+            @WebResource.Title_AddCustomerAddress
+        </a>
+    </div>
+}
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        function selectAddress(id) {
+            $.ajax({
+                type: "post",
+                url: "/CustomerAddress/Select",
+                data: { id: id },
+                success: function (result) {
+                    if (result.Result) {
+                        var obj = $.parseJSON(result.Data);
+                        $('#hideId').val(obj.Id);
+                        $('#txtLinkman').val(obj.Linkman);
+                        $('#txtMobile').val(obj.Mobile);
+                        $('#txtAddress').val(obj.Address);
+                    }
+                    else {
+                        showError(result.Message);
+                    }
+                    return false;
+                },
+                error: function () {
+                    showError('System Error');
+                }
+            });
+            return false;
+        }
+        $(function () {
+            var id = $('input[name="id"]').first().val();
+            selectAddress(id);
+
+            $('#formEdit').validate({
+                errorElement: 'span',
+                errorClass: 'help-block',
+                focusInvalid: false,
+                rules: {
+                    txtLinkman: {
+                        required: true,
+                        maxlength: @Constant.STRING_LENGTH_50
+                        },
+                    txtMobile: {
+                        required: true,
+                        maxlength: @Constant.STRING_LENGTH_20
+                        },
+                    txtAddress: {
+                        required: true,
+                        maxlength: @Constant.STRING_LENGTH_120
+                        }
+                },
+                messages: {
+                    txtLinkman: {
+                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Linkman)',
+                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Linkman, Constant.STRING_LENGTH_120)'
+                    },
+                    txtMobile: {
+                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Mobile)',
+                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Mobile, Constant.STRING_LENGTH_20)'
+                    },
+                    txtAddress: {
+                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Address)',
+                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Address, Constant.STRING_LENGTH_120)'
+                    }
+                },
+                //自定义错误消息放到哪里
+                errorPlacement: function (error, element) {
+                    element.closest('.form-group').append(error);//显示错误消息提示
+                },
+                //给未通过验证的元素进行处理
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error has-feedback').removeClass('has-success');
+                },
+                //验证通过的处理
+                success: function (element) {
+                    element.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
+                    element.remove();
+                },
+                submitHandler: function (form) {
+                    if (this.valid()) {
+                        $('#btnSave').attr({ 'disabled': 'disabled' });
+                        var model = {};
+                        model.Id = $.trim($('#hideId').val());
+                        model.Linkman = $.trim($('#txtLinkman').val());
+                        model.Mobile = $.trim($('#txtMobile').val());
+                        model.Address = $.trim($('#txtAddress').val());
+                        $.ajax({
+                            type: 'post',
+                            url: '/CustomerAddress/Update',
+                            data: { model: model },
+                            success: function (result) {
+                                if (result.Result) {
+                                    window.location.href = window.location.href;
+                                }
+                                else {
+                                    showError(result.Message);
+                                }
+                                return false;
+                            },
+                            error: function () {
+                                showError('System Error');
+                            },
+                            complete: function () {
+                                $('#btnSave').removeAttr('disabled');
+                            }
+                        });
+                    }
+                    return false;
+                }
+            });
+        });
+
+        function setDefault(id) {
+            $.ajax({
+                type: "post",
+                url: "/CustomerAddress/SetDefault",
+                data: { id: id },
+                success: function (result) {
+                    if (result.Result) {
+                        window.location.href = window.location.href;
+                    }
+                    else {
+                        showError(result.Message);
+                    }
+                    return false;
+                },
+                error: function () {
+                    showError('System Error');
+                }
+            });
+            return false;
+        }
+
+        function deleteAddress(id) {
+            $.ajax({
+                type: "post",
+                url: "/CustomerAddress/Delete",
+                data: { id: id },
+                success: function (result) {
+                    if (result.Result) {
+                        window.location.href = window.location.href;
+                    }
+                    else {
+                        showError(result.Message);
+                    }
+                    return false;
+                },
+                error: function () {
+                    showError('System Error');
+                }
+            });
+            return false;
+        }
+
+        function showError(errorMessage) {
+            $('#errorMessage').html(errorMessage);
+            $('#dialogError').modal('show');
+        }
+
+
+    </script>
+}

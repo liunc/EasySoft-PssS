@@ -1,0 +1,223 @@
+﻿@using System.Collections.Generic;
+@using EasySoft.PssS.Web.Resources;
+
+@model EasySoft.PssS.Web.Models.Purchase.PurchaseAddModel
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+@section styles {
+    @Styles.Render("~/Content/datetimepicker")
+}
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index">@WebResource.Title_Index</a></li>
+        <li><a href="/Purchase/Index/@Model.CategoryString">@Model.ParentPageTitle</a></li>
+        <li class="active">@ViewBag.Title</li>
+    </ol>
+</div>
+
+<form id="formAddPurchase" role="form">
+    <div class="form-group">
+        <input id="txtDate" name="txtDate" class="form_datetime form-control" type="text" value="@Model.CurrentDate" readonly>
+    </div>
+
+    <div class="form-group">
+        <input id="txtSupplier" name="txtSupplier" type="text" class="form-control" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Supplier,  ValidateHelper.STRING_LENGTH_50)" maxlength="50" />
+    </div>
+
+    <div class="form-group">
+        <select id="ddlItem" name="ddlItem" class="form-control" required>
+            <option value="">@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Item)</option>
+            @foreach (var item in Model.PurchaseItems)
+            {
+                <option value="@item.Code">@item.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+            <input id="txtQuantity" name="txtQuantity" type="number" min="0.01" max="99999999.99" class="form-control" aria-describedby="txtUnit" placeholder="@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Quantity)">
+            <span class="input-group-addon" id="txtUnit">---</span>
+        </div>
+    </div>
+    @foreach (var cost in Model.CostItems)
+    {
+        <div class="form-group">
+            <div class="input-group">
+                <input type="number" min="0" max="99999999.99" id="@cost.ItemCode" aria-describedby="span@cost.ItemCode" name="costMoney" class="form-control" placeholder="@ValidateHelper.GetPleaseInputFieldString(cost.ItemName)" />
+                <span class="input-group-addon" id="span@cost.ItemCode">@WebResource.Common_Yuan</span>
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        <textarea class="form-control" rows="3" id="txtRemark" name="txtRemark" maxlength="120" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Remark,  ValidateHelper.STRING_LENGTH_120)"></textarea>
+
+    </div>
+    <div class="form-group">
+        <div class="col-xs-3"></div>
+        <div class="col-xs-9 btn-group">
+            <button id="btnSubmit" type="submit" class="btn btn-success">@WebResource.Button_Submit</button>
+            <button type="button" class="btn btn-default" onclick="window.history.back();">@WebResource.Button_Back</button>
+        </div>
+    </div>
+
+
+</form>
+@foreach (var item in Model.PurchaseItems)
+{
+    <input type="hidden" id="@item.Code" value="@item.Unit" />
+}
+@Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
+@section scripts {
+    @Scripts.Render("~/bundles/datetimepicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(function () {
+            $('#txtDate').datetimepicker({
+                format: "yyyy-mm-dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                showMeridian: true,
+                //pickerPosition: "bottom-left",
+                language: 'zh-CN',//中文，需要引用zh-CN.js包
+                startView: 2,//月视图
+                minView: 2//日期时间选择器所能够提供的最精确的时间选择视图
+            });
+            $('#ddlItem').change(function () {
+                var item = $('#ddlItem').val();
+                var unit = '---';
+                if (item.length > 0) {
+                    unit = $('#' + item).val();
+                }
+                $('#txtUnit').html(unit);
+            });
+            $('#formAddPurchase').validate({
+                errorElement: 'span',
+                errorClass: 'help-block',
+                focusInvalid: false,
+                rules: {
+                    txtDate: {
+                        required: true,
+                        date: true
+                    },
+                    txtSupplier: {
+                        required: true,
+                        maxlength: 50
+                    },
+                    ddlItem: {
+                        required: true
+                    },
+                    txtQuantity: {
+                        required: true,
+                        number: true,
+                        min: 0.01,
+                        max: 99999999.99
+                    },
+                    costMoney: {
+                        number: true,
+                        min: 0,
+                        max: 99999999.99
+                    },
+                    txtRemark: {
+                        maxlength: 120
+                    }
+                },
+                messages: {
+                    txtDate: {
+                        required: '@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Date)',
+                        date: '@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Date)'
+                    },
+                    txtSupplier: {
+                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Supplier)',
+                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Supplier, ValidateHelper.STRING_LENGTH_50)'
+                    },
+                    ddlItem: {
+                        required: '@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Item)'
+                    },
+                    txtQuantity: {
+                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Quantity)',
+                        number: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX)',
+                        min: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX)',
+                        max: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX)'
+                    },
+                    costMoney: {
+                        number: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Money)',
+                        min: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Money, ValidateHelper.DECIMAL_ZERO, ValidateHelper.DECIMAL_MAX)',
+                        max: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Money, ValidateHelper.DECIMAL_ZERO, ValidateHelper.DECIMAL_MAX)'
+                    },
+                    txtRemark: {
+                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Remark, ValidateHelper.STRING_LENGTH_120)'
+                    }
+                },
+                //自定义错误消息放到哪里
+                errorPlacement: function (error, element) {
+                    element.closest('.form-group').append(error);//显示错误消息提示
+                },
+                //给未通过验证的元素进行处理
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error has-feedback').removeClass('has-success');
+                },
+                //验证通过的处理
+                success: function (element) {
+                    element.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
+                    element.remove();
+                },
+                submitHandler: function (form) {
+                    if (this.valid()) {
+                        $('#btnSubmit').attr({ 'disabled': 'disabled' });
+                        var model = {};
+                        model.DateString = $.trim($('#txtDate').val());
+                        model.CategoryString = '@Model.CategoryString';
+                        model.Item = $.trim($('#ddlItem').val());
+                        model.Quantity = parseFloat($('#txtQuantity').val());
+                        model.Unit = $.trim($('#' + model.Item).val());
+                        model.Supplier = $.trim($('#txtSupplier').val());
+                        model.Remark = $.trim($('#txtRemark').val());
+                        model.CostItems = [];
+                        $('input[name="costMoney"]').each(function () {
+                            var cost = {};
+                            cost.ItemCode = $(this).attr('id');
+                            var val = $(this).val();
+                            if (val.length == 0) {
+                                val = "0";
+                            }
+                            cost.Money = parseFloat(val);
+                            model.CostItems.push(cost);
+                        });
+                        $.ajax({
+                            type: "post",
+                            url: "/Purchase/PostAdd",
+                            data: { model: model },
+                            success: function (result) {
+                                if (result.Result) {
+                                    window.location.href = result.Data;
+                                }
+                                else {
+                                    showError(result.Message);
+                                }
+                                return false;
+                            },
+                            error: function () {
+                                showError('System Error');
+                            },
+                            complete: function () {
+                                $('#btnSubmit').removeAttr('disabled');
+                            }
+                        });
+                    }
+                    return false;
+                }
+            });
+        });
+        function showError(errorMessage) {
+            $('#errorMessage').html(errorMessage);
+            $('#alertError').modal();
+        }
+    </script>
+}

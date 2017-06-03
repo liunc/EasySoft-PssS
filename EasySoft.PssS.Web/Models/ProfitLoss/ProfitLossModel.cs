@@ -32,12 +32,12 @@ namespace EasySoft.PssS.Web.Models.ProfitLoss
         /// <summary>
         /// 获取或设置目标类型
         /// </summary>
-        public string TargetType { get; set; }
+        public string TargetTypeString { get; set; }
 
         /// <summary>
         /// 获取或设置分类
         /// </summary>
-        public string Category { get; set; }
+        public string CategoryString { get; set; }
 
         /// <summary>
         /// 获取或设置数量

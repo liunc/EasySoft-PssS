@@ -72,25 +72,24 @@ namespace EasySoft.PssS.Web.Controllers
                 result.BuilderErrorMessage(errorMessages);
                 return Json(result);
             }
-            ValidateHelper.CheckInputString(WebResource.Field_Moblie, model.Moblie, true, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
-            ValidateHelper.CheckInputString(WebResource.Field_Password, model.Password, true, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
+            model.PostValidate(ref errorMessages);
             if (errorMessages.Count > 0)
             {
                 result.BuilderErrorMessage(errorMessages);
                 return Json(result);
             }
 
-            User user = this.userService.Login(model.Moblie.Trim(), model.Password.Trim());
+            User user = this.userService.Login(model.Mobile.Trim(), model.Password.Trim());
             if (user == null)
             {
                 result.Message = WebResource.Message_LoginError;
             }
             else
             {
-                this.Session["Moblie"] = model.Moblie;
+                this.Session["Moblie"] = model.Mobile;
                 this.Session["Roles"] = user.Roles;
                 this.Session["Name"] = user.Name;
-                FormsAuthentication.SetAuthCookie(model.Moblie, false);
+                FormsAuthentication.SetAuthCookie(model.Mobile, false);
 
                 result.Result = true;
                 result.Data = string.IsNullOrWhiteSpace(model.ReturnUrl) ? "/" : model.ReturnUrl;

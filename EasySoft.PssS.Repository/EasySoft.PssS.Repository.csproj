@@ -40,12 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICustomerAddressRepository.cs" />
+    <Compile Include="ICustomerRepository.cs" />
     <Compile Include="IDbClientExtend.cs" />
     <Compile Include="IProfitLossRepository.cs" />
     <Compile Include="ICostRepository.cs" />
     <Compile Include="IDeliveryConfigRepository.cs" />
     <Compile Include="IPurchaseRepository.cs" />
     <Compile Include="IPurchaseConfigRepository.cs" />
+    <Compile Include="ICustomerGroupRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

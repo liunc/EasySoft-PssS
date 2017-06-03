@@ -1,0 +1,78 @@
+﻿@model EasySoft.PssS.Web.Models.Common.PageNavigationModel
+
+<nav aria-label="Page navigation">
+    <ul class="pagination" style="margin:10px 0;">
+        @if (Model.PageCount > 0)
+        {
+            <li class="disabled"><a href="javascript:;">总计: @Model.TotalCount</a></li>
+            if (Model.PageIndex == 1)
+            {
+                <li class="disabled"><a href="javascript:;" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+            }
+            else if (Model.PageIndex > 1)
+            {
+                //sb.Append("<a href=\"" + strUrl + (Model.PageIndex - 1).ToString() + "\">< 上一页</a>");
+                <li><a href="@string.Format("{0}{1}", Model.Url, Model.PageIndex-1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+            }
+
+            
+            bool dot1 = false, dot2 = false;
+            for (int i = 1; i <= Model.PageCount; i++)
+            {
+                if (i == Model.PageIndex)
+                {
+                    //sb.Append("<span class=\"current\">" + Model.PageIndex.ToString() + "</span>");
+                    <li class="active"><a href="javascript:;">@i <span class="sr-only">(current)</span></a></li>
+                    continue;
+                }
+                if (i <= 3 || (i >= Model.PageIndex - 3 && i <= Model.PageIndex + 3))
+                {
+                    //sb.Append("<a href=\"" + strUrl + i.ToString() + "\">" + i.ToString() + "</a>");
+                    <li><a href="@string.Format("{0}{1}", Model.Url, i)">@i</a></li>
+                    continue;
+                }
+                if (Model.PageIndex > 7)
+                {
+                    if (!dot1)
+                    {
+                        // sb.Append("<span class=\"dotted\">...</span>");
+                        <li><a href="javascript:;">...</a></li>
+                        dot1 = true;
+                    }
+                }
+                if ((Model.PageCount - Model.PageIndex) > 6 && i > Model.PageIndex + 3)
+                {
+                    if (!dot2)
+                    {
+                        //sb.Append("<span class=\"dotted\">...</span>");
+                        <li><a href="javascript:;">...</a></li>
+                        dot2 = true;
+                    }
+                }
+                if (i > Model.PageCount - 3)
+                {
+                    //sb.Append("<a href=\"" + strUrl + i.ToString() + "\">" + i.ToString() + "</a>");
+                    continue;
+                }
+            }
+            if (Model.PageIndex == Model.PageCount)
+            {
+                // sb.Append("<span class=\"disabled\">下一页 ></span>");
+                <li class="disabled">
+                    <a href="javascript:;" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+            else if (Model.PageIndex + 1 <= Model.PageCount)
+            {
+                // sb.Append("<a href=\"" + strUrl + (Model.PageIndex + 1).ToString() + "\">下一页 ></a>");
+                <li>
+                    <a href="@string.Format("{0}{1}", Model.Url, Model.PageIndex + 1)" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+</nav>

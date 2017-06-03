@@ -2,3 +2,9 @@ D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Debug\EasySoft.Core.Util.dll
 D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Debug\EasySoft.Core.Util.pdb
 D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Debug\EasySoft.Core.Util.dll
 D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Debug\EasySoft.Core.Util.pdb
+D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Debug\AntiXssLibrary.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Debug\HtmlSanitizationLibrary.dll
+D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Debug\AntiXssLibrary.xml
+D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Debug\HtmlSanitizationLibrary.xml
+D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Debug\EasySoft.Core.Util.UtilResource.resources
+D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Debug\EasySoft.Core.Util.csproj.GenerateResource.Cache
