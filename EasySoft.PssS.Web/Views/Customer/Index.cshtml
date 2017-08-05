@@ -50,7 +50,7 @@
     <div class="navbar-default navbar-fixed-bottom">
         <div class="row">
             <div class="col-xs-12">
-                @Html.Action("PageNavigation", "Common", new { pageIndex = Model.PageIndex, totalCount = Model.TotalCount, url = string.Format("/Customer/Index?name={0}&groupId={1}page=", Model.QueryName, Model.QueryGroupId) })
+                @Html.Action("PageNavigation", "Common", new { pageIndex = Model.PageIndex, totalCount = Model.TotalCount, url = string.Format("/Customer/Index?name={0}&groupId={1}&page=", Model.QueryName, Model.QueryGroupId) })
             </div>
         </div>
         <div class="row">
