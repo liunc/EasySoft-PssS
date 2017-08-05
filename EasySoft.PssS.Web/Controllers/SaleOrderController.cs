@@ -399,7 +399,7 @@ namespace EasySoft.PssS.Web.Controllers
         /// </summary>
         /// <param name="model">订单数据</param>
         /// <returns>返回Json数据视图</returns>
-        [Route("SaleOrder/AddOrder")]
+        [HttpPost]
         [MyAuthorize(AuthRoles = new string[] { "Admin" })]
         public ActionResult AddOrder(AddModel model)
         {
@@ -483,7 +483,7 @@ namespace EasySoft.PssS.Web.Controllers
         /// </summary>
         /// <param name="model">订单数据</param>
         /// <returns>返回Json数据视图</returns>
-        [Route("SaleOrder/Save")]
+        [HttpPost]
         [MyAuthorize(AuthRoles = new string[] { "Admin" })]
         public ActionResult Save(DetailModel model)
         {
@@ -505,6 +505,37 @@ namespace EasySoft.PssS.Web.Controllers
                 }
                 this.saleOrderService.Update(model.Id, model.Status, model.ActualAmount, this.Session["Mobile"].ToString());
                 result.Result = true;
+            }
+            catch (Exception ex)
+            {
+                result.BuilderErrorMessage(ex.Message);
+            }
+            return Json(result);
+        }
+
+        /// <summary>
+        /// 提交修改采购记录
+        /// </summary>
+        /// <param name="model">修改采购的数据</param>
+        /// <returns>返回执行结果</returns>
+        [HttpPost]
+        [MyAuthorize(AuthRoles = new string[] { "Admin" })]
+        public ActionResult Delete(string id)
+        {
+            JsonResultModel result = new JsonResultModel();
+            try
+            {
+                Validate validate = new Validate();
+                validate.CheckStringArgument(WebResource.Field_Id, id, true);
+                if (validate.IsFailed)
+                {
+                    result.BuilderErrorMessage(validate.ErrorMessages);
+                }
+                else
+                {
+                    this.saleOrderService.Delete(id);
+                    result.Result = true;
+                }
             }
             catch (Exception ex)
             {

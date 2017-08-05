@@ -84,7 +84,9 @@
 <div class="form-group">
     <button type="button" class="btn btn-default btn-block" onclick="window.location.href = '@ViewBag.PreviousUrl';">@WebResource.Button_Back</button>
 </div>
+@Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
 @Html.Action("Confirm", "Common", new { id = "confirmDelete", title = WebResource.Message_Confirm, confirmString = @WebResource.Message_ConfirmDelete, okButton = @WebResource.Button_Ok, cancelButton = @WebResource.Button_Cancel, okButtonClick = "confirmDelete();" })
+@section scripts {
 <script type="text/javascript">
     function edit() {
         if ('@Model.Status' == '@SaleOrderStatus.Finished') {
@@ -93,7 +95,7 @@
         window.location.href = '/SaleOrder/Edit/@Model.Id?item=@Model.SelectedItem&status=@Model.QueryStatus&page=@Model.PageIndex';
         return true;
     }
-    function deletePurchase() {
+    function deleteSaleOrder() {
         $('#confirmDelete').modal('show');
     }
     function confirmDelete() {
@@ -104,7 +106,7 @@
             data: { id: '@Model.Id' },
             success: function (result) {
                 if (result.Result) {
-                    window.location.href = '@ViewBag.PreviousUrl';
+                    window.location.href = $('#previous').attr('href');
                 }
                 else {
                     showError(result.Message);
@@ -120,4 +122,9 @@
         });
         return false;
     }
+    function showError(errorMessage) {
+        $('#errorMessage').html(errorMessage);
+        $('#alertError').modal();
+    }
 </script>
+    }
