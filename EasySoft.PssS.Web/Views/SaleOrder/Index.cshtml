@@ -58,7 +58,7 @@
 </div>
 @section footer {
     <div class="navbar-default navbar-fixed-bottom">
-        @Html.Action("PageNavigation", "Common", new { pageIndex = Model.PageIndex, totalCount = Model.TotalCount, url = string.Format("/SaleOrder/Index?item={0}&page=", Model.SelectedItem) })
+        @Html.Action("PageNavigation", "Common", new { pageIndex = Model.PageIndex, totalCount = Model.TotalCount, url = string.Format("/SaleOrder/Index?item={0}&status={1}&page=", Model.SelectedItem, Model.QueryStatus) })
 
         <div class="row">
             <a href="/SaleOrder/SearchCustomer" class="btn btn-success btn-block ">
