@@ -12,9 +12,8 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.DbRepository
 {
-    using Core.Persistence.RepositoryImplement;
+    using EasySoft.Core.Persistence.RepositoryImplement;
     using EasySoft.PssS.Domain.Entity;
-    using EasySoft.PssS.Domain.ValueObject;
     using EasySoft.PssS.Repository;
     using System;
     using System.Collections.Generic;
@@ -116,16 +115,17 @@ namespace EasySoft.PssS.DbRepository
         /// <returns>返回实体对象</returns>
         protected override CustomerGroup SetEntity(DbDataReader reader)
         {
-            CustomerGroup entity = new CustomerGroup
-            {
-                Id = reader["Id"].ToString(),
-                Name = reader["Name"].ToString(),
-                IsDefault = reader["IsDefault"].ToString(),
-                Remark = reader["Remark"].ToString()
-            };
-            entity.SetCreator(reader["Creator"].ToString(), Convert.ToDateTime(reader["CreateTime"]));
-            entity.SetMender(reader["Mender"].ToString(), Convert.ToDateTime(reader["ModifyTime"]));
-            return entity;
+            return new CustomerGroup
+            (
+                reader["Id"].ToString(),
+                reader["Name"].ToString(),
+                reader["IsDefault"].ToString(),
+                reader["Remark"].ToString(),
+                reader["Creator"].ToString(),
+                Convert.ToDateTime(reader["CreateTime"]),
+                reader["Mender"].ToString(),
+                Convert.ToDateTime(reader["ModifyTime"])
+           );
         }
 
         #endregion

@@ -12,6 +12,7 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Models.User
 {
+    using Core.Util;
     using EasySoft.PssS.Web.Resources;
     using System.Collections.Generic;
 
@@ -39,10 +40,10 @@ namespace EasySoft.PssS.Web.Models.User
         /// 提交验证
         /// </summary>
         /// <param name="errorMessages">返回的错误信息</param>
-        public void PostValidate(ref List<string> errorMessages)
+        public void PostValidate(ref Validate validate)
         {
-            ValidateHelper.CheckInputString(WebResource.Field_Mobile, this.Mobile, true, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
-            ValidateHelper.CheckInputString(WebResource.Field_Password, this.Password, true, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
+            this.Mobile = validate.CheckInputString(WebResource.Field_Mobile, this.Mobile, true, Constant.STRING_LENGTH_32);
+            this.Password = validate.CheckInputString(WebResource.Field_Password, this.Password, true, Constant.STRING_LENGTH_32);
         }
     }
 }

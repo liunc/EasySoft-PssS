@@ -1,0 +1,9 @@
+D:\github\EasySoft-PssS\EasySoft.Core.ViewModel\obj\Debug\EasySoft.Core.ViewModel.csprojResolveAssemblyReference.cache
+D:\github\EasySoft-PssS\EasySoft.Core.ViewModel\bin\Debug\EasySoft.Core.ViewModel.dll
+D:\github\EasySoft-PssS\EasySoft.Core.ViewModel\bin\Debug\EasySoft.Core.ViewModel.pdb
+D:\github\EasySoft-PssS\EasySoft.Core.ViewModel\bin\Debug\EasySoft.Core.Util.dll
+D:\github\EasySoft-PssS\EasySoft.Core.ViewModel\bin\Debug\HtmlSanitizationLibrary.dll
+D:\github\EasySoft-PssS\EasySoft.Core.ViewModel\bin\Debug\EasySoft.Core.Util.pdb
+D:\github\EasySoft-PssS\EasySoft.Core.ViewModel\bin\Debug\HtmlSanitizationLibrary.xml
+D:\github\EasySoft-PssS\EasySoft.Core.ViewModel\obj\Debug\EasySoft.Core.ViewModel.dll
+D:\github\EasySoft-PssS\EasySoft.Core.ViewModel\obj\Debug\EasySoft.Core.ViewModel.pdb

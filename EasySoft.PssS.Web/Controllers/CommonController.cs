@@ -15,8 +15,6 @@ namespace EasySoft.PssS.Web.Controllers
     using EasySoft.Core.Util;
     using EasySoft.PssS.Web.Models.Common;
     using EasySoft.PssS.Web.Resources;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Web.Mvc;
 
     /// <summary>
@@ -53,9 +51,9 @@ namespace EasySoft.PssS.Web.Controllers
         /// <returns>返回视图</returns>
         public PartialViewResult PageNavigation(int pageIndex, int totalCount, string url)
         {
-            return PartialView("_PageNavigation", new PageNavigationModel { PageIndex = pageIndex, TotalCount = totalCount, Url = url });
+            return PartialView("_PageNavigation", new PageNavigationModel { PageIndex = pageIndex, PageSize = Config.GetPageSize(), TotalCount = totalCount, Url = url });
         }
-        
+
         /// <summary>
         /// 获取对话框视图
         /// </summary>
@@ -66,15 +64,15 @@ namespace EasySoft.PssS.Web.Controllers
         /// <returns>返回视图</returns>
         public PartialViewResult Dialog(string id, string title, string messageBodyId, string okButton)
         {
-            List<string> errorMessages = new List<string>();
-            ValidateHelper.CheckInputString(WebResource.Dialog_Id, id, true, ValidateHelper.STRING_LENGTH_32, ref errorMessages);
-            ValidateHelper.CheckInputString(WebResource.Dialog_Title, title, true, ValidateHelper.STRING_LENGTH_32, ref errorMessages);
-            ValidateHelper.CheckInputString(WebResource.Dialog_MessageBodyId, messageBodyId, true, ValidateHelper.STRING_LENGTH_32, ref errorMessages);
-            ValidateHelper.CheckInputString(WebResource.Dialog_OkButton, okButton, true, ValidateHelper.STRING_LENGTH_32, ref errorMessages);
+            Validate validate = new Validate();
+            id = validate.CheckInputString(WebResource.Dialog_Id, id, true, Constant.STRING_LENGTH_32);
+            title = validate.CheckInputString(WebResource.Dialog_Title, title, true, Constant.STRING_LENGTH_32);
+            messageBodyId = validate.CheckInputString(WebResource.Dialog_MessageBodyId, messageBodyId, true, Constant.STRING_LENGTH_32);
+            okButton = validate.CheckInputString(WebResource.Dialog_OkButton, okButton, true, Constant.STRING_LENGTH_32);
 
-            if (errorMessages.Count > 0)
+            if (validate.IsFailed)
             {
-                throw new EasySoftException(string.Join("<br />", errorMessages));
+                throw new EasySoftException(string.Join("<br />", validate.ErrorMessages));
             }
 
             return PartialView("_Dialog", new DialogModel { Id = id, Title = title, MessageBodyId = messageBodyId, OkButton = okButton });
@@ -93,17 +91,17 @@ namespace EasySoft.PssS.Web.Controllers
         /// <returns>返回视图</returns>
         public PartialViewResult Confirm(string id, string title, string confirmString, string okButton, string cancelButton, string okButtonClick)
         {
-            List<string> errorMessages = new List<string>();
-            ValidateHelper.CheckInputString(WebResource.Dialog_Id, id, true, ValidateHelper.STRING_LENGTH_32, ref errorMessages);
-            ValidateHelper.CheckInputString(WebResource.Dialog_Title, title, true, ValidateHelper.STRING_LENGTH_32, ref errorMessages);
-            ValidateHelper.CheckInputString(WebResource.Dialog_ConfirmString, confirmString, true, ValidateHelper.STRING_LENGTH_120, ref errorMessages);
-            ValidateHelper.CheckInputString(WebResource.Dialog_OkButton, okButton, true, ValidateHelper.STRING_LENGTH_32, ref errorMessages);
-            ValidateHelper.CheckInputString(WebResource.Dialog_CancelButton, cancelButton, true, ValidateHelper.STRING_LENGTH_32, ref errorMessages);
-            ValidateHelper.CheckInputString(WebResource.Dialog_OkButton, okButtonClick, true, ValidateHelper.STRING_LENGTH_32, ref errorMessages);
+            Validate validate = new Validate();
+            id = validate.CheckInputString(WebResource.Dialog_Id, id, true, Constant.STRING_LENGTH_32);
+            title = validate.CheckInputString(WebResource.Dialog_Title, title, true, Constant.STRING_LENGTH_32);
+            confirmString = validate.CheckInputString(WebResource.Dialog_ConfirmString, confirmString, true, Constant.STRING_LENGTH_100);
+            okButton = validate.CheckInputString(WebResource.Dialog_OkButton, okButton, true, Constant.STRING_LENGTH_32);
+            cancelButton = validate.CheckInputString(WebResource.Dialog_CancelButton, cancelButton, true, Constant.STRING_LENGTH_32);
+            okButtonClick = validate.CheckInputString(WebResource.Dialog_OkButtonClick, okButtonClick, true, Constant.STRING_LENGTH_32);
 
-            if (errorMessages.Count > 0)
+            if (validate.IsFailed)
             {
-                throw new EasySoftException(string.Join("<br />", errorMessages));
+                throw new EasySoftException(string.Join("<br />", validate.ErrorMessages));
             }
 
             return PartialView("_Confirm", new DialogModel { Id = id, Title = title, OkButton = okButton, CancelButton = cancelButton, ConfirmString = confirmString, OkButtonClick = okButtonClick });

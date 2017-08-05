@@ -7,36 +7,35 @@
     ViewBag.Title = WebResource.Title_AddCustomerAddress;
     ViewBag.PreviousUrl = string.Format("/CustomerAddress/Index?customerId={0}&name={1}&groupId={2}&page={3}", Model.CustomerId, Model.QueryName, Model.QueryGroupId, Model.PageIndex);
 }
-<div class="col-xs-12">
-    <form id="formAdd" role="form">
-        <div class="form-group">
-            <input id="txtLinkman" name="txtLinkman" type="text" class="form-control" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Linkman,  Constant.STRING_LENGTH_50)" maxlength="50" required />
-        </div>
-        <div class="form-group">
-            <input id="txtMobile" name="txtMobile" type="text" class="form-control" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Mobile,  ValidateHelper.STRING_LENGTH_20)" maxlength="20" />
-        </div>
-        <div class="form-group">
-            <textarea class="form-control" rows="3" id="txtAddress" name="txtAddress" maxlength="120" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Address,  ValidateHelper.STRING_LENGTH_120)"></textarea>
-        </div>
-        <div class="checkbox">
-            <label>
-                <input id="cbIsDefault" type="checkbox">@WebResource.Field_SetDefault
-            </label>
-        </div>
-        <div class="row navbar-default navbar-fixed-bottom">
-            <div class="col-xs-6">
-                <div class="row">
-                    <button id="btnSubmit" type="submit" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Submit</button>
-                </div>
-            </div>
-            <div class="col-xs-6">
-                <div class="row">
-                    <button type="button" class="btn btn-default btn-block" onclick="window.history.back();" style="border-Radius:0px">@WebResource.Button_Back</button>
-                </div>
+<form id="formAdd" role="form">
+    <div class="form-group">
+        <input id="txtLinkman" name="txtLinkman" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Linkman,  Constant.STRING_LENGTH_10)" maxlength="@Constant.STRING_LENGTH_10" required />
+    </div>
+    <div class="form-group">
+        <input id="txtMobile" name="txtMobile" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Mobile,  Constant.STRING_LENGTH_16)" maxlength="@Constant.STRING_LENGTH_16" />
+    </div>
+    <div class="form-group">
+        <textarea class="form-control" rows="3" id="txtAddress" name="txtAddress" maxlength="120" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Address,  Constant.STRING_LENGTH_100)"></textarea>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input id="cbIsDefault" type="checkbox">@WebResource.Field_SetDefault
+        </label>
+    </div>
+    <div class="row navbar-default navbar-fixed-bottom">
+        <div class="col-xs-6">
+            <div class="row">
+                <button type="button" class="btn btn-default btn-block" onclick="window.history.back();" style="border-Radius:0px">@WebResource.Button_Back</button>
             </div>
         </div>
-    </form>
-</div>
+        <div class="col-xs-6">
+            <div class="row">
+                <button id="btnSubmit" type="submit" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Submit</button>
+            </div>
+        </div>
+        
+    </div>
+</form>
 
 @Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
 
@@ -52,29 +51,29 @@
                 rules: {
                     txtLinkman: {
                         required: true,
-                        maxlength: @Constant.STRING_LENGTH_50
+                        maxlength: @Constant.STRING_LENGTH_10
                         },
                     txtMobile: {
                         required: true,
-                        maxlength: @Constant.STRING_LENGTH_20
+                        maxlength: @Constant.STRING_LENGTH_16
                         },
                     txtAddress: {
                         required: true,
-                        maxlength: @Constant.STRING_LENGTH_120
+                        maxlength: @Constant.STRING_LENGTH_100
                         }
                 },
                 messages: {
                     txtLinkman: {
-                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Linkman)',
-                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Linkman, Constant.STRING_LENGTH_120)'
+                        required: '@Validate.GetPleaseInputFieldString(WebResource.Field_Linkman)',
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Linkman, Constant.STRING_LENGTH_10)'
                     },
                     txtMobile: {
-                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Mobile)',
-                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Mobile, Constant.STRING_LENGTH_20)'
+                        required: '@Validate.GetPleaseInputFieldString(WebResource.Field_Mobile)',
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Mobile, Constant.STRING_LENGTH_16)'
                     },
                     txtAddress: {
-                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Address)',
-                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Address, Constant.STRING_LENGTH_120)'
+                        required: '@Validate.GetPleaseInputFieldString(WebResource.Field_Address)',
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Address, Constant.STRING_LENGTH_100)'
                     }
                 },
                 //自定义错误消息放到哪里

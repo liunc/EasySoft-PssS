@@ -12,7 +12,8 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.DbRepository
 {
-    using Core.Persistence.RepositoryImplement;
+    using EasySoft.Core.Util;
+    using EasySoft.Core.Persistence.RepositoryImplement;
     using EasySoft.PssS.Domain.Entity;
     using EasySoft.PssS.Domain.ValueObject;
     using EasySoft.PssS.Repository;
@@ -45,14 +46,14 @@ namespace EasySoft.PssS.DbRepository
             if (!string.IsNullOrEmpty(category))
             {
                 conditions.Add("[Category] = @Category");
-                para = DbHelper.CreateParameter("Category", DbType.String, 10);
+                para = DbHelper.CreateParameter("Category", DbType.String, Constant.STRING_LENGTH_1);
                 para.Value = category;
                 paras.Add(para);
             }
             if (!string.IsNullOrEmpty(item))
             {
                 conditions.Add("[Item] = @Item");
-                para = DbHelper.CreateParameter("Item", DbType.String, 20);
+                para = DbHelper.CreateParameter("Item", DbType.String, Constant.STRING_LENGTH_10);
                 para.Value = item;
                 paras.Add(para);
             }
@@ -67,6 +68,44 @@ namespace EasySoft.PssS.DbRepository
             return this.Paging(cmdText, pageSize, totalCount, pageIndex, "[CreateTime] DESC", paras.ToArray());
         }
 
+        /// <summary>
+        /// 查询可交付的采购数据
+        /// </summary>
+        /// <param name="category">产品分类</param>
+        /// <returns>返回采购数据集合</returns>
+        public List<Purchase> GetDeliverable(string category)
+        {
+            List<string> conditions = new List<string>();
+            List<DbParameter> paras = new List<DbParameter>();
+            DbParameter para = null;
+            if (!string.IsNullOrEmpty(category))
+            {
+                conditions.Add("[Category] = @Category");
+                para = DbHelper.CreateParameter("Category", DbType.String, Constant.STRING_LENGTH_1);
+                para.Value = category;
+                paras.Add(para);
+            }
+            conditions.Add(string.Format("[Status] <> '{0}'", PurchaseStatus.Finished));
+            string whereCmdText = string.Empty;
+            if (conditions.Count > 0)
+            {
+                whereCmdText = string.Format("WHERE {0}", string.Join(" AND ", conditions.ToArray()));
+            }
+            string cmdText = string.Format("{0} {1} ORDER BY [CreateTime] DESC", this.Resolver.SelectAllCommandText, whereCmdText);
+            DbDataReader reader = DbHelper.ExecuteReader(cmdText, paras.ToArray());
+
+            List<Purchase> entities = new List<Purchase>();
+            while (reader.Read())
+            {
+                entities.Add(this.SetEntity(reader));
+            }
+            if (!reader.IsClosed)
+            {
+                reader.Close();
+            }
+            return entities;
+        }
+
         #endregion
 
         #region 私有方法
@@ -78,24 +117,25 @@ namespace EasySoft.PssS.DbRepository
         /// <returns>返回实体对象</returns>
         protected override Purchase SetEntity(DbDataReader reader)
         {
-            Purchase entity = new Purchase
-            {
-                Id = reader["Id"].ToString(),
-                Date = Convert.ToDateTime(reader["Date"]),
-                Category = (PurchaseCategory)Enum.Parse(typeof(PurchaseCategory), reader["Category"].ToString()),
-                Item = reader["Item"].ToString(),
-                Quantity = Convert.ToDecimal(reader["Quantity"]),
-                Unit = reader["Unit"].ToString(),
-                Supplier = reader["Supplier"].ToString(),
-                Inventory = Convert.ToDecimal(reader["Inventory"]),
-                Cost = Convert.ToDecimal(reader["Cost"]),
-                ProfitLoss = Convert.ToDecimal(reader["ProfitLoss"]),
-                Remark = reader["Remark"].ToString(),
-                Status = (PurchaseStatus)Enum.Parse(typeof(PurchaseStatus), reader["Status"].ToString())
-            };
-            entity.SetCreator(reader["Creator"].ToString(), Convert.ToDateTime(reader["CreateTime"]));
-            entity.SetMender(reader["Mender"].ToString(), Convert.ToDateTime(reader["ModifyTime"]));
-            return entity;
+            return new Purchase
+            (
+                reader["Id"].ToString(),
+                Convert.ToDateTime(reader["Date"]),
+                reader["Category"].ToString(),
+                reader["Item"].ToString(),
+                Convert.ToDecimal(reader["Quantity"]),
+                reader["Unit"].ToString(),
+                reader["Supplier"].ToString(),
+                Convert.ToDecimal(reader["Inventory"]),
+                Convert.ToDecimal(reader["Cost"]),
+                Convert.ToDecimal(reader["ProfitLoss"]),
+                reader["Remark"].ToString(),
+                reader["Status"].ToString(),
+                reader["Creator"].ToString(),
+                Convert.ToDateTime(reader["CreateTime"]),
+                reader["Mender"].ToString(),
+                Convert.ToDateTime(reader["ModifyTime"])
+            );
         }
 
         #endregion

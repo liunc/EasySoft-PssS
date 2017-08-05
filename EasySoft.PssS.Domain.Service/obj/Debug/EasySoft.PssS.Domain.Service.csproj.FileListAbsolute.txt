@@ -44,3 +44,5 @@ D:\github\EasySoft-PssS\EasySoft.PssS.Domain.Service\bin\Debug\EasySoft.Core.Uti
 D:\github\EasySoft-PssS\EasySoft.PssS.Domain.Service\bin\Debug\EasySoft.Core.Persistence.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Domain.Service\bin\Debug\HtmlSanitizationLibrary.dll
 D:\github\EasySoft-PssS\EasySoft.PssS.Domain.Service\bin\Debug\HtmlSanitizationLibrary.xml
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.Service\bin\Debug\EasySoft.PssS.Application.DataTransfer.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.Service\bin\Debug\EasySoft.PssS.Application.DataTransfer.pdb

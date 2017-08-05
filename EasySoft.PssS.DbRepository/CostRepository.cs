@@ -12,15 +12,13 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.DbRepository
 {
-    using Core.Persistence.RepositoryImplement;
-    using Domain.ValueObject;
+    using EasySoft.Core.Persistence.RepositoryImplement;
     using EasySoft.PssS.Domain.Entity;
     using EasySoft.PssS.Repository;
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
-    using System.Data.SqlClient;
 
     /// <summary>
     /// 成本仓储实现类
@@ -96,13 +94,13 @@ namespace EasySoft.PssS.DbRepository
         protected override Cost SetEntity(DbDataReader reader)
         {
             return new Cost
-            {
-                Id = reader["Id"].ToString(),
-                RecordId = reader["RecordId"].ToString(),
-                Category = (CostCategory)Enum.Parse(typeof(CostCategory), reader["Category"].ToString()),
-                Item = reader["Item"].ToString(),
-                Money = Convert.ToDecimal(reader["Money"])
-            };
+            (
+                reader["Id"].ToString(),
+                reader["RecordId"].ToString(),
+                reader["Category"].ToString(),
+                reader["Item"].ToString(),
+                Convert.ToDecimal(reader["Money"])
+            );
         }
 
         #endregion

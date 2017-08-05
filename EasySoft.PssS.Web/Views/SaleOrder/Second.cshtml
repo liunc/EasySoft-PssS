@@ -1,0 +1,150 @@
+﻿@using EasySoft.PssS.Domain.ValueObject;
+@using EasySoft.Core.Util;
+@using EasySoft.PssS.Web.Resources;
+
+@model EasySoft.PssS.Web.Models.SaleOrder.SaleOrderSecondModel
+@{
+    ViewBag.Title = WebResource.Title_AddSaleOrder;
+    ViewBag.PreviousUrl = string.Format("/SaleOrder/First?id={0}&linkMan={1}", Model.Id, Model.LinkMan);
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="form-group input-group col-xs-12">
+                <input id="txtLinkMan" class="form_datetime form-control" type="text" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-search text-success"></span></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12" style="padding-bottom:65px">
+        @foreach (var data in Model.CustomerAddress)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @data.Linkman &nbsp;&nbsp; @WebResource.Field_Mobile@WebResource.Field_Colon@data.Mobile
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @WebResource.Field_Address@WebResource.Field_Colon@data.Address
+
+                            <br />
+                            @if (data.NeedExpress == Constant.COMMON_Y)
+                            {
+                                <a href="javascript:''" onclick="return selected('@data.Id', '@data.CustomerId', '@data.Linkman', '@data.Mobile', '@data.Address', '@Constant.COMMON_N', '@Constant.COMMON_Y')">取消快递</a>
+                            }
+                            else
+                            {
+                                <a href="javascript:''" onclick="return selected('@data.Id', '@data.CustomerId', '@data.Linkman', '@data.Mobile', '@data.Address', '@Constant.COMMON_Y', '@Constant.COMMON_Y')">需要快递</a>
+                            }
+                            @if (data.Selected == Constant.COMMON_Y)
+                            {
+                                <a href="javascript:''" onclick="return selected('@data.Id', '@data.CustomerId', '@data.Linkman', '@data.Mobile', '@data.Address', '@Constant.COMMON_N', '@Constant.COMMON_N')">取消选中</a>
+                            }
+                            else
+                            {
+                                <a href="javascript:''" onclick="return selected('@data.Id', '@data.CustomerId', '@data.Linkman', '@data.Mobile', '@data.Address', '@Constant.COMMON_N', '@Constant.COMMON_Y')">选中</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section footer {
+    <div class="navbar-default navbar-fixed-bottom">
+        <div class="col-xs-6">
+            <div class="row">
+                <button type="button" class="btn btn-default btn-block" onclick="window.location.href = '@ViewBag.PreviousUrl';" style="border-Radius:0px">@WebResource.Button_Last</button>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="row">
+                <button id="btnSubmit" onclick="return submit()" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Next</button>
+            </div>
+        </div>
+    </div>
+}
+
+@Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+
+            $('#txtLinkMan').blur(function () {
+                var id = '@Model.Id';
+                var item = $('#txtLinkMan').val();
+
+                window.location.href = '/SaleOrder/Second?id=' + id + '&linkMan=' + item;
+            });
+        });
+        function selected(id, customerId, linkMan, mobile, address, needExpress, selected) {
+            if (needExpress == '@Constant.COMMON_Y') {
+                selected = needExpress;
+            }
+            var model = {};
+            model.Id = id;
+            model.CustomerId = customerId;
+            model.LinkMan = linkMan;
+            model.Mobile = mobile;
+            model.Address = address;
+            model.NeedExpress = needExpress;
+            model.Selected = selected;
+            $.ajax({
+                type: "post",
+                url: "/SaleOrder/Selected",
+                data: { id: '@Model.Id', model: model },
+                success: function (result) {
+                    if (result.Result) {
+                        window.location.href = "/SaleOrder/Second?id=@Model.Id&linkMan=@Model.LinkMan";
+                    }
+                    else{
+                        showError(result.Message);
+                    }
+                    
+                },
+                error: function () {
+                    showError('System Error');
+                },
+                complete: function () {
+                    $('#btnSubmit').removeAttr('disabled');
+                }
+            });
+            return false;
+        }
+        function submit() {
+            $('#btnSubmit').attr({ 'disabled': 'disabled' });
+            $.ajax({
+                type: "post",
+                url: "/SaleOrder/PostSecond",
+                data: { id: '@Model.Id', linkMan: '@Model.LinkMan' },
+                success: function (result) {
+                    if (result.Result) {
+                        window.location.href = result.Data;
+                    }
+                    else {
+                        showError(result.Message);
+                    }
+                    return false;
+                },
+                error: function () {
+                    showError('System Error');
+                },
+                complete: function () {
+                    $('#btnSubmit').removeAttr('disabled');
+                }
+            });
+            return false;
+        }
+        function showError(errorMessage) {
+            $('#errorMessage').html(errorMessage);
+            $('#alertError').modal();
+        }
+    </script>
+}
+

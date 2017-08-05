@@ -123,9 +123,6 @@
   <data name="Button_Submit" xml:space="preserve">
     <value>提交</value>
   </data>
-  <data name="Common_FullStop" xml:space="preserve">
-    <value>。</value>
-  </data>
   <data name="Title_Index" xml:space="preserve">
     <value>首页</value>
   </data>
@@ -186,7 +183,7 @@
   <data name="Button_Edit" xml:space="preserve">
     <value>修改</value>
   </data>
-  <data name="Button_Output" xml:space="preserve">
+  <data name="Button_Delivery" xml:space="preserve">
     <value>出库</value>
   </data>
   <data name="Button_OverOrLoss" xml:space="preserve">
@@ -261,18 +258,6 @@
   <data name="ProfitLoss_Profit" xml:space="preserve">
     <value>增益</value>
   </data>
-  <data name="Validate_DecimalFieldRange" xml:space="preserve">
-    <value>请输入{0}，值为[{1} - {2}]之间的整数或小数。</value>
-  </data>
-  <data name="Validate_IntFieldRange" xml:space="preserve">
-    <value>请输入{0}，值为[{1} - {2}]之间的整数。</value>
-  </data>
-  <data name="Validate_PleaseInputField" xml:space="preserve">
-    <value>请输入{0}。</value>
-  </data>
-  <data name="Validate_PleaseSelectField" xml:space="preserve">
-    <value>请选择{0}。</value>
-  </data>
   <data name="Button_Loss" xml:space="preserve">
     <value>报损</value>
   </data>
@@ -291,14 +276,8 @@
   <data name="Title_Profit" xml:space="preserve">
     <value>报益</value>
   </data>
-  <data name="Validate_ArgumentInValid" xml:space="preserve">
-    <value>参数[{0}]无效</value>
-  </data>
-  <data name="Validate_FieldLengthOverflow" xml:space="preserve">
-    <value>请输入{0}，字数在[{1} - {2}]个之间。</value>
-  </data>
   <data name="Field_PurchaseCategory" xml:space="preserve">
-    <value>采购类型</value>
+    <value>采购项类型</value>
   </data>
   <data name="Field_CostItem" xml:space="preserve">
     <value>成本项</value>
@@ -318,7 +297,7 @@
   <data name="Field_TotalIncome" xml:space="preserve">
     <value>收益(元)</value>
   </data>
-  <data name="Title_OutboundRecord" xml:space="preserve">
+  <data name="Title_DeliveryRecord" xml:space="preserve">
     <value>出库记录</value>
   </data>
   <data name="Title_OutwardOrder" xml:space="preserve">
@@ -335,12 +314,6 @@
   </data>
   <data name="Field_Money" xml:space="preserve">
     <value>金额</value>
-  </data>
-  <data name="Validate_FieldMaxLength" xml:space="preserve">
-    <value>请输入{0}，最多{1}个字。</value>
-  </data>
-  <data name="Validate_PleaseInputDateString" xml:space="preserve">
-    <value>请输入格式为yyyy-MM-dd的日期字符串。</value>
   </data>
   <data name="Button_Close" xml:space="preserve">
     <value>关闭</value>
@@ -372,17 +345,17 @@
   <data name="Message_Confirm" xml:space="preserve">
     <value>确认</value>
   </data>
-  <data name="Title_OutboundFirst" xml:space="preserve">
+  <data name="Title_Delivery_First" xml:space="preserve">
     <value>出库 - 选择产品</value>
   </data>
-  <data name="Title_OutboundFour" xml:space="preserve">
+  <data name="Title_Delivery_Fourth" xml:space="preserve">
     <value>出库 - 完成</value>
   </data>
-  <data name="Title_OutboundSecond" xml:space="preserve">
+  <data name="Title_Delivery_Second" xml:space="preserve">
     <value>出库 - 选择包装</value>
   </data>
-  <data name="Title_OutboundThird" xml:space="preserve">
-    <value>出库 - 日期、成本及备注</value>
+  <data name="Title_Delivery_Third" xml:space="preserve">
+    <value>出库 - 选择订单</value>
   </data>
   <data name="Title_AddCustomer" xml:space="preserve">
     <value>新增客户</value>
@@ -455,5 +428,134 @@
   </data>
   <data name="Button_Save" xml:space="preserve">
     <value>保存</value>
+  </data>
+  <data name="PurchaseItemCategory_Pack" xml:space="preserve">
+    <value>包装</value>
+  </data>
+  <data name="PurchaseItemCategory_Product" xml:space="preserve">
+    <value>产品</value>
+  </data>
+  <data name="Dialog_OkButtonClick" xml:space="preserve">
+    <value>确定按钮的JS事件</value>
+  </data>
+  <data name="Field_Loss" xml:space="preserve">
+    <value>损耗</value>
+  </data>
+  <data name="Field_Profit" xml:space="preserve">
+    <value>增益</value>
+  </data>
+  <data name="Field_Purchase" xml:space="preserve">
+    <value>采购</value>
+  </data>
+  <data name="Field_Sale" xml:space="preserve">
+    <value>销售</value>
+  </data>
+  <data name="Field_Category" xml:space="preserve">
+    <value>分类</value>
+  </data>
+  <data name="Field_Unit" xml:space="preserve">
+    <value>单位</value>
+  </data>
+  <data name="Field_DeliveryQuantity" xml:space="preserve">
+    <value>出库数量</value>
+  </data>
+  <data name="Field_PackQuantity" xml:space="preserve">
+    <value>包装数量</value>
+  </data>
+  <data name="Field_PackUnit" xml:space="preserve">
+    <value>包装单位</value>
+  </data>
+  <data name="Field_PurchaseId" xml:space="preserve">
+    <value>采购Id</value>
+  </data>
+  <data name="Field_MaxDeliveryQuantity" xml:space="preserve">
+    <value>最多{0}</value>
+  </data>
+  <data name="Button_Next" xml:space="preserve">
+    <value>下一步</value>
+  </data>
+  <data name="Message_DeliverySessionOut" xml:space="preserve">
+    <value>会话失效，请重新提交。</value>
+  </data>
+  <data name="Button_Last" xml:space="preserve">
+    <value>上一步</value>
+  </data>
+  <data name="Message_NoPurchaseItem" xml:space="preserve">
+    <value>找不到Item等于{0}的PurchaseItem数据。</value>
+  </data>
+  <data name="Field_ExpressBill" xml:space="preserve">
+    <value>快递单号</value>
+  </data>
+  <data name="Field_ExpressCompany" xml:space="preserve">
+    <value>快递公司</value>
+  </data>
+  <data name="Field_CostCategory" xml:space="preserve">
+    <value>成本项分类</value>
+  </data>
+  <data name="Field_OrderId" xml:space="preserve">
+    <value>订单Id</value>
+  </data>
+  <data name="Field_Product" xml:space="preserve">
+    <value>产品</value>
+  </data>
+  <data name="Title_Sale" xml:space="preserve">
+    <value>销售</value>
+  </data>
+  <data name="Title_SaleStock" xml:space="preserve">
+    <value>销售库存</value>
+  </data>
+  <data name="Button_Add" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="Title_AddSaleOrder" xml:space="preserve">
+    <value>添加新订单</value>
+  </data>
+  <data name="Button_Search" xml:space="preserve">
+    <value>查找</value>
+  </data>
+  <data name="Field_ActualAmount" xml:space="preserve">
+    <value>已付款</value>
+  </data>
+  <data name="Title_AddSaleOrder_SearchCustomer" xml:space="preserve">
+    <value>添加新订单_查找客户</value>
+  </data>
+  <data name="Title_AddSaleOrder_SelectCustomerAddress" xml:space="preserve">
+    <value>添加新订单_选择客户地址</value>
+  </data>
+  <data name="Field_NeedExpress" xml:space="preserve">
+    <value>需要快递</value>
+  </data>
+  <data name="Field_Total" xml:space="preserve">
+    <value>总计</value>
+  </data>
+  <data name="Title_AddSaleOrder_Detail" xml:space="preserve">
+    <value>添加新订单_明细</value>
+  </data>
+  <data name="Field_Discount" xml:space="preserve">
+    <value>折扣</value>
+  </data>
+  <data name="Field_Price" xml:space="preserve">
+    <value>单价</value>
+  </data>
+  <data name="Field_Status" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="Field_Finished" xml:space="preserve">
+    <value>已完成</value>
+  </data>
+  <data name="Field_Ordered" xml:space="preserve">
+    <value>已下单</value>
+  </data>
+  <data name="Field_Received" xml:space="preserve">
+    <value>已收货未付款</value>
+  </data>
+  <data name="Field_Sent" xml:space="preserve">
+    <value>已发货</value>
+  </data>
+  <data name="Title_SaleOrderDetail" xml:space="preserve">
+    <value>订单明细</value>
+  </data>
+  <data name="Title_EditSaleOrder" xml:space="preserve">
+    <value>修改订单</value>
   </data>
 </root>

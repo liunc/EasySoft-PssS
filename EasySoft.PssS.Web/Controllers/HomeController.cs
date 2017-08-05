@@ -32,7 +32,7 @@ namespace EasySoft.PssS.Web.Controllers
         {
             IndexModel model = new IndexModel();
             model.Name = this.Session["Name"].ToString();
-            model.Moblie = this.Session["Moblie"].ToString();
+            model.Moblie = this.Session["Mobile"].ToString();
             return View(model);
         }
 

@@ -1,0 +1,92 @@
+﻿@using EasySoft.PssS.Domain.ValueObject;
+@using EasySoft.PssS.Web.Resources;
+
+@model EasySoft.PssS.Web.Models.SaleOrder.IndexModel
+@{
+    ViewBag.Title = WebResource.Title_SaleOrder;
+    ViewBag.PreviousUrl = "/Home/Index";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="form-group col-xs-12">
+                <select id="ddlPurchaseItem" class="form-control input-sm">
+                    <option value="">@WebResource.Message_AllItem</option>
+                    @foreach (var item in ParameterHelper.GetPurchaseItem(PurchaseItemCategory.Product, false))
+            {
+                if (!string.IsNullOrWhiteSpace(Model.SelectedItem) && item.Key == Model.SelectedItem)
+                {
+                            <option selected value="@item.Key">@item.Value.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Key">@item.Value.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12" style="padding-bottom:65px">
+        @foreach (var data in Model.PageData)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading" onclick="window.location.href='@string.Format("/SaleOrder/Detail/{0}?item={1}&status={2}&page={3}",data.Id, Model.SelectedItem, Model.QueryStatus, Model.PageIndex)'">
+                    <h5 class="panel-title">
+                        @data.Date @data.ItemName@data.Quantity.ToString("0.##")@data.Unit &nbsp;&nbsp; @data.StatusName
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @data.Linkman &nbsp;&nbsp; @WebResource.Field_Mobile@WebResource.Field_Colon@data.Mobile 
+                            <br />
+                            @WebResource.Field_Address@WebResource.Field_Colon@data.Address
+                            @if (!string.IsNullOrWhiteSpace(data.Remark))
+                            {
+                                <br />
+                                @WebResource.Field_Remark@WebResource.Field_Colon@data.Remark
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section footer {
+    <div class="navbar-default navbar-fixed-bottom">
+        @Html.Action("PageNavigation", "Common", new { pageIndex = Model.PageIndex, totalCount = Model.TotalCount, url = string.Format("/SaleOrder/Index?item={0}&page=", Model.SelectedItem) })
+
+        <div class="row">
+            <a href="/SaleOrder/SearchCustomer" class="btn btn-success btn-block ">
+                <span class="glyphicon glyphicon-plus"></span>
+                @WebResource.Title_AddSaleOrder
+            </a>
+        </div>
+    </div>
+}
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+
+            $('#ddlPurchaseItem').change(function () {
+                var item = $('#ddlPurchaseItem').val();
+                window.location.href = '/SaleOrder/Index?item=' + item + '&status=@Model.QueryStatus&page=1';
+            });
+        });
+
+        function getProfitLossStatus(profitLoss) {
+            var str = profitLoss;
+            if (profitLoss < 0) {
+                str = '<span style="color: #ff0000">' + str + '</span>';
+            }
+            return str;
+        }
+
+    </script>
+}

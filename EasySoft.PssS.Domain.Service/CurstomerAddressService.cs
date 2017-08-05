@@ -80,7 +80,7 @@ namespace EasySoft.PssS.Domain.Service
                         throw new ArgumentNullException("DbTransaction");
                     }
                     CustomerAddress entity = new CustomerAddress();
-                    entity.Add(customerId,address, mobile, linkname, isDefault, creator);
+                    entity.Create(customerId,address, mobile, linkname, isDefault, creator);
                     if (entity.IsDefaultAddress())
                     {
                         CustomerAddress defaultEntity = this.customerAddressRepository.GetDefaultAddres(trans, customerId);
@@ -222,19 +222,16 @@ namespace EasySoft.PssS.Domain.Service
                 }
             }
         }
-        /*
+
         /// <summary>
-        /// 查询客户分组表信息，用于列表分页显示
+        /// 查询客户地址信息
         /// </summary>
-        /// <param name="pageIndex">当前页码</param>
-        /// <param name="pageSize">数据源中每页要显示的行的数目</param>
-        /// <param name="totalCount">数据源总记录数</param>
-        /// <returns>返回客户分组数据</returns>
-        public List<CustomerGroup> Search(int pageIndex, int pageSize, ref int totalCount)
+        /// <param name="linkMan">联系人</param>
+        /// <returns>返回客户地址数据集合</returns>
+        public List<CustomerAddress> SearchByLinkMan(string linkMan)
         {
-            return this.customerGroupRepository.Search(pageIndex, pageSize, ref totalCount);
+            return this.customerAddressRepository.SearchByLinkMan(linkMan);
         }
-        */
 
         /// <summary>
         /// 根据Id查找一条客户分组数据

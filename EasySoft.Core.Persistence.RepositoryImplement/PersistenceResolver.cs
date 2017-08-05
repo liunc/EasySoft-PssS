@@ -17,6 +17,7 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
     using System.Reflection;
     using System.Collections.Generic;
     using Persistence;
+    using System.Data;
 
     /// <summary>
     /// 持久化解析器类
@@ -411,7 +412,7 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
                     }
                 }
             }
-
+            
             PersistenceCache.SetListObjects(this.AllColumnsKey, this.allColumns);
             PersistenceCache.SetListObjects(this.InsertColumnsKey, this.insertColumns);
             PersistenceCache.SetListObjects(this.UpdateColumnsKey, this.updateColumns);
@@ -420,6 +421,7 @@ namespace EasySoft.Core.Persistence.RepositoryImplement
             PersistenceCache.SetDbParameters(this.UpdateParametersKey, this.updateParameters);
             PersistenceCache.SetDbParameters(this.PrimaryKeyParametersKey, this.primaryKeyParameters);
         }
+        
 
         #endregion
 

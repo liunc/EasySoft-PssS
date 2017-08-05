@@ -79,9 +79,9 @@ namespace EasySoft.PssS.Web.Models.CustomerAddress
         public void PostValidate(Validate validate)
         {
             this.Id = validate.CheckInputString(WebResource.Field_Id, this.Id, true, Constant.STRING_LENGTH_32);
-            this.Linkman = validate.CheckInputString(WebResource.Field_Linkman, this.Linkman, true, Constant.STRING_LENGTH_50);
-            this.Mobile = validate.CheckInputString(WebResource.Field_Mobile, this.Mobile, true, Constant.STRING_LENGTH_20);
-            this.Address = validate.CheckInputString(WebResource.Field_Address, this.Address, true, Constant.STRING_LENGTH_120);
+            this.Linkman = validate.CheckInputString(WebResource.Field_Linkman, this.Linkman, true, Constant.STRING_LENGTH_10);
+            this.Mobile = validate.CheckInputString(WebResource.Field_Mobile, this.Mobile, true, Constant.STRING_LENGTH_16);
+            this.Address = validate.CheckInputString(WebResource.Field_Address, this.Address, true, Constant.STRING_LENGTH_100);
         }
 
         /// <summary>

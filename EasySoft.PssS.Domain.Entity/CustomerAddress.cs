@@ -12,8 +12,9 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Domain.Entity
 {
-    using Core.Util;
     using EasySoft.Core.Persistence;
+    using EasySoft.Core.Util;
+    using System;
     using System.Data;
 
     /// <summary>
@@ -27,32 +28,67 @@ namespace EasySoft.PssS.Domain.Entity
         /// <summary>
         /// 获取或设置客户Id
         /// </summary>
-        [Column(Name = "CustomerId", DataType = DbType.String, Size = 32)]
-        public string CustomerId { get; set; }
+        [Column(Name = "CustomerId", DataType = DbType.String, Size = Constant.STRING_LENGTH_32)]
+        public string CustomerId { get; private set; }
 
         /// <summary>
         /// 获取或设置地址
         /// </summary>
-        [Column(Name = "Address", DataType = DbType.String, Size = 120)]
-        public string Address { get; set; }
+        [Column(Name = "Address", DataType = DbType.String, Size = Constant.STRING_LENGTH_100)]
+        public string Address { get; private set; }
 
         /// <summary>
         /// 获取或设置手机号
         /// </summary>
-        [Column(Name = "Mobile", DataType = DbType.String, Size = 20)]
-        public string Mobile { get; set; }
+        [Column(Name = "Mobile", DataType = DbType.String, Size = Constant.STRING_LENGTH_16)]
+        public string Mobile { get; private set; }
 
         /// <summary>
         /// 获取或设置联系人
         /// </summary>
-        [Column(Name = "Linkman", DataType = DbType.String, Size = 50)]
-        public string Linkman { get; set; }
+        [Column(Name = "Linkman", DataType = DbType.String, Size = Constant.STRING_LENGTH_10)]
+        public string Linkman { get; private set; }
 
         /// <summary>
         /// 获取或设置是否为默认地址
         /// </summary>
-        [Column(Name = "IsDefault", DataType = DbType.String, Size = 1)]
-        public string IsDefault { get; set; }
+        [Column(Name = "IsDefault", DataType = DbType.String, Size = Constant.STRING_LENGTH_1)]
+        public string IsDefault { get; private set; }
+
+        #endregion
+
+        #region  构造函数
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public CustomerAddress()
+        {
+
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <param name="customerId">客户ID</param>
+        /// <param name="address">地址</param>
+        /// <param name="mobile">手机号</param>
+        /// <param name="linkman">联系人</param>
+        /// <param name="isDefault">是否默认设置</param>
+        /// <param name="creator">创建人</param>
+        /// <param name="createTime">创建时间</param>
+        /// <param name="mender">修改人</param>
+        /// <param name="modifyTime">修改时间</param>
+        public CustomerAddress(string id, string customerId, string address, string mobile, string linkman, string isDefault, string creator, DateTime createTime, string mender, DateTime modifyTime)
+            : base(id, creator, createTime, mender, modifyTime)
+        {
+            this.CustomerId = customerId;
+            this.Address = address;
+            this.Mobile = mobile;
+            this.Linkman = linkman;
+            this.IsDefault = isDefault;
+        }
 
         #endregion
 
@@ -67,13 +103,14 @@ namespace EasySoft.PssS.Domain.Entity
         /// <param name="linkman">联系人</param>
         /// <param name="isDefault">是否默认地址</param>
         /// <param name="creator">创建人</param>
-        public void Add(string customerId, string address, string mobile, string linkman, string isDefault, string creator)
+        public void Create(string customerId, string address, string mobile, string linkman, string isDefault, string creator)
         {
-            this.NewId();
+            base.Create(creator);
             this.CustomerId = customerId;
             this.IsDefault = isDefault;
-            this.SetCreator(creator);
-            this.Update(address, mobile, linkman, creator);
+            this.Address = address;
+            this.Mobile = mobile;
+            this.Linkman = linkman;
         }
 
         /// <summary>
@@ -85,10 +122,10 @@ namespace EasySoft.PssS.Domain.Entity
         /// <param name="mender">修改人</param>
         public void Update(string address, string mobile, string linkman, string mender)
         {
+            base.Update(mender);
             this.Address = address;
             this.Mobile = mobile;
             this.Linkman = linkman;
-            this.SetMender(mender);
         }
 
         /// <summary>
@@ -98,7 +135,7 @@ namespace EasySoft.PssS.Domain.Entity
         public void SetDefault(string mender)
         {
             this.IsDefault = Constant.COMMON_Y;
-            this.SetMender(mender);
+            this.Update(mender);
         }
 
         /// <summary>
@@ -108,7 +145,7 @@ namespace EasySoft.PssS.Domain.Entity
         public void CancelDefault(string mender)
         {
             this.IsDefault = Constant.COMMON_N;
-            this.SetMender(mender);
+            this.Update(mender);
         }
 
         /// <summary>
@@ -128,7 +165,7 @@ namespace EasySoft.PssS.Domain.Entity
         {
             return this.IsDefault == Constant.COMMON_N;
         }
-        
+
         #endregion
     }
 }

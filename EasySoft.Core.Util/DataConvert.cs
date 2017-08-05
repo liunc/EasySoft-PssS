@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------
-// 系统名称：EasySoft PssS
+// 系统名称：EasySoft Core
 // 项目名称：工具类库
 // 创 建 人：刘年超
 // 创建时间：2017-01-12
@@ -65,6 +65,19 @@ namespace EasySoft.Core.Util
             return ConvertDateToString(time, Constant.DATE_YYYY_MM_DD);
         }
 
+        /// <summary>
+        /// 将日期字符串转换为日期
+        /// </summary>
+        /// <param name="dateString">日期字符串</param>
+        /// <returns>返回日期</returns>
+        public static DateTime ConvertStringToDate(string dateString)
+        {
+            DateTime time = new DateTime();
+            dateString = string.Format("{0} 00:00:00.000", dateString);
+            DateTime.TryParse(dateString, out time);
+            return time;
+        }
+
         #endregion
 
         /// <summary>
@@ -74,11 +87,12 @@ namespace EasySoft.Core.Util
         /// <returns>返回转换后的字符串</returns>
         public static string ConvertNullToEmptyString(string source)
         {
-            if(source == null)
+            if (source == null)
             {
                 return string.Empty;
             }
             return source.Trim();
         }
+
     }
 }

@@ -156,3 +156,7 @@ D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.Util.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.Persistence.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.Persistence.Repository.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.Persistence.RepositoryImplement.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.ViewModel.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.Core.ViewModel.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.Application.DataTransfer.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Web\bin\EasySoft.PssS.Application.DataTransfer.pdb

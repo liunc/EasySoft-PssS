@@ -1,0 +1,9 @@
+D:\github\EasySoft-PssS\EasySoft.PssS.Application.DataTransfer\bin\Debug\EasySoft.PssS.Application.DataTransfer.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Application.DataTransfer\bin\Debug\EasySoft.PssS.Application.DataTransfer.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Application.DataTransfer\obj\Debug\EasySoft.PssS.Application.DataTransfer.csprojResolveAssemblyReference.cache
+D:\github\EasySoft-PssS\EasySoft.PssS.Application.DataTransfer\obj\Debug\EasySoft.PssS.Application.DataTransfer.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Application.DataTransfer\obj\Debug\EasySoft.PssS.Application.DataTransfer.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Application.DataTransfer\bin\Debug\EasySoft.Core.Util.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Application.DataTransfer\bin\Debug\HtmlSanitizationLibrary.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Application.DataTransfer\bin\Debug\EasySoft.Core.Util.pdb
+D:\github\EasySoft-PssS\EasySoft.PssS.Application.DataTransfer\bin\Debug\HtmlSanitizationLibrary.xml

@@ -29,37 +29,37 @@ namespace EasySoft.PssS.Domain.Entity
         /// <summary>
         /// 获取或设置关联Id
         /// </summary>
-        [Column(Name = "RecordId", DataType = DbType.String, Size = 36, AllowEdit = false)]
+        [Column(Name = "RecordId", DataType = DbType.String, Size = Constant.STRING_LENGTH_32, AllowEdit = false)]
         public string RecordId { get; set; }
 
         /// <summary>
         /// 获取或设置目标类型
         /// </summary>
-        [Column(Name = "TargetType", DataType = DbType.String, Size = 10, AllowEdit =false)]
-        public ProfitLossTargetType TargetType { get; set; }
+        [Column(Name = "TargetType", DataType = DbType.String, Size = Constant.STRING_LENGTH_1, AllowEdit = false)]
+        public string TargetType { get; set; }
 
         /// <summary>
         /// 获取或设置分类
         /// </summary>
-        [Column(Name = "Category", DataType = DbType.String, Size = 10, AllowEdit =false)]
-        public ProfitLossCategory Category { get; set; }
+        [Column(Name = "Category", DataType = DbType.String, Size = Constant.STRING_LENGTH_1, AllowEdit = false)]
+        public string Category { get; set; }
 
         /// <summary>
         /// 获取或设置数量
         /// </summary>
-        [Column(Name = "Quantity", DataType = DbType.Decimal, Size = 18)]
+        [Column(Name = "Quantity", DataType = DbType.Decimal, Size = Constant.STRING_LENGTH_18)]
         public decimal Quantity { get; set; }
 
         /// <summary>
         /// 获取或设置备注
         /// </summary>
-        [Column(Name = "Remark", DataType = DbType.String, Size = 120)]
+        [Column(Name = "Remark", DataType = DbType.String, Size = Constant.STRING_LENGTH_100)]
         public string Remark { get; set; }
 
         /// <summary>
         /// 获取或设置创建者
         /// </summary>
-        [Column(Name = "Creator", DataType = DbType.String, Size = 20, AllowEdit = false)]
+        [Column(Name = "Creator", DataType = DbType.String, Size = Constant.STRING_LENGTH_16, AllowEdit = false)]
         public string Creator { get; set; }
 
         /// <summary>
@@ -67,6 +67,41 @@ namespace EasySoft.PssS.Domain.Entity
         /// </summary>
         [Column(Name = "CreateTime", DataType = DbType.DateTime, AllowEdit = false)]
         public DateTime CreateTime { get; set; }
+
+        #endregion
+
+        #region 构造函数
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public ProfitLoss()
+        {
+
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <param name="recordId">记录ID</param>
+        /// <param name="targetType">目标类型</param>
+        /// <param name="category">分类</param>
+        /// <param name="quantity">数量</param>
+        /// <param name="remark">备注</param>
+        /// <param name="creator">创建人</param>
+        /// <param name="createTime">创建时间</param>
+        public ProfitLoss(string id, string recordId, string targetType, string category, decimal quantity, string remark, string creator, DateTime createTime)
+            : base(id)
+        {
+            this.RecordId = recordId;
+            this.TargetType = targetType;
+            this.Category = category;
+            this.Quantity = quantity;
+            this.Remark = remark;
+            this.Creator = creator;
+            this.CreateTime = createTime;
+        }
 
         #endregion
 
@@ -82,7 +117,7 @@ namespace EasySoft.PssS.Domain.Entity
         /// <param name="remark">备注</param>
         /// <param name="money">金额</param>
         /// <param name="creator">创建人</param>
-        public void Add(string recordId, ProfitLossTargetType targetType, ProfitLossCategory category, decimal quantity, string remark, string creator)
+        public void Create(string recordId, string targetType, string category, decimal quantity, string remark, string creator)
         {
             this.NewId();
             this.RecordId = recordId;
@@ -92,6 +127,16 @@ namespace EasySoft.PssS.Domain.Entity
             this.Remark = string.IsNullOrWhiteSpace(remark) ? string.Empty : remark.Trim();
             this.Creator = creator;
             this.CreateTime = DataConvert.ConvertUTCToBeijing(DateTime.UtcNow);
+        }
+
+        public static decimal Calculate(string category, decimal quantity)
+        {
+            decimal profitLoss = quantity;
+            if (category == ProfitLossCategory.Loss)
+            {
+                profitLoss = -quantity;
+            }
+            return profitLoss;
         }
 
         #endregion

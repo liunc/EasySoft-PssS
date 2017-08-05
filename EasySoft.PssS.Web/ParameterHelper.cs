@@ -12,17 +12,19 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web
 {
+    using EasySoft.Core.Util;
     using EasySoft.PssS.Domain.Entity;
     using EasySoft.PssS.Domain.Service;
-    using EasySoft.PssS.Web.Models.Purchase;
+    using EasySoft.PssS.Domain.ValueObject;
+    using EasySoft.PssS.Web.Models.CostItem;
+    using EasySoft.PssS.Web.Resources;
+    using EasySoft.PssS.Web.Models.Delivery;
+    using EasySoft.PssS.Web.Models.PurchaseItem;
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
+    using System.Threading;
     using System.Web;
     using System.Web.Caching;
-    using System.Linq;
-    using Domain.ValueObject;
-    using Models;
 
     /// <summary>
     /// 参数工具类
@@ -31,54 +33,97 @@ namespace EasySoft.PssS.Web
     {
         #region 变量
 
-        private static readonly object syncLock = new object();
-        private static ParameterService parameterService = new ParameterService();
+        private static ReaderWriterLockSlim lockSlim = new ReaderWriterLockSlim();
+        private static PurchaseItemService purchaseItemService = new PurchaseItemService();
+        private static ExpressCompanyService expressCompanyService = new ExpressCompanyService();
+        private static CostItemService costItemService = new CostItemService();
         private static CustomerGroupService customerGroupService = new CustomerGroupService();
-        private static PurchaseConfig purchaseConfig;
-        private static DeliveryConfig deliveryConfig;
-        private static int pageSize = 0;
 
         #endregion
 
         #region 方法
 
         /// <summary>
-        /// 获取采购项
+        /// 获取采购项分类
         /// </summary>
-        /// <param name="category">采购分类</param>
-        /// <param name="onlyValid">是否仅包含有效</param>
-        /// <returns>返回采购项信息</returns>
-        public static Dictionary<string, PurchaseItemModel> GetPurchaseItem(PurchaseCategory category, bool onlyValid)
+        /// <returns>返回采购项分类数据</returns>
+        public static Dictionary<string, string> GetPurchaseItemCatetory()
         {
-            Dictionary<string, PurchaseItemModel> models = new Dictionary<string, PurchaseItemModel>();
-            string cacheName = string.Format("PurchaseItem_{0}{1}", category.ToString(), onlyValid ? string.Empty : "_All");
-            models = (Dictionary<string, PurchaseItemModel>)HttpRuntime.Cache[cacheName];
+            string cacheName = "PurchaseItemCatetory";
+
+            lockSlim.EnterUpgradeableReadLock();
+
+            Dictionary<string, string> models = (Dictionary<string, string>)HttpRuntime.Cache[cacheName];
             if (models == null)
             {
-                if (purchaseConfig == null)
-                {
-                    purchaseConfig = parameterService.GetPurchaseConfig();
-                }
-                lock (syncLock)
-                {
-                    models = new Dictionary<string, PurchaseItemModel>();
-                    foreach (PurchaseItem item in purchaseConfig.PurchaseItems)
-                    {
-                        if (item.Category == category)
-                        {
-                            if (onlyValid)   
-                            {
-                                if (item.Valid != "1")
-                                {
-                                    continue;
-                                }
-                            }
-                            models.Add(item.Code, new PurchaseItemModel { Code = item.Code, Name = item.Name, Unit = item.Unit });
-                        }
-                    }
-                    HttpRuntime.Cache.Insert(cacheName, models, null, DateTime.Now.AddMinutes(60), Cache.NoSlidingExpiration);
-                }
+                lockSlim.EnterWriteLock();
+
+                models = new Dictionary<string, string>();
+                models.Add(PurchaseItemCategory.Product, WebResource.PurchaseItemCategory_Product);
+                models.Add(PurchaseItemCategory.Pack, WebResource.PurchaseItemCategory_Pack);
+                HttpRuntime.Cache.Insert(cacheName, models, null, DateTime.Now.AddMinutes(60), Cache.NoSlidingExpiration);
+
+                lockSlim.ExitWriteLock();
             }
+
+            lockSlim.ExitUpgradeableReadLock();
+
+            return models;
+        }
+
+        /// <summary>
+        /// 获取益损分类
+        /// </summary>
+        /// <returns>返回采购项分类数据</returns>
+        public static Dictionary<string, string> GetProfitLossCatetory()
+        {
+            string cacheName = "ProfitLossCatetory";
+
+            lockSlim.EnterUpgradeableReadLock();
+
+            Dictionary<string, string> models = (Dictionary<string, string>)HttpRuntime.Cache[cacheName];
+            if (models == null)
+            {
+                lockSlim.EnterWriteLock();
+
+                models = new Dictionary<string, string>();
+                models.Add(ProfitLossCategory.Profit, WebResource.Field_Profit);
+                models.Add(ProfitLossCategory.Loss, WebResource.Field_Loss);
+                HttpRuntime.Cache.Insert(cacheName, models, null, DateTime.Now.AddMinutes(60), Cache.NoSlidingExpiration);
+
+                lockSlim.ExitWriteLock();
+            }
+
+            lockSlim.ExitUpgradeableReadLock();
+
+            return models;
+        }
+
+        /// <summary>
+        /// 获取益损目标分类
+        /// </summary>
+        /// <returns>返回采购项分类数据</returns>
+        public static Dictionary<string, string> GetProfitLossTargetType()
+        {
+            string cacheName = "ProfitLossTargetType";
+
+            lockSlim.EnterUpgradeableReadLock();
+
+            Dictionary<string, string> models = (Dictionary<string, string>)HttpRuntime.Cache[cacheName];
+            if (models == null)
+            {
+                lockSlim.EnterWriteLock();
+
+                models = new Dictionary<string, string>();
+                models.Add(ProfitLossTargetType.Purchase, WebResource.Field_Purchase);
+                models.Add(ProfitLossTargetType.Sale, WebResource.Field_Sale);
+                HttpRuntime.Cache.Insert(cacheName, models, null, DateTime.Now.AddMinutes(60), Cache.NoSlidingExpiration);
+
+                lockSlim.ExitWriteLock();
+            }
+
+            lockSlim.ExitUpgradeableReadLock();
+
             return models;
         }
 
@@ -87,15 +132,69 @@ namespace EasySoft.PssS.Web
         /// </summary>
         /// <param name="category">采购分类</param>
         /// <param name="onlyValid">是否仅包含有效</param>
-        /// <returns>返回采购项信息</returns>
-        public static Dictionary<string, PurchaseItemModel> GetPurchaseItem(string category, bool onlyValid)
+        /// <returns>返回采购项数据</returns>
+        public static Dictionary<string, PurchaseItemCacheModel> GetPurchaseItem(string category, bool onlyValid = true)
         {
-            PurchaseCategory enumCategory = default(PurchaseCategory);
-            if (Enum.TryParse<PurchaseCategory>(category, out enumCategory))
+            string cacheName = string.Format("PurchaseItem_{0}{1}", category, onlyValid ? string.Empty : "_All");
+
+            lockSlim.EnterUpgradeableReadLock();
+
+            Dictionary<string, PurchaseItemCacheModel> models = (Dictionary<string, PurchaseItemCacheModel>)HttpRuntime.Cache[cacheName];
+            if (models == null)
             {
-                return GetPurchaseItem(enumCategory, onlyValid);
+                models = new Dictionary<string, PurchaseItemCacheModel>();
+                List<PurchaseItem> purchaseItems = purchaseItemService.Search(category, onlyValid ? Constant.COMMON_Y : string.Empty);
+                if (purchaseItems != null)
+                {
+                    lockSlim.EnterWriteLock();
+
+                    foreach (PurchaseItem item in purchaseItems)
+                    {
+                        models.Add(item.Code, new PurchaseItemCacheModel(item));
+                    }
+                    HttpRuntime.Cache.Insert(cacheName, models, null, DateTime.Now.AddMinutes(60), Cache.NoSlidingExpiration);
+
+                    lockSlim.ExitWriteLock();
+                }
             }
-            throw new ArgumentException("PurchaseCategory");
+
+            lockSlim.ExitUpgradeableReadLock();
+            return models;
+        }
+
+        /// <summary>
+        /// 获取快递公司
+        /// </summary>
+        /// <param name="onlyValid">是否仅包含有效</param>
+        /// <returns>返回快递公司数据</returns>
+        public static Dictionary<string, string> GetExpressCompany(bool onlyValid = true)
+        {
+            string cacheName = string.Format("ExpressCompany{0}", onlyValid ? string.Empty : "_All");
+
+            lockSlim.EnterUpgradeableReadLock();
+
+            Dictionary<string, string> models = (Dictionary<string, string>)HttpRuntime.Cache[cacheName];
+            if (models == null)
+            {
+                models = new Dictionary<string, string>();
+
+                List<ExpressCompany> expressCompanies = expressCompanyService.Search(onlyValid ? Constant.COMMON_Y : string.Empty);
+                if (expressCompanies != null)
+                {
+                    lockSlim.EnterWriteLock();
+
+                    foreach (ExpressCompany item in expressCompanies)
+                    {
+                        models.Add(item.Code, item.Name);
+                    }
+                    HttpRuntime.Cache.Insert(cacheName, models, null, DateTime.Now.AddMinutes(60), Cache.NoSlidingExpiration);
+
+                    lockSlim.ExitWriteLock();
+                }
+            }
+            lockSlim.ExitUpgradeableReadLock();
+
+            return models;
         }
 
         /// <summary>
@@ -103,104 +202,97 @@ namespace EasySoft.PssS.Web
         /// </summary>
         /// <param name="category">成本分类</param>
         /// <param name="onlyValid">是否仅包含有效</param>
-        /// <returns>返回成本项信息</returns>
-        public static Dictionary<string, CostItemModel> GetCostItem(CostCategory category, bool onlyValid)
+        /// <returns>返回成本项数据</returns>
+        public static Dictionary<string, CostItemCacheModel> GetCostItem(string category, bool onlyValid = true)
         {
-            Dictionary<string, CostItemModel> models = new Dictionary<string, CostItemModel>();
             string cacheName = string.Format("CostItem_{0}{1}", category.ToString(), onlyValid ? string.Empty : "_All");
-            models = (Dictionary<string, CostItemModel>)HttpRuntime.Cache[cacheName];
+
+            lockSlim.EnterUpgradeableReadLock();
+
+            Dictionary<string, CostItemCacheModel> models = (Dictionary<string, CostItemCacheModel>)HttpRuntime.Cache[cacheName];
             if (models == null)
             {
-                List<CostItem> costs = new List<CostItem>();
-                if (category == CostCategory.Purchase)
+                models = new Dictionary<string, CostItemCacheModel>(); ;
+                List<CostItem> costItems = costItemService.Search(category, onlyValid ? Constant.COMMON_Y : string.Empty);
+                if (costItems != null)
                 {
-                    if (purchaseConfig == null)
-                    {
-                        purchaseConfig = parameterService.GetPurchaseConfig();
-                    }
-                    costs = purchaseConfig.CostItems;
-                }
-                else if (category == CostCategory.Outbound)
-                {
-                    if (deliveryConfig == null)
-                    {
-                        deliveryConfig = parameterService.GetDeliveryConfig();
-                    }
-                    costs = deliveryConfig.CostItems;
-                }
+                    lockSlim.EnterWriteLock();
 
-                lock (syncLock)
-                {
-                    models = new Dictionary<string, CostItemModel>();
-                    foreach (CostItem item in costs)
+                    foreach (CostItem item in costItems)
                     {
-                        if (onlyValid)
-                        {
-                            if (item.Valid != "1")
-                            {
-                                continue;
-                            }
-                        }
-                        models.Add(item.Code, new CostItemModel { ItemCode = item.Code, ItemName = item.Name });
+                        models.Add(item.Code, new CostItemCacheModel(item));
                     }
                     HttpRuntime.Cache.Insert(cacheName, models, null, DateTime.Now.AddMinutes(60), Cache.NoSlidingExpiration);
+                    lockSlim.ExitWriteLock();
                 }
             }
+
+            lockSlim.ExitUpgradeableReadLock();
+
             return models;
         }
 
         /// <summary>
-        /// 获取成本项
+        /// 获取客户分组
         /// </summary>
-        /// <param name="category">成本分类</param>
-        /// <param name="onlyValid">是否仅包含有效</param>
-        /// <returns>返回成本项信息</returns>
-        public static Dictionary<string, CostItemModel> GetCostItem(string category, bool onlyValid)
+        /// <returns>返回客户分组数据</returns>
+        public static Dictionary<string, string> GetCustomerGroup()
         {
-            CostCategory enumCategory = default(CostCategory);
-            if (Enum.TryParse<CostCategory>(category, out enumCategory))
-            {
-                return GetCostItem(enumCategory, onlyValid);
-            }
-            throw new ArgumentException("CostCategory");
-        }
-
-        /// <summary>
-        /// 获取分页大小
-        /// </summary>
-        /// <returns>返回分页大小</returns>
-        public static int GetPageSize()
-        {
-            if (pageSize <= 0)
-            {
-                pageSize = int.Parse(ConfigurationManager.AppSettings["PageSize"].ToString());
-            }
-            return pageSize;
-        }
-
-        /// <summary>
-        /// 获取客户分组数据
-        /// </summary>
-        /// <returns>返回客户分组</returns>
-        public static List<ValueTextModel> GetCustomerGroup()
-        {
-            List<ValueTextModel> models = new List<ValueTextModel>();
             string cacheName = "CustomerGroup";
-            models = (List<ValueTextModel>)HttpRuntime.Cache[cacheName];
+
+            lockSlim.EnterUpgradeableReadLock();
+
+            Dictionary<string, string> models = (Dictionary<string, string>)HttpRuntime.Cache[cacheName];
             if (models == null)
             {
-                List<CustomerGroup> groups = customerGroupService.All();
-
-                lock (syncLock)
+                models = new Dictionary<string, string>();
+                List<CustomerGroup> customerGroups = customerGroupService.All();
+                if (customerGroups != null)
                 {
-                    models = new List<ValueTextModel>();
-                    foreach (CustomerGroup item in groups)
+                    lockSlim.EnterWriteLock();
+
+                    foreach (CustomerGroup item in customerGroups)
                     {
-                        models.Add(new ValueTextModel { Value = item.Id, Text = item.Name });
+                        models.Add(item.Id, item.Name);
                     }
                     HttpRuntime.Cache.Insert(cacheName, models, null, DateTime.Now.AddMinutes(60), Cache.NoSlidingExpiration);
+                    lockSlim.ExitWriteLock();
                 }
             }
+
+            lockSlim.ExitUpgradeableReadLock();
+
+            return models;
+        }
+
+        /// <summary>
+        /// 获取订单状态
+        /// </summary>
+        /// <returns>返回采购项分类数据</returns>
+        public static Dictionary<string, string> GetSaleOrderStatus()
+        {
+            string cacheName = "SaleOrderStatus";
+
+            lockSlim.EnterUpgradeableReadLock();
+
+            Dictionary<string, string> models = (Dictionary<string, string>)HttpRuntime.Cache[cacheName];
+            if (models == null)
+            {
+                lockSlim.EnterWriteLock();
+
+                models = new Dictionary<string, string>();
+                models.Add(SaleOrderStatus.Ordered, WebResource.Field_Ordered);
+                models.Add(SaleOrderStatus.Sent, WebResource.Field_Sent);
+                models.Add(SaleOrderStatus.Received, WebResource.Field_Received);
+                models.Add(SaleOrderStatus.Finished, WebResource.Field_Finished);
+
+                HttpRuntime.Cache.Insert(cacheName, models, null, DateTime.Now.AddMinutes(60), Cache.NoSlidingExpiration);
+
+                lockSlim.ExitWriteLock();
+            }
+
+            lockSlim.ExitUpgradeableReadLock();
+
             return models;
         }
 

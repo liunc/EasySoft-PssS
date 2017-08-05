@@ -73,16 +73,16 @@ namespace EasySoft.PssS.DbRepository
         protected override ProfitLoss SetEntity(DbDataReader reader)
         {
             return new ProfitLoss
-            {
-                Id = reader["Id"].ToString(),
-                RecordId = reader["RecordId"].ToString(),
-                TargetType = (ProfitLossTargetType)Enum.Parse(typeof(ProfitLossTargetType), reader["TargetType"].ToString()),
-                Category = (ProfitLossCategory)Enum.Parse(typeof(ProfitLossCategory), reader["Category"].ToString()),
-                Remark = reader["Remark"].ToString(),
-                Quantity = Convert.ToDecimal(reader["Quantity"]),
-                Creator = reader["Creator"].ToString(),
-                CreateTime = Convert.ToDateTime(reader["CreateTime"])
-            };
+            (
+                reader["Id"].ToString(),
+                reader["RecordId"].ToString(),
+                reader["TargetType"].ToString(),
+                reader["Category"].ToString(),
+                Convert.ToDecimal(reader["Quantity"]),
+                reader["Remark"].ToString(),
+                reader["Creator"].ToString(),
+                Convert.ToDateTime(reader["CreateTime"])
+            );
         }
 
         #endregion

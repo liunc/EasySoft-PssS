@@ -1,5 +1,5 @@
 ﻿// ----------------------------------------------------------
-// 系统名称：EasySoft PssS
+// 系统名称：EasySoft Core
 // 项目名称：工具类库
 // 创 建 人：刘年超
 // 创建时间：2017-01-12
@@ -32,6 +32,11 @@ namespace EasySoft.Core.Util
         /// </summary>
         public static readonly string DATE_YYYY_MM_DD = "yyyy-MM-dd";
 
+        /// <summary>
+        /// 默认分页大小
+        /// </summary>
+        public static readonly int DEFAULT_PAGE = 5;
+
         #region 验证
 
         /// <summary>
@@ -63,26 +68,56 @@ namespace EasySoft.Core.Util
         /// 数字最大值
         /// </summary>
         public static readonly decimal DECIMAL_MAX = 99999999.99M;
-
-        /// <summary>
-        /// 字符串长度20
-        /// </summary>
-        public static readonly int STRING_LENGTH_20 = 20;
-
+        
         /// <summary>
         /// 字符串长度32
         /// </summary>
-        public static readonly int STRING_LENGTH_32 = 32;
+        public const int STRING_LENGTH_32 = 32;
 
         /// <summary>
-        /// 字符串长度50
+        /// 字符串长度1
         /// </summary>
-        public static readonly int STRING_LENGTH_50 = 50;
+        public const int STRING_LENGTH_1 = 1;
 
         /// <summary>
-        /// 字符串长度120
+        /// 字符串长度2
         /// </summary>
-        public static readonly int STRING_LENGTH_120 = 120;
+        public const int STRING_LENGTH_2 = 2;
+
+        /// <summary>
+        /// 字符串长度4
+        /// </summary>
+        public const int STRING_LENGTH_4 = 4;
+
+        /// <summary>
+        /// 字符串长度6
+        /// </summary>
+        public const int STRING_LENGTH_6 = 6;
+
+        /// <summary>
+        /// 字符串长度10
+        /// </summary>
+        public const int STRING_LENGTH_10 = 10;
+
+        /// <summary>
+        /// 字符串长度16
+        /// </summary>
+        public const int STRING_LENGTH_16 = 16;
+
+        /// <summary>
+        /// 字符串长度18
+        /// </summary>
+        public const int STRING_LENGTH_18 = 18;
+
+        /// <summary>
+        /// 字符串长度100
+        /// </summary>
+        public const int STRING_LENGTH_30 = 30;
+
+        /// <summary>
+        /// 字符串长度100
+        /// </summary>
+        public const int STRING_LENGTH_100 = 100;
 
         #endregion
     }

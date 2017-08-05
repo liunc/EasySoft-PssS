@@ -72,7 +72,7 @@ namespace EasySoft.PssS.Domain.Service
                         throw new EasySoftException(BusinessResource.Customer_ExistsSameGroupName);
                     }
                     CustomerGroup entity = new CustomerGroup();
-                    entity.Add(name, remark, creator);
+                    entity.Create(name, remark, creator);
                     this.customerGroupRepository.Insert(trans, entity);
 
                     trans.Commit();

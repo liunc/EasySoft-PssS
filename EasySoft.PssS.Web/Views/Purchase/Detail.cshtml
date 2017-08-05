@@ -6,79 +6,91 @@
 
 @{
     ViewBag.Title = WebResource.Title_RecordDetail;
+    ViewBag.PreviousUrl = string.Format("/Purchase/Index/{0}?item={1}&page={2}", Model.Category, Model.SelectedItem, Model.PageIndex);
 }
-
-<div class="row">
-    <ol class="breadcrumb">
-        <li><a href="/Home/Index">@WebResource.Title_Index</a></li>
-        <li><a href="/Purchase/Index/@Model.CategoryString?item=@Model.SelectedItem&page=@Model.PageIndex">@Model.ParentPageTitle</a></li>
-        <li class="active">@ViewBag.Title</li>
-    </ol>
-</div>
-
-<table class="table table-condensed">
-    <tr>
-        <td class="col-xs-3">@WebResource.Field_Date</td>
-        <td class="col-xs-7">@Model.Date</td>
-        <td class="col-xs-2"></td>
-    </tr>
-    <tr>
-        <td>@WebResource.Field_Supplier</td>
-        <td>@Model.Supplier</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>@WebResource.Field_Item</td>
-        <td>@Model.Item</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>
-            @WebResource.Field_Quantity
-        </td>
-        <td>@Model.Quantity.ToString("0.##")@Model.Unit </td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>@WebResource.Field_Inventory</td>
-        <td>@Model.Inventory.ToString("0.##")@Model.Unit</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>@WebResource.Field_ProfitLoss</td>
-        <td id="tdProfitLoss">
-            @Model.ProfitLoss.ToString("0.##")@Model.Unit
-        </td>
-        <td class="text-right"><a id="btnViewProfitLoss" href="javascript:;">@WebResource.Button_View</a> </td>
-    </tr>
-    <tr>
-        <td>@WebResource.Field_Cost</td>
-        <td>@Model.Cost.ToString("0.##")@WebResource.Common_Yuan</td>
-        <td class="text-right"><a id="btnViewCost" href="javascript:;">@WebResource.Button_View</a> </td>
-    </tr>
-    <tr>
-        <td>@WebResource.Field_Remark</td>
-        <td colspan="2">@Model.Remark</td>
-    </tr>
+<table class="table">
+    <tbody>
+        <tr>
+            <td class="col-xs-3">@WebResource.Field_Date</td>
+            <td class="col-xs-7">@Model.Date</td>
+            <td class="col-xs-2"></td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Supplier</td>
+            <td>@Model.Supplier</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Item</td>
+            <td>@Model.Item</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                @WebResource.Field_Quantity
+            </td>
+            <td>@Model.Quantity.ToString("0.##")@Model.Unit </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Inventory</td>
+            <td>@Model.Inventory.ToString("0.##")@Model.Unit</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_ProfitLoss</td>
+            <td id="tdProfitLoss">
+                @Model.ProfitLoss.ToString("0.##")@Model.Unit
+            </td>
+            <td class="text-right"><a id="btnViewProfitLoss" href="javascript:;">@WebResource.Button_View</a> </td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Cost</td>
+            <td>@Model.Cost.ToString("0.##")@WebResource.Common_Yuan</td>
+            <td class="text-right"><a id="btnViewCost" href="javascript:;">@WebResource.Button_View</a> </td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Remark</td>
+            <td colspan="2">@Model.Remark</td>
+        </tr>
+    </tbody>
 </table>
-<div class="row text-center">
-    <div class="btn-group">
-        @if (Model.Status != PurchaseStatus.Finished)
-        {
-            if (Model.Status == PurchaseStatus.None)
-            {
-            <button type="button" class="btn btn-default"onclick="return deletePurchase();">@WebResource.Button_Delete</button>
-            }
-            <a class="btn btn-default" href="/ProfitLoss/Add/Profit/Purchase/@Model.Id?item=@Model.SelectedItem&page=@Model.PageIndex">@WebResource.Button_Profit</a>
-            <a class="btn btn-default" href="/ProfitLoss/Add/Loss/Purchase/@Model.Id?item=@Model.SelectedItem&page=@Model.PageIndex">@WebResource.Button_Loss</a>
-            
-        }
-        <button type="button" class="btn btn-success" onclick="window.location.href = '/Purchase/Index/@Model.CategoryString?item=@Model.SelectedItem&page=@Model.PageIndex';">@WebResource.Button_Back</button>
-    </div>
-</div>
+
 @Html.Action("Dialog", "Common", new { id = "dialogDetail", title = WebResource.Common_Detail, messageBodyId = "detailMessage", okButton = @WebResource.Button_Close })
-@Html.Action("Confirm", "Common", new { id = "confirmDelete", title = WebResource.Message_Confirm, confirmString= @WebResource.Message_ConfirmDelete, okButton = @WebResource.Button_Ok, cancelButton = @WebResource.Button_Cancel, okButtonClick= "confirmDelete();" })
+@Html.Action("Confirm", "Common", new { id = "confirmDelete", title = WebResource.Message_Confirm, confirmString = @WebResource.Message_ConfirmDelete, okButton = @WebResource.Button_Ok, cancelButton = @WebResource.Button_Cancel, okButtonClick = "confirmDelete();" })
 @Html.Action("Dialog", "Common", new { id = "dialogAddProfitLoss", title = WebResource.Common_Detail, messageBodyId = "addProfitLossMessage", okButton = @WebResource.Button_Close })
+
+@section footer{
+    <div class="navbar-default navbar-fixed-bottom">
+        @if (Model.Status != PurchaseStatus.Finished)
+    {
+        if (Model.Status == PurchaseStatus.None)
+        {
+                <div class="col-xs-@Model.ControlWidth">
+                    <div class="row">
+                        <button type="button" class="btn btn-default btn-block" onclick="return deletePurchase();" style="border-Radius:0px">@WebResource.Button_Delete</button>
+                    </div>
+                </div>
+            }
+            <div class="col-xs-@Model.ControlWidth">
+                <div class="row">
+                    <a class="btn btn-default btn-block" style="border-Radius:0px" href="/ProfitLoss/Add/@ProfitLossCategory.Profit/@ProfitLossTargetType.Purchase/@Model.Id?item=@Model.SelectedItem&page=@Model.PageIndex">@WebResource.Button_Profit</a>
+                </div>
+            </div>
+            <div class="col-xs-@Model.ControlWidth">
+                <div class="row">
+                    <a class="btn btn-default btn-block" style="border-Radius:0px" href="/ProfitLoss/Add/@ProfitLossCategory.Loss/@ProfitLossTargetType.Purchase/@Model.Id?item=@Model.SelectedItem&page=@Model.PageIndex">@WebResource.Button_Loss</a>
+                </div>
+            </div>
+        }
+        <div class="col-xs-@Model.ControlWidth">
+            <div class="row">
+                <button type="button" class="btn btn-success btn-block" onclick="window.location.href = '@ViewBag.PreviousUrl';" style="border-Radius:0px">@WebResource.Button_Back</button>
+            </div>
+        </div>
+    </div>
+
+}
 @section scripts {
     <script type="text/javascript">
         $(function () {
@@ -93,8 +105,8 @@
                     success: function (result) {
                         var msg = '<table class="table table-condensed">';
                         msg += '<tr>' +
-                                            '<th class="col-xs-3">@WebResource.Field_CostItem</td>'
-                                            + '<th class="col-xs-9">@WebResource.Field_Money</td>'
+                                            '<th class="col-xs-4">@WebResource.Field_CostItem</td>'
+                                            + '<th class="col-xs-8">@WebResource.Field_Money</td>'
                                         + '</tr>';
                         if (result != null && result.length > 0) {
                             $(result).each(function () {
@@ -176,7 +188,7 @@
                 data: { id: '@Model.Id' },
                 success: function (result) {
                     if (result.Result) {
-                        window.location.href = '/Purchase/Index/@Model.CategoryString?item=@Model.SelectedItem&page=@Model.PageIndex';
+                        window.location.href = '/Purchase/Index/@Model.Category?item=@Model.SelectedItem&page=@Model.PageIndex';
                     }
                     else {
                         showError(result.Message);

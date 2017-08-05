@@ -12,7 +12,8 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Repository
 {
-    using Core.Persistence.Repository;
+    using EasySoft.Core.Persistence.Repository;
+    using EasySoft.PssS.Application.DataTransfer.Customer;
     using EasySoft.PssS.Domain.Entity;
     using System.Collections.Generic;
     using System.Data.Common;
@@ -40,5 +41,13 @@ namespace EasySoft.PssS.Repository
         /// <param name="totalCount">数据源总记录数</param>
         /// <returns>返回客户数据集合</returns>
         List<Customer> Search(string name, string groupId, int pageIndex, int pageSize, ref int totalCount);
+
+        /// <summary>
+        /// 提供下单选择客户的数据
+        /// </summary>
+        /// <param name="name">名称</param>
+        /// <param name="groupId">分组Id</param>
+        /// <returns>返回数据</returns>
+        List<CustomerForOrderDTO> GetCustomerListForOrder(string name, string groupId);
     }
 }

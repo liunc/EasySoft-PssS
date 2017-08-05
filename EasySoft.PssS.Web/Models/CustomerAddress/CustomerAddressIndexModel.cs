@@ -12,7 +12,6 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Models.CustomerAddress
 {
-    using EasySoft.PssS.Web.Resources;
     using System.Collections.Generic;
 
     /// <summary>

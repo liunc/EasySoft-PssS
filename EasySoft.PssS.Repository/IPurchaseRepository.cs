@@ -33,5 +33,12 @@ namespace EasySoft.PssS.Repository
         /// <returns>返回采购数据集合</returns>
         List<Purchase> Search(string category, string item, int pageIndex, int pageSize, ref int totalCount);
 
+        /// <summary>
+        /// 查询可交付的采购数据
+        /// </summary>
+        /// <param name="category">产品分类</param>
+        /// <returns>返回采购数据集合</returns>
+        List<Purchase> GetDeliverable(string category);
+
     }
 }

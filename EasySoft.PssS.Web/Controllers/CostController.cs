@@ -24,6 +24,8 @@ namespace EasySoft.PssS.Web.Controllers
     using System.Configuration;
     using System.Linq;
     using Filters;
+    using Models.Cost;
+    using Models.CostItem;
 
     /// <summary>
     /// 成本控制器类
@@ -57,23 +59,26 @@ namespace EasySoft.PssS.Web.Controllers
         /// <returns>返回成本数据</returns>
         public ActionResult GetList(string id)
         {
-            List<CostModel> models = new List<CostModel>();
+            List<CostPageModel> models = new List<CostPageModel>();
             List<Cost> entities = this.costService.GetList(id);
-            Dictionary<string, CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.Purchase.ToString(), false);
+            Dictionary<string, CostItemCacheModel> costItems = ParameterHelper.GetCostItem(CostItemCategory.Purchase, false);
             foreach (Cost entity in entities)
             {
                 string itemName = entity.Item;
-                CostItemModel query = costItems[entity.Item];
+                short orderNumber = 0;
+                CostItemCacheModel query = costItems[entity.Item];
                 if (query != null)
                 {
-                    itemName = query.ItemName;
+                    itemName = query.Name;
+                    orderNumber = query.OrderNumber;
                 }
-                models.Add(new CostModel { Id = entity.Id, ItemCode = entity.Item, ItemName = itemName, Money = entity.Money });
+                models.Add(new CostPageModel { Id = entity.Id, ItemCode = entity.Item, ItemName = itemName, Money = entity.Money, OrderNumber = orderNumber });
             }
+            models = models.OrderBy(i => i.OrderNumber).ToList();
             return Json(models, JsonRequestBehavior.AllowGet);
         }
-        
+
         #endregion
-        
+
     }
 }

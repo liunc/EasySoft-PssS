@@ -7,46 +7,46 @@
     ViewBag.Title = WebResource.Title_EditCustomer;
     ViewBag.PreviousUrl = ViewBag.PreviousUrl = string.Format("/Customer/Detail/{0}?name={1}&groupId={2}&page={3}", Model.Id, Model.QueryName, Model.QueryGroupId, Model.PageIndex);
 }
-<div class="col-xs-12">
-    <form id="formAdd" role="form">
-        <div class="form-group">
-            <input id="txtName" name="txtName" value="@Model.Name" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Name,  Constant.STRING_LENGTH_50)" maxlength="50" required />
-        </div>
-        <div class="form-group">
-            <input id="txtMobile" name="txtMobile" value="@Model.Mobile" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Mobile,  Constant.STRING_LENGTH_20)" maxlength="20" />
-        </div>
-        <div class="form-group">
-            <select id="ddlCustomerGroup" name="ddlCustomerGroup" class="form-control" required>
-                @foreach (var item in Model.CustomerGroups)
+<form id="formAdd" role="form">
+    <div class="form-group">
+        <input id="txtName" name="txtName" value="@Model.Name" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Name,  Constant.STRING_LENGTH_10)" maxlength="@Constant.STRING_LENGTH_10" required />
+    </div>
+    <div class="form-group">
+        <input id="txtMobile" name="txtMobile" value="@Model.Mobile" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Mobile,  Constant.STRING_LENGTH_16)" maxlength="@Constant.STRING_LENGTH_16" />
+    </div>
+    <div class="form-group">
+        <select id="ddlCustomerGroup" name="ddlCustomerGroup" class="form-control" required>
+            @foreach (var item in ParameterHelper.GetCustomerGroup())
                 {
-                    if (Model.GroupId == item.Value)
+                    if (Model.GroupId == item.Key)
                     {
-                        <option value="@item.Value" selected>@item.Text</option>
+                <option value="@item.Key" selected>@item.Value</option>
                     }
                     else
                     {
-                    <option value="@item.Value">@item.Text</option>
+                <option value="@item.Key">@item.Value</option>
                     }
                 }
-            </select>
-        </div>
-        <div class="form-group">
-            <input id="txtNickname" name="txtNickname" value="@Model.Nickname" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Nickname,  Constant.STRING_LENGTH_50)" maxlength="50" />
-        </div>
-        <div class="row navbar-default navbar-fixed-bottom">
-            <div class="col-xs-6">
-                <div class="row">
-                    <button id="btnSubmit" type="submit" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Submit</button>
-                </div>
-            </div>
-            <div class="col-xs-6">
-                <div class="row">
-                    <button type="button" class="btn btn-default btn-block" onclick="window.history.back();" style="border-Radius:0px">@WebResource.Button_Back</button>
-                </div>
+        </select>
+    </div>
+    <div class="form-group">
+        <input id="txtNickname" name="txtNickname" value="@Model.Nickname" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Nickname,  Constant.STRING_LENGTH_10)" maxlength="@Constant.STRING_LENGTH_10" />
+    </div>
+    <div class="row navbar-default navbar-fixed-bottom">
+        <div class="col-xs-6">
+            <div class="row">
+                <button type="button" class="btn btn-default btn-block" onclick="window.history.back();" style="border-Radius:0px">@WebResource.Button_Back</button>
             </div>
         </div>
-    </form>
-</div>
+        <div class="col-xs-6">
+            <div class="row">
+                <button id="btnSubmit" type="submit" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Submit</button>
+            </div>
+        </div>
+        
+    </div>
+</form>
+
 
 @Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
 
@@ -62,30 +62,30 @@
                 rules: {
                     txtName: {
                         required: true,
-                        maxlength: @Constant.STRING_LENGTH_50
-                    },
+                        maxlength: @Constant.STRING_LENGTH_10
+                        },
                     txtNickname: {
-                        maxlength: @Constant.STRING_LENGTH_50
-                    },
+                        maxlength: @Constant.STRING_LENGTH_10
+                        },
                     txtMobile: {
                         required: true,
-                        maxlength: @Constant.STRING_LENGTH_20
-                    }
+                        maxlength: @Constant.STRING_LENGTH_16
+                        }
                 },
                 messages: {
                     txtName: {
                         required: '@Validate.GetPleaseInputFieldString(WebResource.Field_Name)',
-                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Name, Constant.STRING_LENGTH_50)'
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Name, Constant.STRING_LENGTH_10)'
                     },
                     txtNickname: {
-                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Nickname, Constant.STRING_LENGTH_50)'
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Nickname, Constant.STRING_LENGTH_10)'
                     },
                     txtMobile: {
                         required: '@Validate.GetPleaseInputFieldString(WebResource.Field_Mobile)',
-                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Mobile, Constant.STRING_LENGTH_20)'
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Mobile, Constant.STRING_LENGTH_16)'
                     },
                     txtAddress: {
-                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Address, Constant.STRING_LENGTH_120)'
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Address, Constant.STRING_LENGTH_100)'
                     }
                 },
                 //自定义错误消息放到哪里

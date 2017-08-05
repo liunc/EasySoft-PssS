@@ -48,10 +48,14 @@
     </Compile>
     <Compile Include="CurstomerAddressService.cs" />
     <Compile Include="CurstomerGroupService.cs" />
-    <Compile Include="ParameterService.cs" />
     <Compile Include="CostService.cs" />
     <Compile Include="ProfitLossService.cs" />
     <Compile Include="CurstomerService.cs" />
+    <Compile Include="CostItemService.cs" />
+    <Compile Include="ExpressCompanyService.cs" />
+    <Compile Include="PurchaseItemService.cs" />
+    <Compile Include="DeliveryService.cs" />
+    <Compile Include="SaleOrderService.cs" />
     <Compile Include="PurchaseService.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,6 +72,10 @@
     <ProjectReference Include="..\EasySoft.Core.Util\EasySoft.Core.Util.csproj">
       <Project>{AEBBCF64-AC18-4890-93CB-3597FDC43DB0}</Project>
       <Name>EasySoft.Core.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.PssS.Application.DataTransfer\EasySoft.PssS.Application.DataTransfer.csproj">
+      <Project>{696ad5b8-404c-4713-a53c-03e96545eb7e}</Project>
+      <Name>EasySoft.PssS.Application.DataTransfer</Name>
     </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.DbRepository\EasySoft.PssS.DbRepository.csproj">
       <Project>{4376B3E1-97A7-49D3-9AE5-04ABCE55FAD7}</Project>

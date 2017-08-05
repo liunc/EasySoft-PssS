@@ -12,8 +12,8 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Domain.Entity
 {
-    using Core.Persistence;
-    using Core.Util;
+    using EasySoft.Core.Persistence;
+    using EasySoft.Core.Util;
     using System;
     using System.Data;
 
@@ -27,30 +27,77 @@ namespace EasySoft.PssS.Domain.Entity
         /// <summary>
         /// 获取或设置创建者
         /// </summary>
-        [Column(Name = "Creator", DataType = DbType.String, Size =20, AllowEdit =false )]
-        public string Creator { get; set; }
+        [Column(Name = "Creator", DataType = DbType.String, Size = Constant.STRING_LENGTH_16, AllowEdit = false)]
+        public string Creator { get; private set; }
 
         /// <summary>
         /// 获取或设置创建时间
         /// </summary>
         [Column(Name = "CreateTime", DataType = DbType.DateTime, AllowEdit = false)]
-        public DateTime CreateTime { get; set; }
+        public DateTime CreateTime { get; private set; }
 
         /// <summary>
         /// 获取或设置修改者
         /// </summary>
-        [Column(Name = "Mender", DataType = DbType.String, Size = 20)]
-        public string Mender { get; set; }
+        [Column(Name = "Mender", DataType = DbType.String, Size = Constant.STRING_LENGTH_16)]
+        public string Mender { get; private set; }
 
         /// <summary>
         /// 获取或设置修改时间
         /// </summary>
         [Column(Name = "ModifyTime", DataType = DbType.DateTime)]
-        public DateTime ModifyTime { get; set; }
+        public DateTime ModifyTime { get; private set; }
+
+        #endregion
+
+        #region 构造函数
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public EntityWithOperatorBase()
+        {
+
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <param name="creator">创建人</param>
+        /// <param name="createTime">创建时间</param>
+        /// <param name="mender">修改人</param>
+        /// <param name="modifyTime">修改时间</param>
+        public EntityWithOperatorBase(string id, string creator, DateTime createTime, string mender, DateTime modifyTime)
+            : base(id)
+        {
+            this.SetCreator(creator, createTime);
+            this.SetMender(mender, modifyTime);
+        }
 
         #endregion
 
         #region 方法
+
+        /// <summary>
+        /// 创建对象
+        /// </summary>
+        /// <param name="creator">创建人</param>
+        protected void Create(string creator)
+        {
+            this.NewId();
+            this.SetCreator(creator);
+            this.SetMender(creator);
+        }
+
+        /// <summary>
+        /// 更新对象
+        /// </summary>
+        /// <param name="mender"></param>
+        protected void Update(string mender)
+        {
+            this.SetMender(mender);
+        }
 
         /// <summary>
         /// 设置创建人和创建时间

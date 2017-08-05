@@ -1,4 +1,4 @@
-﻿@using EasySoft.PssS.Web.Resources;
+﻿@using EasySoft.Core.Util;
 @using EasySoft.PssS.Web.Resources;
 @model EasySoft.PssS.Web.Models.Customer.CustomerIndexModel
 
@@ -6,23 +6,22 @@
     ViewBag.Title = WebResource.Title_CustomerManagement;
     ViewBag.PreviousUrl = "/Home/Index";
 }
-<div class="col-xs-12">
     <div class="row">
         <div class="form-group col-xs-7">
-            <input id="txtName" type="text" value="@Model.QueryName" class="form-control input-sm" placeholder="@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Name)" maxlength="50" />
+            <input id="txtName" type="text" value="@Model.QueryName" class="form-control input-sm" placeholder="@Validate.GetPleaseInputFieldString(WebResource.Field_Name)" maxlength="@Constant.STRING_LENGTH_10" />
         </div>
         <div class="form-group col-xs-5">
             <select id="ddlCustomerGroup" class="form-control input-sm">
-                <option value="1">@WebResource.Message_AllGroup</option>
-                @foreach (var item in Model.CustomerGroups)
+                <option value="">@WebResource.Message_AllGroup</option>
+                @foreach (var item in ParameterHelper.GetCustomerGroup())
                 {
-                    if (!string.IsNullOrWhiteSpace(Model.QueryGroupId) && item.Value == Model.QueryGroupId)
+                    if (!string.IsNullOrWhiteSpace(Model.QueryGroupId) && item.Key == Model.QueryGroupId)
                     {
-                        <option selected value="@item.Value">@item.Text</option>
+                        <option selected value="@item.Key">@item.Value</option>
                     }
                     else
                     {
-                        <option value="@item.Value">@item.Text</option>
+                        <option value="@item.Key">@item.Value</option>
                     }
                 }
             </select>
@@ -41,12 +40,12 @@
             {
                 <tr>
                     <td style="cursor:pointer;" onclick="window.location.href = '/Customer/Detail/@data.Id?name=@Model.QueryName&groupId=@Model.QueryGroupId&page=@Model.PageIndex'">@data.Name</td>
-                    <td>@data.GroupId</td>
+                    <td>@data.GroupName</td>
                 </tr>
             }
         </tbody>
     </table>
-</div>
+
 @section footer {
     <div class="navbar-default navbar-fixed-bottom">
         <div class="row">

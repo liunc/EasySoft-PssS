@@ -12,9 +12,9 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.DbRepository
 {
-    using Core.Persistence.RepositoryImplement;
+    using EasySoft.Core.Persistence.RepositoryImplement;
+    using EasySoft.PssS.Application.DataTransfer.Customer;
     using EasySoft.PssS.Domain.Entity;
-    using EasySoft.PssS.Domain.ValueObject;
     using EasySoft.PssS.Repository;
     using System;
     using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace EasySoft.PssS.DbRepository
         public void BatUpdateGroupId(DbTransaction trans, string oldGroupId, string newGroupId)
         {
             string cmdText = string.Format("UPDATE {0} SET [GroupId] = @NewGroupId WHERE [GroupId] = @OldGroupId", this.Resolver.TableName);
-            DbParameter[] paras = new DbParameter[] 
+            DbParameter[] paras = new DbParameter[]
             {
                 DbHelper.CreateParameter("OldGroupId", DbType.String, 32),
                 DbHelper.CreateParameter("NewGroupId", DbType.String, 32)
@@ -45,7 +45,7 @@ namespace EasySoft.PssS.DbRepository
             paras[0].Value = oldGroupId;
             paras[1].Value = newGroupId;
 
-            if(trans == null)
+            if (trans == null)
             {
                 DbHelper.ExecuteNonQuery(cmdText, paras);
                 return;
@@ -89,7 +89,82 @@ namespace EasySoft.PssS.DbRepository
             string cmdText = string.Format("{0} {1}", this.Resolver.SelectAllCommandText, whereCmdText);
             string totalCmdText = string.Format("{0} {1}", this.Resolver.CountAllCommandText, whereCmdText);
             totalCount = Convert.ToInt32(DbHelper.ExecuteScalar(totalCmdText, paras.ToArray()));
-            return this.Paging(cmdText, pageSize, totalCount, pageIndex, "[CreateTime] DESC", paras.ToArray());
+            return this.Paging(cmdText, pageSize, totalCount, pageIndex, "[Name]", paras.ToArray());
+        }
+
+        /// <summary>
+        /// 提供下单选择客户的数据
+        /// </summary>
+        /// <param name="name">名称</param>
+        /// <param name="groupId">分组Id</param>
+        /// <returns>返回数据</returns>
+        public List<CustomerForOrderDTO> GetCustomerListForOrder(string name, string groupId)
+        {
+            List<string> conditions = new List<string>();
+            List<DbParameter> parameters = new List<DbParameter>();
+            DbParameter parameter = null;
+            if (!string.IsNullOrEmpty(name))
+            {
+                conditions.Add("A.[Name] LIKE @Name");
+                parameter = DbHelper.CreateParameter("Name", DbType.String, 50);
+                parameter.Value = "%" + name + "%";
+                parameters.Add(parameter);
+            }
+            if (!string.IsNullOrEmpty(groupId))
+            {
+                conditions.Add("A.[GroupId] = @GroupId");
+                parameter = DbHelper.CreateParameter("GroupId", DbType.String, 32);
+                parameter.Value = groupId;
+                parameters.Add(parameter);
+            }
+            string whereCmdText = string.Empty;
+            if (conditions.Count > 0)
+            {
+                whereCmdText = string.Format("WHERE {0}", string.Join(" AND ", conditions.ToArray()));
+            }
+            string cmdText = string.Format("SELECT A.[Id], A.[Name], A.[Nickname], A.[Mobile], A.[GroupId], B.[Id] AddressId, B.[Address], B.[Linkman], B.[Mobile] LinkmanMobile, B.[IsDefault] FROM [dbo].[Customer] A JOIN [dbo].[CustomerAddress] B ON A.[Id] = B.[CustomerId] {0} ORDER BY A.[Name] ASC, B.[IsDefault] DESC", whereCmdText);
+            DbDataReader reader = DbHelper.ExecuteReader(cmdText, parameters.ToArray());
+
+            List<CustomerForOrderDTO> entities = new List<CustomerForOrderDTO>();
+            int index = -1;
+            string lastId = string.Empty;
+            while (reader.Read())
+            {
+                string id = reader["Id"].ToString();
+                CustomerAddressDTO addressDto = new CustomerAddressDTO
+                {
+                    Id = reader["AddressId"].ToString(),
+                    Address = reader["Address"].ToString(),
+                    Linkman = reader["Linkman"].ToString(),
+                    Mobile = reader["LinkmanMobile"].ToString(),
+                    IsDefault = reader["IsDefault"].ToString()
+                };
+                if (id == lastId)
+                {
+                    entities[index].CustomerAddressList.Add(addressDto);
+                }
+                else
+                {
+                    CustomerForOrderDTO dto = new CustomerForOrderDTO
+                    {
+                        Id = id,
+                        Name = reader["Name"].ToString(),
+                        Nickname = reader["Nickname"].ToString(),
+                        Mobile = reader["Mobile"].ToString(),
+                        GroupId = reader["GroupId"].ToString(),
+                        CustomerAddressList = new List<CustomerAddressDTO>()
+                    };
+                    dto.CustomerAddressList.Add(addressDto);
+                    entities.Add(dto);
+                    index++;
+                    lastId = id;
+                }
+            }
+            if (!reader.IsClosed)
+            {
+                reader.Close();
+            }
+            return entities;
         }
 
         #endregion
@@ -103,18 +178,19 @@ namespace EasySoft.PssS.DbRepository
         /// <returns>返回实体对象</returns>
         protected override Customer SetEntity(DbDataReader reader)
         {
-            Customer entity = new Customer
-            {
-                Id = reader["Id"].ToString(),
-                Name = reader["Name"].ToString(),
-                GroupId = reader["GroupId"].ToString(),
-                Nickname = reader["Nickname"].ToString(),
-                Mobile = reader["Mobile"].ToString(),
-                WeChatId = reader["WeChatId"].ToString()
-            };
-            entity.SetCreator(reader["Creator"].ToString(), Convert.ToDateTime(reader["CreateTime"]));
-            entity.SetMender(reader["Mender"].ToString(), Convert.ToDateTime(reader["ModifyTime"]));
-            return entity;
+            return new Customer
+            (
+                reader["Id"].ToString(),
+                reader["Name"].ToString(),
+                reader["Nickname"].ToString(),
+                reader["Mobile"].ToString(),
+                reader["WeChatId"].ToString(),
+                reader["GroupId"].ToString(),
+                reader["Creator"].ToString(),
+                Convert.ToDateTime(reader["CreateTime"]),
+                reader["Mender"].ToString(),
+                Convert.ToDateTime(reader["ModifyTime"])
+            );
         }
 
         #endregion

@@ -15,22 +15,22 @@ namespace EasySoft.PssS.Domain.ValueObject
     /// <summary>
     /// 采购状态
     /// </summary>
-    public enum PurchaseStatus
+    public struct PurchaseStatus
     {
         /// <summary>
         /// 未指定
         /// </summary>
-        None,
+        public const string None = "N";
 
         /// <summary>
         /// 处理中
         /// </summary>
-        Processing,
+        public const string Processing = "P";
 
         /// <summary>
         /// 完成
         /// </summary>
-        Finished
+        public const string Finished = "F";
 
     }
 }

@@ -43,10 +43,17 @@
   <ItemGroup>
     <Compile Include="CustomerAddressRepository.cs" />
     <Compile Include="CustomerRepository.cs" />
+    <Compile Include="SaleRepository.cs" />
+    <Compile Include="DeliveryDetailRepository.cs" />
     <Compile Include="ProfitLossRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CostRepository.cs" />
     <Compile Include="CustomerGroupRepository.cs" />
+    <Compile Include="CostItemRepository.cs" />
+    <Compile Include="ExpressCompanyRepository.cs" />
+    <Compile Include="PurchaseItemRepository.cs" />
+    <Compile Include="DeliveryRepository.cs" />
+    <Compile Include="SaleOrderRepository.cs" />
     <Compile Include="PurchaseRepository.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +68,10 @@
     <ProjectReference Include="..\EasySoft.Core.Util\EasySoft.Core.Util.csproj">
       <Project>{AEBBCF64-AC18-4890-93CB-3597FDC43DB0}</Project>
       <Name>EasySoft.Core.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.PssS.Application.DataTransfer\EasySoft.PssS.Application.DataTransfer.csproj">
+      <Project>{696ad5b8-404c-4713-a53c-03e96545eb7e}</Project>
+      <Name>EasySoft.PssS.Application.DataTransfer</Name>
     </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.Domain.Entity\EasySoft.PssS.Domain.Entity.csproj">
       <Project>{7e7215bd-421b-4126-98c2-4e469114efe5}</Project>

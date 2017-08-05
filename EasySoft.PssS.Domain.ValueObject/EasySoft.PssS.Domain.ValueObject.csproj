@@ -43,9 +43,11 @@
     <Compile Include="ProfitLossTargetType.cs" />
     <Compile Include="ProfitLossCategory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CostCategory.cs" />
+    <Compile Include="CostItemCategory.cs" />
+    <Compile Include="SaleStatus.cs" />
+    <Compile Include="SaleOrderStatus.cs" />
     <Compile Include="PurchaseStatus.cs" />
-    <Compile Include="PurchaseCategory.cs" />
+    <Compile Include="PurchaseItemCategory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

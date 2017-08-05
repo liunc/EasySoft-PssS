@@ -1,0 +1,120 @@
+﻿@using EasySoft.Core.Util;
+@using EasySoft.PssS.Domain.ValueObject;
+@using EasySoft.PssS.Web.Resources;
+
+@model EasySoft.PssS.Web.Models.Delivery.DeliveryThirdModel
+
+@{
+    ViewBag.Title = WebResource.Title_Delivery_Third;
+    ViewBag.PreviousUrl = string.Format("/Delivery/Second?id={0}", Model.Id);
+}
+
+
+<div class="row">
+    <div class="col-xs-12" style="padding-bottom:10px">
+        @foreach (var data in Model.SaleOrders)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @if (data.Selected == Constant.COMMON_Y)
+                        {
+                            <input type="checkbox" checked="checked" name="cbOrderId" id="@string.Format("cbOrderId{0}", data.Id)" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="cbOrderId" id="@string.Format("cbOrderId{0}", data.Id)" />
+                        }
+                        <input type="hidden" id="@string.Format("hideItem{0}", data.Id)" value="@data.Item" />
+                        @data.Date @data.Linkman @data.ItemName <span id="@string.Format("txtQ{0}", data.Id)">@data.Quantity.ToString("0.##")</span><span id="txtUnit">@data.Unit</span>
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row" style="padding-bottom:5px">
+                        <div class="col-xs-12">
+                            @WebResource.Field_Mobile@WebResource.Field_Colon@data.Mobile
+                            <br />
+                            @WebResource.Field_Address@WebResource.Field_Colon@data.Address
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+@Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
+@section footer{
+    <div class="navbar-default navbar-fixed-bottom">
+        <div class="col-xs-6">
+            <div class="row">
+                <button type="button" class="btn btn-default btn-block btn-sm" onclick="window.location.href = '@ViewBag.PreviousUrl';" style="border-Radius:0px">@WebResource.Button_Last</button>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="row">
+                <button id="btnNext" type="button" class="btn btn-success btn-block btn-sm" style="border-Radius:0px">@WebResource.Button_Next</button>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+@section scripts {
+    <script type="text/javascript">
+
+        $(function () {
+
+
+            $('#btnNext').click(function () {
+                var deliveryDetails = [];
+
+                $("input[name='cbOrderId']").each(function () {
+                    if ($(this).is(':checked')) {
+                        var id = $(this).attr('id');
+                        id = id.substr(9);
+
+                        var item = $('#hideItem' + id).val();
+                        var quantity = parseFloat($('#txtQ' + id).text());
+
+                        var deliveryDetail = {};
+                        deliveryDetail.Id = id;
+                        deliveryDetail.Item = item;
+                        deliveryDetail.Quantity = quantity;
+                        deliveryDetails.push(deliveryDetail);
+                    }
+                });
+                $('#btnNext').attr({ 'disabled': 'disabled' });
+                $.ajax({
+                    type: "post",
+                    url: "/Delivery/PostThird",
+                    data: { id: '@Model.Id', orders: deliveryDetails },
+                    success: function (result) {
+                        if (!result.Result) {
+                            showError(result.Message);
+                        }
+                        if (result.Data != null && result.Data.length > 0) {
+                            window.location.href = result.Data;
+                        }
+                        return false;
+                    },
+                    error: function () {
+                        showError('System Error');
+                    },
+                    complete: function () {
+                        $('#btnNext').removeAttr('disabled');
+                    }
+                });
+            });
+        });
+
+        function showError(errorMessage) {
+            $('#errorMessage').html(errorMessage);
+            $('#alertError').modal();
+        }
+
+    </script>
+}
+

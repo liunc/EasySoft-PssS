@@ -1,0 +1,87 @@
+﻿@using EasySoft.PssS.Web.Resources;
+
+@model  EasySoft.PssS.Web.Models.Delivery.DeliveryIndexModel
+@{
+    ViewBag.Title = WebResource.Title_DeliveryRecord;
+    ViewBag.PreviousUrl = "/Home/Index";
+}
+@section styles {
+    @Styles.Render("~/Content/datetimepicker")
+}
+<div class="row">
+    <div class="col-xs-6 form-group">
+        <input id="txtStartDate" name="txtStartDate" class="form_datetime form-control" type="text" value="@Model.QueryStartDate" readonly>
+    </div>
+    <div class="col-xs-6 form-group">
+        <input id="txtEndDate" name="txtEndDate" class="form_datetime form-control" type="text" value="@Model.QueryEndDate" readonly>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12" style="padding-bottom:65px">
+        @foreach (var data in Model.PageData)
+            {
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @data.Date @data.ExpressCompanyName
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    @data.Summary
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section footer {
+    <div class="navbar-default navbar-fixed-bottom">
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.Action("PageNavigation", "Common", new { pageIndex = Model.PageIndex, totalCount = Model.TotalCount, url = string.Format("/Customer/Index?start={0}&end={1}page=", Model.QueryStartDate, Model.QueryEndDate) })
+            </div>
+        </div>
+        <div class="row">
+            <a href="/Delivery/First" class="btn btn-success btn-block ">
+                <span class="glyphicon glyphicon-plus"></span>
+                @WebResource.Button_Delivery
+            </a>
+        </div>
+    </div>
+}
+@section scripts {
+    @Scripts.Render("~/bundles/datetimepicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(function () {
+            $('#txtStartDate').datetimepicker({
+                format: "yyyy-mm-dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                showMeridian: true,
+                //pickerPosition: "bottom-left",
+                language: 'zh-CN',//中文，需要引用zh-CN.js包
+                startView: 2,//月视图
+                minView: 2//日期时间选择器所能够提供的最精确的时间选择视图
+            });
+            $('#txtEndDate').datetimepicker({
+                format: "yyyy-mm-dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                showMeridian: true,
+                //pickerPosition: "bottom-left",
+                language: 'zh-CN',//中文，需要引用zh-CN.js包
+                startView: 2,//月视图
+                minView: 2//日期时间选择器所能够提供的最精确的时间选择视图
+            });
+        });
+        function showError(errorMessage) {
+            $('#errorMessage').html(errorMessage);
+            $('#alertError').modal();
+        }
+    </script>
+}
+

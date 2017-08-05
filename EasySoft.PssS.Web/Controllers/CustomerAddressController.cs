@@ -12,18 +12,15 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Controllers
 {
-    using Core.Util;
-    using Domain.Entity;
-    using Domain.Service;
-    using Filters;
-    using Models;
-    using Models.CustomerAddress;
-    using Models.CustomerGroup;
-    using Resources;
+    using EasySoft.Core.Util;
+    using EasySoft.Core.ViewModel;
+    using EasySoft.PssS.Domain.Entity;
+    using EasySoft.PssS.Domain.Service;
+    using EasySoft.PssS.Web.Filters;
+    using EasySoft.PssS.Web.Models.CustomerAddress;
+    using EasySoft.PssS.Web.Resources;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
     using System.Web.Mvc;
 
     /// <summary>
@@ -101,18 +98,18 @@ namespace EasySoft.PssS.Web.Controllers
             {
                 Validate validate = new Validate();
                 validate.CheckObjectArgument<CustomerAddressAddModel>("model", model);
-                if (!validate.Result.Success)
+                if (validate.IsFailed)
                 {
-                    result.BuilderErrorMessage(validate.Result.ErrorMessages);
+                    result.BuilderErrorMessage(validate.ErrorMessages);
                     return Json(result);
                 }
                 model.PostValidate(validate);
-                if (!validate.Result.Success)
+                if (validate.IsFailed)
                 {
-                    result.BuilderErrorMessage(validate.Result.ErrorMessages);
+                    result.BuilderErrorMessage(validate.ErrorMessages);
                     return Json(result);
                 }
-                this.customerAddressService.Add(model.CustomerId, model.Linkman, model.Mobile, model.Address, model.IsDefault ? Constant.COMMON_Y : Constant.COMMON_N, this.Session["Moblie"].ToString());
+                this.customerAddressService.Add(model.CustomerId, model.Linkman, model.Mobile, model.Address, model.IsDefault ? Constant.COMMON_Y : Constant.COMMON_N, this.Session["Mobile"].ToString());
                 result.Result = true;
                 return Json(result);
             }
@@ -135,9 +132,9 @@ namespace EasySoft.PssS.Web.Controllers
             {
                 Validate validate = new Validate();
                 validate.CheckStringArgument("id", id, true);
-                if (!validate.Result.Success)
+                if (validate.IsFailed)
                 {
-                    result.BuilderErrorMessage(validate.Result.ErrorMessages);
+                    result.BuilderErrorMessage(validate.ErrorMessages);
                     return Json(result);
                 }
                 CustomerAddress entity = this.customerAddressService.Select(id);
@@ -166,18 +163,18 @@ namespace EasySoft.PssS.Web.Controllers
             {
                 Validate validate = new Validate();
                 validate.CheckObjectArgument<CustomerAddressEditModel>("model", model);
-                if (!validate.Result.Success)
+                if (validate.IsFailed)
                 {
-                    result.BuilderErrorMessage(validate.Result.ErrorMessages);
+                    result.BuilderErrorMessage(validate.ErrorMessages);
                     return Json(result);
                 }
                 model.PostValidate(validate);
-                if (!validate.Result.Success)
+                if (validate.IsFailed)
                 {
-                    result.BuilderErrorMessage(validate.Result.ErrorMessages);
+                    result.BuilderErrorMessage(validate.ErrorMessages);
                     return Json(result);
                 }
-                this.customerAddressService.Update(model.Id, model.Linkman, model.Mobile, model.Address, this.Session["Moblie"].ToString());
+                this.customerAddressService.Update(model.Id, model.Linkman, model.Mobile, model.Address, this.Session["Mobile"].ToString());
                 result.Result = true;
                 return Json(result);
             }
@@ -187,56 +184,6 @@ namespace EasySoft.PssS.Web.Controllers
                 return Json(result);
             }
         }
-        /*
-        /// <summary>
-        /// 获取GroupEdit视图
-        /// </summary>
-        /// <returns>返回视图</returns>
-        [MyAuthorize(AuthRoles = new string[] { "Admin" })]
-        public ActionResult Edit(string id, int page = 1)
-        {
-            CustomerGroup entity = this.customerAddressService.Select(id);
-            CustomerGroupEditModel model = new CustomerGroupEditModel(entity);
-            model.PageIndex = page;
-            return View(model);
-        }
-
-        /// <summary>
-        /// 修改客户分组
-        /// </summary>
-        /// <param name="model">新增客户分组数据视图模型对象</param>
-        /// <returns>返回视图</returns>
-        [HttpPost]
-        [MyAuthorize(AuthRoles = new string[] { "Admin" })]
-        public ActionResult Update(CustomerGroupEditModel model)
-        {
-            JsonResultModel result = new JsonResultModel();
-            try
-            {
-                List<string> errorMessages = new List<string>();
-                if (!ValidateHelper.CheckObjectArgument<CustomerGroupEditModel>("model", model, ref errorMessages))
-                {
-                    result.BuilderErrorMessage(errorMessages[0]);
-                    return Json(result);
-                }
-                model.PostValidate(ref errorMessages);
-                if (errorMessages.Count > 0)
-                {
-                    result.BuilderErrorMessage(errorMessages);
-                    return Json(result);
-                }
-                this.customerAddressService.Update(model.Id, model.l model.Name, model.Remark, this.Session["Moblie"].ToString());
-                result.Result = true;
-                return Json(result);
-            }
-            catch (Exception ex)
-            {
-                result.BuilderErrorMessage(ex.Message);
-                return Json(result);
-            }
-        }
-        
-        */
 
         /// <summary>
         /// 设置为默认地址
@@ -252,14 +199,14 @@ namespace EasySoft.PssS.Web.Controllers
             {
                 Validate validate = new Validate();
                 validate.CheckStringArgument(WebResource.Field_Id, id, true);
-                if (validate.Result.Success)
+                if (validate.IsFailed)
                 {
-                    this.customerAddressService.SetDefault(id, this.Session["Moblie"].ToString());
-                    result.Result = true;
+                    result.BuilderErrorMessage(validate.ErrorMessages);
                 }
                 else
                 {
-                    result.BuilderErrorMessage(validate.Result.ErrorMessages);
+                    this.customerAddressService.SetDefault(id, this.Session["Mobile"].ToString());
+                    result.Result = true;
                 }
                 return Json(result);
             }
@@ -284,14 +231,14 @@ namespace EasySoft.PssS.Web.Controllers
             {
                 Validate validate = new Validate();
                 validate.CheckStringArgument(WebResource.Field_Id, id, true);
-                if (validate.Result.Success)
+                if (validate.IsFailed)
                 {
-                    this.customerAddressService.Delete(id);
-                    result.Result = true;
+                    result.BuilderErrorMessage(validate.ErrorMessages);
                 }
                 else
                 {
-                    result.BuilderErrorMessage(validate.Result.ErrorMessages);
+                    this.customerAddressService.Delete(id);
+                    result.Result = true;
                 }
                 return Json(result);
             }

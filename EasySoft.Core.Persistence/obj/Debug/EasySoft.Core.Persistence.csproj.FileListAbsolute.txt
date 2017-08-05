@@ -2,3 +2,4 @@ D:\github\EasySoft-PssS\EasySoft.Core.Persistence\bin\Debug\EasySoft.Core.Persis
 D:\github\EasySoft-PssS\EasySoft.Core.Persistence\bin\Debug\EasySoft.Core.Persistence.pdb
 D:\github\EasySoft-PssS\EasySoft.Core.Persistence\obj\Debug\EasySoft.Core.Persistence.dll
 D:\github\EasySoft-PssS\EasySoft.Core.Persistence\obj\Debug\EasySoft.Core.Persistence.pdb
+D:\github\EasySoft-PssS\EasySoft.Core.Persistence\obj\Debug\EasySoft.Core.Persistence.csprojResolveAssemblyReference.cache

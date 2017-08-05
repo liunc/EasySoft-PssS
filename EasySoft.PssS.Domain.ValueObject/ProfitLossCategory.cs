@@ -15,21 +15,16 @@ namespace EasySoft.PssS.Domain.ValueObject
     /// <summary>
     /// 益损类型枚举
     /// </summary>
-    public enum ProfitLossCategory
+    public struct ProfitLossCategory
     {
-        /// <summary>
-        /// 未指定
-        /// </summary>
-        None,
-
         /// <summary>
         /// 增益
         /// </summary>
-        Profit,
+        public const string Profit = "P";
 
         /// <summary>
         /// 损耗
         /// </summary>
-        Loss
+        public const string Loss = "L";
     }
 }

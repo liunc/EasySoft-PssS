@@ -14,6 +14,7 @@ namespace EasySoft.PssS.Domain.Service
 {
     using EasySoft.Core.Persistence.RepositoryImplement;
     using EasySoft.Core.Util;
+    using EasySoft.PssS.Application.DataTransfer.Customer;
     using EasySoft.PssS.DbRepository;
     using EasySoft.PssS.Domain.Entity;
     using EasySoft.PssS.Repository;
@@ -60,7 +61,8 @@ namespace EasySoft.PssS.Domain.Service
         /// <param name="weChatId">微信Id</param>
         /// <param name="groupId">分组Id</param>
         /// <param name="creator">创建人</param>
-        public void Add(string name, string nickname, string mobile, string address, string weChatId, string groupId, string creator)
+        /// <returns>返回客户地址Id</returns>
+        public string Add(string name, string nickname, string mobile, string address, string weChatId, string groupId, string creator)
         {
             using (DbConnection conn = DbHelper.CreateConnection())
             {
@@ -79,7 +81,7 @@ namespace EasySoft.PssS.Domain.Service
                     }
 
                     Customer entity = new Customer();
-                    entity.Add(name, nickname, mobile, address, weChatId, groupId, creator);
+                    entity.Create(name, nickname, mobile, address, weChatId, groupId, creator);
                     this.customerRepository.Insert(trans, entity);
 
                     if (entity.Addresses != null && entity.Addresses.Count > 0)
@@ -87,6 +89,8 @@ namespace EasySoft.PssS.Domain.Service
                         this.customerAddressRepository.Insert(trans, entity.Addresses[0]);
                     }
                     trans.Commit();
+
+                    return entity.Addresses[0].Id;
                 }
                 catch
                 {
@@ -130,7 +134,7 @@ namespace EasySoft.PssS.Domain.Service
                             throw new EasySoftException(BusinessResource.Customer_NoFoundGroup);
                         }
                     }
-                    entity.Update(name,nickname, mobile, weChatId, groupId, mender);
+                    entity.Update(name, nickname, mobile, weChatId, groupId, mender);
                     this.customerRepository.Update(trans, entity);
 
                     trans.Commit();
@@ -164,7 +168,7 @@ namespace EasySoft.PssS.Domain.Service
                         throw new ArgumentNullException("DbTransaction");
                     }
 
-                    if(!this.customerRepository.Exists(trans, id))
+                    if (!this.customerRepository.Exists(trans, id))
                     {
                         throw new EasySoftException(BusinessResource.Customer_NoFound);
                     }
@@ -200,7 +204,18 @@ namespace EasySoft.PssS.Domain.Service
         {
             return this.customerRepository.Search(name, groupId, pageIndex, pageSize, ref totalCount);
         }
-        
+
+        /// <summary>
+        /// 提供下单选择客户的数据
+        /// </summary>
+        /// <param name="name">名称</param>
+        /// <param name="groupId">分组Id</param>
+        /// <returns>返回数据</returns>
+        public List<CustomerForOrderDTO> GetCustomerListForOrder(string name, string groupId)
+        {
+            return this.customerRepository.GetCustomerListForOrder(name, groupId);
+        }
+
         /// <summary>
         /// 根据Id查找一条客户数据
         /// </summary>
@@ -210,7 +225,7 @@ namespace EasySoft.PssS.Domain.Service
         {
             return this.Select(null, id);
         }
-        
+
         #endregion
 
         #region 受保护的方法

@@ -12,6 +12,7 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Models.CustomerGroup
 {
+    using Core.Util;
     using EasySoft.PssS.Domain.Entity;
     using Resources;
     using System.Collections.Generic;
@@ -64,10 +65,10 @@ namespace EasySoft.PssS.Web.Models.CustomerGroup
         /// 提交验证
         /// </summary>
         /// <param name="errorMessages">返回的错误信息</param>
-        public override void PostValidate(ref List<string> errorMessages)
+        public override void PostValidate(ref Validate validate)
         {
-            ValidateHelper.CheckInputString(WebResource.Field_Id, this.Id, true, ValidateHelper.STRING_LENGTH_32, ref errorMessages);
-            base.PostValidate(ref errorMessages);
+            this.Id = validate.CheckInputString(WebResource.Field_Id, this.Id, true, Constant.STRING_LENGTH_32);
+            base.PostValidate(ref validate);
         }
 
         #endregion

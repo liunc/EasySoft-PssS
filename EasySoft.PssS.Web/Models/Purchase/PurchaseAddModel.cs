@@ -13,7 +13,10 @@
 namespace EasySoft.PssS.Web.Models.Purchase
 {
     using Core.Util;
+    using Cost;
+    using CostItem;
     using Domain.ValueObject;
+    using PurchaseItem;
     using Resources;
     using System;
     using System.Collections.Generic;
@@ -53,12 +56,7 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// <summary>
         /// 获取或设置采购分类
         /// </summary>
-        public string CategoryString { get; set; }
-
-        /// <summary>
-        /// 获取或设置采购分类
-        /// </summary>
-        public PurchaseCategory Category { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
         /// 获取或设置父级页面标题
@@ -93,30 +91,26 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// <summary>
         /// 获取或设置成本明细
         /// </summary>
-        public List<CostItemModel> CostItems { get; set; }
-
-        /// <summary>
-        /// 获取或设置采购项
-        /// </summary>
-        public List<PurchaseItemModel> PurchaseItems { get; set; }
+        public List<CostAddModel> Costs { get; set; }
 
         /// <summary>
         /// 获取或设置成本明细
         /// </summary>
-        public Dictionary<string,decimal> Costs { get; set; }
+        public Dictionary<string, decimal> CostData { get; set; }
 
         /// <summary>
         /// 构造函数
         /// </summary>
         public PurchaseAddModel()
         {
+
         }
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="category">采购分类</param>
-        public PurchaseAddModel(PurchaseCategory category)
+        public PurchaseAddModel(string category)
         {
             this.Init(category);
         }
@@ -125,30 +119,18 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// 初始化数据
         /// </summary>
         /// <param name="category">采购分类</param>
-        public void Init(PurchaseCategory category)
+        public void Init(string category)
         {
-            this.CategoryString = category.ToString();
-            if (category == PurchaseCategory.Product)
+            this.Category = category;
+            if (category == PurchaseItemCategory.Product)
             {
                 this.Title = WebResource.Title_Purchase_AddProduct;
                 this.ParentPageTitle = WebResource.Title_Purchase_Product;
             }
-            else if (category == PurchaseCategory.Pack)
+            else if (category == PurchaseItemCategory.Pack)
             {
                 this.Title = WebResource.Title_Purchase_AddPack;
                 this.ParentPageTitle = WebResource.Title_Purchase_Pack;
-            }
-
-            Dictionary<string, PurchaseItemModel> purchaseItems = ParameterHelper.GetPurchaseItem(category, true);
-            if (purchaseItems != null && purchaseItems.Count > 0)
-            {
-                this.PurchaseItems = purchaseItems.Values.ToList();
-            }
-
-            Dictionary<string, CostItemModel> costItems = ParameterHelper.GetCostItem(CostCategory.Purchase, true);
-            if (costItems != null && costItems.Count > 0)
-            {
-                this.CostItems = costItems.Values.ToList();
             }
 
         }
@@ -157,31 +139,25 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// 提交验证
         /// </summary>
         /// <param name="errorMessages">返回的错误信息</param>
-        public void PostValidate(ref List<string> errorMessages)
+        public void PostValidate(ref Validate validate)
         {
-            this.Category = ValidateHelper.CheckPurchaseCategory(this.CategoryString, ref errorMessages);
-            this.Date = ValidateHelper.CheckDateString(WebResource.Field_Date, this.DateString, true, ref errorMessages);
-            ValidateHelper.CheckInputString(WebResource.Field_Supplier, this.Supplier, false, ValidateHelper.STRING_LENGTH_50, ref errorMessages);
-            ValidateHelper.CheckSelectString(WebResource.Field_Item, this.Item, true, ParameterHelper.GetPurchaseItem(this.Category, true).Keys.ToList(), ref errorMessages);
-            ValidateHelper.CheckDecimal(WebResource.Field_Quantity, this.Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX, ref errorMessages);
-            Dictionary<string, decimal> costs = new Dictionary<string, decimal>();
-            if (this.CostItems != null && this.CostItems.Count > 0)
+            validate.CheckDictionary<string, string>(WebResource.Field_Category, this.Category, ParameterHelper.GetPurchaseItemCatetory());
+            this.Date = validate.CheckDateString(WebResource.Field_Date, this.DateString, true);
+            this.Supplier = validate.CheckInputString(WebResource.Field_Supplier, this.Supplier, false, Constant.STRING_LENGTH_10);
+            validate.CheckDictionary<string, PurchaseItemCacheModel>(WebResource.Field_Item, this.Item, ParameterHelper.GetPurchaseItem(this.Category));
+            validate.CheckDecimal(WebResource.Field_Quantity, this.Quantity, Constant.DECIMAL_REQUIRED_MIN, Constant.DECIMAL_MAX);
+            this.Unit = validate.CheckInputString(WebResource.Field_Unit, this.Unit, false, Constant.STRING_LENGTH_2);
+            this.Remark = validate.CheckInputString(WebResource.Field_Remark, this.Remark, false, Constant.STRING_LENGTH_100);
+            this.CostData = new Dictionary<string, decimal>();
+            if (this.Costs != null && this.Costs.Count > 0)
             {
-                List<string> costOptions = ParameterHelper.GetCostItem(CostCategory.Purchase.ToString(), true).Keys.ToList();
-                foreach (CostItemModel cost in this.CostItems)
+                foreach (CostAddModel cost in this.Costs)
                 {
-                    if (!ValidateHelper.CheckSelectString(WebResource.Field_CostItem, cost.ItemCode, true, costOptions, ref errorMessages))
-                    {
-                        break;
-                    }
-                    if (!ValidateHelper.CheckDecimal(WebResource.Field_CostItemMoney, cost.Money, ValidateHelper.DECIMAL_ZERO, ValidateHelper.DECIMAL_MAX, ref errorMessages))
-                    {
-                        break;
-                    }
-                    costs.Add(cost.ItemCode, cost.Money);
+                    cost.Category = CostItemCategory.Purchase;
+                    cost.PostValidate(ref validate);
+                    this.CostData.Add(cost.Item, cost.Money);
                 }
             }
-            this.Costs = costs;
         }
     }
 }

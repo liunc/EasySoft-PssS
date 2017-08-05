@@ -1,4 +1,5 @@
-﻿@using EasySoft.PssS.Web.Resources;
+﻿@using EasySoft.Core.Util;
+@using EasySoft.PssS.Web.Resources;
 @using EasySoft.PssS.Web.Models.CustomerGroup;
 @model CustomerGroupEditModel
 
@@ -7,29 +8,28 @@
     ViewBag.PreviousUrl = string.Format("/CustomerGroup/Detail/{0}?page={1}", Model.Id, Model.PageIndex);
 }
 
-<div class="col-xs-12">
-    <form id="formEdit" role="form">
-        <div class="form-group">
-            <input id="txtName" value="@Model.Name" name="txtName" type="text" class="form-control" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Name,  ValidateHelper.STRING_LENGTH_50)" maxlength="50" required />
-        </div>
-        <div class="form-group">
-            <textarea class="form-control" rows="3" id="txtRemark" name="txtRemark" maxlength="120" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Remark,  ValidateHelper.STRING_LENGTH_120)">@Model.Remark</textarea>
-        </div>
+<form id="formEdit" role="form">
+    <div class="form-group">
+        <input id="txtName" value="@Model.Name" name="txtName" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Name,  Constant.STRING_LENGTH_10)" maxlength="@Constant.STRING_LENGTH_10" required />
+    </div>
+    <div class="form-group">
+        <textarea class="form-control" rows="3" id="txtRemark" name="txtRemark" maxlength="@Constant.STRING_LENGTH_100" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Remark,  Constant.STRING_LENGTH_100)">@Model.Remark</textarea>
+    </div>
 
-        <div class="row navbar-default navbar-fixed-bottom">
-            <div class="col-xs-6">
-                <div class="row">
-                    <button id="btnSubmit" type="submit" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Submit</button>
-                </div>
-            </div>
-            <div class="col-xs-6">
-                <div class="row">
-                    <button type="button" class="btn btn-default btn-block" onclick="window.history.back();" style="border-Radius:0px">@WebResource.Button_Back</button>
-                </div>
+    <div class="row navbar-default navbar-fixed-bottom">
+        
+        <div class="col-xs-6">
+            <div class="row">
+                <button type="button" class="btn btn-default btn-block" onclick="window.history.back();" style="border-Radius:0px">@WebResource.Button_Back</button>
             </div>
         </div>
-    </form>
+        <div class="col-xs-6">
+    <div class="row">
+        <button id="btnSubmit" type="submit" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Submit</button>
+    </div>
 </div>
+    </div>
+</form>
 
 @Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
 
@@ -44,19 +44,19 @@
                 rules: {
                     txtName: {
                         required: true,
-                        maxlength: 50
-                    },
+                        maxlength: @Constant.STRING_LENGTH_10
+                        },
                     txtRemark: {
-                        maxlength: 120
-                    }
+                        maxlength: @Constant.STRING_LENGTH_100
+                        }
                 },
                 messages: {
                     txtName: {
-                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Name)',
-                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Name, ValidateHelper.STRING_LENGTH_50)'
+                        required: '@Validate.GetPleaseInputFieldString(WebResource.Field_Name)',
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Name, Constant.STRING_LENGTH_10)'
                     },
                     txtRemark: {
-                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Remark, ValidateHelper.STRING_LENGTH_120)'
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Remark, Constant.STRING_LENGTH_100)'
                     }
                 },
                 //自定义错误消息放到哪里

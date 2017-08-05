@@ -1,0 +1,192 @@
+﻿@using EasySoft.PssS.Web.Resources;
+@using EasySoft.Core.Util;
+@using EasySoft.PssS.Domain.ValueObject;
+
+@model EasySoft.PssS.Web.Models.Delivery.DeliveryFourthModel
+
+@{
+    ViewBag.Title = WebResource.Title_Delivery_Fourth;
+    ViewBag.PreviousUrl = string.Format("/Delivery/Third?id={0}", Model.Id);
+}
+
+@section styles {
+    @Styles.Render("~/Content/datetimepicker")
+}
+<div class="col-xs-12">
+    <form id="formAddDelivery" role="form">
+        <div class="form-group">
+            <input id="txtDate" name="txtDate" class="form_datetime form-control" type="text" value="@Model.CurrentDate" readonly>
+        </div>
+
+        <div class="form-group">
+            <select id="ddlExpressCompany" name="ddlExpressCompany" class="form-control" required>
+                <option value="">@Validate.GetPleaseSelectFieldString(WebResource.Field_ExpressCompany)</option>
+                @foreach (var item in ParameterHelper.GetExpressCompany())
+            {
+                    <option value="@item.Key">@item.Value</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" rows="3" id="txtExpressBill" name="txtExpressBill" maxlength="@Constant.STRING_LENGTH_100" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_ExpressBill,  Constant.STRING_LENGTH_100)"></textarea>
+
+        </div>
+        @foreach (var cost in ParameterHelper.GetCostItem(CostItemCategory.Delivery))
+        {
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="number" min="@Constant.DECIMAL_ZERO" max="@Constant.DECIMAL_MAX" id="@cost.Key" aria-describedby="@string.Format("span{0}", cost.Value.Code)" name="costMoney" class="form-control" placeholder="@Validate.GetPleaseInputFieldString(cost.Value.Name)" />
+                    <span class="input-group-addon" id="@string.Format("span{0}", cost.Value.Code)">@WebResource.Common_Yuan</span>
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            <textarea class="form-control" rows="3" id="txtRemark" name="txtRemark" maxlength="120" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Remark,  Constant.STRING_LENGTH_100)"></textarea>
+
+        </div>
+
+        <div class="row navbar-default navbar-fixed-bottom">
+            <div class="col-xs-6">
+                <div class="row">
+                    <button type="button" class="btn btn-default btn-block btn-sm" onclick="window.location.href = '@ViewBag.PreviousUrl';" style="border-Radius:0px">@WebResource.Button_Last</button>
+                </div>
+            </div>
+             <div class="col-xs-6">
+                <div class="row">
+                    <button id="btnSubmit" type="submit" class="btn btn-success btn-block btn-sm" style="border-Radius:0px">@WebResource.Button_Submit</button>
+                </div>
+            </div>
+            
+        </div>
+
+    </form>
+</div>
+
+@Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
+@section scripts {
+    @Scripts.Render("~/bundles/datetimepicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(function () {
+            $('#txtDate').datetimepicker({
+                format: "yyyy-mm-dd",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+                showMeridian: true,
+                //pickerPosition: "bottom-left",
+                language: 'zh-CN',//中文，需要引用zh-CN.js包
+                startView: 2,//月视图
+                minView: 2//日期时间选择器所能够提供的最精确的时间选择视图
+            });
+            $('#formAddDelivery').validate({
+                errorElement: 'span',
+                errorClass: 'help-block',
+                focusInvalid: false,
+                rules: {
+                    txtDate: {
+                        required: true,
+                        date: true
+                    },
+                    ddlExpressCompany: {
+                        required: true
+                    },
+                    txtExpressBill: {
+                        required: true,
+                        maxlength: @Constant.STRING_LENGTH_100
+                    },
+                    costMoney: {
+                        number: true,
+                        min: @Constant.DECIMAL_ZERO,
+                        max: @Constant.DECIMAL_MAX
+                        },
+                    txtRemark: {
+                        maxlength: @Constant.STRING_LENGTH_100
+                        }
+                },
+                messages: {
+                    txtDate: {
+                        required: '@Validate.GetPleaseSelectFieldString(WebResource.Field_Date)',
+                        date: '@Validate.GetPleaseSelectFieldString(WebResource.Field_Date)'
+                    },
+                    ddlExpressCompany: {
+                        required: '@Validate.GetPleaseSelectFieldString(WebResource.Field_ExpressCompany)'
+                    },
+                    txtExpressBill: {
+                        required: '@Validate.GetPleaseInputFieldString(WebResource.Field_ExpressBill)',
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_ExpressBill, Constant.STRING_LENGTH_100)'
+                    },
+                    costMoney: {
+                        number: '@Validate.GetPleaseInputFieldString(WebResource.Field_Money)',
+                        min: '@Validate.GetDecimalFieldRangeString(WebResource.Field_Money, Constant.DECIMAL_ZERO, Constant.DECIMAL_MAX)',
+                        max: '@Validate.GetDecimalFieldRangeString(WebResource.Field_Money, Constant.DECIMAL_ZERO, Constant.DECIMAL_MAX)'
+                    },
+                    txtRemark: {
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Remark, Constant.STRING_LENGTH_100)'
+                    }
+                },
+                //自定义错误消息放到哪里
+                errorPlacement: function (error, element) {
+                    element.closest('.form-group').append(error);//显示错误消息提示
+                },
+                //给未通过验证的元素进行处理
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error has-feedback').removeClass('has-success');
+                },
+                //验证通过的处理
+                success: function (element) {
+                    element.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
+                    element.remove();
+                },
+                submitHandler: function (form) {
+                    if (this.valid()) {
+                        $('#btnSubmit').attr({ 'disabled': 'disabled' });
+                        var model = {};
+                        model.DateString = $.trim($('#txtDate').val());
+                        model.ExpressCompany = $.trim($('#ddlExpressCompany').val());
+                        model.ExpressBill = $.trim($('#txtExpressBill').val());
+                        model.Remark = $.trim($('#txtRemark').val());
+                        model.Costs = [];
+                        $('input[name="costMoney"]').each(function () {
+                            var cost = {};
+                            cost.Item = $(this).attr('id');
+                            var val = $(this).val();
+                            if (val.length == 0) {
+                                val = "0";
+                            }
+                            cost.Money = parseFloat(val);
+                            model.Costs.push(cost);
+                        });
+                        $.ajax({
+                            type: "post",
+                            url: "/Delivery/PostAdd",
+                            data: { id: '@Model.Id', model: model },
+                            success: function (result) {
+                                if (result.Result) {
+                                    window.location.href = result.Data;
+                                }
+                                else {
+                                    showError(result.Message);
+                                }
+                                return false;
+                            },
+                            error: function () {
+                                showError('System Error');
+                            },
+                            complete: function () {
+                                $('#btnSubmit').removeAttr('disabled');
+                            }
+                        });
+                    }
+                    return false;
+                }
+            });
+        });
+        function showError(errorMessage) {
+            $('#errorMessage').html(errorMessage);
+            $('#alertError').modal();
+        }
+    </script>
+}

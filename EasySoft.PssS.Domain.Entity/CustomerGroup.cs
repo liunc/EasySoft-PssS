@@ -12,8 +12,9 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Domain.Entity
 {
-    using Core.Util;
     using EasySoft.Core.Persistence;
+    using EasySoft.Core.Util;
+    using System;
     using System.Data;
 
     /// <summary>
@@ -27,37 +28,68 @@ namespace EasySoft.PssS.Domain.Entity
         /// <summary>
         /// 获取或设置名称
         /// </summary>
-        [Column(Name = "Name", DataType = DbType.String, Size = 50)]
-        public string Name { get; set; }
+        [Column(Name = "Name", DataType = DbType.String, Size = Constant.STRING_LENGTH_10)]
+        public string Name { get; private set; }
 
         /// <summary>
         /// 获取或设置是否为默认设置
         /// </summary>
-        [Column(Name = "IsDefault", DataType = DbType.String, Size = 1)]
-        public string IsDefault { get; set; }
+        [Column(Name = "IsDefault", DataType = DbType.String, Size = Constant.STRING_LENGTH_1)]
+        public string IsDefault { get; private set; }
 
         /// <summary>
         /// 获取或设置备注
         /// </summary>
-        [Column(Name = "Remark", DataType = DbType.String, Size = 120)]
-        public string Remark { get; set; }
+        [Column(Name = "Remark", DataType = DbType.String, Size = Constant.STRING_LENGTH_100)]
+        public string Remark { get; private set; }
+
+        #endregion
+
+        #region 构造函数
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public CustomerGroup()
+        {
+
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <param name="name">名称</param>
+        /// <param name="isDefault">是否为默认设置</param>
+        /// <param name="remark">备注</param>
+        /// <param name="creator">创建人</param>
+        /// <param name="createTime">创建时间</param>
+        /// <param name="mender">修改人</param>
+        /// <param name="modifyTime">修改时间</param>
+        public CustomerGroup(string id, string name, string isDefault, string remark, string creator, DateTime createTime, string mender, DateTime modifyTime) :
+            base(id, creator, createTime, mender, modifyTime)
+        {
+            this.Name = name;
+            this.IsDefault = isDefault;
+            this.Remark = remark;
+        }
 
         #endregion
 
         #region 方法
 
         /// <summary>
-        /// 添加新分组
+        /// 创建分组
         /// </summary>
         /// <param name="name">名称</param>
         /// <param name="remark">备注</param>
         /// <param name="creator">创建人</param>
-        public void Add(string name, string remark, string creator)
+        public void Create(string name, string remark, string creator)
         {
-            this.NewId();
-            this.IsDefault = "N";
-            this.SetCreator(creator);
-            this.Update(name, remark, creator);
+            base.Create(creator);
+            this.IsDefault = Constant.COMMON_N;
+            this.Name = name.Trim();
+            this.Remark = DataConvert.ConvertNullToEmptyString(remark);
         }
 
         /// <summary>
@@ -68,9 +100,9 @@ namespace EasySoft.PssS.Domain.Entity
         /// <param name="mender">修改人</param>
         public void Update(string name, string remark, string mender)
         {
+            base.Update(mender);
             this.Name = name.Trim();
             this.Remark = DataConvert.ConvertNullToEmptyString(remark);
-            this.SetMender(mender);
         }
 
         public bool CanDelete()

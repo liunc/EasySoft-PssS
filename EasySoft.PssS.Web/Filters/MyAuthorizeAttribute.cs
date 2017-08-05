@@ -41,9 +41,9 @@ namespace EasySoft.PssS.Web.Filters
             {
                 throw new ArgumentNullException("HttpContext");
             }
-            if (httpContext.Session == null || httpContext.Session["Moblie"] == null)
+            if (httpContext.Session == null || httpContext.Session["Mobile"] == null)
             {
-                httpContext.Session["Moblie"] = "13510129341";
+                httpContext.Session["Mobile"] = "13510129341";
                 httpContext.Session["Roles"] = "Admin";
                 httpContext.Session["Name"] = "刘年超";
                 // return false;

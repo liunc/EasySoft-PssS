@@ -15,17 +15,15 @@
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a href="@ViewBag.PreviousUrl" class="navbar-brand"><</a>
+                <a id="previous" href="@ViewBag.PreviousUrl" class="navbar-brand"><</a>
                 <p class="navbar-text" style="padding-left:15px; font-size:18px;  line-height: 20px; ">@ViewBag.Title</p>
             </div>
         </div>
     </div>
     <div class="container">
-        <div class="row">
-            @RenderBody()
-        </div>
-        @RenderSection("footer", required: false)
+        @RenderBody()
     </div>
+    @RenderSection("footer", required: false)
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

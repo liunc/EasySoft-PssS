@@ -12,7 +12,8 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Domain.Entity
 {
-    using Core.Persistence;
+    using EasySoft.Core.Persistence;
+    using EasySoft.Core.Util;
     using System;
     using System.Data;
 
@@ -26,8 +27,26 @@ namespace EasySoft.PssS.Domain.Entity
         /// <summary>
         /// 获取或设置Id
         /// </summary>
-        [Column(Size =32, DataType = DbType.String, PrimaryKey =true )]
-        public string Id { get; set; }
+        [Column(Size = Constant.STRING_LENGTH_32, DataType = DbType.String, PrimaryKey = true)]
+        public string Id { get; protected set; }
+
+        #endregion
+
+        #region 构造函数
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public EntityBase() { }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="id">Id</param>
+        public EntityBase(string id)
+        {
+            this.Id = id;
+        }
 
         #endregion
 

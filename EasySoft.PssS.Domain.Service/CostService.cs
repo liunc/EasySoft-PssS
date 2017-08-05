@@ -75,7 +75,7 @@ namespace EasySoft.PssS.Domain.Service
         /// <param name="money">金额</param>
         internal void Update(DbTransaction trans, string id, decimal money)
         {
-            this.costRepository.Update(trans, new Cost { Id = id, Money = money });
+            this.costRepository.Update(trans, new Cost(id, money));
         }
 
         /// <summary>

@@ -12,7 +12,7 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Repository
 {
-    using Core.Persistence.Repository;
+    using EasySoft.Core.Persistence.Repository;
     using EasySoft.PssS.Domain.Entity;
     using System.Collections.Generic;
     using System.Data.Common;
@@ -43,5 +43,12 @@ namespace EasySoft.PssS.Repository
         /// <param name="customerId">客户Id</param>
         /// <returns>返回客户地址数据集合</returns>
         List<CustomerAddress> SearchByCustomerId(string customerId);
+
+        /// <summary>
+        /// 查询客户地址信息
+        /// </summary>
+        /// <param name="linkMan">联系人</param>
+        /// <returns>返回客户地址数据集合</returns>
+        List<CustomerAddress> SearchByLinkMan(string linkMan);
     }
 }

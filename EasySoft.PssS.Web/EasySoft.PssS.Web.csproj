@@ -144,10 +144,12 @@
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OutboundController.cs" />
+    <Compile Include="Controllers\DeliveryController.cs" />
     <Compile Include="Controllers\ProfitLossController.cs" />
     <Compile Include="Controllers\CostController.cs" />
     <Compile Include="Controllers\PurchaseController.cs" />
+    <Compile Include="Controllers\SaleController.cs" />
+    <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\MyAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -155,9 +157,12 @@
     </Compile>
     <Compile Include="Models\Common\DialogModel.cs" />
     <Compile Include="Models\Common\PageNavigationModel.cs" />
+    <Compile Include="Models\CostItem\CostItemCacheModel.cs" />
+    <Compile Include="Models\Cost\CostPageModel.cs" />
     <Compile Include="Models\CustomerAddress\CustomerAddressAddModel.cs" />
     <Compile Include="Models\CustomerAddress\CustomerAddressIndexModel.cs" />
     <Compile Include="Models\CustomerAddress\CustomerAddressEditModel.cs" />
+    <Compile Include="Models\CustomerAddress\CustomerAddressSelectModel.cs" />
     <Compile Include="Models\CustomerGroup\CustomerGroupIndexModel.cs" />
     <Compile Include="Models\CustomerGroup\CustomerGroupPageModel.cs" />
     <Compile Include="Models\CustomerGroup\CustomerGroupEditModel.cs" />
@@ -168,20 +173,37 @@
     <Compile Include="Models\Customer\CustomerDetailModel.cs" />
     <Compile Include="Models\Customer\CustomerPageModel.cs" />
     <Compile Include="Models\Customer\CustomerIndexModel.cs" />
+    <Compile Include="Models\Delivery\DeliveryPageModel.cs" />
+    <Compile Include="Models\Delivery\DeliveryIndexModel.cs" />
+    <Compile Include="Models\Delivery\DeliveryDetailAddModel.cs" />
+    <Compile Include="Models\Delivery\DeliveryAddModel.cs" />
+    <Compile Include="Models\Delivery\DeliveryFourthModel.cs" />
+    <Compile Include="Models\Delivery\DeliveryThirdModel.cs" />
+    <Compile Include="Models\Delivery\DeliverySecondModel.cs" />
     <Compile Include="Models\Home\IndexModel.cs" />
-    <Compile Include="Models\JsonResultModel.cs" />
-    <Compile Include="Models\ValueTextModel.cs" />
-    <Compile Include="Models\Outbound\OutboundFirstModel.cs" />
-    <Compile Include="Models\PagingModel.cs" />
+    <Compile Include="Models\Delivery\DeliveryFirstModel.cs" />
     <Compile Include="Models\ProfitLoss\ProfitLossAddModel.cs" />
     <Compile Include="Models\ProfitLoss\ProfitLossModel.cs" />
     <Compile Include="Models\Purchase\CostItemModel.cs" />
-    <Compile Include="Models\Purchase\CostModel.cs" />
+    <Compile Include="Models\Cost\CostAddModel.cs" />
     <Compile Include="Models\Purchase\PurchaseDetailModel.cs" />
+    <Compile Include="Models\Purchase\PurchaseDeliveryModel.cs" />
     <Compile Include="Models\Purchase\PurchasePageModel.cs" />
     <Compile Include="Models\Purchase\PurchaseAddModel.cs" />
     <Compile Include="Models\Purchase\PurchaseIndexModel.cs" />
-    <Compile Include="Models\Purchase\PurchaseItemModel.cs" />
+    <Compile Include="Models\PurchaseItem\PurchaseItemCacheModel.cs" />
+    <Compile Include="Models\SaleOrder\DetailModel.cs" />
+    <Compile Include="Models\SaleOrder\AddModel.cs" />
+    <Compile Include="Models\SaleOrder\SaleOrderAddModel.cs" />
+    <Compile Include="Models\SaleOrder\SaleOrderDetailAddModel.cs" />
+    <Compile Include="Models\SaleOrder\SaleOrderThirdModel.cs" />
+    <Compile Include="Models\SaleOrder\SaleOrderSecondModel.cs" />
+    <Compile Include="Models\SaleOrder\SaleOrderFirstModel.cs" />
+    <Compile Include="Models\SaleOrder\IndexModel.cs" />
+    <Compile Include="Models\SaleOrder\SaleOrderExpressModel.cs" />
+    <Compile Include="Models\SaleOrder\SaleOrderNeedExpressModel.cs" />
+    <Compile Include="Models\SaleOrder\SaleOrderPageModel.cs" />
+    <Compile Include="Models\SaleOrder\SelectCustomerAddressModel.cs" />
     <Compile Include="Models\User\LoginModel.cs" />
     <Compile Include="ParameterHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -190,7 +212,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WebResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="ValidateHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.css" />
@@ -210,7 +231,9 @@
     <Content Include="InitialData\XML\CostItem.xml" />
     <Content Include="InitialData\XML\PurchaseConfig.xml" />
     <Content Include="InitialData\XML\DeliveryConfig.xml" />
-    <Content Include="InitialData\XML\PurchaseItem.xml" />
+    <Content Include="InitialData\XML\PurchaseItem.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="InitialData\XML\User.xml" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
@@ -253,7 +276,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Common\_Confirm.cshtml" />
     <Content Include="Views\Common\_PageNavigation.cshtml" />
-    <Content Include="Views\Outbound\First.cshtml" />
+    <Content Include="Views\Delivery\First.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\CustomerGroup\Add.cshtml" />
     <Content Include="Views\CustomerGroup\Edit.cshtml" />
@@ -264,6 +287,19 @@
     <Content Include="Views\CustomerAddress\Add.cshtml" />
     <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\CustomerAddress\Index.cshtml" />
+    <Content Include="Views\Delivery\Second.cshtml" />
+    <Content Include="Views\Delivery\Third.cshtml" />
+    <Content Include="Views\Delivery\Fourth.cshtml" />
+    <Content Include="Views\Delivery\Index.cshtml" />
+    <Content Include="Views\SaleOrder\Index.cshtml" />
+    <Content Include="Views\SaleOrder\First.cshtml" />
+    <Content Include="Views\SaleOrder\Second.cshtml" />
+    <Content Include="Views\SaleOrder\Third.cshtml" />
+    <Content Include="Views\SaleOrder\SearchCustomer.cshtml" />
+    <Content Include="Views\SaleOrder\SelectCustomerAddress.cshtml" />
+    <Content Include="Views\SaleOrder\Add.cshtml" />
+    <Content Include="Views\SaleOrder\Detail.cshtml" />
+    <Content Include="Views\SaleOrder\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -283,6 +319,14 @@
     <ProjectReference Include="..\EasySoft.Core.Util\EasySoft.Core.Util.csproj">
       <Project>{AEBBCF64-AC18-4890-93CB-3597FDC43DB0}</Project>
       <Name>EasySoft.Core.Util</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.Core.ViewModel\EasySoft.Core.ViewModel.csproj">
+      <Project>{A10415C4-BB05-4B95-A02D-466B85DABD81}</Project>
+      <Name>EasySoft.Core.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EasySoft.PssS.Application.DataTransfer\EasySoft.PssS.Application.DataTransfer.csproj">
+      <Project>{696ad5b8-404c-4713-a53c-03e96545eb7e}</Project>
+      <Name>EasySoft.PssS.Application.DataTransfer</Name>
     </ProjectReference>
     <ProjectReference Include="..\EasySoft.PssS.Domain.Entity\EasySoft.PssS.Domain.Entity.csproj">
       <Project>{7e7215bd-421b-4126-98c2-4e469114efe5}</Project>

@@ -1,76 +1,77 @@
-﻿@using System.Collections.Generic;
-@using EasySoft.PssS.Web.Resources;
+﻿@using EasySoft.PssS.Web.Resources;
+@using EasySoft.Core.Util;
+@using EasySoft.PssS.Domain.ValueObject;
 
 @model EasySoft.PssS.Web.Models.Purchase.PurchaseAddModel
 
 @{
     ViewBag.Title = Model.Title;
+    ViewBag.PreviousUrl = "/Purchase/Index/" + Model.Category;
 }
 
 @section styles {
     @Styles.Render("~/Content/datetimepicker")
 }
-<div class="row">
-    <ol class="breadcrumb">
-        <li><a href="/Home/Index">@WebResource.Title_Index</a></li>
-        <li><a href="/Purchase/Index/@Model.CategoryString">@Model.ParentPageTitle</a></li>
-        <li class="active">@ViewBag.Title</li>
-    </ol>
-</div>
 
-<form id="formAddPurchase" role="form">
-    <div class="form-group">
-        <input id="txtDate" name="txtDate" class="form_datetime form-control" type="text" value="@Model.CurrentDate" readonly>
-    </div>
-
-    <div class="form-group">
-        <input id="txtSupplier" name="txtSupplier" type="text" class="form-control" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Supplier,  ValidateHelper.STRING_LENGTH_50)" maxlength="50" />
-    </div>
-
-    <div class="form-group">
-        <select id="ddlItem" name="ddlItem" class="form-control" required>
-            <option value="">@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Item)</option>
-            @foreach (var item in Model.PurchaseItems)
-            {
-                <option value="@item.Code">@item.Name</option>
-            }
-        </select>
-    </div>
-
-    <div class="form-group">
-        <div class="input-group">
-            <input id="txtQuantity" name="txtQuantity" type="number" min="0.01" max="99999999.99" class="form-control" aria-describedby="txtUnit" placeholder="@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Quantity)">
-            <span class="input-group-addon" id="txtUnit">---</span>
+    <form id="formAddPurchase" role="form">
+        <div class="form-group">
+            <input id="txtDate" name="txtDate" class="form_datetime form-control" type="text" value="@Model.CurrentDate" readonly>
         </div>
-    </div>
-    @foreach (var cost in Model.CostItems)
-    {
+
+        <div class="form-group">
+            <input id="txtSupplier" name="txtSupplier" type="text" class="form-control" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Supplier,  Constant.STRING_LENGTH_10)" maxlength="@Constant.STRING_LENGTH_10" />
+        </div>
+
+        <div class="form-group">
+            <select id="ddlItem" name="ddlItem" class="form-control" required>
+                <option value="">@Validate.GetPleaseSelectFieldString(WebResource.Field_Item)</option>
+                @foreach (var item in ParameterHelper.GetPurchaseItem(Model.Category))
+            {
+                    <option value="@item.Key">@item.Value.Name</option>
+                }
+            </select>
+        </div>
+
         <div class="form-group">
             <div class="input-group">
-                <input type="number" min="0" max="99999999.99" id="@cost.ItemCode" aria-describedby="span@cost.ItemCode" name="costMoney" class="form-control" placeholder="@ValidateHelper.GetPleaseInputFieldString(cost.ItemName)" />
-                <span class="input-group-addon" id="span@cost.ItemCode">@WebResource.Common_Yuan</span>
+                <input id="txtQuantity" name="txtQuantity" type="number" min="@Constant.DECIMAL_REQUIRED_MIN" max="@Constant.DECIMAL_MAX" class="form-control" aria-describedby="txtUnit" placeholder="@Validate.GetPleaseInputFieldString(WebResource.Field_Quantity)">
+                <span class="input-group-addon" id="txtUnit">---</span>
             </div>
         </div>
+        @foreach (var cost in ParameterHelper.GetCostItem(CostItemCategory.Purchase))
+        {
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="number" min="@Constant.DECIMAL_ZERO" max="@Constant.DECIMAL_MAX" id="@cost.Key" aria-describedby="@string.Format("span{0}", cost.Value.Code)" name="costMoney" class="form-control" placeholder="@Validate.GetPleaseInputFieldString(cost.Value.Name)" />
+                    <span class="input-group-addon" id="@string.Format("span{0}", cost.Value.Code)">@WebResource.Common_Yuan</span>
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            <textarea class="form-control" rows="3" id="txtRemark" name="txtRemark" maxlength="120" placeholder="@Validate.GetFieldMaxLengthString(WebResource.Field_Remark,  Constant.STRING_LENGTH_100)"></textarea>
+
+        </div>
+
+        <div class="row navbar-default navbar-fixed-bottom">
+            <div class="col-xs-6">
+                <div class="row">
+                    <button type="button" class="btn btn-default btn-block" onclick="window.history.back();" style="border-Radius:0px">@WebResource.Button_Back</button>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="row">
+                    <button id="btnSubmit" type="submit" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    @foreach (var item in ParameterHelper.GetPurchaseItem(Model.Category))
+    {
+        <input type="hidden" id="@item.Key" value="@item.Value.InUnit" />
     }
 
-    <div class="form-group">
-        <textarea class="form-control" rows="3" id="txtRemark" name="txtRemark" maxlength="120" placeholder="@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Remark,  ValidateHelper.STRING_LENGTH_120)"></textarea>
-
-    </div>
-    <div class="form-group">
-        <div class="col-xs-3"></div>
-        <div class="col-xs-9 btn-group">
-            <button id="btnSubmit" type="submit" class="btn btn-success">@WebResource.Button_Submit</button>
-            <button type="button" class="btn btn-default" onclick="window.history.back();">@WebResource.Button_Back</button>
-        </div>
-    </div>
-
-
-</form>
-@foreach (var item in Model.PurchaseItems)
-{
-    <input type="hidden" id="@item.Code" value="@item.Unit" />
-}
 @Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
 @section scripts {
     @Scripts.Render("~/bundles/datetimepicker")
@@ -108,51 +109,51 @@
                     },
                     txtSupplier: {
                         required: true,
-                        maxlength: 50
-                    },
+                        maxlength: @Constant.STRING_LENGTH_10
+                        },
                     ddlItem: {
                         required: true
                     },
                     txtQuantity: {
                         required: true,
                         number: true,
-                        min: 0.01,
-                        max: 99999999.99
-                    },
+                        min: @Constant.DECIMAL_REQUIRED_MIN,
+                        max: @Constant.DECIMAL_MAX
+                        },
                     costMoney: {
                         number: true,
-                        min: 0,
-                        max: 99999999.99
-                    },
+                        min: @Constant.DECIMAL_ZERO,
+                        max: @Constant.DECIMAL_MAX
+                        },
                     txtRemark: {
-                        maxlength: 120
-                    }
+                        maxlength: @Constant.STRING_LENGTH_100
+                        }
                 },
                 messages: {
                     txtDate: {
-                        required: '@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Date)',
-                        date: '@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Date)'
+                        required: '@Validate.GetPleaseSelectFieldString(WebResource.Field_Date)',
+                        date: '@Validate.GetPleaseSelectFieldString(WebResource.Field_Date)'
                     },
                     txtSupplier: {
-                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Supplier)',
-                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Supplier, ValidateHelper.STRING_LENGTH_50)'
+                        required: '@Validate.GetPleaseInputFieldString(WebResource.Field_Supplier)',
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Supplier, Constant.STRING_LENGTH_10)'
                     },
                     ddlItem: {
-                        required: '@ValidateHelper.GetPleaseSelectFieldString(WebResource.Field_Item)'
+                        required: '@Validate.GetPleaseSelectFieldString(WebResource.Field_Item)'
                     },
                     txtQuantity: {
-                        required: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Quantity)',
-                        number: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX)',
-                        min: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX)',
-                        max: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX)'
+                        required: '@Validate.GetPleaseInputFieldString(WebResource.Field_Quantity)',
+                        number: '@Validate.GetDecimalFieldRangeString(WebResource.Field_Quantity, Constant.DECIMAL_REQUIRED_MIN, Constant.DECIMAL_MAX)',
+                        min: '@Validate.GetDecimalFieldRangeString(WebResource.Field_Quantity, Constant.DECIMAL_REQUIRED_MIN, Constant.DECIMAL_MAX)',
+                        max: '@Validate.GetDecimalFieldRangeString(WebResource.Field_Quantity, Constant.DECIMAL_REQUIRED_MIN, Constant.DECIMAL_MAX)'
                     },
                     costMoney: {
-                        number: '@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Money)',
-                        min: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Money, ValidateHelper.DECIMAL_ZERO, ValidateHelper.DECIMAL_MAX)',
-                        max: '@ValidateHelper.GetDecimalFieldRangeString(WebResource.Field_Money, ValidateHelper.DECIMAL_ZERO, ValidateHelper.DECIMAL_MAX)'
+                        number: '@Validate.GetPleaseInputFieldString(WebResource.Field_Money)',
+                        min: '@Validate.GetDecimalFieldRangeString(WebResource.Field_Money, Constant.DECIMAL_ZERO, Constant.DECIMAL_MAX)',
+                        max: '@Validate.GetDecimalFieldRangeString(WebResource.Field_Money, Constant.DECIMAL_ZERO, Constant.DECIMAL_MAX)'
                     },
                     txtRemark: {
-                        maxlength: '@ValidateHelper.GetFieldMaxLengthString(WebResource.Field_Remark, ValidateHelper.STRING_LENGTH_120)'
+                        maxlength: '@Validate.GetFieldMaxLengthString(WebResource.Field_Remark, Constant.STRING_LENGTH_100)'
                     }
                 },
                 //自定义错误消息放到哪里
@@ -173,22 +174,22 @@
                         $('#btnSubmit').attr({ 'disabled': 'disabled' });
                         var model = {};
                         model.DateString = $.trim($('#txtDate').val());
-                        model.CategoryString = '@Model.CategoryString';
+                        model.Category = '@Model.Category';
                         model.Item = $.trim($('#ddlItem').val());
                         model.Quantity = parseFloat($('#txtQuantity').val());
                         model.Unit = $.trim($('#' + model.Item).val());
                         model.Supplier = $.trim($('#txtSupplier').val());
                         model.Remark = $.trim($('#txtRemark').val());
-                        model.CostItems = [];
+                        model.Costs = [];
                         $('input[name="costMoney"]').each(function () {
                             var cost = {};
-                            cost.ItemCode = $(this).attr('id');
+                            cost.Item = $(this).attr('id');
                             var val = $(this).val();
                             if (val.length == 0) {
                                 val = "0";
                             }
                             cost.Money = parseFloat(val);
-                            model.CostItems.push(cost);
+                            model.Costs.push(cost);
                         });
                         $.ajax({
                             type: "post",

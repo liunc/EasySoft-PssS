@@ -10,10 +10,10 @@
 // ----------------------------------------------------------
 // 版权所有：易则科技工作室 
 // ----------------------------------------------------------
-using System.Collections.Generic;
-
 namespace EasySoft.PssS.Web.Models.CustomerGroup
 {
+    using EasySoft.Core.ViewModel;
+
     /// <summary>
     /// 客户分组列表页面视图模型类
     /// </summary>
@@ -24,18 +24,18 @@ namespace EasySoft.PssS.Web.Models.CustomerGroup
         /// <summary>
         /// 构造函数
         /// </summary>
-        public CustomerGroupIndexModel() : base()
+        public CustomerGroupIndexModel()
         {
-            this.PageData = new List<CustomerGroupPageModel>();
+
         }
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="pageIndex">当前页索引</param>
-        public CustomerGroupIndexModel(int pageIndex) : this()
+        public CustomerGroupIndexModel(int pageIndex) : base(pageIndex)
         {
-            this.PageIndex = pageIndex;
+
         }
 
         #endregion

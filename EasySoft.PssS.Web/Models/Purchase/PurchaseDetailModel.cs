@@ -45,12 +45,7 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// <summary>
         /// 获取或设置采购分类
         /// </summary>
-        public PurchaseCategory Category { get; set; }
-
-        /// <summary>
-        /// 获取或设置采购分类
-        /// </summary>
-        public string CategoryString { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
         /// 获取或设置父级页面标题
@@ -100,7 +95,7 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// <summary>
         /// 获取或设置采购单状态
         /// </summary>
-        public PurchaseStatus Status { get; set; }
+        public string Status { get; set; }
 
         /// <summary>
         /// 获取或设置父页面选中项
@@ -111,6 +106,11 @@ namespace EasySoft.PssS.Web.Models.Purchase
         /// 获取或设置父页面当前页索引，从1开始
         /// </summary>
         public int PageIndex { get; set; }
+
+        /// <summary>
+        /// 获取或设置控件宽度
+        /// </summary>
+        public int ControlWidth { get; set; }
 
         #endregion
 
@@ -131,11 +131,10 @@ namespace EasySoft.PssS.Web.Models.Purchase
         {
             this.Id = entity.Id;
             this.Category = entity.Category;
-            this.CategoryString = entity.Category.ToString();
             this.ParentPageTitle = WebResource.Title_Purchase_Product;
             this.SelectedItem = item;
             this.PageIndex = page;
-            if (entity.Category == PurchaseCategory.Pack)
+            if (entity.Category == PurchaseItemCategory.Pack)
             {
                 this.ParentPageTitle = WebResource.Title_Purchase_Pack;
             }
@@ -153,7 +152,21 @@ namespace EasySoft.PssS.Web.Models.Purchase
             }
             this.Inventory = entity.Inventory;
             this.Cost = entity.Cost;
-
+            if(this.Status == PurchaseStatus.Finished)
+            {
+                this.ControlWidth = 12;
+            }
+            else
+            {
+                if(this.Status == PurchaseStatus.None)
+                {
+                    this.ControlWidth = 3;
+                }
+                else
+                {
+                    this.ControlWidth = 4;
+                }
+            }
         }
 
         #endregion

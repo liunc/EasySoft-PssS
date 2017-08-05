@@ -7,23 +7,21 @@
     ViewBag.Title = WebResource.Title_CustomerGroupManagement;
     ViewBag.PreviousUrl = "/Home/Index";
 }
-<div class="col-xs-12">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>@WebResource.Field_Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (CustomerGroupPageModel data in Model.PageData)
+<table class="table">
+    <thead>
+        <tr>
+            <th>@WebResource.Field_Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (CustomerGroupPageModel data in Model.PageData)
             {
-                <tr style="cursor:pointer;" onclick="window.location.href = '/CustomerGroup/Detail/@data.Id?page=@Model.PageIndex'">
-                    <td>@data.Name</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            <tr style="cursor:pointer;" onclick="window.location.href = '/CustomerGroup/Detail/@data.Id?page=@Model.PageIndex'">
+                <td>@data.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
 @section footer {
     <div class="navbar-default navbar-fixed-bottom">
         <div class="row">

@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasySoft.Core.Persistence.R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasySoft.Core.Persistence.RepositoryImplement", "EasySoft.Core.Persistence.RepositoryImplement\EasySoft.Core.Persistence.RepositoryImplement.csproj", "{AF986694-C4BA-4733-BB57-48F2B4468A76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasySoft.Core.ViewModel", "EasySoft.Core.ViewModel\EasySoft.Core.ViewModel.csproj", "{A10415C4-BB05-4B95-A02D-466B85DABD81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasySoft.PssS.Application.DataTransfer", "EasySoft.PssS.Application.DataTransfer\EasySoft.PssS.Application.DataTransfer.csproj", "{696AD5B8-404C-4713-A53C-03E96545EB7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{AF986694-C4BA-4733-BB57-48F2B4468A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF986694-C4BA-4733-BB57-48F2B4468A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF986694-C4BA-4733-BB57-48F2B4468A76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A10415C4-BB05-4B95-A02D-466B85DABD81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A10415C4-BB05-4B95-A02D-466B85DABD81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A10415C4-BB05-4B95-A02D-466B85DABD81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A10415C4-BB05-4B95-A02D-466B85DABD81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{696AD5B8-404C-4713-A53C-03E96545EB7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{696AD5B8-404C-4713-A53C-03E96545EB7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{696AD5B8-404C-4713-A53C-03E96545EB7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{696AD5B8-404C-4713-A53C-03E96545EB7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

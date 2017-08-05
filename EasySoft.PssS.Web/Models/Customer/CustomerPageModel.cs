@@ -37,9 +37,14 @@ namespace EasySoft.PssS.Web.Models.Customer
         public string Mobile { get; set; }
 
         /// <summary>
-        /// 获取或设置备注
+        /// 获取或设置分组ID
         /// </summary>
         public string GroupId { get; set; }
+
+        /// <summary>
+        /// 获取或设置分组名称 
+        /// </summary>
+        public string GroupName { get; set; }
 
         #endregion
 

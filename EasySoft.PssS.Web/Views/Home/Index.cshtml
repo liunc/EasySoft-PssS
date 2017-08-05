@@ -1,4 +1,5 @@
-﻿@using EasySoft.PssS.Web.Resources;
+﻿@using EasySoft.PssS.Domain.ValueObject;
+@using EasySoft.PssS.Web.Resources;
 @model EasySoft.PssS.Web.Models.Home.IndexModel
 
 @{
@@ -34,9 +35,25 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/Purchase/Index" class="">@WebResource.Title_Purchase_Product</a></li>
-                            <li><a href="/Purchase/Index/Pack" class="">@WebResource.Title_Purchase_Pack</a></li>
-                            <li><a href="/Purchase/OutputDepot" class="">@WebResource.Title_OutboundRecord</a></li>
+                            <li><a href="/Purchase/Index/@PurchaseItemCategory.Product" class="">@WebResource.Title_Purchase_Product</a></li>
+                            <li><a href="/Purchase/Index/@PurchaseItemCategory.Pack" class="">@WebResource.Title_Purchase_Pack</a></li>
+                            <li><a href="/Delivery/Index" class="">@WebResource.Title_DeliveryRecord</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            @WebResource.Title_Sale
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/Sale/Index" class="">@WebResource.Title_SaleStock</a></li>
+                            <li><a href="/SaleOrder/Index" class="">@WebResource.Title_SaleOrder</a></li>
+                            <li><a href="/SaleOrder/Index?status=@SaleOrderStatus.Ordered" class="">@WebResource.Field_Ordered</a></li>
+                            <li><a href="/SaleOrder/Index?status=@SaleOrderStatus.Sent" class="">@WebResource.Field_Sent</a></li>
+                            <li><a href="/SaleOrder/Index?status=@SaleOrderStatus.Received" class="">@WebResource.Field_Received</a></li>
+                            <li><a href="/SaleOrder/Index?status=@SaleOrderStatus.Finished" class="">@WebResource.Field_Finished</a></li>
+                            
+
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -89,12 +106,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="background-color:#f5f5fa; padding-top:10px; padding-bottom:10px;">
+                @*<div class="row" style="background-color:#f5f5fa; padding-top:10px; padding-bottom:10px;">
                     <div class="col-xs-12" style="background-color:white; ">
                         <div class="row" style="border-top:1px solid #f5f5fa;border-bottom:1px solid #f5f5fa;">
-                            <div onclick="window.location.href = '/Purchase/IntoDepot/Product'" class="col-xs-4 text-center" style="border-right:1px solid #f5f5fa; padding: 15px 0 10px 0; cursor: pointer;">
+                            <div onclick="window.location.href = '/Purchase/Index/Product'" class="col-xs-4 text-center" style="border-right:1px solid #f5f5fa; padding: 15px 0 10px 0; cursor: pointer;">
                                 <img src="~/Images/uhomeapp5.png" style="width:30px; height:30px;" />
-                                <h6>@WebResource.Title_Purchase_AddProduct</h6>
+                                <h6>@WebResource.Title_Purchase_Product</h6>
                             </div>
                             <div onclick="window.location.href = '/Purchase/IntoDepot/Pack'" class="col-xs-4 text-center" style="border-right:1px solid #f5f5fa; padding: 15px 0 10px 0; cursor: pointer;">
                                 <img src="~/Images/uhomeapp8.png" style="width:30px; height:30px;" />
@@ -102,7 +119,7 @@
                             </div>
                             <div onclick="windows.location.href = '/Purchase/OutputDepot'" class="col-xs-4 text-center" style="padding: 15px 0 10px 0; cursor: pointer;">
                                 <img src="~/Images/icon1.png" style="width:30px; height:30px;" />
-                                <h6>@WebResource.Title_OutboundFirst</h6>
+                                <h6>@WebResource.Title_ProductOutbound</h6>
                             </div>
                         </div>
                         <div class="row" style="border-bottom:1px solid #f5f5fa;">
@@ -120,8 +137,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*@
+
+
+
+
             </div>
+            
         </div>
         @Html.Action("Footer", "Common")
     </div>

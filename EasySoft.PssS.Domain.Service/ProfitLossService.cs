@@ -20,6 +20,7 @@ namespace EasySoft.PssS.Domain.Service
     using System.Collections.Generic;
     using ValueObject;
     using Core.Persistence.RepositoryImplement;
+    using Core.Util;
 
     /// <summary>
     /// 益损领域服务类
@@ -67,7 +68,7 @@ namespace EasySoft.PssS.Domain.Service
         /// <param name="quantity">数量</param>
         /// <param name="remark">备注</param>
         /// <param name="creator">创建人</param>
-        public void Add(string recordId, ProfitLossTargetType targetType, ProfitLossCategory category, decimal quantity, string remark, string creator)
+        public void Add(string recordId, string targetType, string category, decimal quantity, string remark, string creator)
         {
             using (DbConnection conn = DbHelper.CreateConnection())
             {
@@ -86,7 +87,7 @@ namespace EasySoft.PssS.Domain.Service
                         purchase.AddProfitLoss(category, quantity);
                         if (purchase.Inventory < 0)
                         {
-                            throw new Exception(BusinessResource.Purchase_LowStocks);
+                            throw new EasySoftException(BusinessResource.Purchase_LowStocks);
                         }
                         this.purchaseService.Update(trans, purchase);
                     }
@@ -101,7 +102,7 @@ namespace EasySoft.PssS.Domain.Service
                     }
 
                     ProfitLoss entity = new ProfitLoss();
-                    entity.Add(recordId, targetType, category, quantity, remark, creator);
+                    entity.Create(recordId, targetType, category, quantity, remark, creator);
                     this.profitLossRepository.Insert(trans, entity);
 
                     trans.Commit();

@@ -1,0 +1,146 @@
+﻿@using EasySoft.PssS.Web.Resources;
+@using EasySoft.Core.Util;
+@using EasySoft.PssS.Domain.ValueObject;
+
+@model EasySoft.PssS.Web.Models.SaleOrder.DetailModel
+@{
+    ViewBag.Title = WebResource.Title_EditSaleOrder;
+    ViewBag.PreviousUrl = string.Format("/SaleOrder/Detail/{0}?item={1}&status={2}&page={3}", Model.Id, Model.SelectedItem, Model.QueryStatus, Model.PageIndex);
+}
+
+<form id="formEditSaleOrder" role="form">
+    <div class="form-group">
+        <select id="ddlStatus" name="ddlStatus" class="form-control" required>
+            @foreach (var item in ParameterHelper.GetSaleOrderStatus())
+            {
+                if (Model.Status == item.Key)
+                {
+                    <option selected value="@item.Key">@item.Value</option>
+                }
+                else
+                {
+                    <option value="@item.Key">@item.Value</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <input id="txtAmount" value="@((Model.Price * Model.Quantity).ToString("0.##"))" name="txtAmount" type="number" min="@Constant.DECIMAL_REQUIRED_MIN" max="@Constant.DECIMAL_MAX" class="form-control" placeholder="@Validate.GetPleaseInputFieldString(WebResource.Field_ActualAmount)">
+            <span class="input-group-addon">@WebResource.Common_Yuan</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <input id="txtActualAmount" value="@Model.ActualAmount" name="txtActualAmount" type="number" min="@Constant.DECIMAL_REQUIRED_MIN" max="@Constant.DECIMAL_MAX" class="form-control" placeholder="@Validate.GetPleaseInputFieldString(WebResource.Field_ActualAmount)">
+            <span class="input-group-addon">@WebResource.Common_Yuan</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <button id="btnSubmit" type="submit" class="btn btn-success btn-block">@WebResource.Button_Submit</button>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-default btn-block" onclick="window.history.back();">@WebResource.Button_Back</button>
+    </div>
+</form>
+
+@Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(function () {
+            $('#formEditSaleOrder').validate({
+                errorElement: 'span',
+                errorClass: 'help-block',
+                focusInvalid: false,
+                rules: {
+                    ddlStatus: {
+                        required: true
+                    },
+                    txtActualAmount: {
+                        number: true,
+                        min: @Constant.DECIMAL_REQUIRED_MIN,
+                        max: @Constant.DECIMAL_MAX
+                        }
+                },
+                messages: {
+                    ddlStatus: {
+                        required: '@Validate.GetPleaseSelectFieldString(WebResource.Field_Status)'
+                    },
+                    txtActualAmount: {
+                        number: '@Validate.GetDecimalFieldRangeString(WebResource.Field_ActualAmount, Constant.DECIMAL_ZERO, Constant.DECIMAL_MAX)',
+                        min: '@Validate.GetDecimalFieldRangeString(WebResource.Field_ActualAmount, Constant.DECIMAL_ZERO, Constant.DECIMAL_MAX)',
+                        max: '@Validate.GetDecimalFieldRangeString(WebResource.Field_ActualAmount, Constant.DECIMAL_ZERO, Constant.DECIMAL_MAX)'
+                    }
+                },
+                //自定义错误消息放到哪里
+                errorPlacement: function (error, element) {
+                    element.closest('.form-group').append(error);//显示错误消息提示
+                },
+                //给未通过验证的元素进行处理
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error has-feedback').removeClass('has-success');
+                },
+                //验证通过的处理
+                success: function (element) {
+                    element.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
+                    element.remove();
+                },
+                submitHandler: function (form) {
+                    if (this.valid()) {
+                        var model = {};
+                        model.Id = '@Model.Id';
+                        model.Status = $.trim($('#ddlStatus').val());
+                        var actualAmount = $('#txtActualAmount').val();
+                        if(actualAmount.length ==0){
+                            model.ActualAmount = 0;
+                        }else{
+                            model.ActualAmount =  parseFloat(actualAmount);
+                        }
+                        if(model.Status == '@SaleOrderStatus.Finished'){
+                            var amount = @(Model.Price * Model.Quantity);
+                            if(model.ActualAmount < amount){
+                                if(!confirm('已付款金额小于应收款金额，确认要修改吗？')){
+                                    return false;
+                                }
+                            }
+                        }
+
+                        $('#btnSubmit').attr({ 'disabled': 'disabled' });
+
+                        $.ajax({
+                            type: "post",
+                            url: "/SaleOrder/Save",
+                            data: { model: model },
+                            success: function (result) {
+                                if (result.Result) {
+                                    window.location.href = $('#previous').attr('href');
+                                }
+                                else {
+                                    showError(result.Message);
+                                }
+                                return false;
+                            },
+                            error: function () {
+                                showError('System Error');
+                            },
+                            complete: function () {
+                                $('#btnSubmit').removeAttr('disabled');
+                            }
+                        });
+                    }
+                    return false;
+                }
+            });
+        });
+        function showError(errorMessage) {
+            $('#errorMessage').html(errorMessage);
+            $('#alertError').modal();
+        }
+    </script>
+}
+
+
+
+

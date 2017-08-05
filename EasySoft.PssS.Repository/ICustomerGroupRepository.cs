@@ -12,7 +12,7 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Repository
 {
-    using Core.Persistence.Repository;
+    using EasySoft.Core.Persistence.Repository;
     using EasySoft.PssS.Domain.Entity;
     using System.Collections.Generic;
     using System.Data.Common;

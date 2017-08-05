@@ -1,94 +1,94 @@
-﻿@using EasySoft.PssS.Web.Resources;
+﻿@using EasySoft.PssS.Domain.ValueObject;
+@using EasySoft.PssS.Web.Resources;
+
 @model EasySoft.PssS.Web.Models.Purchase.PurchaseIndexModel
 @{
     ViewBag.Title = Model.Title;
+    ViewBag.PreviousUrl = "/Home/Index";
 }
 <div class="row">
-    <ol class="breadcrumb">
-        <li><a href="/Home/Index">@WebResource.Title_Index</a></li>
-        <li class="active">@ViewBag.Title</li>
-    </ol>
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="form-group col-xs-12">
+                <select id="ddlPurchaseItem" class="form-control input-sm">
+                    <option value="">@WebResource.Message_AllItem</option>
+                    @foreach (var item in ParameterHelper.GetPurchaseItem(Model.Category, false))
+            {
+                if (!string.IsNullOrWhiteSpace(Model.SelectedItem) && item.Key == Model.SelectedItem)
+                {
+                            <option selected value="@item.Key">@item.Value.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Key">@item.Value.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row">
-    <div class="form-group col-xs-9">
-        <select id="ddlPurchaseItem" class="form-control input-sm">
-            <option value="1">@WebResource.Message_AllItem</option>
-            @foreach (var item in Model.PurchaseItems)
-            {
-                if (!string.IsNullOrWhiteSpace(Model.SelectedItem) && item.Code == Model.SelectedItem)
+    <div class="col-xs-12" style="padding-bottom:65px">
+        @foreach (var data in Model.PageData)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading" onclick="window.location.href='@string.Format("/Purchase/Detail/{0}?category={1}&item={2}&page={3}",data.Id, Model.Category, Model.SelectedItem, Model.PageIndex)'">
+                    <h5 class="panel-title">
+                        @data.Date @data.Item @data.Supplier
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-4 text-center" style="border-right:1px solid #dddddd;">
+                            @data.Inventory.ToString("0.##")
+                            <br />
+                            <small>@WebResource.Field_Inventory ( @data.Unit )</small>
+                        </div>
+                        <div class="col-xs-4 text-center" style="border-right:1px solid #dddddd;">
+                            @if (data.ProfitLoss > 0)
                 {
-                    <option selected value="@item.Code">@item.Name</option>
-                }
-                else
-                {
-                    <option value="@item.Code">@item.Name</option>
-                }
-            }
-        </select>
-    </div>
-    <div class="form-group col-xs-3">
-        <button id="btnAdd" class="btn btn-success btn-sm">
-            <span class="glyphicon glyphicon-plus"></span>
-            @WebResource.Button_Into
-        </button>
+                                <span style="color:#0000ff">@data.ProfitLoss.ToString("0.##")</span>
+                            }
+                            else if (data.ProfitLoss < 0)
+                            {
+                                <span style="color:#ff0000">@data.ProfitLoss.ToString("0.##")</span>
+                            }
+                            else
+                            {
+                                @data.ProfitLoss.ToString("0.##")
+                            }
+                            <br />
+                            <small>@WebResource.Field_ProfitLoss (@data.Unit)</small>
+                        </div>
+                        <div class="col-xs-4 text-center">
+                            @data.Cost.ToString("0.##")
+                            <br />
+                            <small>@WebResource.Field_Cost (@WebResource.Common_Yuan)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>
-<div class="row" style="background-color:#f5f5fa; padding-top:8px; ">
-    @foreach (var data in Model.Data)
-    {<div class="col-xs-12" style="background-color:#ffffff; margin-bottom:8px;">
+@section footer {
+    <div class="navbar-default navbar-fixed-bottom">
+        @Html.Action("PageNavigation", "Common", new { pageIndex = Model.PageIndex, totalCount = Model.TotalCount, url = string.Format("/Purchase/Index/{0}?item={1}&page=", Model.Category, Model.SelectedItem) })
+
         <div class="row">
-            <div class="col-xs-12" style="padding-bottom:5px; border-top:1px solid #dddddd;cursor:pointer;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" onclick="window.location.href='@string.Format("/Purchase/Detail/{0}?item={1}&page={2}", data.Id, Model.SelectedItem, Model.PageIndex)'">
-                <p class="form-control-static">@data.Item @data.Date @data.Supplier </p>
-            </div>
-        </div>
-        <div class="row" style="border-top:1px solid #dddddd;">
-
-            <div class="col-xs-4 text-center" style="border-right:1px solid #dddddd;">
-                @data.Inventory
-                <br />
-                <small>@WebResource.Field_Inventory ( @data.Unit )</small>
-            </div>
-            <div class="col-xs-4 text-center" style="border-right:1px solid #dddddd;">
-                @if (data.ProfitLoss > 0)
-                {
-                    <span style="color:#0000ff">@data.ProfitLoss</span>
-                }
-                else if (data.ProfitLoss < 0)
-                {
-                    <span style="color:#ff0000">@data.ProfitLoss</span>
-                }
-                else
-                {
-                    @data.ProfitLoss
-                }
-                <br />
-                <small>@WebResource.Field_ProfitLoss (@data.Unit)</small>
-            </div>
-            <div class="col-xs-4 text-center">
-                @data.Cost
-                <br />
-                <small>@WebResource.Field_Cost (@WebResource.Common_Yuan)</small>
-            </div>
-
+            <a href="/Purchase/Add/@Model.Category" class="btn btn-success btn-block ">
+                <span class="glyphicon glyphicon-plus"></span>
+                @Model.AddButtonText
+            </a>
         </div>
     </div>
-    }
-</div>
-@Html.Action("PageNavigation", "Common", new { pageIndex = Model.PageIndex, totalCount = Model.TotalCount, url = string.Format("/Purchase/Index/{0}?item={1}&page=", Model.Category, Model.SelectedItem) })
+}
 
 
 @section scripts {
     <script type="text/javascript">
         $(function () {
-
-            $('#btnAdd').click(function () {
-                var url = '/Purchase/Add/Product';
-                var category = '@Model.Category';
-                if (category == 'Pack') {
-                    url = '/Purchase/Add/Pack';
-                }
-                window.location.href = url;
-            });
 
             $('#ddlPurchaseItem').change(function () {
                 var item = $('#ddlPurchaseItem').val();
@@ -109,26 +109,4 @@
 
     </script>
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
 

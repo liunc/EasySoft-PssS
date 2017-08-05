@@ -15,16 +15,16 @@ namespace EasySoft.PssS.Domain.ValueObject
     /// <summary>
     /// 益损目标类型枚举
     /// </summary>
-    public enum ProfitLossTargetType
+    public struct ProfitLossTargetType
     {
         /// <summary>
         /// 采购
         /// </summary>
-        Purchase,
+        public const string Purchase = "P";
 
         /// <summary>
         /// 销售
         /// </summary>
-        Sale
+        public const string Sale = "S";
     }
 }

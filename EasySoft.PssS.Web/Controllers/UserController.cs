@@ -12,6 +12,8 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Controllers
 {
+    using Core.Util;
+    using Core.ViewModel;
     using EasySoft.PssS.Domain.Entity;
     using EasySoft.PssS.Domain.Service;
     using EasySoft.PssS.Web.Models;
@@ -54,6 +56,7 @@ namespace EasySoft.PssS.Web.Controllers
         public ActionResult Login(string returnUrl)
         {
             LoginModel model = new LoginModel { ReturnUrl = returnUrl };
+
             return View(model);
         }
 
@@ -66,16 +69,17 @@ namespace EasySoft.PssS.Web.Controllers
         public ActionResult Login(LoginModel model)
         {
             JsonResultModel result = new JsonResultModel();
-            List<string> errorMessages = new List<string>();
-            if (!ValidateHelper.CheckObjectArgument<LoginModel>("model", model, ref errorMessages))
+            Validate validate = new Validate();
+            validate.CheckObjectArgument<LoginModel>("model", model);
+            if (validate.IsFailed)
             {
-                result.BuilderErrorMessage(errorMessages);
+                result.BuilderErrorMessage(validate.ErrorMessages);
                 return Json(result);
             }
-            model.PostValidate(ref errorMessages);
-            if (errorMessages.Count > 0)
+            model.PostValidate(ref validate);
+            if (validate.IsFailed)
             {
-                result.BuilderErrorMessage(errorMessages);
+                result.BuilderErrorMessage(validate.ErrorMessages);
                 return Json(result);
             }
 
@@ -86,7 +90,7 @@ namespace EasySoft.PssS.Web.Controllers
             }
             else
             {
-                this.Session["Moblie"] = model.Mobile;
+                this.Session["Mobile"] = model.Mobile;
                 this.Session["Roles"] = user.Roles;
                 this.Session["Name"] = user.Name;
                 FormsAuthentication.SetAuthCookie(model.Mobile, false);

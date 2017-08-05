@@ -1,0 +1,123 @@
+﻿@using System.Collections.Generic;
+@using EasySoft.PssS.Web.Resources;
+@using EasySoft.PssS.Domain.ValueObject;
+
+@model EasySoft.PssS.Web.Models.SaleOrder.DetailModel
+
+@{
+    ViewBag.Title = WebResource.Title_SaleOrderDetail;
+    ViewBag.PreviousUrl = string.Format("/SaleOrder/Index?item={0}&status={1}&page={2}", Model.SelectedItem, Model.QueryStatus, Model.PageIndex);
+}
+<table class="table">
+    <tbody>
+        <tr>
+            <td class="col-xs-3">@WebResource.Field_Date</td>
+            <td class="col-xs-7">@Model.Date</td>
+            <td class="col-xs-2"></td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Linkman</td>
+            <td>@Model.Linkman</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Mobile</td>
+            <td>@Model.Mobile</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Address</td>
+            <td>@Model.Address</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Product</td>
+            <td>@Model.ItemName</td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Price</td>
+            <td>@Model.Price.ToString("0.##")@WebResource.Common_Yuan</td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>
+                @WebResource.Field_Quantity
+            </td>
+            <td>@Model.Quantity.ToString("0.##")@Model.Unit </td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>@WebResource.Field_ActualAmount</td>
+            <td>@Model.ActualAmount.ToString("0.##")@WebResource.Common_Yuan</td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Discount</td>
+            <td>@Model.Discount.ToString("0.##")@WebResource.Common_Yuan</td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Status</td>
+            <td>@Model.StatusName</td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Remark</td>
+            <td colspan="2">@Model.Remark</td>
+        </tr>
+    </tbody>
+</table>
+@if (Model.Status != SaleOrderStatus.Finished)
+{
+    <div class="form-group">
+        <button id="btnEdit" onclick="return edit();" class="btn btn-success btn-block">@WebResource.Button_Edit</button>
+    </div>
+}
+@if (Model.Status == SaleOrderStatus.Ordered)
+{
+    <div class="form-group">
+        <button type="button" class="btn btn-default btn-block" onclick="return deleteSaleOrder();" style="border-Radius:0px">@WebResource.Button_Delete</button>
+    </div>
+}
+<div class="form-group">
+    <button type="button" class="btn btn-default btn-block" onclick="window.location.href = '@ViewBag.PreviousUrl';">@WebResource.Button_Back</button>
+</div>
+@Html.Action("Confirm", "Common", new { id = "confirmDelete", title = WebResource.Message_Confirm, confirmString = @WebResource.Message_ConfirmDelete, okButton = @WebResource.Button_Ok, cancelButton = @WebResource.Button_Cancel, okButtonClick = "confirmDelete();" })
+<script type="text/javascript">
+    function edit() {
+        if ('@Model.Status' == '@SaleOrderStatus.Finished') {
+            return false;
+        }
+        window.location.href = '/SaleOrder/Edit/@Model.Id?item=@Model.SelectedItem&status=@Model.QueryStatus&page=@Model.PageIndex';
+        return true;
+    }
+    function deletePurchase() {
+        $('#confirmDelete').modal('show');
+    }
+    function confirmDelete() {
+        $('#confirmDelete').modal('hide');
+        $.ajax({
+            type: "post",
+            url: "/SaleOrder/Delete",
+            data: { id: '@Model.Id' },
+            success: function (result) {
+                if (result.Result) {
+                    window.location.href = '@ViewBag.PreviousUrl';
+                }
+                else {
+                    showError(result.Message);
+                }
+                return false;
+            },
+            error: function () {
+                showError('System Error');
+            },
+            complete: function () {
+                $('#btnSubmit').removeAttr('disabled');
+            }
+        });
+        return false;
+    }
+</script>

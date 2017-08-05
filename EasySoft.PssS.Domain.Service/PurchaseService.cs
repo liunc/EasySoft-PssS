@@ -30,7 +30,7 @@ namespace EasySoft.PssS.Domain.Service
         #region 变量
 
         private IPurchaseRepository purchaseRepository = null;
-        private CostService costService = null;
+        private ICostRepository costRepository = null;
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace EasySoft.PssS.Domain.Service
         public PurchaseService()
         {
             this.purchaseRepository = new PurchaseRepository();
-            this.costService = new CostService();
+            this.costRepository = new CostRepository();
         }
 
         #endregion
@@ -61,7 +61,7 @@ namespace EasySoft.PssS.Domain.Service
         /// <param name="remark">备注</param>
         /// <param name="costs">成本</param>
         /// <param name="creator">创建人</param>
-        public void Add(DateTime date, PurchaseCategory category, string item, decimal quantity, string unit, string supplier, string remark, Dictionary<string, decimal> costs, string creator)
+        public void Add(DateTime date, string category, string item, decimal quantity, string unit, string supplier, string remark, Dictionary<string, decimal> costs, string creator)
         {
             using (DbConnection conn = DbHelper.CreateConnection())
             {
@@ -76,13 +76,17 @@ namespace EasySoft.PssS.Domain.Service
                     }
 
                     Purchase entity = new Purchase();
-                    entity.Add(date, category, item, quantity, unit, supplier, remark, costs, creator);
+                    entity.Create(date, category, item, quantity, unit, supplier, remark, creator);
+
+                    foreach (KeyValuePair<string, decimal> cost in costs)
+                    {
+                        Cost cost1 = new Cost();
+                        cost1.Create(entity.Id, CostItemCategory.Purchase, cost.Key, cost.Value);
+                        entity.AddCost(cost.Value);
+                        this.costRepository.Insert(trans, cost1);
+                    }
 
                     this.purchaseRepository.Insert(trans, entity);
-                    foreach (Cost cost in entity.Costs)
-                    {
-                        this.costService.Insert(trans, cost);
-                    }
 
                     trans.Commit();
                 }
@@ -118,9 +122,9 @@ namespace EasySoft.PssS.Domain.Service
                     Purchase oldEntity = this.Select(trans, id);
                     if (oldEntity.Status != PurchaseStatus.None)
                     {
-                        throw new EasySoftException(BusinessResource.Purchase_NotAllowDelete);
+                        throw new EasySoftException(BusinessResource.Common_NotAllowDelete);
                     }
-                    this.costService.DeleteByRecordId(trans, id);
+                    this.costRepository.DeleteByRecordId(trans, id);
                     this.purchaseRepository.Delete(trans, id);
 
                     trans.Commit();
@@ -148,6 +152,17 @@ namespace EasySoft.PssS.Domain.Service
         public List<Purchase> Search(string category, string item, int pageIndex, int pageSize, ref int totalCount)
         {
             return this.purchaseRepository.Search(category, item, pageIndex, pageSize, ref totalCount);
+        }
+
+        /// <summary>
+        /// 查询可交付的采购数据
+        /// </summary>
+        /// <param name="category">产品分类</param>
+        /// <param name="item">产品项</param>
+        /// <returns>返回采购数据集合</returns>
+        public List<Purchase> GetDeliverable(string category)
+        {
+            return this.purchaseRepository.GetDeliverable(category);
         }
 
         /// <summary>

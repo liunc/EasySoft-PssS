@@ -10,6 +10,7 @@
 // ----------------------------------------------------------
 // 版权所有：易则科技工作室 
 // ----------------------------------------------------------
+using EasySoft.Core.Util;
 using EasySoft.PssS.Domain.ValueObject;
 using EasySoft.PssS.Web.Resources;
 using System.Collections.Generic;
@@ -20,24 +21,13 @@ namespace EasySoft.PssS.Web.Models.ProfitLoss
     /// <summary>
     /// 新增益损视图模型类
     /// </summary>
-    public class ProfitLossAddModel : ProfitLossModel
+    public class ProfitLossAddModel
     {
-
         /// <summary>
         /// 获取或设置标题
         /// </summary>
         public string Title { get; set; }
-
-        /// <summary>
-        /// 获取或设置父级页面标题
-        /// </summary>
-        public string ParentPageTitle { get; set; }
-
-        /// <summary>
-        /// 获取或设置父级页面Url
-        /// </summary>
-        public string ParentPageUrl { get; set; }
-
+        
         /// <summary>
         /// 获取或设置余量
         /// </summary>
@@ -56,24 +46,39 @@ namespace EasySoft.PssS.Web.Models.ProfitLoss
         /// <summary>
         /// 获取或设置分类
         /// </summary>
-        public ProfitLossCategory Category { get; set; }
+        public string Category { get; set; }
 
         /// <summary>
         /// 获取或设置目标类型
         /// </summary>
-        public ProfitLossTargetType TargetType { get; set; }
+        public string TargetType { get; set; }
+
+        /// <summary>
+        /// 获取或设置关联Id
+        /// </summary>
+        public string RecordId { get; set; }
+
+        /// <summary>
+        /// 获取或设置数量
+        /// </summary>
+        public decimal Quantity { get; set; }
+
+        /// <summary>
+        /// 获取或设置备注
+        /// </summary>
+        public string Remark { get; set; }
         
         /// <summary>
         /// 提交验证
         /// </summary>
         /// <param name="errorMessages">返回的错误信息</param>
-        public void PostValidate(ref List<string> errorMessages)
+        public void PostValidate(ref Validate validate)
         {
-            this.Category = ValidateHelper.CheckProfitLossCategory(this.CategoryString, ref errorMessages);
-            this.TargetType = ValidateHelper.CheckProfitLossTargetType(this.TargetTypeString, ref errorMessages);
-            ValidateHelper.CheckStringArgument(WebResource.Field_RecordId, this.RecordId, true, ref errorMessages);
-            ValidateHelper.CheckDecimal(WebResource.Field_Quantity, this.Quantity, ValidateHelper.DECIMAL_MIN, ValidateHelper.DECIMAL_MAX, ref errorMessages);
-            ValidateHelper.CheckInputString(WebResource.Field_Remark, this.Remark, false, ValidateHelper.STRING_LENGTH_120, ref errorMessages);
+            validate.CheckDictionary<string, string>(WebResource.Field_ProfitLossCategory, this.Category, ParameterHelper.GetProfitLossCatetory());
+            validate.CheckDictionary<string, string>(WebResource.Field_ProfitLossTargetType, this.TargetType, ParameterHelper.GetProfitLossTargetType());
+            this.RecordId = validate.CheckStringArgument(WebResource.Field_RecordId, this.RecordId, true);
+            this.Quantity = validate.CheckDecimal(WebResource.Field_Quantity, this.Quantity, Constant.DECIMAL_REQUIRED_MIN, Constant.DECIMAL_MAX);
+            this.Remark = validate.CheckInputString(WebResource.Field_Remark, this.Remark, false, Constant.STRING_LENGTH_100);
         }
 
     }

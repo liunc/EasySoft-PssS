@@ -12,8 +12,8 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.DbRepository
 {
-    using Core.Persistence.RepositoryImplement;
-    using Core.Util;
+    using EasySoft.Core.Persistence.RepositoryImplement;
+    using EasySoft.Core.Util;
     using EasySoft.PssS.Domain.Entity;
     using EasySoft.PssS.Domain.ValueObject;
     using EasySoft.PssS.Repository;
@@ -92,7 +92,7 @@ namespace EasySoft.PssS.DbRepository
         public List<CustomerAddress> SearchByCustomerId(string customerId)
         {
             string cmdText = string.Format("{0} WHERE [CustomerId] = @CustomerId  ORDER BY [IsDefault] DESC, [CreateTime] DESC", this.Resolver.SelectAllCommandText);
-
+            
             DbParameter paras = DbHelper.CreateParameter("CustomerId", DbType.String, 32);
             paras.Value = customerId;
             DbDataReader reader = DbHelper.ExecuteReader(cmdText, paras);
@@ -109,6 +109,41 @@ namespace EasySoft.PssS.DbRepository
             return entities;
         }
 
+        /// <summary>
+        /// 查询客户地址信息
+        /// </summary>
+        /// <param name="linkMan">联系人</param>
+        /// <returns>返回客户地址数据集合</returns>
+        public List<CustomerAddress> SearchByLinkMan(string linkMan)
+        {
+            List<string> conditions = new List<string>();
+            List<DbParameter> paras = new List<DbParameter>();
+            if (!string.IsNullOrWhiteSpace(linkMan))
+            {
+                conditions.Add("[Linkman] = @Linkman");
+                DbParameter para = DbHelper.CreateParameter("Linkman", DbType.String, Constant.STRING_LENGTH_10);
+                para.Value = linkMan;
+                paras.Add(para);
+            }
+            string whereCmdText = string.Empty;
+            if (conditions.Count > 0)
+            {
+                whereCmdText = string.Format("WHERE {0}", string.Join(" AND ", conditions.ToArray()));
+            }
+            string cmdText = string.Format("{0} {1}  ORDER BY [Linkman] ASC, [IsDefault] DESC", this.Resolver.SelectAllCommandText, whereCmdText);
+            DbDataReader reader = DbHelper.ExecuteReader(cmdText, paras.ToArray());
+
+            List<CustomerAddress> entities = new List<CustomerAddress>();
+            while (reader.Read())
+            {
+                entities.Add(this.SetEntity(reader));
+            }
+            if (!reader.IsClosed)
+            {
+                reader.Close();
+            }
+            return entities;
+        }
         #endregion
 
         #region 私有方法
@@ -120,18 +155,19 @@ namespace EasySoft.PssS.DbRepository
         /// <returns>返回实体对象</returns>
         protected override CustomerAddress SetEntity(DbDataReader reader)
         {
-            CustomerAddress entity = new CustomerAddress
-            {
-                Id = reader["Id"].ToString(),
-                Address = reader["Address"].ToString(),
-                CustomerId = reader["CustomerId"].ToString(),
-                Linkman = reader["Linkman"].ToString(),
-                IsDefault = reader["IsDefault"].ToString(),
-                Mobile = reader["Mobile"].ToString()
-            };
-            entity.SetCreator(reader["Creator"].ToString(), Convert.ToDateTime(reader["CreateTime"]));
-            entity.SetMender(reader["Mender"].ToString(), Convert.ToDateTime(reader["ModifyTime"]));
-            return entity;
+            return new CustomerAddress
+            (
+                reader["Id"].ToString(),
+                reader["CustomerId"].ToString(),
+                reader["Address"].ToString(),
+                reader["Mobile"].ToString(),
+                reader["Linkman"].ToString(),
+                reader["IsDefault"].ToString(),
+                reader["Creator"].ToString(),
+                Convert.ToDateTime(reader["CreateTime"]),
+                reader["Mender"].ToString(),
+                Convert.ToDateTime(reader["ModifyTime"])
+            );
         }
 
         #endregion

@@ -39,6 +39,15 @@ namespace EasySoft.PssS.Web.Models.Common
         }
 
         /// <summary>
+        /// 获取或设置分页大小
+        /// </summary>
+        public int PageSize
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// 获取分页数量
         /// </summary>
         public int PageCount
@@ -49,8 +58,8 @@ namespace EasySoft.PssS.Web.Models.Common
                 {
                     return 0;
                 }
-                int pageCount = this.TotalCount / ParameterHelper.GetPageSize();
-                if (this.TotalCount % ParameterHelper.GetPageSize() > 0)
+                int pageCount = this.TotalCount / this.PageSize;
+                if (this.TotalCount % this.PageSize > 0)
                 {
                     pageCount++;
                 }

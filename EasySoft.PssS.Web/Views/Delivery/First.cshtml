@@ -1,0 +1,142 @@
+﻿@using EasySoft.Core.Util;
+@using EasySoft.PssS.Domain.ValueObject;
+@using EasySoft.PssS.Web.Resources;
+
+@model EasySoft.PssS.Web.Models.Delivery.DeliveryFirstModel
+
+@{
+    ViewBag.Title = WebResource.Title_Delivery_First;
+    ViewBag.PreviousUrl = "/Delivery/Index";
+}
+<div class="row">
+    <div class="col-xs-12" style="padding-bottom:10px">
+        @foreach (var data in Model.Products)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <input type="hidden" name="hidePurchaseId" value="@data.Id" />
+                        <input type="hidden" id="@string.Format("hideItem{0}", data.Id)" value="@data.Item" />
+                        @data.Date @data.ItemName @data.Supplier
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row" style="padding-bottom:5px">
+                        <div class="col-xs-4">
+                            <p class="form-control-static">@WebResource.Field_DeliveryQuantity</p>
+                        </div>
+                        <div class="col-xs-8">
+                            <div class="input-group">
+                                <input id="@string.Format("txtDQ{0}", data.Id)" name="txtDeliveryQuantity" onchange="calculatePackQuantity(this)" type="number" min="@Constant.DECIMAL_REQUIRED_MIN" max="@data.Inventory" class="form-control" aria-describedby="txtUnit"
+                                       placeholder="@string.Format(WebResource.Field_MaxDeliveryQuantity, data.Inventory.ToString("0.##"))" value="@data.DeliveryQuantity">
+                                <span class="input-group-addon" id="txtUnit">@data.Unit</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <p class="form-control-static">@WebResource.Field_PackQuantity</p>
+                        </div>
+                        <div class="col-xs-8">
+                            <div class="input-group">
+                                <input id="@string.Format("txtPQ{0}", data.Id)" name="txtPackQuantity" type="number" min="@Constant.DECIMAL_REQUIRED_MIN" max="@Constant.DECIMAL_MAX" class="form-control" aria-describedby="txtPackUnit" placeholder="@Validate.GetPleaseInputFieldString(WebResource.Field_PackQuantity)" value="@data.PackQuantity">
+                                <span class="input-group-addon" id="@string.Format("txtPU{0}", data.Id)">@data.PackUnit</span>
+                                <input type="hidden" id="@string.Format("hide{0}", data.Id)" value="@data.InOutRate" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
+@section footer{
+    <div class="navbar-default navbar-fixed-bottom">
+        <div class="col-xs-6">
+            <div class="row">
+                <button type="button" class="btn btn-default btn-block btn-sm" onclick="window.location.href = '@ViewBag.PreviousUrl';" style="border-Radius:0px">@WebResource.Button_Back</button>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="row">
+                <button id="btnNext" type="button" class="btn btn-success btn-block btn-sm" style="border-Radius:0px">@WebResource.Button_Next</button>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script type="text/javascript">
+
+        function calculatePackQuantity(obj) {
+            var id = $(obj).attr('id').substr(5);
+            var deliveryQuantity = parseFloat($(obj).val());
+            var inOutRate = parseFloat($('#hide' + id).val());
+            var packQuantity = deliveryQuantity / inOutRate;
+            var intPackQuantity = parseInt(packQuantity)
+            if (packQuantity > intPackQuantity) {
+                intPackQuantity = intPackQuantity + 1;
+            }
+            $('#txtPQ' + id).val(intPackQuantity);
+        }
+
+        $(function () {
+
+            $('#btnNext').click(function () {
+                var deliveryDetails = [];
+
+                $("input[name='hidePurchaseId']").each(function () {
+                    var id = $(this).val();
+                    var item = $('#hideItem' + id).val();
+                    var deliveryQuantity = parseFloat($('#txtDQ' + id).val());
+                    var packQuantity = parseFloat($('#txtPQ' + id).val());
+
+                    if (!isNaN(deliveryQuantity) && !isNaN(deliveryQuantity) && item.length > 0) {
+                        var deliveryDetail = {};
+                        deliveryDetail.PurchaseId = id;
+                        deliveryDetail.ItemCategory = '@PurchaseItemCategory.Product';
+                        deliveryDetail.Item = item;
+                        deliveryDetail.DeliveryQuantity = deliveryQuantity;
+                        deliveryDetail.PackQuantity = packQuantity;
+                        deliveryDetails.push(deliveryDetail);
+                    }
+                });
+                if (deliveryDetails.length == 0) {
+                    showError('@Validate.GetListDataIsEmpty(WebResource.PurchaseItemCategory_Product)');
+                    return false;
+                }
+                $('#btnNext').attr({ 'disabled': 'disabled' });
+                $.ajax({
+                    type: "post",
+                    url: "/Delivery/PostFirst",
+                    data: { id: '@Model.Id', products: deliveryDetails },
+                    success: function (result) {
+                        if (!result.Result) {
+                            showError(result.Message);
+                        }
+                        if (result.Data != null && result.Data.length > 0) {
+                            window.location.href = result.Data;
+                        }
+                        return false;
+                    },
+                    error: function () {
+                        showError('System Error');
+                    },
+                    complete: function () {
+                        $('#btnNext').removeAttr('disabled');
+                    }
+                });
+            });
+        });
+
+        function showError(errorMessage) {
+            $('#errorMessage').html(errorMessage);
+            $('#alertError').modal();
+        }
+
+    </script>
+}
+

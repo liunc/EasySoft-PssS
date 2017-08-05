@@ -1,4 +1,5 @@
 ﻿@using EasySoft.PssS.Web.Resources;
+@using EasySoft.Core.Util;
 @model EasySoft.PssS.Web.Models.User.LoginModel
 @{
     Layout = "~/Views/Shared/_LayoutNoNav.cshtml";
@@ -8,13 +9,13 @@
     <br />
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-phone text-success"></span></span>
             <input class="form-control" id="txtMobile" type="text" placeholder="@WebResource.Field_Mobile" />
         </div>
     </div>
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-lock text-success"></span></span>
             <input class="form-control" id="txtPassword" name="Password" type="password" placeholder="@WebResource.Field_Password" />
         </div>
     </div>
@@ -33,11 +34,11 @@
                 var mobile = $.trim($('#txtMobile').val());
                 var password = $.trim($('#txtPassword').val());
                 if (mobile.length == 0) {
-                    showError('@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Mobile)');
+                    showError('@Validate.GetPleaseInputFieldString(WebResource.Field_Mobile)');
                     return false;
                 }
                 if (password.length == 0) {
-                    showError('@ValidateHelper.GetPleaseInputFieldString(WebResource.Field_Password)');
+                    showError('@Validate.GetPleaseInputFieldString(WebResource.Field_Password)');
                     return false;
                 }
                 var model = {};

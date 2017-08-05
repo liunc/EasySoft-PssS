@@ -12,18 +12,15 @@
 // ----------------------------------------------------------
 namespace EasySoft.PssS.Web.Controllers
 {
-    using Core.Util;
-    using Domain.Entity;
+    using EasySoft.Core.Util;
+    using EasySoft.Core.ViewModel;
+    using EasySoft.PssS.Domain.Entity;
     using EasySoft.PssS.Domain.Service;
     using EasySoft.PssS.Web.Filters;
-    using Models;
-    using Models.Customer;
-    using Models.CustomerGroup;
-    using Resources;
+    using EasySoft.PssS.Web.Models.Customer;
+    using EasySoft.PssS.Web.Resources;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
     using System.Web.Mvc;
 
     /// <summary>
@@ -63,15 +60,14 @@ namespace EasySoft.PssS.Web.Controllers
         [MyAuthorize(AuthRoles = new string[] { "Admin" })]
         public ActionResult Index(string name, string groupId, int page = 1)
         {
-            CustomerIndexModel model = new CustomerIndexModel(page);
-            model.QueryName = name;
-            model.QueryGroupId = groupId;
+            CustomerIndexModel model = new CustomerIndexModel(name, groupId, page);
             int totalCount = 0;
             List<Customer> entities = this.customerService.Search(name, groupId, model.PageIndex, model.PageSize, ref totalCount);
             foreach (Customer entity in entities)
             {
-                entity.GroupId = this.GetCustomerGroupName(entity.GroupId);
-                model.PageData.Add(new CustomerPageModel(entity));
+                CustomerPageModel pageModel = new CustomerPageModel(entity);
+                pageModel.GroupName = this.GetCustomerGroupName(entity.GroupId);
+                model.PageData.Add(pageModel);
             }
             model.TotalCount = totalCount;
             return View(model);
@@ -82,9 +78,9 @@ namespace EasySoft.PssS.Web.Controllers
         /// </summary>
         /// <returns>返回视图</returns>
         [MyAuthorize(AuthRoles = new string[] { "Admin" })]
-        public ActionResult Add()
+        public ActionResult Add(string source)
         {
-            CustomerAddModel model = new CustomerAddModel();
+            CustomerAddModel model = new CustomerAddModel(source);
             return View(model);
         }
 
@@ -100,27 +96,31 @@ namespace EasySoft.PssS.Web.Controllers
             JsonResultModel result = new JsonResultModel();
             try
             {
-                List<string> errorMessages = new List<string>();
-                if (!ValidateHelper.CheckObjectArgument<CustomerAddModel>("model", model, ref errorMessages))
+                Validate validate = new Validate();
+                validate.CheckObjectArgument<CustomerAddModel>("model", model);
+                if (validate.IsFailed)
                 {
-                    result.BuilderErrorMessage(errorMessages[0]);
+                    result.BuilderErrorMessage(validate.ErrorMessages);
                     return Json(result);
                 }
-                model.PostValidate(ref errorMessages);
-                if (errorMessages.Count > 0)
+                model.PostValidate(ref validate);
+                if (validate.IsFailed)
                 {
-                    result.BuilderErrorMessage(errorMessages);
+                    result.BuilderErrorMessage(validate.ErrorMessages);
                     return Json(result);
                 }
-                this.customerService.Add(model.Name, model.Nickname, model.Mobile, model.Address, string.Empty, model.GroupId, this.Session["Moblie"].ToString());
+                result.Data = this.customerService.Add(model.Name, model.Nickname, model.Mobile, model.Address, string.Empty, model.GroupId, this.Session["Mobile"].ToString());
                 result.Result = true;
-                return Json(result);
+            }
+            catch (EasySoftException ex)
+            {
+                result.BuilderErrorMessage(ex.Message);
             }
             catch (Exception ex)
             {
                 result.BuilderErrorMessage(ex.Message);
-                return Json(result);
             }
+            return Json(result);
         }
 
         /// <summary>
@@ -154,12 +154,9 @@ namespace EasySoft.PssS.Web.Controllers
         /// <returns>返回客户分组名称</returns>
         private string GetCustomerGroupName(string groupId)
         {
-            ValueTextModel keyValue = ParameterHelper.GetCustomerGroup().Find(i => i.Value == groupId);
-            if (keyValue != null)
-            {
-                return keyValue.Text;
-            }
-            return string.Empty;
+            string val = string.Empty;
+            ParameterHelper.GetCustomerGroup().TryGetValue(groupId, out val);
+            return val;
         }
 
         /// <summary>
@@ -199,26 +196,29 @@ namespace EasySoft.PssS.Web.Controllers
             {
                 Validate validate = new Validate();
                 validate.CheckObjectArgument<CustomerEditModel>("model", model);
-                if (!validate.Result.Success)
+                if (validate.IsFailed)
                 {
-                    result.BuilderErrorMessage(validate.Result.ErrorMessages);
+                    result.BuilderErrorMessage(validate.ErrorMessages);
                     return Json(result);
                 }
                 model.PostValidate(validate);
-                if (!validate.Result.Success)
+                if (validate.IsFailed)
                 {
-                    result.BuilderErrorMessage(validate.Result.ErrorMessages);
+                    result.BuilderErrorMessage(validate.ErrorMessages);
                     return Json(result);
                 }
-                this.customerService.Update(model.Id, model.Name, model.Nickname, model.Mobile, model.WeChatId, model.GroupId, this.Session["Moblie"].ToString());
+                this.customerService.Update(model.Id, model.Name, model.Nickname, model.Mobile, model.WeChatId, model.GroupId, this.Session["Mobile"].ToString());
                 result.Result = true;
-                return Json(result);
+            }
+            catch (EasySoftException ex)
+            {
+                result.BuilderErrorMessage(ex.Message);
             }
             catch (Exception ex)
             {
                 result.BuilderErrorMessage(ex.Message);
-                return Json(result);
             }
+            return Json(result);
         }
 
         /// <summary>
@@ -235,22 +235,25 @@ namespace EasySoft.PssS.Web.Controllers
             {
                 Validate validate = new Validate();
                 validate.CheckStringArgument(WebResource.Field_Id, id, true);
-                if (validate.Result.Success)
+                if (validate.IsFailed)
+                {
+                    result.BuilderErrorMessage(validate.ErrorMessages);
+                }
+                else
                 {
                     this.customerService.Delete(id);
                     result.Result = true;
                 }
-                else
-                {
-                    result.BuilderErrorMessage(validate.Result.ErrorMessages);
-                }
-                return Json(result);
+            }
+            catch (EasySoftException ex)
+            {
+                result.BuilderErrorMessage(ex.Message);
             }
             catch (Exception ex)
             {
                 result.BuilderErrorMessage(ex.Message);
-                return Json(result);
             }
+            return Json(result);
         }
 
         #endregion

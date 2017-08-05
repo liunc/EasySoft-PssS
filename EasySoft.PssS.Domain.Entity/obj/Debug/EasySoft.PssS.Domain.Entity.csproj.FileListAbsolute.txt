@@ -20,3 +20,5 @@ D:\github\EasySoft-PssS\EasySoft.PssS.Domain.Entity\bin\Debug\EasySoft.Core.Util
 D:\github\EasySoft-PssS\EasySoft.PssS.Domain.Entity\bin\Debug\EasySoft.Core.Util.pdb
 D:\github\EasySoft-PssS\EasySoft.PssS.Domain.Entity\bin\Debug\HtmlSanitizationLibrary.dll
 D:\github\EasySoft-PssS\EasySoft.PssS.Domain.Entity\bin\Debug\HtmlSanitizationLibrary.xml
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.Entity\bin\Debug\EasySoft.PssS.Application.DataTransfer.dll
+D:\github\EasySoft-PssS\EasySoft.PssS.Domain.Entity\bin\Debug\EasySoft.PssS.Application.DataTransfer.pdb

@@ -7,21 +7,20 @@
     ViewBag.PreviousUrl = "/CustomerGroup/Index?page=" + Model.PageIndex.ToString();
 }
 
-<div class="col-xs-12">
-    <table class="table">
-        <tbody>
-            <tr>
-                <td style="width:25%;">@WebResource.Field_Name</td>
-                <td style="width:75%;">@Model.Name</td>
-            </tr>
-            <tr>
-                <td>@WebResource.Field_Remark</td>
-                <td>@Model.Remark</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<table class="table">
+    <tbody>
+        <tr>
+            <td style="width:25%;">@WebResource.Field_Name</td>
+            <td style="width:75%;">@Model.Name</td>
+        </tr>
+        <tr>
+            <td>@WebResource.Field_Remark</td>
+            <td>@Model.Remark</td>
+        </tr>
+    </tbody>
+</table>
 @Html.Action("Confirm", "Common", new { id = "confirmDelete", title = WebResource.Message_Confirm, confirmString = @WebResource.Message_ConfirmDelete, okButton = @WebResource.Button_Ok, cancelButton = @WebResource.Button_Cancel, okButtonClick = "confirmDelete();" })
+@Html.Action("Dialog", "Common", new { id = "alertError", title = WebResource.Message_Error, messageBodyId = "errorMessage", okButton = @WebResource.Button_Ok })
 @section footer{
     <div class="navbar-default navbar-fixed-bottom">
         <div class="col-xs-4">
@@ -31,12 +30,12 @@
         </div>
         <div class="col-xs-4">
             <div class="row">
-                <button id="btnEdit" type="button" onclick="" class="btn btn-success btn-block" style="border-Radius:0px">@WebResource.Button_Edit</button>
+                <button id="btnEdit" type="button" onclick="" class="btn btn-default btn-block" style="border-Radius:0px">@WebResource.Button_Edit</button>
             </div>
         </div>
         <div class="col-xs-4">
             <div class="row">
-                <button id="btnBack" type="button" class="btn btn-default btn-block" style="border-Radius:0px">@WebResource.Button_Back</button>
+                <button id="btnBack" type="button" class="btn btn-success  btn-block" style="border-Radius:0px">@WebResource.Button_Back</button>
             </div>
         </div>
     </div>
@@ -80,6 +79,9 @@
                 window.location.href = '@ViewBag.PreviousUrl';
             });
         });
-
+        function showError(errorMessage) {
+            $('#errorMessage').html(errorMessage);
+            $('#alertError').modal();
+        }
     </script>
 }

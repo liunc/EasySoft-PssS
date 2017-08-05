@@ -6,5 +6,6 @@ D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Debug\AntiXssLibrary.dll
 D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Debug\HtmlSanitizationLibrary.dll
 D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Debug\AntiXssLibrary.xml
 D:\github\EasySoft-PssS\EasySoft.Core.Util\bin\Debug\HtmlSanitizationLibrary.xml
-D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Debug\EasySoft.Core.Util.UtilResource.resources
 D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Debug\EasySoft.Core.Util.csproj.GenerateResource.Cache
+D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Debug\EasySoft.Core.Util.Resources.UtilResource.resources
+D:\github\EasySoft-PssS\EasySoft.Core.Util\obj\Debug\EasySoft.Core.Util.csprojResolveAssemblyReference.cache

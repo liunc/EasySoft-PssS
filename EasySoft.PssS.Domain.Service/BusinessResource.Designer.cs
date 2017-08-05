@@ -61,6 +61,42 @@ namespace EasySoft.PssS.Domain.Service {
         }
         
         /// <summary>
+        ///   查找类似 未找到指定Id的数据记录。 的本地化字符串。
+        /// </summary>
+        internal static string Common_NoFoundById {
+            get {
+                return ResourceManager.GetString("Common_NoFoundById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 状态已经变更，不允许删除。 的本地化字符串。
+        /// </summary>
+        internal static string Common_NotAllowDelete {
+            get {
+                return ResourceManager.GetString("Common_NotAllowDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 状态已经变更，不允许修改。 的本地化字符串。
+        /// </summary>
+        internal static string Common_NotAllowEdit {
+            get {
+                return ResourceManager.GetString("Common_NotAllowEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 相同编码的成本项已存在。 的本地化字符串。
+        /// </summary>
+        internal static string CostItem_ExistsSameCode {
+            get {
+                return ResourceManager.GetString("CostItem_ExistsSameCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 相同名称的分组已存在。 的本地化字符串。
         /// </summary>
         internal static string Customer_ExistsSameGroupName {
@@ -124,6 +160,24 @@ namespace EasySoft.PssS.Domain.Service {
         }
         
         /// <summary>
+        ///   查找类似 未找到指定的出库数据记录。 的本地化字符串。
+        /// </summary>
+        internal static string Delivery_NoFoundById {
+            get {
+                return ResourceManager.GetString("Delivery_NoFoundById", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 相同编码的快递公司已存在。 的本地化字符串。
+        /// </summary>
+        internal static string ExpressCompany_ExistsSameCode {
+            get {
+                return ResourceManager.GetString("ExpressCompany_ExistsSameCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 库存不足。 的本地化字符串。
         /// </summary>
         internal static string Purchase_LowStocks {
@@ -142,20 +196,20 @@ namespace EasySoft.PssS.Domain.Service {
         }
         
         /// <summary>
-        ///   查找类似 状态已经变更，不允许删除。 的本地化字符串。
+        ///   查找类似 相同编码的采购项已存在。 的本地化字符串。
         /// </summary>
-        internal static string Purchase_NotAllowDelete {
+        internal static string PurchaseItem_ExistsSameCode {
             get {
-                return ResourceManager.GetString("Purchase_NotAllowDelete", resourceCulture);
+                return ResourceManager.GetString("PurchaseItem_ExistsSameCode", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 状态已经变更，不允许修改。 的本地化字符串。
+        ///   查找类似 选中的客户地址无效。 的本地化字符串。
         /// </summary>
-        internal static string Purchase_NotAllowEdit {
+        internal static string SaleOrder_CustomerAddressInvalid {
             get {
-                return ResourceManager.GetString("Purchase_NotAllowEdit", resourceCulture);
+                return ResourceManager.GetString("SaleOrder_CustomerAddressInvalid", resourceCulture);
             }
         }
     }
